@@ -245,24 +245,32 @@ msgstr "{0}"
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 
-#: app/components/cons/CalendarView.tsx:108
+#: app/components/cons/CalendarView.tsx:124
+msgid "Subscribe"
+msgstr "Subscribe"
+
+#: app/components/cons/CalendarView.tsx:140
+msgid "Calendar URL"
+msgstr "Calendar URL"
+
+#: app/components/cons/CalendarView.tsx:158
 #: app/components/cons/ListView.tsx:406
 msgid "Settings"
 msgstr "Settings"
 
-#: app/components/cons/CalendarView.tsx:122
+#: app/components/cons/CalendarView.tsx:172
 msgid "Week starts on"
 msgstr "Week starts on"
 
-#: app/components/cons/CalendarView.tsx:144
+#: app/components/cons/CalendarView.tsx:194
 msgid "Use time zone"
 msgstr "Use time zone"
 
-#: app/components/cons/CalendarView.tsx:161
+#: app/components/cons/CalendarView.tsx:211
 msgid "Theirs"
 msgstr "Theirs"
 
-#: app/components/cons/CalendarView.tsx:178
+#: app/components/cons/CalendarView.tsx:228
 msgid "Yours"
 msgstr "Yours"
 

@@ -289,7 +289,7 @@ function Header() {
                         label={<Trans>Custom PDS</Trans>}
                         name="pds"
                         m={4}
-                        w="300"
+                        w={300}
                         disabled={pending}
                         error={
                           loginError != null ? (

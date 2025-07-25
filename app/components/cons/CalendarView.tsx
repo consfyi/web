@@ -7,11 +7,17 @@ import {
   Loader,
   Menu,
   Text,
+  TextInput,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconCheck, IconChevronDown, IconSettings } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconChevronDown,
+  IconRss,
+  IconSettings,
+} from "@tabler/icons-react";
 import { Day, getDay } from "date-fns";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Flag from "~/components/Flag";
 import { ConWithPost } from "~/hooks";
 import * as qp from "~/qp";
@@ -85,7 +91,17 @@ export default function CalendarView({
   const { i18n, t } = useLingui();
 
   const [firstDayOfWeek, setFirstDayOfWeek] = useFirstDayOfWeek();
-  const [open, setOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [icsOpen, setIcsOpen] = useState(false);
+
+  const icsInputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    if (icsOpen) {
+      setTimeout(() => {
+        icsInputRef.current!.focus();
+      }, 1);
+    }
+  }, [icsOpen]);
 
   return (
     <Box style={{ position: "relative" }}>
@@ -100,8 +116,42 @@ export default function CalendarView({
               <Menu
                 position="bottom-end"
                 withArrow
-                opened={open}
-                onChange={setOpen}
+                opened={icsOpen}
+                onChange={setIcsOpen}
+              >
+                <Menu.Target>
+                  <Button
+                    aria-label={t`Subscribe`}
+                    variant="subtle"
+                    size="xs"
+                    c="dimmed"
+                    color="var(--mantine-color-dimmed)"
+                    style={{ zIndex: 4, flexShrink: 0 }}
+                    rightSection={<IconChevronDown size={14} />}
+                  >
+                    <IconRss size={14} />
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <TextInput
+                    readOnly
+                    ref={icsInputRef}
+                    value="https://data.cons.fyi/calendar.ics"
+                    label={t`Calendar URL`}
+                    m={4}
+                    w={250}
+                    onFocus={(e) => {
+                      e.target.select();
+                    }}
+                    size="sm"
+                  />
+                </Menu.Dropdown>
+              </Menu>
+              <Menu
+                position="bottom-end"
+                withArrow
+                opened={settingsOpen}
+                onChange={setSettingsOpen}
               >
                 <Menu.Target>
                   <Button

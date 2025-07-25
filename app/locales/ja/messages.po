@@ -247,24 +247,32 @@ msgstr "{0}件"
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "自分が参加予定のないコンベンション{0}件"
 
-#: app/components/cons/CalendarView.tsx:108
+#: app/components/cons/CalendarView.tsx:124
+msgid "Subscribe"
+msgstr "購読"
+
+#: app/components/cons/CalendarView.tsx:140
+msgid "Calendar URL"
+msgstr "カレンダーのURL"
+
+#: app/components/cons/CalendarView.tsx:158
 #: app/components/cons/ListView.tsx:406
 msgid "Settings"
 msgstr "設定"
 
-#: app/components/cons/CalendarView.tsx:122
+#: app/components/cons/CalendarView.tsx:172
 msgid "Week starts on"
 msgstr "週の開始日"
 
-#: app/components/cons/CalendarView.tsx:144
+#: app/components/cons/CalendarView.tsx:194
 msgid "Use time zone"
 msgstr "タイムゾーンで表示"
 
-#: app/components/cons/CalendarView.tsx:161
+#: app/components/cons/CalendarView.tsx:211
 msgid "Theirs"
 msgstr "相手の"
 
-#: app/components/cons/CalendarView.tsx:178
+#: app/components/cons/CalendarView.tsx:228
 msgid "Yours"
 msgstr "自分の"
 
