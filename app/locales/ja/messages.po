@@ -57,7 +57,7 @@ msgstr "リンク"
 #. placeholder {0}: attribution != undefined ? ( <Anchor href={attribution.url} target="_blank"> {attribution.name} </Anchor> ) : ( con.source )
 #: app/components/ConDetails.tsx:304
 msgid "This information was originally sourced from {0}. Usage restrictions may apply."
-msgstr "この情報は元々 {0} から提供されたものです。利用制限が適用される場合があります。"
+msgstr "上記の情報は元々 {0} から提供されたものです。利用制限が適用される場合があります。"
 
 #: app/components/ConDetails.tsx:325
 #: app/components/LikeButton.tsx:31
