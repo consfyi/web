@@ -30,8 +30,8 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
-import "@mantine/dates/styles.css";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
@@ -66,6 +66,7 @@ import {
 import clientMetadata from "~/../public/client-metadata.json";
 import Avatar from "~/components/Avatar";
 import { DEFAULT_PDS_HOST, startLogin } from "./bluesky";
+import DatesProvider from "./components/DatesProvider";
 import { GlobalMemoProvider } from "./components/GlobalMemoContext";
 import LinguiProvider, { INITIAL_LOCALE } from "./components/LinguiProvider";
 import LocaleSelector from "./components/LocaleSelector";
@@ -73,7 +74,6 @@ import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
 import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
 import "./styles.css";
-import DatesProvider from "./components/DatesProvider";
 
 const theme = createTheme({});
 
