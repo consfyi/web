@@ -136,7 +136,7 @@ export default function CalendarView({
                   <TextInput
                     readOnly
                     ref={icsInputRef}
-                    value="https://data.cons.fyi/calendar.ics"
+                    value="https://cons.fyi/calendar.ics"
                     label={t`Calendar URL`}
                     m={4}
                     w={250}
