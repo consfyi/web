@@ -18,6 +18,7 @@ import {
 } from "@tabler/icons-react";
 import { Day, getDay } from "date-fns";
 import { Suspense, useEffect, useRef, useState } from "react";
+import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
 import { ConWithPost } from "~/hooks";
 import * as qp from "~/qp";
@@ -136,7 +137,7 @@ export default function CalendarView({
                   <TextInput
                     readOnly
                     ref={icsInputRef}
-                    value="https://cons.fyi/calendar.ics"
+                    value={`${clientMetadata.client_uri}/calendar.ics`}
                     label={t`Calendar URL`}
                     m={4}
                     w={250}

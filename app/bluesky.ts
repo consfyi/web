@@ -1,41 +1,41 @@
-import type {} from "@atcute/atproto";
+import type { } from "@atcute/atproto";
+import { Label } from "@atcute/atproto/types/label/defs";
 import type { AppBskyFeedLike } from "@atcute/bluesky";
 import type {
-  Preferences,
-  ProfileView,
-  ProfileViewDetailed,
+    Preferences,
+    ProfileView,
+    ProfileViewDetailed,
 } from "@atcute/bluesky/types/app/actor/defs";
 import type {
-  PostView,
-  ThreadViewPost,
+    PostView,
+    ThreadViewPost,
 } from "@atcute/bluesky/types/app/feed/defs";
 import type { Like } from "@atcute/bluesky/types/app/feed/getLikes";
 import type { LabelerViewDetailed } from "@atcute/bluesky/types/app/labeler/defs";
 import {
-  Client as AtcuteClient,
-  buildFetchHandler,
-  simpleFetchHandler,
+    Client as AtcuteClient,
+    buildFetchHandler,
+    simpleFetchHandler,
 } from "@atcute/client";
 import type {
-  ActorIdentifier,
-  Cid,
-  Did,
-  Nsid,
-  ResourceUri,
+    ActorIdentifier,
+    Cid,
+    Did,
+    Nsid,
+    ResourceUri,
 } from "@atcute/lexicons";
 import {
-  configureOAuth as configureOAuthInternal,
-  createAuthorizationUrl,
-  deleteStoredSession,
-  getSession,
-  listStoredSessions,
-  OAuthUserAgent,
-  resolveFromService,
-  Session,
+    configureOAuth as configureOAuthInternal,
+    createAuthorizationUrl,
+    deleteStoredSession,
+    getSession,
+    listStoredSessions,
+    OAuthUserAgent,
+    resolveFromService,
+    Session,
 } from "@atcute/oauth-browser-client";
-import clientMetadata from "../public/client-metadata.json";
+import clientMetadata from "~/../public/client-metadata.json";
 import { LABELER_DID } from "./config";
-import { Label } from "@atcute/atproto/types/label/defs";
 
 export const DEFAULT_PDS_HOST = "https://bsky.social";
 

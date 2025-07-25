@@ -1,69 +1,69 @@
 import {
-  DataProvider,
-  useController,
-  useLoading,
-  useSuspense,
+    DataProvider,
+    useController,
+    useLoading,
+    useSuspense,
 } from "@data-client/react";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
-  ActionIcon,
-  Alert,
-  Anchor,
-  Box,
-  Button,
-  Center,
-  Collapse,
-  ColorSchemeScript,
-  Container,
-  createTheme,
-  DirectionProvider,
-  DirectionProviderProps,
-  Group,
-  Image,
-  Loader,
-  mantineHtmlProps,
-  MantineProvider,
-  Menu,
-  Text,
-  TextInput,
-  Tooltip,
-  useComputedColorScheme,
-  useMantineColorScheme,
+    ActionIcon,
+    Alert,
+    Anchor,
+    Box,
+    Button,
+    Center,
+    Collapse,
+    ColorSchemeScript,
+    Container,
+    createTheme,
+    DirectionProvider,
+    DirectionProviderProps,
+    Group,
+    Image,
+    Loader,
+    mantineHtmlProps,
+    MantineProvider,
+    Menu,
+    Text,
+    TextInput,
+    Tooltip,
+    useComputedColorScheme,
+    useMantineColorScheme,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useLocalStorage } from "@mantine/hooks";
 import {
-  completeNavigationProgress,
-  NavigationProgress,
-  startNavigationProgress,
+    completeNavigationProgress,
+    NavigationProgress,
+    startNavigationProgress,
 } from "@mantine/nprogress";
 import "@mantine/nprogress/styles.css";
 import {
-  IconAlertTriangle,
-  IconBrandBluesky,
-  IconChevronDown,
-  IconLogout2,
-  IconMoon,
-  IconPaw,
-  IconSun,
+    IconAlertTriangle,
+    IconBrandBluesky,
+    IconChevronDown,
+    IconLogout2,
+    IconMoon,
+    IconPaw,
+    IconSun,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
 import { Suspense, useEffect, useState } from "react";
 import {
-  Link,
-  Links,
-  LinksFunction,
-  Meta,
-  MetaFunction,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useNavigation,
-  useRouteError,
-  useLocation,
+    Link,
+    Links,
+    LinksFunction,
+    Meta,
+    MetaFunction,
+    Outlet,
+    Scripts,
+    ScrollRestoration,
+    useLocation,
+    useNavigation,
+    useRouteError,
 } from "react-router";
+import clientMetadata from "~/../public/client-metadata.json";
 import Avatar from "~/components/Avatar";
-import clientMetadata from "../public/client-metadata.json";
 import { DEFAULT_PDS_HOST, startLogin } from "./bluesky";
 import { GlobalMemoProvider } from "./components/GlobalMemoContext";
 import LinguiProvider, { INITIAL_LOCALE } from "./components/LinguiProvider";

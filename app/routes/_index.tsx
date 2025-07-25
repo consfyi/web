@@ -1,7 +1,7 @@
 import { type MetaFunction } from "react-router";
-import ConsListPage from "~/components/ConsListPage";
-import clientMetadata from "../../public/client-metadata.json";
+import clientMetadata from "~/../public/client-metadata.json";
 import ListView, { LayoutOptions } from "~/components/cons/ListView";
+import ConsListPage from "~/components/ConsListPage";
 
 export const meta: MetaFunction = ({ matches }) => [
   ...matches.flatMap((match) => match.meta ?? []),
