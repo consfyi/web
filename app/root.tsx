@@ -343,7 +343,7 @@ function Footer() {
               target="_blank"
               rel="noreferrer"
             >
-              Submit a request here!
+              Submit a request!
             </Anchor>
           </Trans>
         </Text>

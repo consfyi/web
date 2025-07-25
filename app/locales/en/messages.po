@@ -346,8 +346,8 @@ msgid "https://your.pds.com"
 msgstr "https://your.pds.com"
 
 #: app/root.tsx:339
-msgid "Convention missing or information wrong? <0>Submit a request here!</0>"
-msgstr "Convention missing or information wrong? <0>Submit a request here!</0>"
+msgid "Convention missing or information wrong? <0>Submit a request!</0>"
+msgstr "Convention missing or information wrong? <0>Submit a request!</0>"
 
 #: app/root.tsx:383
 #: app/root.tsx:390

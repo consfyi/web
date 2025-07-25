@@ -348,8 +348,8 @@ msgid "https://your.pds.com"
 msgstr "https://jibun-no.pds.com"
 
 #: app/root.tsx:339
-msgid "Convention missing or information wrong? <0>Submit a request here!</0>"
-msgstr "コンベンションがありませんか？情報が正しくありませんか？<0>こちらからリクエストを送信してください！</0>"
+msgid "Convention missing or information wrong? <0>Submit a request!</0>"
+msgstr "コンベンションがありませんか？情報が正しくありませんか？<0>リクエストを送信してください！</0>"
 
 #: app/root.tsx:383
 #: app/root.tsx:390
