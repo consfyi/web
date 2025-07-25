@@ -45,8 +45,8 @@ function makeStyle({
     colorScheme == "light"
       ? "white"
       : colorScheme == "dark"
-      ? "black"
-      : absurd<string>(colorScheme);
+        ? "black"
+        : absurd<string>(colorScheme);
   return {
     version: 8,
     sources: {
@@ -67,6 +67,17 @@ function makeStyle({
   };
 }
 
+export function useMapStyle() {
+  const colorScheme = useComputedColorScheme();
+  const { i18n, t } = useLingui();
+
+  return useMemo(
+    () => makeStyle({ colorScheme, locale: i18n.locale }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [colorScheme, t],
+  );
+}
+
 export interface Pin {
   id: string;
   lat: number;
@@ -75,7 +86,7 @@ export interface Pin {
   color: MantineColor;
   active: boolean;
   zIndex: number;
-  popup: ReactNode;
+  popup?: ReactNode;
 }
 
 function MarkupWithPopup({
@@ -139,7 +150,7 @@ function MarkupWithPopup({
           </Indicator>
         </Box>
       </Marker>
-      {showPopup ? (
+      {showPopup && pin.popup != null ? (
         <Popup
           closeButton={false}
           closeOnClick={false}
@@ -164,7 +175,7 @@ function MarkupWithPopup({
 }
 
 async function getMyLocation(
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<{ lat: number; lng: number }> {
   const resp = await fetch("https://free.freeipapi.com/api/json", {
     signal,
@@ -187,7 +198,7 @@ const useMyLocation = hookifyPromise(
     } catch {
       return null;
     }
-  })()
+  })(),
 );
 
 export default function Map({
@@ -206,7 +217,6 @@ export default function Map({
   setSelected(selected: string | null): void;
 }) {
   const colorScheme = useComputedColorScheme();
-  const { i18n, t } = useLingui();
 
   const myLatLng = useMyLocation();
 
@@ -214,14 +224,10 @@ export default function Map({
     initialCenter != null
       ? initialCenter
       : myLatLng != null
-      ? { ...myLatLng, zoom: 3 }
-      : { lat: 0, lng: 0, zoom: 0 };
+        ? { ...myLatLng, zoom: 3 }
+        : { lat: 0, lng: 0, zoom: 0 };
 
-  const mapStyle = useMemo(
-    () => makeStyle({ colorScheme, locale: i18n.locale }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [colorScheme, t]
-  );
+  const mapStyle = useMapStyle();
 
   return (
     <Box
