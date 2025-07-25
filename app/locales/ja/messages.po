@@ -51,8 +51,8 @@ msgid "Location"
 msgstr "開催地"
 
 #: app/components/ConDetails.tsx:284
-msgid "Link"
-msgstr "リンク"
+msgid "Website"
+msgstr "ウェブサイト"
 
 #. placeholder {0}: attribution != undefined ? ( <Anchor href={attribution.url} target="_blank"> {attribution.name} </Anchor> ) : ( con.source )
 #: app/components/ConDetails.tsx:304
@@ -247,32 +247,32 @@ msgstr "{0}件"
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "自分が参加予定のないコンベンション{0}件"
 
-#: app/components/cons/CalendarView.tsx:124
+#: app/components/cons/CalendarView.tsx:88
 msgid "Subscribe"
 msgstr "購読"
 
-#: app/components/cons/CalendarView.tsx:140
+#: app/components/cons/CalendarView.tsx:104
 msgid "Calendar URL"
 msgstr "カレンダーのURL"
 
-#: app/components/cons/CalendarView.tsx:158
+#: app/components/cons/CalendarView.tsx:122
 #: app/components/cons/ListView.tsx:406
 msgid "Settings"
 msgstr "設定"
 
-#: app/components/cons/CalendarView.tsx:172
+#: app/components/cons/CalendarView.tsx:136
 msgid "Week starts on"
 msgstr "週の開始日"
 
-#: app/components/cons/CalendarView.tsx:194
+#: app/components/cons/CalendarView.tsx:158
 msgid "Use time zone"
 msgstr "タイムゾーンで表示"
 
-#: app/components/cons/CalendarView.tsx:211
+#: app/components/cons/CalendarView.tsx:175
 msgid "Theirs"
 msgstr "相手の"
 
-#: app/components/cons/CalendarView.tsx:228
+#: app/components/cons/CalendarView.tsx:192
 msgid "Yours"
 msgstr "自分の"
 
@@ -318,72 +318,72 @@ msgstr "並び順"
 msgid "Order"
 msgstr "順序"
 
-#: app/root.tsx:155
+#: app/root.tsx:157
 msgid "Dark mode"
 msgstr "ダークモード"
 
-#: app/root.tsx:157
+#: app/root.tsx:159
 msgid "Light mode"
 msgstr "ライトモード"
 
-#: app/root.tsx:227
+#: app/root.tsx:229
 msgid "Log out"
 msgstr "ログアウト"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
-#: app/root.tsx:259
+#: app/root.tsx:261
 msgid "Log in via {0}"
 msgstr "{0} 経由でログイン"
 
-#: app/root.tsx:263
+#: app/root.tsx:265
 msgid "Log in"
 msgstr "ログイン"
 
-#: app/root.tsx:281
+#: app/root.tsx:283
 msgid "Log in via custom PDS"
 msgstr "カスタム PDS 経由でログイン"
 
-#: app/root.tsx:289
+#: app/root.tsx:291
 msgid "Custom PDS"
 msgstr "カスタムPDS"
 
-#: app/root.tsx:296
+#: app/root.tsx:298
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
 msgstr "この PDS でログインできませんでした。URL を確認してください。"
 
-#: app/root.tsx:301
+#: app/root.tsx:303
 msgid "https://your.pds.com"
 msgstr "https://jibun-no.pds.com"
 
-#: app/root.tsx:339
+#: app/root.tsx:341
 msgid "Convention missing or information wrong? <0>Submit a request!</0>"
 msgstr "コンベンションがありませんか？情報が正しくありませんか？<0>リクエストを送信してください！</0>"
 
-#: app/root.tsx:383
-#: app/root.tsx:390
+#: app/root.tsx:385
+#: app/root.tsx:392
 msgid "Not found"
 msgstr "見つかりません"
 
-#: app/root.tsx:393
+#: app/root.tsx:395
 msgid "The page you requested could not be found."
 msgstr "お探しのページが見つかりませんでした。"
 
-#: app/root.tsx:425
+#: app/root.tsx:427
 msgid "Welcome!"
 msgstr "ようこそ！"
 
-#: app/root.tsx:431
+#: app/root.tsx:433
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>こちらは <1><2/> @cons.fyi</1> サービスのウェブサイトです。全ての機能をご利用いただくには、ログインしてください。ログインすると以下ができるようになります：</0><3><4>どのコンベンションに参加予定かを登録できます（Bluesky でそのコンベンションの投稿に「いいね」することでもできます）。</4><5>フォローしているユーザーがどのコンベンションに参加するかを確認できます。</5></3><6><7>注意：</7>セルフホスト型PDSを使用している場合は、ログインボタンの横にあるドロップダウンで指定する必要があります。</6><8>コンベンションの全データを提供してくださっている <9>FurryCons.com</9> の皆様に心から感謝いたします！</8>"
 
-#: app/root.tsx:518
+#: app/root.tsx:520
 msgid "Not subscribed to labeler"
 msgstr "ラベラーに登録されていません"
 
-#: app/root.tsx:522
+#: app/root.tsx:524
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "現在ラベラーに登録されていません。これにより、Bluesky 上で他の人のコンベンションラベルを見ることができません。"
 
-#: app/root.tsx:535
+#: app/root.tsx:537
 msgid "Fix this for me"
 msgstr "修正する"

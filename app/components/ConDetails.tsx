@@ -16,8 +16,8 @@ import {
 import {
   IconBrandBluesky,
   IconCalendar,
-  IconLink,
   IconMapPin,
+  IconWorld,
 } from "@tabler/icons-react";
 import { differenceInDays, isAfter, subDays } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
@@ -281,7 +281,7 @@ export function Body({ con }: { con: ConWithPost }) {
 
           <Group wrap="nowrap" gap="xs" align="top">
             <Box>
-              <IconLink title={t`Link`} size={16} stroke={1.5} />
+              <IconWorld title={t`Website`} size={16} stroke={1.5} />
             </Box>
             <Text size="sm" mb={5}>
               <Anchor
