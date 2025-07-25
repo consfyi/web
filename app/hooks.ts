@@ -1,14 +1,13 @@
 import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
-import { isAfter, set as setDate, addDays } from "date-fns";
+import { addDays, isAfter, set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
-  Con as ConDetails,
   getCons,
   Post,
   Profile,
@@ -115,59 +114,60 @@ export function useCons() {
   const cons = useGlobalMemo(
     "cons",
     () => {
-      const detailsMap: Record<string, ConDetails> = {};
-      for (const con of details) {
-        detailsMap[con.id!] = con;
+      const labelsById: Record<string, { labelId: string; postRkey: string }> =
+        {};
+
+      for (const def of labelerView.policies!.labelValueDefinitions!) {
+        const fullDef = def as typeof def & {
+          fbl_eventId: string;
+          fbl_postRkey: string;
+        };
+
+        labelsById[fullDef.fbl_eventId] = {
+          labelId: def.identifier,
+          postRkey: fullDef.fbl_postRkey,
+        };
       }
 
-      const cons = labelerView.policies!.labelValueDefinitions!.flatMap(
-        (def) => {
-          const fullDef = def as typeof def & {
-            fbl_eventId: string;
-            fbl_postRkey: string;
-          };
+      return details.flatMap((con) => {
+        const label = labelsById[con.id!];
+        if (label == undefined) {
+          return [];
+        }
 
-          const detail = detailsMap[fullDef.fbl_eventId];
-          if (detail == undefined) {
-            return [];
-          }
+        const end = setDate(addDays<TZDate, TZDate>(con.endDate!, 1), {
+          hours: 12,
+          minutes: 0,
+          seconds: 0,
+          milliseconds: 0,
+        });
+        if (isAfter(now, end)) {
+          return [];
+        }
 
-          const end = setDate(addDays<TZDate, TZDate>(detail.endDate!, 1), {
-            hours: 12,
-            minutes: 0,
-            seconds: 0,
-            milliseconds: 0,
-          });
-          if (isAfter(now, end)) {
-            return [];
-          }
+        return [
+          {
+            labelId: label.labelId,
 
-          return [
-            {
-              labelId: def.identifier,
+            id: con.id!,
+            name: con.name!,
+            start: setDate(con.startDate!, {
+              hours: 12,
+              minutes: 0,
+              seconds: 0,
+              milliseconds: 0,
+            }),
+            end,
+            url: con.url!,
+            address: con.address!,
+            country: con.country!,
+            latLng: con.latLng ?? null,
+            timezone: con.timezone ?? null,
 
-              id: detail.id!,
-              name: detail.name!,
-              start: setDate(detail.startDate!, {
-                hours: 12,
-                minutes: 0,
-                seconds: 0,
-                milliseconds: 0,
-              }),
-              end,
-              url: detail.url!,
-              address: detail.address!,
-              country: detail.country!,
-              latLng: detail.latLng ?? null,
-              timezone: detail.timezone ?? null,
-
-              postRkey: fullDef.fbl_postRkey,
-            } satisfies Con,
-          ];
-        },
-      );
-
-      return cons;
+            postRkey: label.postRkey,
+          } satisfies Con,
+        ];
+      });
     },
     [labelerView, now],
   );

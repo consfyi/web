@@ -66,7 +66,7 @@ function segment(event: Event, weekStartsOn: Day): Segment[] {
   while (isBefore(segmentStart, eventEnd)) {
     const weekStart = startOfWeek(segmentStart, { weekStartsOn });
     const weekEnd = startOfDay(
-      addDays(endOfWeek(segmentStart, { weekStartsOn }), 1)
+      addDays(endOfWeek(segmentStart, { weekStartsOn }), 1),
     );
 
     const segment: Segment = {
@@ -92,15 +92,15 @@ function packLanes(
   events: Event[],
   calendarStartDate: Date,
   numWeeks: number,
-  weekStartsOn: Day
+  weekStartsOn: Day,
 ): (Segment | null)[][][] {
   const weeks = Array.from({ length: numWeeks }, () =>
-    Array.from({ length: 7 }, () => [] as (Segment | null)[])
+    Array.from({ length: 7 }, () => [] as (Segment | null)[]),
   );
 
   for (const event of sorted(
     events,
-    comparing((event) => startOfDay(new Date(event.start)))
+    comparing((event) => startOfDay(new Date(event.start))),
   )) {
     for (const seg of segment(event, weekStartsOn)) {
       const weekStart = startOfWeek(seg.start, { weekStartsOn });
@@ -258,7 +258,7 @@ export default function Calendar({
           for (const entry of entries) {
             const k = parseInt(
               (entry.target as HTMLElement).dataset.month!,
-              10
+              10,
             );
             if (entry.isIntersecting) {
               set.add(k);
@@ -269,7 +269,7 @@ export default function Calendar({
           return toArray(set);
         });
       },
-      { rootMargin: "-50px 0px 0px 0px" }
+      { rootMargin: "-50px 0px 0px 0px" },
     );
 
     for (const el of Object.values(checkpointRefs.current)) {
@@ -288,14 +288,14 @@ export default function Calendar({
   const dayFormat = useMemo(
     () => new Intl.DateTimeFormat(i18n.locale, { day: "numeric" }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t]
+    [t],
   );
 
   const dayMonthFormat = useMemo(
     () =>
       new Intl.DateTimeFormat(i18n.locale, { month: "short", day: "numeric" }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t]
+    [t],
   );
 
   const startDate = useMemo(() => {
@@ -316,15 +316,15 @@ export default function Calendar({
       Math.floor(
         differenceInCalendarDays(
           max(map(events, (con) => addDays(con.end, 6)))!,
-          calendarStartDate
-        ) / 7
+          calendarStartDate,
+        ) / 7,
       ),
-    [events, calendarStartDate]
+    [events, calendarStartDate],
   );
 
   const packed = useMemo(
     () => packLanes(events, calendarStartDate, numWeeks, firstDay),
-    [calendarStartDate, events, firstDay, numWeeks]
+    [calendarStartDate, events, firstDay, numWeeks],
   );
 
   const highlightedMonthIndex =
@@ -360,12 +360,12 @@ export default function Calendar({
             new Date(
               Math.floor(highlightedMonthIndex / 12),
               highlightedMonthIndex % 12,
-              1
+              1,
             ),
             {
               month: "long",
               year: "numeric",
-            }
+            },
           )}
         </Text>
         <Table
@@ -401,7 +401,7 @@ export default function Calendar({
                       </Text>
                     </Table.Th>
                   );
-                })
+                }),
               )}
             </Table.Tr>
           </Table.Thead>
@@ -440,7 +440,7 @@ export default function Calendar({
 
                       if (
                         Math.ceil(
-                          (getDate(weekStart) + getDay(weekStart)) / 7
+                          (getDate(weekStart) + getDay(weekStart)) / 7,
                         ) == 1
                       ) {
                         checkpointRefs.current[
@@ -515,15 +515,15 @@ export default function Calendar({
                                 >
                                   &nbsp;
                                 </Text>
-                              )
+                              ),
                             )}
                           </Table.Td>
                         );
-                      })
+                      }),
                     )}
                   </Table.Tr>
                 );
-              })
+              }),
             )}
           </Table.Tbody>
         </Table>
