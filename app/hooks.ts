@@ -1,7 +1,7 @@
 import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
 import { type TZDate } from "@date-fns/tz";
-import { isAfter, set as setDate } from "date-fns";
+import { isAfter, set as setDate, addDays } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { LABELER_DID } from "~/config";
@@ -150,7 +150,7 @@ export function useCons() {
                 seconds: 0,
                 milliseconds: 0,
               }),
-              end: setDate(detail.endDate!, {
+              end: setDate(addDays(detail.endDate!, 1), {
                 hours: 12,
                 minutes: 0,
                 seconds: 0,
