@@ -6,11 +6,11 @@ import {
   Group,
   Indicator,
   Loader,
+  Title as MantineTitle,
   SimpleGrid,
   Skeleton,
   Stack,
   Text,
-  Title as MantineTitle,
   Tooltip,
 } from "@mantine/core";
 import {
@@ -23,6 +23,7 @@ import { differenceInDays, isAfter, subDays } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
 import { Suspense, useMemo } from "react";
 import { Link } from "react-router";
+import attributions from "~/attributions";
 import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
@@ -293,6 +294,29 @@ export function Body({ con }: { con: ConWithPost }) {
               </Anchor>
             </Text>
           </Group>
+
+          {con.source != null
+            ? (() => {
+                const attribution = attributions[con.source];
+                return (
+                  <Box mt={4}>
+                    <Text size="xs">
+                      <Trans>
+                        This information was originally sourced from{" "}
+                        {attribution != undefined ? (
+                          <Anchor href={attribution.url} target="_blank">
+                            {attribution.name}
+                          </Anchor>
+                        ) : (
+                          con.source
+                        )}
+                        .
+                      </Trans>
+                    </Text>
+                  </Box>
+                );
+              })()
+            : null}
         </Box>
       </Box>
 

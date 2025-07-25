@@ -337,21 +337,13 @@ function Footer() {
       >
         <Text c="dimmed" size="sm" mb="sm">
           <Trans>
-            All convention data courtesy of the volunteers at{" "}
+            Convention missing or information wrong?{" "}
             <Anchor
-              href="https://furrycons.com"
+              href="https://github.com/consfyi/data/issues/new?template=missing-or-incorrect-convention.md"
               target="_blank"
               rel="noreferrer"
             >
-              FurryCons.com
-            </Anchor>{" "}
-            – thank you! Convention missing?{" "}
-            <Anchor
-              href="https://furrycons.com/calendar/new.php"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Submit it here!
+              Submit a request here!
             </Anchor>
           </Trans>
         </Text>
@@ -495,7 +487,7 @@ function NotSubscribedToLabelerAlert() {
     const prefs = (await ctrl.fetch(getPreferences)).preferences!;
 
     let labelersPref = prefs.find(
-      (pref) => pref.$type == "app.bsky.actor.defs#labelersPref"
+      (pref) => pref.$type == "app.bsky.actor.defs#labelersPref",
     );
     if (labelersPref == null) {
       labelersPref = {
@@ -514,7 +506,7 @@ function NotSubscribedToLabelerAlert() {
     preferences.preferences.some(
       (preference) =>
         preference.$type == "app.bsky.actor.defs#labelersPref" &&
-        preference.labelers.some((labeler) => labeler.did == LABELER_DID)
+        preference.labelers.some((labeler) => labeler.did == LABELER_DID),
     );
 
   return (
@@ -567,7 +559,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         .querySelector("meta[name=viewport]")!
         .setAttribute(
           "content",
-          "width=device-width, initial-scale=1, maximum-scale=1"
+          "width=device-width, initial-scale=1, maximum-scale=1",
         );
     }
   }, []);
