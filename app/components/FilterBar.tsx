@@ -196,15 +196,15 @@ export default function FilterBar({
     () =>
       sorted(
         [...DEFAULT_FILTER_OPTIONS.continents],
-        compareDesc(comparing((code) => continentCount[code] ?? 0))
+        compareDesc(comparing((code) => continentCount[code] ?? 0)),
       ),
-    [continentCount]
+    [continentCount],
   );
 
   const continentsFiltered =
     filter.continents.length != DEFAULT_FILTER_OPTIONS.continents.length ||
     !filter.continents.every(
-      (c, i) => DEFAULT_FILTER_OPTIONS.continents[i] == c
+      (c, i) => DEFAULT_FILTER_OPTIONS.continents[i] == c,
     );
   const durationFiltered =
     filter.minDays != DEFAULT_FILTER_OPTIONS.minDays ||
@@ -449,7 +449,7 @@ export default function FilterBar({
                   marks={[...Array(DEFAULT_FILTER_OPTIONS.maxDays).keys()].map(
                     (v) => ({
                       value: v + 1,
-                    })
+                    }),
                   )}
                 />
               </Box>
@@ -601,10 +601,10 @@ export default function FilterBar({
           marks={toArray(
             map(
               Range.from(DEFAULT_FILTER_OPTIONS.minDays).toInclusive(
-                DEFAULT_FILTER_OPTIONS.maxDays
+                DEFAULT_FILTER_OPTIONS.maxDays,
               ),
-              (value) => ({ value })
-            )
+              (value) => ({ value }),
+            ),
           )}
         />
         <Text size="sm">
@@ -625,21 +625,21 @@ export function useFilterPredicate(filter: FilterOptions) {
         `^${Array.prototype.map
           .call(
             removeDiacritics(filter.q.toLocaleLowerCase(i18n.locale)),
-            (c) => `${regexpEscape(c)}.*`
+            (c) => `${regexpEscape(c)}.*`,
           )
-          .join("")}`
+          .join("")}`,
       ),
-    [t, filter]
+    [t, filter],
   );
 
   return useCallback(
     (con: ConWithPost) => {
-      const days = differenceInDays(con.end, con.start);
+      const days = differenceInDays(con.endDate, con.startDate);
 
       return (
         // Query
         removeDiacritics(con.name.toLocaleLowerCase(i18n.locale)).match(
-          queryRe
+          queryRe,
         ) != null &&
         // Attending filter
         (!filter.attending || con.post.viewer?.like != null) &&
@@ -655,6 +655,6 @@ export function useFilterPredicate(filter: FilterOptions) {
           (followedConAttendees[con.id] ?? []).length > 0)
       );
     },
-    [t, filter, followedConAttendees, queryRe]
+    [t, filter, followedConAttendees, queryRe],
   );
 }

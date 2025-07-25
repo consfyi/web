@@ -9,6 +9,8 @@ import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
+  getCons,
+  Con as ConDetails,
   Post,
   Profile,
   useGetAuthorPosts,
@@ -32,7 +34,7 @@ export function hookifyPromise<T>(promise: Promise<T>) {
     (e) => {
       status = "error";
       error = e;
-    }
+    },
   );
 
   return () => {
@@ -52,7 +54,7 @@ export const useHydrated = (() => {
     useSyncExternalStore(
       subscribe,
       () => true,
-      () => false
+      () => false,
     );
 })();
 
@@ -81,7 +83,7 @@ function useConPosts() {
       }
       return postsMap;
     },
-    [resp]
+    [resp],
   );
   return posts;
 }
@@ -90,8 +92,8 @@ export interface Con {
   labelId: string;
   id: string;
   name: string;
-  start: TZDate;
-  end: TZDate;
+  startDate: TZDate;
+  endDate: TZDate;
   address: string;
   country: string;
   latLng: [number, number] | null;
@@ -104,53 +106,53 @@ export type ConWithPost = Con & { post: Post };
 
 export function useCons() {
   const labelerView = useSuspense(useGetLabelerView(), { did: LABELER_DID });
+  const details = useSuspense(getCons, {});
+
   const now = useNow();
 
   const cons = useGlobalMemo(
     "cons",
     () => {
+      const detailsMap: Record<string, ConDetails> = {};
+      for (const con of details) {
+        detailsMap[con.id!] = con;
+      }
+
       const cons = labelerView.policies!.labelValueDefinitions!.flatMap(
         (def) => {
           const fullDef = def as typeof def & {
-            fbl_eventInfo: {
-              date: string;
-              address: string;
-              country: string;
-              latLng: [string, string] | null;
-              timezone: string | null;
-              url: string;
-            };
             fbl_eventId: string;
             fbl_postRkey: string;
           };
 
-          const [strings] = def.locales;
-          const [start, end] = fullDef.fbl_eventInfo.date.split("/");
+          const detail = detailsMap[fullDef.fbl_eventId];
+          if (detail == undefined) {
+            return [];
+          }
 
-          const refDate = new TZDateMini(
-            new Date(),
-            fullDef.fbl_eventInfo.timezone ?? "UTC"
-          );
+          const [strings] = def.locales;
+
+          const refDate = new TZDateMini(new Date(), detail.timezone ?? "Utc");
 
           const endDate = addDays(
             setDate<TZDate, TZDate>(
-              parseDate<TZDate, TZDate>(end, "yyyy-MM-dd", refDate),
+              parseDate<TZDate, TZDate>(detail.endDate!, "yyyy-MM-dd", refDate),
               {
                 hours: 12,
                 minutes: 0,
                 seconds: 0,
                 milliseconds: 0,
-              }
+              },
             ),
-            1
+            1,
           );
           if (isAfter(now, endDate)) {
             return [];
           }
 
           const startDate = setDate(
-            parseDate<TZDate, TZDate>(start, "yyyy-MM-dd", refDate),
-            { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 }
+            parseDate<TZDate, TZDate>(detail.startDate!, "yyyy-MM-dd", refDate),
+            { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 },
           );
 
           return [
@@ -158,28 +160,22 @@ export function useCons() {
               labelId: def.identifier,
               id: fullDef.fbl_eventId,
               name: strings.name,
-              start: startDate,
-              end: endDate,
-              address: fullDef.fbl_eventInfo.address,
-              country: fullDef.fbl_eventInfo.country,
-              latLng:
-                fullDef.fbl_eventInfo.latLng != null
-                  ? (fullDef.fbl_eventInfo.latLng.map((v) => parseFloat(v)) as [
-                      number,
-                      number
-                    ])
-                  : null,
-              timezone: fullDef.fbl_eventInfo.timezone,
+              url: detail.url!,
+              startDate,
+              endDate,
+              address: detail.address!,
+              country: detail.country!,
+              latLng: detail.latLng ?? null,
+              timezone: detail.timezone ?? null,
               postRkey: fullDef.fbl_postRkey,
-              url: fullDef.fbl_eventInfo.url,
             } satisfies Con,
           ];
-        }
+        },
       );
 
       return cons;
     },
-    [labelerView, now]
+    [labelerView, now],
   );
   return cons;
 }
@@ -191,7 +187,7 @@ export function useConsWithPosts() {
   return cons.flatMap((con) =>
     Object.prototype.hasOwnProperty.call(conPosts, con.postRkey)
       ? [{ ...con, post: conPosts[con.postRkey] }]
-      : []
+      : [],
   );
 }
 
@@ -203,7 +199,7 @@ export function useSelf() {
   const client = useClient();
   const resp = useSuspense(
     useGetProfile(),
-    client.did != null ? { actor: client.did } : null
+    client.did != null ? { actor: client.did } : null,
   );
   return resp;
 }
@@ -222,7 +218,7 @@ export function useSelfFollowsDLE() {
   const client = useClient();
   const { data, loading, error } = useDLE(
     useGetFollows(),
-    client.did != null ? { actor: client.did } : null
+    client.did != null ? { actor: client.did } : null,
   );
 
   const follows = useGlobalMemo(
@@ -237,7 +233,7 @@ export function useSelfFollowsDLE() {
       }
       return follows;
     },
-    [data]
+    [data],
   );
 
   return { data: follows, loading, error };
@@ -275,12 +271,12 @@ function useFollowedConAttendeesGlobalMemo(data: Profile[] | undefined) {
       for (const k in followedCons) {
         followedCons[k] = sorted(
           followedCons[k],
-          comparing((v) => v.handle)
+          comparing((v) => v.handle),
         );
       }
       return followedCons;
     },
-    [labelerView, data]
+    [labelerView, data],
   );
 }
 
@@ -288,7 +284,7 @@ export function useFollowedConAttendees() {
   const client = useClient();
   const data = useSuspense(
     useGetFollows(),
-    client.did != null ? { actor: client.did } : null
+    client.did != null ? { actor: client.did } : null,
   );
   return useFollowedConAttendeesGlobalMemo(data);
 }
@@ -297,7 +293,7 @@ export function useFollowedConAttendeesDLE() {
   const client = useClient();
   const { data, loading, error } = useDLE(
     useGetFollows(),
-    client.did != null ? { actor: client.did } : null
+    client.did != null ? { actor: client.did } : null,
   );
   return { data: useFollowedConAttendeesGlobalMemo(data), loading, error };
 }

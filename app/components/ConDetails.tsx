@@ -89,7 +89,7 @@ function AttendeesList({
   const { data: selfFollows } = useSelfFollowsDLE();
 
   const likes = useLikes(
-    `at://${LABELER_DID}/app.bsky.feed.post/${con.postRkey}`
+    `at://${LABELER_DID}/app.bsky.feed.post/${con.postRkey}`,
   );
 
   const [knownLikes, unknownLikes] = useMemo(() => {
@@ -109,11 +109,11 @@ function AttendeesList({
 
     knownLikes = sorted(
       knownLikes,
-      comparing((actor) => actor.handle)
+      comparing((actor) => actor.handle),
     );
     unknownLikes = sorted(
       unknownLikes,
-      comparing((actor) => actor.handle)
+      comparing((actor) => actor.handle),
     );
 
     if (isSelfAttending && self != null) {
@@ -204,11 +204,11 @@ export function Body({ con }: { con: ConWithPost }) {
         year: "numeric",
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t]
+    [t],
   );
 
   const now = useNow();
-  const active = isAfter(now, con.start) && !isAfter(now, con.end);
+  const active = isAfter(now, con.startDate) && !isAfter(now, con.endDate);
 
   const { data: followedConAttendees, loading: followedConAttendeesLoading } =
     useFollowedConAttendeesDLE();
@@ -249,12 +249,12 @@ export function Body({ con }: { con: ConWithPost }) {
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days long)">
                 {dateTimeFormat.formatRange(
-                  reinterpretAsLocalDate(con.start),
-                  reinterpretAsLocalDate(subDays(con.end, 1))
+                  reinterpretAsLocalDate(con.startDate),
+                  reinterpretAsLocalDate(subDays(con.endDate, 1)),
                 )}{" "}
                 (
                 <Plural
-                  value={differenceInDays(con.end, con.start)}
+                  value={differenceInDays(con.endDate, con.startDate)}
                   one="# day long"
                   other="# days long"
                 />
@@ -327,8 +327,8 @@ export function Body({ con }: { con: ConWithPost }) {
                       {toArray(
                         map(
                           Range.to(knownLikeCount > 0 ? knownLikeCount : 1),
-                          (i) => <ActorSkeleton key={i} />
-                        )
+                          (i) => <ActorSkeleton key={i} />,
+                        ),
                       )}
                     </SimpleGrid>
                   ) : null}
@@ -349,7 +349,7 @@ export function Body({ con }: { con: ConWithPost }) {
                         {toArray(
                           map(Range.to(unknownLikeCount), (i) => (
                             <ActorSkeleton key={i} />
-                          ))
+                          )),
                         )}
                       </SimpleGrid>
                     </>

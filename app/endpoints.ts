@@ -17,6 +17,24 @@ export class ProfileLabels extends Entity {
   }
 }
 
+export class Con extends Entity {
+  static key = "Con";
+
+  public id?: string;
+  public name?: string;
+  public url?: string;
+  public startDate?: string;
+  public endDate?: string;
+  public address?: string;
+  public country?: string;
+  public latLng?: [number, number];
+  public timezone?: string;
+
+  pk() {
+    return this.id;
+  }
+}
+
 export class Profile extends Entity {
   static key = "Profile";
 
@@ -97,7 +115,7 @@ export function useGetAuthorPosts() {
       name: "getAuthorPosts",
       schema: new schema.Collection([Post]),
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -109,14 +127,14 @@ export function useGetProfile() {
       return Profile.fromJS(
         await client.getProfile(actor, {
           signal: this.signal,
-        })
+        }),
       );
     },
     {
       name: "getProfile",
       schema: Profile,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -135,9 +153,29 @@ export function useGetLikes() {
       name: "getLikes",
       schema: new schema.Collection([Like]),
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
+
+export const getCons = new Endpoint(
+  // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
+  async function ({}: {}) {
+    const cons = [];
+    for await (const con of await (
+      await fetch("https://data.cons.fyi/active.json", {
+        signal: this.signal,
+      })
+    ).json()) {
+      cons.push(Con.fromJS(con));
+    }
+    return cons;
+  },
+  {
+    name: "getCons",
+    schema: new schema.Collection([Con]),
+    signal: undefined as AbortSignal | undefined,
+  },
+);
 
 export function useGetFollows() {
   const client = useClient();
@@ -156,7 +194,7 @@ export function useGetFollows() {
       name: "getFollows",
       schema: new schema.Collection([Profile]),
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -166,14 +204,14 @@ export function useGetLabelerView() {
   return new Endpoint(
     async function ({ did }: { did: Did }) {
       return LabelerView.fromJS(
-        await client.getLabelerView(did, { signal: this.signal })
+        await client.getLabelerView(did, { signal: this.signal }),
       );
     },
     {
       name: "getLabelerView",
       schema: LabelerView,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -203,7 +241,7 @@ export function useLikePost() {
       name: "likePost",
       sideEffect: true,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -233,7 +271,7 @@ export function useUnlikePost() {
       name: "unlikePost",
       sideEffect: true,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -254,7 +292,7 @@ export function useGetPreferences() {
       name: "getPreferences",
       schema: Preferences,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -271,7 +309,7 @@ export function usePutPreferences() {
       sideEffect: true,
       schema: Preferences,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }
 
@@ -292,6 +330,6 @@ export function useGetLabels() {
       name: "getLabels",
       schema: ProfileLabels,
       signal: undefined as AbortSignal | undefined,
-    }
+    },
   );
 }

@@ -173,18 +173,21 @@ function ConsByDate({
       const grouped: Record<number, ConWithPost[]> = {};
       for (const g of group(
         cons,
-        comparing((con) => yearMonthKey(reinterpretAsLocalDate(con.start)))
+        comparing((con) => yearMonthKey(reinterpretAsLocalDate(con.startDate))),
       )) {
-        const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
+        const k = yearMonthKey(reinterpretAsLocalDate(g[0].startDate));
         (grouped[k] ??= []).push(...g);
       }
 
       const groups = [];
       for (
-        let d = setDate(reinterpretAsLocalDate(cons![0].start), 1),
+        let d = setDate(reinterpretAsLocalDate(cons![0].startDate), 1),
           endDate = addMonths(
-            setDate(reinterpretAsLocalDate(cons![cons!.length - 1].start), 1),
-            1
+            setDate(
+              reinterpretAsLocalDate(cons![cons!.length - 1].startDate),
+              1,
+            ),
+            1,
           );
         d < endDate;
         d = addMonths(d, 1)
@@ -212,7 +215,7 @@ function ConsByDate({
       return groups;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cons, t]
+    [cons, t],
   );
 
   return <GroupedList groups={groups} sortDesc={sortDesc} density={density} />;
@@ -231,9 +234,9 @@ function ConsByAttendees({
     () =>
       sorted(
         cons,
-        comparing((con) => con.post.likeCount)
+        comparing((con) => con.post.likeCount),
       ),
-    [cons]
+    [cons],
   );
 
   return (
@@ -265,12 +268,12 @@ function ConsByFollowed({
           comparing((con) =>
             followedConAttendees == null
               ? con.post.likeCount
-              : (followedConAttendees[con.id] ?? []).length
+              : (followedConAttendees[con.id] ?? []).length,
           ),
-          comparing((con) => con.post.likeCount)
-        )
+          comparing((con) => con.post.likeCount),
+        ),
       ),
-    [cons, followedConAttendees]
+    [cons, followedConAttendees],
   );
 
   return (
@@ -300,7 +303,7 @@ function ConsByName({
       return sorted(cons, (x, y) => collator.compare(x.name, y.name));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cons, t]
+    [cons, t],
   );
 
   return (
@@ -352,7 +355,7 @@ const SORT_BY_OPTIONS = {
 };
 
 const SORT_BY = Object.keys(
-  SORT_BY_OPTIONS
+  SORT_BY_OPTIONS,
 ) as (keyof typeof SORT_BY_OPTIONS)[];
 
 export const LayoutOptions = qp.schema({

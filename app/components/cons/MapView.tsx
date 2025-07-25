@@ -37,8 +37,8 @@ export default function MapView({
   const slug = location.hash != "" ? location.hash.slice(1) : null;
 
   const selected = useMemo(
-    () => (slug != null ? cons.find((con) => con.id == slug) ?? null : null),
-    [slug, cons]
+    () => (slug != null ? (cons.find((con) => con.id == slug) ?? null) : null),
+    [slug, cons],
   );
 
   const [center] = useState(() => {
@@ -119,7 +119,7 @@ export default function MapView({
                     search: location.search,
                     hash: con != null ? con.id : "",
                   },
-                  { replace: true }
+                  { replace: true },
                 );
               }}
               pins={filteredCons.flatMap((con) => {
@@ -129,7 +129,7 @@ export default function MapView({
 
                 const [lat, lng] = con.latLng;
                 const active =
-                  isAfter(now, con.start) && !isAfter(now, con.end);
+                  isAfter(now, con.startDate) && !isAfter(now, con.endDate);
 
                 const color = [
                   "red",
@@ -139,7 +139,7 @@ export default function MapView({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(con.start)];
+                ][getDay(con.startDate)];
 
                 const variant =
                   con.post.viewer != null && con.post.viewer.like != null
@@ -158,8 +158,8 @@ export default function MapView({
                       con.post.viewer != null && con.post.viewer.like != null
                         ? 2
                         : active
-                        ? 1
-                        : 0,
+                          ? 1
+                          : 0,
                     popup: (
                       <ConRow
                         con={con}
