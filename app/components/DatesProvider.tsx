@@ -2,6 +2,7 @@ import { DatesProvider as MantineDatesProvider } from "@mantine/dates";
 import { useLocalStorage } from "@mantine/hooks";
 import { Day } from "date-fns";
 import { useLinguiContext } from "./LinguiProvider";
+import { rotateLeft } from "iter-fns";
 
 const DEFAULT_FIRST_DAY_OF_WEEK = (() => {
   // Use the locale of the browser rather than the set locale.
@@ -15,7 +16,16 @@ const DEFAULT_FIRST_DAY_OF_WEEK = (() => {
   return (weekInfo.firstDay % 7) as Day;
 })();
 
-export const FIRST_DAYS_OF_WEEK: Day[] = [0, 1, 6];
+export const FIRST_DAYS_OF_WEEK: Day[] = (() => {
+  const days = [0, 1, 6] as Day[];
+  const idx = days.indexOf(DEFAULT_FIRST_DAY_OF_WEEK);
+  if (idx == -1) {
+    days.unshift(DEFAULT_FIRST_DAY_OF_WEEK);
+  } else {
+    rotateLeft(days, idx);
+  }
+  return days;
+})();
 
 export function useFirstDayOfWeek() {
   return useLocalStorage({
