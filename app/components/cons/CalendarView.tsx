@@ -140,7 +140,7 @@ export default function CalendarView({
                     value={`${clientMetadata.client_uri}/calendar.ics`}
                     label={t`Calendar URL`}
                     m={4}
-                    w={250}
+                    w={210}
                     onFocus={(e) => {
                       e.target.select();
                     }}
