@@ -310,7 +310,7 @@ export function Body({ con }: { con: ConWithPost }) {
                         ) : (
                           con.source
                         )}
-                        .
+                        . Usage restrictions may apply.
                       </Trans>
                     </Text>
                   </Box>
