@@ -165,7 +165,7 @@ export const getCons = new Endpoint(
   async function ({}: {}) {
     const cons = [];
     for await (const con of await (
-      await fetch("https://data.cons.fyi/active.json", {
+      await fetch(`https://data.cons.fyi/active.json?${+new Date()}`, {
         signal: this.signal,
       })
     ).json()) {
