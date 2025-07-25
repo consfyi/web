@@ -1,6 +1,6 @@
 import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
-import { type TZDate } from "@date-fns/tz";
+import { TZDate } from "@date-fns/tz";
 import { isAfter, set as setDate, addDays } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { useEffect, useState, useSyncExternalStore } from "react";
@@ -132,9 +132,13 @@ export function useCons() {
             return [];
           }
 
-          const [strings] = def.locales;
-
-          if (isAfter(now, detail.endDate!)) {
+          const end = setDate(addDays<TZDate, TZDate>(detail.endDate!, 1), {
+            hours: 12,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0,
+          });
+          if (isAfter(now, end)) {
             return [];
           }
 
@@ -143,19 +147,14 @@ export function useCons() {
               labelId: def.identifier,
 
               id: detail.id!,
-              name: strings.name,
+              name: detail.name!,
               start: setDate(detail.startDate!, {
                 hours: 12,
                 minutes: 0,
                 seconds: 0,
                 milliseconds: 0,
               }),
-              end: setDate(addDays(detail.endDate!, 1), {
-                hours: 12,
-                minutes: 0,
-                seconds: 0,
-                milliseconds: 0,
-              }),
+              end,
               url: detail.url!,
               address: detail.address!,
               country: detail.country!,
