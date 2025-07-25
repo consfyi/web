@@ -634,7 +634,7 @@ export function useFilterPredicate(filter: FilterOptions) {
 
   return useCallback(
     (con: ConWithPost) => {
-      const days = differenceInDays(con.endDate, con.startDate);
+      const days = differenceInDays(con.end, con.start);
 
       return (
         // Query

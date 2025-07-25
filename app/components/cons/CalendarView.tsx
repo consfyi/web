@@ -215,15 +215,15 @@ export default function CalendarView({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(con.startDate)],
+                ][getDay(con.start)],
                 variant:
                   con.post.viewer != null && con.post.viewer.like != null
                     ? "filled"
                     : "light",
                 title: con.name,
                 link: `/${con.id}`,
-                start: con.startDate,
-                end: con.endDate,
+                start: con.start,
+                end: con.end,
               }))}
             />
           </Container>

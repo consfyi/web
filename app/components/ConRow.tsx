@@ -97,10 +97,10 @@ export default function ConRow({
   );
 
   const now = useNow();
-  const active = isAfter(now, con.startDate) && !isAfter(now, con.endDate);
+  const active = isAfter(now, con.start) && !isAfter(now, con.end);
   const dateRange = dateTimeFormat.formatRange(
-    reinterpretAsLocalDate(con.startDate),
-    reinterpretAsLocalDate(subDays(con.endDate, 1)),
+    reinterpretAsLocalDate(con.start),
+    reinterpretAsLocalDate(subDays(con.end, 1)),
   );
 
   return (
@@ -128,21 +128,21 @@ export default function ConRow({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(reinterpretAsLocalDate(con.startDate))]
+                ][getDay(reinterpretAsLocalDate(con.start))]
               }
             >
               <Stack gap={0}>
                 <Text size="md" ta="center" fw={500}>
                   {showMonthInIcon
-                    ? i18n.date(reinterpretAsLocalDate(con.startDate), {
+                    ? i18n.date(reinterpretAsLocalDate(con.start), {
                         month: "short",
                       })
-                    : i18n.date(reinterpretAsLocalDate(con.startDate), {
+                    : i18n.date(reinterpretAsLocalDate(con.start), {
                         weekday: "short",
                       })}
                 </Text>
                 <Text size="xs" ta="center" fw={500}>
-                  {i18n.date(reinterpretAsLocalDate(con.startDate), {
+                  {i18n.date(reinterpretAsLocalDate(con.start), {
                     day: "numeric",
                   })}
                 </Text>
@@ -231,7 +231,7 @@ export default function ConRow({
                 <Trans context="[start date]-[end date] ([duration] days long)">
                   {[dateRange][0]} (
                   <Plural
-                    value={differenceInDays(con.endDate, con.startDate)}
+                    value={differenceInDays(con.end, con.start)}
                     one="# day long"
                     other="# days long"
                   />
@@ -246,19 +246,19 @@ export default function ConRow({
               <IconCalendarWeek title={t`End date`} size={12} />{" "}
               <Trans context="until [date] ([duration] days long)">
                 until{" "}
-                {i18n.date(reinterpretAsLocalDate(subDays(con.endDate, 1)), {
+                {i18n.date(reinterpretAsLocalDate(subDays(con.end, 1)), {
                   weekday: "short",
                   day: "numeric",
                   month: "short",
                   year:
-                    getYear(reinterpretAsLocalDate(con.startDate)) !=
-                    getYear(reinterpretAsLocalDate(subDays(con.endDate, 1)))
+                    getYear(reinterpretAsLocalDate(con.start)) !=
+                    getYear(reinterpretAsLocalDate(subDays(con.end, 1)))
                       ? "numeric"
                       : undefined,
                 })}{" "}
                 (
                 <Plural
-                  value={differenceInDays(con.endDate, con.startDate)}
+                  value={differenceInDays(con.end, con.start)}
                   one="# day long"
                   other="# days long"
                 />

@@ -208,7 +208,7 @@ export function Body({ con }: { con: ConWithPost }) {
   );
 
   const now = useNow();
-  const active = isAfter(now, con.startDate) && !isAfter(now, con.endDate);
+  const active = isAfter(now, con.start) && !isAfter(now, con.end);
 
   const { data: followedConAttendees, loading: followedConAttendeesLoading } =
     useFollowedConAttendeesDLE();
@@ -249,12 +249,12 @@ export function Body({ con }: { con: ConWithPost }) {
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days long)">
                 {dateTimeFormat.formatRange(
-                  reinterpretAsLocalDate(con.startDate),
-                  reinterpretAsLocalDate(subDays(con.endDate, 1)),
+                  reinterpretAsLocalDate(con.start),
+                  reinterpretAsLocalDate(subDays(con.end, 1)),
                 )}{" "}
                 (
                 <Plural
-                  value={differenceInDays(con.endDate, con.startDate)}
+                  value={differenceInDays(con.end, con.start)}
                   one="# day long"
                   other="# days long"
                 />

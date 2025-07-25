@@ -1,16 +1,15 @@
 import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
-import type { TZDate } from "@date-fns/tz";
-import { TZDateMini } from "@date-fns/tz";
-import { addDays, isAfter, parse as parseDate, set as setDate } from "date-fns";
+import { type TZDate } from "@date-fns/tz";
+import { isAfter, set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
-  getCons,
   Con as ConDetails,
+  getCons,
   Post,
   Profile,
   useGetAuthorPosts,
@@ -90,23 +89,26 @@ function useConPosts() {
 
 export interface Con {
   labelId: string;
+
   id: string;
   name: string;
-  startDate: TZDate;
-  endDate: TZDate;
+  start: TZDate;
+  end: TZDate;
+  url: string;
   address: string;
   country: string;
   latLng: [number, number] | null;
   timezone: string | null;
+
   postRkey: string;
-  url: string;
 }
 
 export type ConWithPost = Con & { post: Post };
 
 export function useCons() {
-  const labelerView = useSuspense(useGetLabelerView(), { did: LABELER_DID });
   const details = useSuspense(getCons, {});
+
+  const labelerView = useSuspense(useGetLabelerView(), { did: LABELER_DID });
 
   const now = useNow();
 
@@ -132,41 +134,34 @@ export function useCons() {
 
           const [strings] = def.locales;
 
-          const refDate = new TZDateMini(new Date(), detail.timezone ?? "Utc");
-
-          const endDate = addDays(
-            setDate<TZDate, TZDate>(
-              parseDate<TZDate, TZDate>(detail.endDate!, "yyyy-MM-dd", refDate),
-              {
-                hours: 12,
-                minutes: 0,
-                seconds: 0,
-                milliseconds: 0,
-              },
-            ),
-            1,
-          );
-          if (isAfter(now, endDate)) {
+          if (isAfter(now, detail.endDate!)) {
             return [];
           }
-
-          const startDate = setDate(
-            parseDate<TZDate, TZDate>(detail.startDate!, "yyyy-MM-dd", refDate),
-            { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 },
-          );
 
           return [
             {
               labelId: def.identifier,
-              id: fullDef.fbl_eventId,
+
+              id: detail.id!,
               name: strings.name,
+              start: setDate(detail.startDate!, {
+                hours: 12,
+                minutes: 0,
+                seconds: 0,
+                milliseconds: 0,
+              }),
+              end: setDate(detail.endDate!, {
+                hours: 12,
+                minutes: 0,
+                seconds: 0,
+                milliseconds: 0,
+              }),
               url: detail.url!,
-              startDate,
-              endDate,
               address: detail.address!,
               country: detail.country!,
               latLng: detail.latLng ?? null,
               timezone: detail.timezone ?? null,
+
               postRkey: fullDef.fbl_postRkey,
             } satisfies Con,
           ];

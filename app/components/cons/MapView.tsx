@@ -129,7 +129,7 @@ export default function MapView({
 
                 const [lat, lng] = con.latLng;
                 const active =
-                  isAfter(now, con.startDate) && !isAfter(now, con.endDate);
+                  isAfter(now, con.start) && !isAfter(now, con.end);
 
                 const color = [
                   "red",
@@ -139,7 +139,7 @@ export default function MapView({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(con.startDate)];
+                ][getDay(con.start)];
 
                 const variant =
                   con.post.viewer != null && con.post.viewer.like != null

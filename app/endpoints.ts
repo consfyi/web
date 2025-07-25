@@ -4,6 +4,8 @@ import { LabelerPolicies } from "@atcute/bluesky/types/app/labeler/defs";
 import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
 import { Endpoint, Entity, schema } from "@data-client/endpoint";
 import { useController } from "@data-client/react";
+import { type TZDate, TZDateMini } from "@date-fns/tz";
+import { parse as parseDate } from "date-fns";
 import { useClient } from "./hooks";
 
 export class ProfileLabels extends Entity {
@@ -23,8 +25,8 @@ export class Con extends Entity {
   public id?: string;
   public name?: string;
   public url?: string;
-  public startDate?: string;
-  public endDate?: string;
+  public startDate?: TZDate;
+  public endDate?: TZDate;
   public address?: string;
   public country?: string;
   public latLng?: [number, number];
@@ -166,7 +168,14 @@ export const getCons = new Endpoint(
         signal: this.signal,
       })
     ).json()) {
-      cons.push(Con.fromJS(con));
+      const refDate = new TZDateMini(new Date(), con.timezone ?? "Utc");
+      cons.push(
+        Con.fromJS({
+          ...con,
+          startDate: parseDate(con.startDate, "yyyy-MM-dd", refDate),
+          endDate: parseDate(con.endDate, "yyyy-MM-dd", refDate),
+        }),
+      );
     }
     return cons;
   },

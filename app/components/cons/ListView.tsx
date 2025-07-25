@@ -173,20 +173,17 @@ function ConsByDate({
       const grouped: Record<number, ConWithPost[]> = {};
       for (const g of group(
         cons,
-        comparing((con) => yearMonthKey(reinterpretAsLocalDate(con.startDate))),
+        comparing((con) => yearMonthKey(reinterpretAsLocalDate(con.start))),
       )) {
-        const k = yearMonthKey(reinterpretAsLocalDate(g[0].startDate));
+        const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
         (grouped[k] ??= []).push(...g);
       }
 
       const groups = [];
       for (
-        let d = setDate(reinterpretAsLocalDate(cons![0].startDate), 1),
+        let d = setDate(reinterpretAsLocalDate(cons![0].start), 1),
           endDate = addMonths(
-            setDate(
-              reinterpretAsLocalDate(cons![cons!.length - 1].startDate),
-              1,
-            ),
+            setDate(reinterpretAsLocalDate(cons![cons!.length - 1].start), 1),
             1,
           );
         d < endDate;
