@@ -9,7 +9,6 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import {
   IconCheck,
   IconChevronDown,
@@ -23,6 +22,7 @@ import Flag from "~/components/Flag";
 import { ConWithPost } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
+import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";
 import EmptyIcon from "../EmptyIcon";
 import EmptyState from "../EmptyState";
 import FilterBar, {
@@ -31,47 +31,10 @@ import FilterBar, {
   useFilterPredicate,
 } from "../FilterBar";
 
-const DEFAULT_FIRST_DAY_OF_WEEK = (() => {
-  // Use the locale of the browser rather than the set locale.
-  const locale = new Intl.Locale(navigator.language);
-  const weekInfo = (
-    locale as {
-      getWeekInfo?(): { firstDay: number };
-    }
-  ).getWeekInfo?.() ?? { firstDay: 7 };
-
-  return (weekInfo.firstDay % 7) as Day;
-})();
-
-function useFirstDayOfWeek() {
-  return useLocalStorage({
-    key: "fbl:firstDayOfWeek",
-    defaultValue: DEFAULT_FIRST_DAY_OF_WEEK,
-    getInitialValueInEffect: false,
-    deserialize(value) {
-      if (value == undefined) {
-        return DEFAULT_FIRST_DAY_OF_WEEK;
-      }
-
-      try {
-        const day = JSON.parse(value);
-        if (!FIRST_DAYS_OF_WEEK.includes(day)) {
-          return DEFAULT_FIRST_DAY_OF_WEEK;
-        }
-        return day;
-      } catch (e) {
-        return DEFAULT_FIRST_DAY_OF_WEEK;
-      }
-    },
-  });
-}
-
 export const LayoutOptions = qp.schema({
   timezone: qp.default_(qp.literal(["theirs", "yours"]), "theirs"),
 });
 export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
-
-const FIRST_DAYS_OF_WEEK: Day[] = [0, 1, 6];
 
 export default function CalendarView({
   cons,
@@ -246,7 +209,6 @@ export default function CalendarView({
         {filteredCons.length > 0 ? (
           <Container size="lg" px={0}>
             <Calendar
-              firstDay={firstDayOfWeek}
               inYourTimeZone={layout.timezone == "yours"}
               includeToday={!filter.attending && filter.q == ""}
               events={filteredCons.map((con) => ({

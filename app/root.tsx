@@ -1,66 +1,66 @@
 import {
-    DataProvider,
-    useController,
-    useLoading,
-    useSuspense,
+  DataProvider,
+  useController,
+  useLoading,
+  useSuspense,
 } from "@data-client/react";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
-    ActionIcon,
-    Alert,
-    Anchor,
-    Box,
-    Button,
-    Center,
-    Collapse,
-    ColorSchemeScript,
-    Container,
-    createTheme,
-    DirectionProvider,
-    DirectionProviderProps,
-    Group,
-    Image,
-    Loader,
-    mantineHtmlProps,
-    MantineProvider,
-    Menu,
-    Text,
-    TextInput,
-    Tooltip,
-    useComputedColorScheme,
-    useMantineColorScheme,
+  ActionIcon,
+  Alert,
+  Anchor,
+  Box,
+  Button,
+  Center,
+  Collapse,
+  ColorSchemeScript,
+  Container,
+  createTheme,
+  DirectionProvider,
+  DirectionProviderProps,
+  Group,
+  Image,
+  Loader,
+  mantineHtmlProps,
+  MantineProvider,
+  Menu,
+  Text,
+  TextInput,
+  Tooltip,
+  useComputedColorScheme,
+  useMantineColorScheme,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useLocalStorage } from "@mantine/hooks";
 import {
-    completeNavigationProgress,
-    NavigationProgress,
-    startNavigationProgress,
+  completeNavigationProgress,
+  NavigationProgress,
+  startNavigationProgress,
 } from "@mantine/nprogress";
 import "@mantine/nprogress/styles.css";
 import {
-    IconAlertTriangle,
-    IconBrandBluesky,
-    IconChevronDown,
-    IconLogout2,
-    IconMoon,
-    IconPaw,
-    IconSun,
+  IconAlertTriangle,
+  IconBrandBluesky,
+  IconChevronDown,
+  IconLogout2,
+  IconMoon,
+  IconPaw,
+  IconSun,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
 import { Suspense, useEffect, useState } from "react";
 import {
-    Link,
-    Links,
-    LinksFunction,
-    Meta,
-    MetaFunction,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useLocation,
-    useNavigation,
-    useRouteError,
+  Link,
+  Links,
+  LinksFunction,
+  Meta,
+  MetaFunction,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLocation,
+  useNavigation,
+  useRouteError,
 } from "react-router";
 import clientMetadata from "~/../public/client-metadata.json";
 import Avatar from "~/components/Avatar";
@@ -72,6 +72,7 @@ import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
 import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
 import "./styles.css";
+import DatesProvider from "./components/DatesProvider";
 
 const theme = createTheme({});
 
@@ -598,22 +599,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     }
                   >
                     <LinguiProvider>
-                      <Header />
-                      {showAlerts ? (
-                        <Container size="lg" px={0}>
-                          <Alerts />
-                        </Container>
-                      ) : null}
-                      <Suspense
-                        fallback={
-                          <Center p="lg">
-                            <Loader />
-                          </Center>
-                        }
-                      >
-                        {children}
-                      </Suspense>
-                      <Footer />
+                      <DatesProvider>
+                        <Header />
+                        {showAlerts ? (
+                          <Container size="lg" px={0}>
+                            <Alerts />
+                          </Container>
+                        ) : null}
+                        <Suspense
+                          fallback={
+                            <Center p="lg">
+                              <Loader />
+                            </Center>
+                          }
+                        >
+                          {children}
+                        </Suspense>
+                        <Footer />
+                      </DatesProvider>
                     </LinguiProvider>
                   </Suspense>
                 </DataProvider>

@@ -8,6 +8,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
+import { useDatesContext } from "@mantine/dates";
 import {
   addDays,
   addWeeks,
@@ -206,25 +207,12 @@ function EventSegment({ segment }: { segment: Segment }) {
   );
 }
 
-const WEEKEND = (() => {
-  // Use the locale of the browser rather than the set locale.
-  const locale = new Intl.Locale(navigator.language);
-  const weekInfo = (
-    locale as {
-      getWeekInfo?(): { weekend: number[] };
-    }
-  ).getWeekInfo?.() ?? { weekend: [6, 7] };
-  return weekInfo.weekend.map((d) => (d % 7) as Day);
-})();
-
 export default function Calendar({
   events,
-  firstDay,
   inYourTimeZone,
   includeToday,
 }: {
   events: Event[];
-  firstDay: Day;
   inYourTimeZone: boolean;
   includeToday: boolean;
 }) {
@@ -285,6 +273,8 @@ export default function Calendar({
 
   const now = useNow();
 
+  const datesContext = useDatesContext();
+
   const dayFormat = useMemo(
     () => new Intl.DateTimeFormat(i18n.locale, { day: "numeric" }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -307,7 +297,7 @@ export default function Calendar({
   }, [includeToday, events, now]);
 
   const firstDayWeekday = getDay(startDate);
-  const daysToPad = (firstDayWeekday - firstDay + 7) % 7;
+  const daysToPad = (firstDayWeekday - datesContext.firstDayOfWeek + 7) % 7;
 
   const calendarStartDate = addDays(startDate, -daysToPad);
 
@@ -323,8 +313,14 @@ export default function Calendar({
   );
 
   const packed = useMemo(
-    () => packLanes(events, calendarStartDate, numWeeks, firstDay),
-    [calendarStartDate, events, firstDay, numWeeks],
+    () =>
+      packLanes(
+        events,
+        calendarStartDate,
+        numWeeks,
+        datesContext.firstDayOfWeek,
+      ),
+    [calendarStartDate, events, datesContext.firstDayOfWeek, numWeeks],
   );
 
   const highlightedMonthIndex =
@@ -389,7 +385,7 @@ export default function Calendar({
                     <Table.Th
                       key={i}
                       bg={
-                        WEEKEND.includes(getDay(d) as Day)
+                        datesContext.weekendDays.includes(getDay(d) as Day)
                           ? "var(--mantine-color-gray-light)"
                           : ""
                       }
@@ -463,7 +459,9 @@ export default function Calendar({
                             valign="top"
                             pos="relative"
                             bg={
-                              WEEKEND.includes(getDay(d) as Day)
+                              datesContext.weekendDays.includes(
+                                getDay(d) as Day,
+                              )
                                 ? "var(--mantine-color-gray-light)"
                                 : ""
                             }
