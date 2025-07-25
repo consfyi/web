@@ -15,21 +15,21 @@ msgstr ""
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
-#: app/components/ConDetails.tsx:140
-#: app/components/ConDetails.tsx:363
+#: app/components/ConDetails.tsx:141
+#: app/components/ConDetails.tsx:364
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "フォローしていないユーザー{0}人"
 
-#: app/components/ConDetails.tsx:160
+#: app/components/ConDetails.tsx:161
 msgid "Nobody known to be going yet."
 msgstr "まだ把握されている参加者はいません。"
 
-#: app/components/ConDetails.tsx:178
-#: app/components/ConDetails.tsx:185
+#: app/components/ConDetails.tsx:179
+#: app/components/ConDetails.tsx:186
 msgid "View Bluesky Post"
 msgstr "Bluesky の投稿を見る"
 
-#: app/components/ConDetails.tsx:247
+#: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
 #: app/components/cons/ListView.tsx:321
 msgid "Date"
@@ -38,46 +38,45 @@ msgstr "開催日"
 #. placeholder {0}: [dateRange][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(con.start), reinterpretAsLocalDate(subDays(con.end, 1)), )
 #. placeholder {1}: differenceInDays(con.end, con.start)
-#: app/components/ConDetails.tsx:251
+#: app/components/ConDetails.tsx:252
 #: app/components/ConRow.tsx:231
 msgctxt "[start date]-[end date] ([duration] days long)"
 msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0}（{1}日間）"
 
-#: app/components/ConDetails.tsx:269
+#: app/components/ConDetails.tsx:270
 #: app/components/ConRow.tsx:271
 #: app/components/ConRow.tsx:285
 msgid "Location"
 msgstr "開催地"
 
-#: app/components/ConDetails.tsx:284
+#: app/components/ConDetails.tsx:285
 msgid "Website"
 msgstr "ウェブサイト"
 
-#. placeholder {0}: attribution != undefined ? ( <Anchor href={attribution.url} target="_blank"> {attribution.name} </Anchor> ) : ( con.source )
-#: app/components/ConDetails.tsx:304
-msgid "This information was originally sourced from {0}. Usage restrictions may apply."
-msgstr "上記の情報は元々 {0} から提供されたものです。利用制限が適用される場合があります。"
+#: app/components/ConDetails.tsx:302
+msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
+msgstr "上記の情報は元々 <0/> から提供されたものです。利用制限が適用される場合があります。"
 
-#: app/components/ConDetails.tsx:325
+#: app/components/ConDetails.tsx:326
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "参加者"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:328
+#: app/components/ConDetails.tsx:329
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0}人（自分込み）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:332
+#: app/components/ConDetails.tsx:333
 #: app/components/ConRow.tsx:182
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}人"
 
-#: app/components/ConDetails.tsx:342
+#: app/components/ConDetails.tsx:343
 msgid "Loading people you follow"
 msgstr "フォロー中のユーザーを読み込み中"
 

@@ -40,6 +40,7 @@ import {
   useSelf,
   useSelfFollowsDLE,
 } from "~/hooks";
+import IntlList from "./IntlList";
 
 function ActorSkeleton() {
   return (
@@ -295,28 +296,28 @@ export function Body({ con }: { con: ConWithPost }) {
             </Text>
           </Group>
 
-          {con.source != null
-            ? (() => {
-                const attribution = attributions[con.source];
-                return (
-                  <Box mt={4}>
-                    <Text size="xs">
-                      <Trans>
-                        This information was originally sourced from{" "}
-                        {attribution != undefined ? (
-                          <Anchor href={attribution.url} target="_blank">
-                            {attribution.name}
-                          </Anchor>
-                        ) : (
-                          con.source
-                        )}
-                        . Usage restrictions may apply.
-                      </Trans>
-                    </Text>
-                  </Box>
-                );
-              })()
-            : null}
+          {con.sources != null && con.sources.length > 0 ? (
+            <Box mt={4}>
+              <Text size="xs">
+                <Trans>
+                  This information was originally sourced from{" "}
+                  <IntlList
+                    items={con.sources.map((source) => {
+                      const attribution = attributions[source];
+                      return attribution != undefined ? (
+                        <Anchor href={attribution.url} target="_blank">
+                          {attribution.name}
+                        </Anchor>
+                      ) : (
+                        source
+                      );
+                    })}
+                  />
+                  . Usage restrictions may apply.
+                </Trans>
+              </Text>
+            </Box>
+          ) : null}
         </Box>
       </Box>
 

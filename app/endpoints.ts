@@ -31,7 +31,7 @@ export class Con extends Entity {
   public country?: string;
   public latLng?: [number, number];
   public timezone?: string;
-  public source?: string;
+  public sources?: string[];
 
   pk() {
     return this.id;

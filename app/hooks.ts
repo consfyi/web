@@ -98,7 +98,7 @@ export interface Con {
   country: string | null;
   latLng: [number, number] | null;
   timezone: string | null;
-  source: string | null;
+  sources: string[] | null;
 
   postRkey: string;
 }
@@ -164,7 +164,7 @@ export function useCons() {
             country: con.country!,
             latLng: con.latLng ?? null,
             timezone: con.timezone ?? null,
-            source: con.source ?? null,
+            sources: con.sources ?? null,
 
             postRkey: label.postRkey,
           } satisfies Con,
