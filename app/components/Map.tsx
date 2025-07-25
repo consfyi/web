@@ -19,12 +19,14 @@ import {
   AttributionControl,
   Map as Maplibre,
   Marker,
+  MarkerProps,
   Popup,
   StyleSpecification,
   useMap,
 } from "@vis.gl/react-maplibre";
 import "maplibre-theme/icons.default.css";
 import "maplibre-theme/modern.css";
+import { MaplibreProps } from "node_modules/@vis.gl/react-maplibre/dist/maplibre/maplibre";
 import { CSSProperties, ReactNode, useMemo } from "react";
 import absurd from "~/absurd";
 import { hookifyPromise } from "~/hooks";
@@ -43,9 +45,9 @@ function makeStyle({
 }): StyleSpecification {
   const flavorName =
     colorScheme == "light"
-      ? "white"
+      ? "light"
       : colorScheme == "dark"
-        ? "black"
+        ? "dark"
         : absurd<string>(colorScheme);
   return {
     version: 8,
@@ -89,6 +91,50 @@ export interface Pin {
   popup?: ReactNode;
 }
 
+export function BasicMarker({
+  active = false,
+  variant = "default",
+  color,
+  ...props
+}: { active?: boolean; variant?: string; color: MantineColor } & MarkerProps) {
+  const theme = useMantineTheme();
+
+  const colors = theme.variantColorResolver({
+    theme,
+    color,
+    variant,
+  });
+
+  return (
+    <Marker {...props} subpixelPositioning>
+      <Box style={{ marginTop: "-100%" }}>
+        <Indicator
+          position="top-start"
+          color="green"
+          processing
+          size={12}
+          withBorder
+          disabled={!active}
+          zIndex={2}
+          offset={6}
+        >
+          <IconMapPinFilled
+            size={32}
+            color={
+              variant == "light"
+                ? `color-mix(in srgb, var(--mantine-color-${color}-filled), var(--mantine-color-body) 90%)`
+                : colors.background
+            }
+            style={{
+              stroke: colors.color,
+            }}
+          />
+        </Indicator>
+      </Box>
+    </Marker>
+  );
+}
+
 function MarkupWithPopup({
   pin,
   showPopup,
@@ -98,19 +144,11 @@ function MarkupWithPopup({
   showPopup: boolean;
   setShowPopup: (v: boolean) => void;
 }) {
-  const theme = useMantineTheme();
-
-  const colors = theme.variantColorResolver({
-    theme,
-    color: pin.color,
-    variant: pin.variant,
-  });
-
   const mapRef = useMap();
 
   return (
     <>
-      <Marker
+      <BasicMarker
         latitude={pin.lat}
         longitude={pin.lng}
         onClick={(e) => {
@@ -120,36 +158,13 @@ function MarkupWithPopup({
           }
           setShowPopup(true);
         }}
+        active={pin.active}
+        color={pin.color}
+        variant={pin.variant}
         style={{
           zIndex: pin.zIndex,
         }}
-        subpixelPositioning
-      >
-        <Box style={{ marginTop: "-100%" }}>
-          <Indicator
-            position="top-start"
-            color="green"
-            processing
-            size={12}
-            withBorder
-            disabled={!pin.active}
-            zIndex={2}
-            offset={6}
-          >
-            <IconMapPinFilled
-              size={32}
-              color={
-                pin.variant == "light"
-                  ? `color-mix(in srgb, var(--mantine-color-${pin.color}-filled), var(--mantine-color-body) 90%)`
-                  : colors.background
-              }
-              style={{
-                stroke: colors.color,
-              }}
-            />
-          </Indicator>
-        </Box>
-      </Marker>
+      />
       {showPopup && pin.popup != null ? (
         <Popup
           closeButton={false}
@@ -201,6 +216,45 @@ const useMyLocation = hookifyPromise(
   })(),
 );
 
+export function BasicMap({
+  children,
+  className,
+  style,
+  ...props
+}: { children?: ReactNode; className?: string; style?: CSSProperties } & Omit<
+  MaplibreProps,
+  "attributionControl" | "mapStyle"
+>) {
+  const colorScheme = useComputedColorScheme();
+  const mapStyle = useMapStyle();
+
+  return (
+    <div
+      className={`${className ?? ""} ${colorScheme} ${classes.map}`}
+      style={{ position: "relative", width: "100%", height: "100%", ...style }}
+    >
+      <Maplibre
+        {...props}
+        ref={(ref) => {
+          if (ref == null) {
+            return;
+          }
+          const map = ref.getMap();
+          map.dragRotate.disable();
+          map.touchPitch.disable();
+          map.touchZoomRotate.disableRotation();
+          map.keyboard.disableRotation();
+        }}
+        attributionControl={false}
+        mapStyle={mapStyle}
+      >
+        <AttributionControl compact={false} />
+        {children}
+      </Maplibre>
+    </div>
+  );
+}
+
 export default function Map({
   pins,
   style,
@@ -216,8 +270,6 @@ export default function Map({
   selected: string | null;
   setSelected(selected: string | null): void;
 }) {
-  const colorScheme = useComputedColorScheme();
-
   const myLatLng = useMyLocation();
 
   const center =
@@ -227,55 +279,35 @@ export default function Map({
         ? { ...myLatLng, zoom: 3 }
         : { lat: 0, lng: 0, zoom: 0 };
 
-  const mapStyle = useMapStyle();
-
   return (
-    <Box
-      className={`${colorScheme} ${classes.map}`}
-      style={{ position: "relative", height: "100%", zIndex: 0 }}
+    <BasicMap
+      style={style}
+      onMoveEnd={(e) => {
+        setCenter({
+          lat: e.viewState.latitude,
+          lng: e.viewState.longitude,
+          zoom: e.viewState.zoom,
+        });
+      }}
+      onClick={() => {
+        setSelected(null);
+      }}
+      initialViewState={{
+        latitude: center.lat,
+        longitude: center.lng,
+        zoom: center.zoom,
+      }}
     >
-      <Maplibre
-        ref={(ref) => {
-          if (ref == null) {
-            return;
-          }
-          const map = ref.getMap();
-          map.dragRotate.disable();
-          map.touchPitch.disable();
-          map.touchZoomRotate.disableRotation();
-          map.keyboard.disableRotation();
-        }}
-        onMoveEnd={(e) => {
-          setCenter({
-            lat: e.viewState.latitude,
-            lng: e.viewState.longitude,
-            zoom: e.viewState.zoom,
-          });
-        }}
-        onClick={() => {
-          setSelected(null);
-        }}
-        initialViewState={{
-          latitude: center.lat,
-          longitude: center.lng,
-          zoom: center.zoom,
-        }}
-        attributionControl={false}
-        mapStyle={mapStyle}
-        style={style}
-      >
-        <AttributionControl compact={false} />
-        {pins.map((pin, i) => (
-          <MarkupWithPopup
-            key={i}
-            pin={pin}
-            showPopup={pin.id == selected}
-            setShowPopup={(v) => {
-              setSelected(v ? pin.id : null);
-            }}
-          />
-        ))}
-      </Maplibre>
-    </Box>
+      {pins.map((pin, i) => (
+        <MarkupWithPopup
+          key={i}
+          pin={pin}
+          showPopup={pin.id == selected}
+          setShowPopup={(v) => {
+            setSelected(v ? pin.id : null);
+          }}
+        />
+      ))}
+    </BasicMap>
   );
 }

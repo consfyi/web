@@ -226,7 +226,7 @@ export default function ConRow({
           </Text>
           {density != "comfortable" || !showEndDateOnly ? (
             <Text span>
-              <IconCalendar title={t`Date`} size={12} />{" "}
+              <IconCalendar title={t`Dates`} size={12} />{" "}
               {showDuration ? (
                 <Trans context="[start date]-[end date] ([duration] days long)">
                   {[dateRange][0]} (

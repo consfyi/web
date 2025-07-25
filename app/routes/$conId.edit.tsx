@@ -4,7 +4,7 @@ import { Container } from "@mantine/core";
 
 export default function Edit({ params: { conId } }: Route.ComponentProps) {
   return (
-    <Container size="lg">
+    <Container size="lg" p="sm">
       <Editor />
     </Container>
   );

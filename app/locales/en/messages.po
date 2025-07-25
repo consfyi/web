@@ -14,7 +14,7 @@ msgstr ""
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/ConDetails.tsx:141
-#: app/components/ConDetails.tsx:364
+#: app/components/ConDetails.tsx:368
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 
@@ -29,9 +29,9 @@ msgstr "View Bluesky Post"
 
 #: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
-#: app/components/cons/ListView.tsx:321
-msgid "Date"
-msgstr "Date"
+#: app/components/Editor.tsx:63
+msgid "Dates"
+msgstr "Dates"
 
 #. placeholder {0}: [dateRange][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(con.start), reinterpretAsLocalDate(subDays(con.end, 1)), )
@@ -43,38 +43,40 @@ msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
 
 #: app/components/ConDetails.tsx:270
-#: app/components/ConRow.tsx:271
-#: app/components/ConRow.tsx:285
-msgid "Location"
-msgstr "Location"
-
-#: app/components/ConDetails.tsx:285
+#: app/components/Editor.tsx:69
 msgid "Website"
 msgstr "Website"
+
+#: app/components/ConDetails.tsx:286
+#: app/components/ConRow.tsx:271
+#: app/components/ConRow.tsx:285
+#: app/components/Editor.tsx:84
+msgid "Location"
+msgstr "Location"
 
 #: app/components/ConDetails.tsx:302
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
 
-#: app/components/ConDetails.tsx:326
+#: app/components/ConDetails.tsx:330
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "Going"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:329
+#: app/components/ConDetails.tsx:333
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0} including you"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:333
+#: app/components/ConDetails.tsx:337
 #: app/components/ConRow.tsx:182
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}"
 
-#: app/components/ConDetails.tsx:343
+#: app/components/ConDetails.tsx:347
 msgid "Loading people you follow"
 msgstr "Loading people you follow"
 
@@ -99,6 +101,11 @@ msgstr "End date"
 msgctxt "until [date] ([duration] days long)"
 msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "until {0} ({1, plural, one {# day long} other {# days long}})"
+
+#: app/components/Editor.tsx:55
+#: app/components/cons/ListView.tsx:329
+msgid "Name"
+msgstr "Name"
 
 #: app/components/EmptyState.tsx:17
 msgid "No cons to display."
@@ -219,6 +226,15 @@ msgstr "Not going"
 msgid "Toggle going"
 msgstr "Toggle going"
 
+#. placeholder {0}: attributions.length > 0 ? ( <Trans> Result provided by{" "} <IntlList items={attributions.map(({ provider, providerURI }) => providerURI != undefined ? ( <Anchor href={providerURI} target="_blank" key={provider}> {provider} </Anchor> ) : ( <Fragment key={provider}>provider</Fragment> ), )} /> . </Trans> ) : null
+#: app/components/PlacePicker.tsx:160
+msgid "Place search provided by Google Maps. {0}"
+msgstr "Place search provided by Google Maps. {0}"
+
+#: app/components/PlacePicker.tsx:163
+msgid "Result provided by <0/>."
+msgstr "Result provided by <0/>."
+
 #: app/components/SimpleErrorBoundary.tsx:18
 msgid "Error"
 msgstr "Error"
@@ -273,6 +289,10 @@ msgstr "Theirs"
 msgid "Yours"
 msgstr "Yours"
 
+#: app/components/cons/ListView.tsx:321
+msgid "Date"
+msgstr "Date"
+
 #: app/components/cons/ListView.tsx:322
 msgid "Soonest to latest"
 msgstr "Soonest to latest"
@@ -280,10 +300,6 @@ msgstr "Soonest to latest"
 #: app/components/cons/ListView.tsx:324
 msgid "Latest to soonest"
 msgstr "Latest to soonest"
-
-#: app/components/cons/ListView.tsx:329
-msgid "Name"
-msgstr "Name"
 
 #: app/components/cons/ListView.tsx:330
 msgid "A to Z"

@@ -21,7 +21,7 @@ import {
 } from "@tabler/icons-react";
 import { differenceInDays, isAfter, subDays } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
-import { Suspense, useMemo } from "react";
+import { Fragment, Suspense, useMemo } from "react";
 import { Link } from "react-router";
 import attributions from "~/attributions";
 import Avatar from "~/components/Avatar";
@@ -245,7 +245,7 @@ export function Body({ con }: { con: ConWithPost }) {
                 disabled={!active}
                 zIndex={2}
               >
-                <IconCalendar title={t`Date`} size={16} stroke={1.5} />
+                <IconCalendar title={t`Dates`} size={16} stroke={1.5} />
               </Indicator>
             </Box>
             <Text size="sm" mb={5}>
@@ -267,21 +267,6 @@ export function Body({ con }: { con: ConWithPost }) {
 
           <Group wrap="nowrap" gap="xs" align="top">
             <Box>
-              <IconMapPin title={t`Location`} size={16} stroke={1.5} />
-            </Box>
-            <Text size="sm" mb={5}>
-              <Anchor
-                component={Link}
-                to={`/map#${con.id}`}
-                c="var(--mantine-color-text)"
-              >
-                {con.location}
-              </Anchor>{" "}
-            </Text>
-          </Group>
-
-          <Group wrap="nowrap" gap="xs" align="top">
-            <Box>
               <IconWorld title={t`Website`} size={16} stroke={1.5} />
             </Box>
             <Text size="sm" mb={5}>
@@ -296,6 +281,21 @@ export function Body({ con }: { con: ConWithPost }) {
             </Text>
           </Group>
 
+          <Group wrap="nowrap" gap="xs" align="top">
+            <Box>
+              <IconMapPin title={t`Location`} size={16} stroke={1.5} />
+            </Box>
+            <Text size="sm" mb={5}>
+              <Anchor
+                component={Link}
+                to={`/map#${con.id}`}
+                c="var(--mantine-color-text)"
+              >
+                {con.location}
+              </Anchor>{" "}
+            </Text>
+          </Group>
+
           {con.sources != null && con.sources.length > 0 ? (
             <Box mt={4}>
               <Text size="xs">
@@ -305,11 +305,15 @@ export function Body({ con }: { con: ConWithPost }) {
                     items={con.sources.map((source) => {
                       const attribution = attributions[source];
                       return attribution != undefined ? (
-                        <Anchor href={attribution.url} target="_blank">
+                        <Anchor
+                          href={attribution.url}
+                          target="_blank"
+                          key={source}
+                        >
                           {attribution.name}
                         </Anchor>
                       ) : (
-                        source
+                        <Fragment key={source}>source</Fragment>
                       );
                     })}
                   />
