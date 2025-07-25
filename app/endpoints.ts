@@ -27,7 +27,7 @@ export class Con extends Entity {
   public url?: string;
   public startDate?: TZDate;
   public endDate?: TZDate;
-  public address?: string;
+  public location?: string;
   public country?: string;
   public latLng?: [number, number];
   public timezone?: string;

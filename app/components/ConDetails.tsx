@@ -174,7 +174,7 @@ export function Title({ con }: { con: ConWithPost }) {
         </Box>
       ) : null}
       <MantineTitle size="h4" fw={500}>
-        <Flag country={con.country} size={14} me={6} /> {con.name}{" "}
+        <Flag country={con.country ?? "RAINBOW"} size={14} me={6} /> {con.name}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${con.postRkey}`}
@@ -274,7 +274,7 @@ export function Body({ con }: { con: ConWithPost }) {
                 to={`/map#${con.id}`}
                 c="var(--mantine-color-text)"
               >
-                {con.address}
+                {con.location}
               </Anchor>{" "}
             </Text>
           </Group>

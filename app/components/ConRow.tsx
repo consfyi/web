@@ -164,7 +164,7 @@ export default function ConRow({
           ) : null}
 
           <Text size="sm" truncate>
-            <Flag country={con.country} size={10} me={6} />
+            <Flag country={con.country ?? "RAINBOW"} size={10} me={6} />
             <Anchor fw={500} component={Link} to={`/${con.id}`}>
               {con.name}
             </Anchor>
@@ -274,7 +274,7 @@ export default function ConRow({
                 to={`/map#${con.id}`}
                 c="var(--mantine-color-text)"
               >
-                {con.address}
+                {con.location}
               </Anchor>
             </Text>
           ) : null}
@@ -282,7 +282,7 @@ export default function ConRow({
         {showLocation == "break" ? (
           <Text size="sm" truncate>
             <Text span>
-              <IconMapPin title={t`Location`} size={12} /> {con.address}
+              <IconMapPin title={t`Location`} size={12} /> {con.location}
             </Text>
           </Text>
         ) : null}

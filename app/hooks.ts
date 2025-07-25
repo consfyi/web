@@ -94,8 +94,8 @@ export interface Con {
   start: TZDate;
   end: TZDate;
   url: string;
-  address: string;
-  country: string;
+  location: string;
+  country: string | null;
   latLng: [number, number] | null;
   timezone: string | null;
   source: string | null;
@@ -160,7 +160,7 @@ export function useCons() {
             }),
             end,
             url: con.url!,
-            address: con.address!,
+            location: con.location!,
             country: con.country!,
             latLng: con.latLng ?? null,
             timezone: con.timezone ?? null,
