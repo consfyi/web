@@ -30,6 +30,7 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
+import "@mantine/dates/styles.css";
 import "@mantine/core/styles.css";
 import { useLocalStorage } from "@mantine/hooks";
 import {

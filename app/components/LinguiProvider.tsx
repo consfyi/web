@@ -2,8 +2,15 @@ import { match } from "@formatjs/intl-localematcher";
 import { i18n, Locale } from "@lingui/core";
 import { I18nProvider, I18nProviderProps } from "@lingui/react";
 import { Direction, useDirection } from "@mantine/core";
+import DEFAULT_DAYJS_LOCALE from "dayjs/locale/en";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import LOCALES from "~/locales";
 
 const LOCALE_KEY = "fbl:locale";
@@ -25,48 +32,57 @@ function getRequestedLocales(): Locale[] {
   return requestedLocales;
 }
 
-async function loadAndActivate(locale: string) {
-  const { messages } = await LOCALES[locale]();
-  i18n.loadAndActivate({ locale, messages });
-  window.localStorage.setItem(LOCALE_KEY, locale);
-}
-
 export const INITIAL_LOCALE = match(
   getRequestedLocales(),
   Object.keys(LOCALES),
-  "en-US"
+  "en-US",
 );
 
 const LinguiContext = createContext<{
+  dayjsLocale: ILocale;
   locale: string;
   pending: boolean;
   setLocale: (locale: Locale) => void;
 } | null>(null);
 
 export default function LinguiProvider(props: Omit<I18nProviderProps, "i18n">) {
+  const [pending, setPending] = useState(false);
+
+  const [locale, setLocale] = useState(INITIAL_LOCALE);
+  const [dayjsLocale, setDayjsLocale] = useState<ILocale>(DEFAULT_DAYJS_LOCALE);
+
+  const { setDirection } = useDirection();
+
+  const loadAndActivate = useCallback(
+    (locale: string) => {
+      return (async () => {
+        const { messages } = await LOCALES[locale].loadMessages();
+        i18n.loadAndActivate({ locale, messages });
+        setDayjsLocale(await LOCALES[locale].loadDayjsLocale());
+        setDirection(new IntlLocale(locale).textInfo.direction as Direction);
+        window.localStorage.setItem(LOCALE_KEY, locale);
+      })();
+    },
+    [setDirection],
+  );
+
   useEffect(() => {
     (async () => {
       await loadAndActivate(INITIAL_LOCALE);
     })();
-  }, []);
-
-  const [pending, setPending] = useState(false);
-  const [locale, setLocale] = useState(INITIAL_LOCALE);
-
-  const { setDirection } = useDirection();
+  }, [loadAndActivate]);
 
   useEffect(() => {
     (async () => {
       setPending(true);
       await loadAndActivate(locale);
-      setDirection(new IntlLocale(locale).textInfo.direction as Direction);
       document.documentElement.lang = locale;
       setPending(false);
     })();
-  }, [locale, setDirection, setPending]);
+  }, [locale, loadAndActivate, setPending]);
 
   return (
-    <LinguiContext.Provider value={{ locale, pending, setLocale }}>
+    <LinguiContext.Provider value={{ locale, pending, setLocale, dayjsLocale }}>
       <I18nProvider i18n={i18n} {...props} />
     </LinguiContext.Provider>
   );

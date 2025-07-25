@@ -1,7 +1,7 @@
-import { useLingui } from "@lingui/react";
 import { DatesProvider as MantineDatesProvider } from "@mantine/dates";
 import { useLocalStorage } from "@mantine/hooks";
 import { Day } from "date-fns";
+import { useLinguiContext } from "./LinguiProvider";
 
 const DEFAULT_FIRST_DAY_OF_WEEK = (() => {
   // Use the locale of the browser rather than the set locale.
@@ -56,13 +56,13 @@ export default function DatesProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { i18n } = useLingui();
+  const { dayjsLocale } = useLinguiContext();
   const [firstDayOfWeek] = useFirstDayOfWeek();
 
   return (
     <MantineDatesProvider
       settings={{
-        locale: i18n.locale,
+        locale: dayjsLocale.name,
         weekendDays: WEEKEND_DAYS,
         firstDayOfWeek,
       }}

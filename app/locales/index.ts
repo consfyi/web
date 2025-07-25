@@ -1,5 +1,19 @@
+export interface Locale {
+  loadMessages(): Promise<{ messages: { [key: string]: string } }>;
+  loadDayjsLocale(): Promise<ILocale>;
+}
+
 export default {
-  "en-US": () => import("./en/messages.po"),
-  "en-GB": () => import("./en/messages.po"),
-  ja: () => import("./ja/messages.po"),
-} as Record<string, () => Promise<{ messages: { [key: string]: string } }>>;
+  "en-US": {
+    loadMessages: () => import("./en/messages.po"),
+    loadDayjsLocale: () => import("dayjs/locale/en"),
+  },
+  "en-GB": {
+    loadMessages: () => import("./en/messages.po"),
+    loadDayjsLocale: () => import("dayjs/locale/en-gb"),
+  },
+  ja: {
+    loadMessages: () => import("./ja/messages.po"),
+    loadDayjsLocale: () => import("dayjs/locale/ja"),
+  },
+} as Record<string, Locale>;
