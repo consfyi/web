@@ -301,7 +301,7 @@ export function Body({ con }: { con: ConWithPost }) {
               <Trans>
                 Is this information incorrect?{" "}
                 <Anchor component={Link} to={`/${con.id}/edit`}>
-                  Propose a change.
+                  Propose an edit.
                 </Anchor>{" "}
                 {con.sources != null && con.sources.length > 0 ? (
                   <Trans>

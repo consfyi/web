@@ -10,7 +10,6 @@ import {
   IconWorld,
 } from "@tabler/icons-react";
 import { parse as parseDate } from "date-fns";
-import { useMemo } from "react";
 import PlacePicker from "./PlacePicker";
 
 export interface Entry {
@@ -158,6 +157,7 @@ export default function Editor({
           }
 
           return t({
+            // eslint-disable-next-line no-irregular-whitespace
             message: `${start != null ? i18n.date(start, FORMAT) : ""} – ${end != null ? i18n.date(end, FORMAT) : ""}`,
             context: "date range",
           });
@@ -230,7 +230,7 @@ export default function Editor({
             <Anchor href="https://github.com" target="_blank">
               GitHub
             </Anchor>{" "}
-            account to propose changes.
+            account to propose edits.
           </Trans>
         </Text>
         <Button type="submit">

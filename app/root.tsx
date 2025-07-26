@@ -341,7 +341,7 @@ function Footer() {
           <Trans>
             Convention missing?{" "}
             <Anchor component={Link} to="/new">
-              Propose a change.
+              Propose an edit.
             </Anchor>
           </Trans>
         </Text>

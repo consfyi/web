@@ -56,8 +56,8 @@ msgstr "Location"
 
 #. placeholder {0}: con.sources != null && con.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={con.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
 #: app/components/ConDetails.tsx:301
-msgid "Is this information incorrect? <0>Propose a change.</0> {0}"
-msgstr "Is this information incorrect? <0>Propose a change.</0> {0}"
+msgid "Is this information incorrect? <0>Propose an edit.</0> {0}"
+msgstr "Is this information incorrect? <0>Propose an edit.</0> {0}"
 
 #: app/components/ConDetails.tsx:307
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
@@ -425,8 +425,8 @@ msgid "https://your.pds.com"
 msgstr "https://your.pds.com"
 
 #: app/root.tsx:341
-msgid "Convention missing? <0>Propose a change.</0>"
-msgstr "Convention missing? <0>Propose a change.</0>"
+msgid "Convention missing? <0>Propose an edit.</0>"
+msgstr "Convention missing? <0>Propose an edit.</0>"
 
 #: app/root.tsx:381
 #: app/root.tsx:388
