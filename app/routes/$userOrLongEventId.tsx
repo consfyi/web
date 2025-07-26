@@ -1,10 +1,10 @@
 import type { ActorIdentifier } from "@atcute/lexicons";
 import { Container } from "@mantine/core";
 import { useEffect } from "react";
-import ConDetails from "~/components/ConDetails";
+import EventDetails from "~/components/EventDetails";
 import UserDetails from "~/components/UserDetails";
-import { useConsWithPosts, useProfile } from "~/hooks";
-import type { Route } from "./+types/$userOrConId";
+import { useEventsWithPosts, useProfile } from "~/hooks";
+import type { Route } from "./+types/$userOrLongEventId";
 
 function UserPage({ actor }: { actor: string }) {
   const profile = useProfile(actor as ActorIdentifier);
@@ -31,22 +31,22 @@ function UserPage({ actor }: { actor: string }) {
   );
 }
 
-function ConPage({ id }: { id: string }) {
-  const cons = useConsWithPosts();
+function EventPage({ id }: { id: string }) {
+  const events = useEventsWithPosts();
 
-  const con = cons != null ? cons.find((con) => con.id == id) : null;
+  const event = events != null ? events.find((event) => event.id == id) : null;
 
   useEffect(() => {
-    if (con == null) {
+    if (event == null) {
       return;
     }
-    document.title = con != null ? con.name : "";
-    if (id != con.id) {
-      window.history.replaceState(null, "", `/${con.id}`);
+    document.title = event != null ? event.name : "";
+    if (id != event.id) {
+      window.history.replaceState(null, "", `/${event.id}`);
     }
-  }, [con, id]);
+  }, [event, id]);
 
-  if (con == null) {
+  if (event == null) {
     throw new Response(null, {
       status: 404,
     });
@@ -54,17 +54,17 @@ function ConPage({ id }: { id: string }) {
 
   return (
     <Container size="lg" p="sm">
-      <ConDetails con={con} />
+      <EventDetails event={event} />
     </Container>
   );
 }
 
 export default function Index({
-  params: { userOrConId },
+  params: { userOrLongEventId },
 }: Route.ComponentProps) {
-  return userOrConId[0] == "@" ? (
-    <UserPage actor={userOrConId.substring(1)} />
+  return userOrLongEventId[0] == "@" ? (
+    <UserPage actor={userOrLongEventId.substring(1)} />
   ) : (
-    <ConPage id={userOrConId} />
+    <EventPage id={userOrLongEventId} />
   );
 }

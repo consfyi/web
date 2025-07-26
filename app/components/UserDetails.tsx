@@ -13,13 +13,13 @@ import {
 import { Suspense } from "react";
 import Avatar from "~/components/Avatar";
 import { Profile } from "~/endpoints";
-import { useConsWithPosts, useProfileLabels, useSelf } from "~/hooks";
-import ConRow from "./ConRow";
+import { useEventsWithPosts, useProfileLabels, useSelf } from "~/hooks";
+import EventRow from "./EventRow";
 
 function Attending({ profile }: { profile: Profile }) {
   const self = useSelf();
   const queriedLabels = useProfileLabels(
-    self == null ? profile.did : undefined
+    self == null ? profile.did : undefined,
   );
 
   const labels = queriedLabels ?? profile.labels ?? [];
@@ -28,34 +28,34 @@ function Attending({ profile }: { profile: Profile }) {
     self != null ? new Set(self.labels!.map((label) => label.val)) : null;
   const labelsSet = new Set(labels!.map((label) => label.val));
 
-  const cons = useConsWithPosts();
-  const filteredCons = cons.filter((con) => labelsSet.has(con.labelId));
+  const events = useEventsWithPosts();
+  const filteredEvents = events.filter((con) => labelsSet.has(con.labelId));
 
-  const knownCons =
+  const knownEvents =
     selfLabelsSet != null
-      ? filteredCons.filter((con) => selfLabelsSet.has(con.labelId))
-      : filteredCons;
+      ? filteredEvents.filter((con) => selfLabelsSet.has(con.labelId))
+      : filteredEvents;
 
-  const unknownCons =
+  const unknownEvents =
     selfLabelsSet != null
-      ? filteredCons.filter((con) => !selfLabelsSet.has(con.labelId))
+      ? filteredEvents.filter((con) => !selfLabelsSet.has(con.labelId))
       : [];
 
   return (
     <Box mb="calc(var(--mantine-spacing-sm) * -1)">
       <Title order={2} size="h5" fw={500} mb="sm">
-        <Trans context="user attending cons">Going</Trans>{" "}
+        <Trans context="user attending events">Going</Trans>{" "}
         <Text size="sm" span>
-          <Trans context="convention count">{filteredCons.length}</Trans>
+          <Trans context="convention count">{filteredEvents.length}</Trans>
         </Text>
       </Title>
 
-      {knownCons.length > 0 ? (
+      {knownEvents.length > 0 ? (
         <SimpleGrid cols={{ base: 1, lg: 3 }} mb="sm">
-          {knownCons.map((con) => (
-            <ConRow
-              key={con.id}
-              con={con}
+          {knownEvents.map((event) => (
+            <EventRow
+              key={event.id}
+              event={event}
               showMonthInIcon
               showEndDateOnly
               showLocation="hide"
@@ -68,12 +68,12 @@ function Attending({ profile }: { profile: Profile }) {
           ))}
         </SimpleGrid>
       ) : null}
-      {unknownCons.length > 0 ? (
+      {unknownEvents.length > 0 ? (
         <>
           <Divider
             label={
               <Plural
-                value={unknownCons.length}
+                value={unknownEvents.length}
                 one="# con you aren’t going to"
                 other="# cons you aren’t going to"
               />
@@ -82,10 +82,10 @@ function Attending({ profile }: { profile: Profile }) {
             mb="sm"
           />
           <SimpleGrid cols={{ base: 1, lg: 3 }} mb="sm">
-            {unknownCons.map((con) => (
-              <ConRow
-                key={con.id}
-                con={con}
+            {unknownEvents.map((event) => (
+              <EventRow
+                key={event.id}
+                event={event}
                 showMonthInIcon
                 showEndDateOnly
                 showLocation="hide"

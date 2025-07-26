@@ -1,7 +1,7 @@
 import { type MetaFunction } from "react-router";
 import clientMetadata from "~/../public/client-metadata.json";
-import CalendarView, { LayoutOptions } from "~/components/cons/CalendarView";
-import ConsListPage from "~/components/ConsListPage";
+import CalendarView, { LayoutOptions } from "~/components/events/CalendarView";
+import EventsListPage from "~/components/EventsListPage";
 
 export const meta: MetaFunction = ({ matches }) => [
   ...matches.flatMap((match) => match.meta ?? []),
@@ -10,6 +10,6 @@ export const meta: MetaFunction = ({ matches }) => [
 
 export default function Index() {
   return (
-    <ConsListPage LayoutOptions={LayoutOptions} Component={CalendarView} />
+    <EventsListPage LayoutOptions={LayoutOptions} Component={CalendarView} />
   );
 }

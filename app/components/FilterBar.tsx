@@ -39,8 +39,8 @@ import { Link } from "react-router";
 import regexpEscape from "regexp.escape";
 import { Continent, CONTINENTS, getContinentForCountry } from "~/continents";
 import {
-  ConWithPost,
-  useFollowedConAttendeesDLE,
+  EventWithPost,
+  useFollowedEventAttendeesDLE,
   useIsLoggedIn,
 } from "~/hooks";
 import * as qp from "~/qp";
@@ -161,20 +161,20 @@ function DayText({ minDays, maxDays }: { minDays: number; maxDays: number }) {
 }
 
 export default function FilterBar({
-  cons,
+  events,
   filter,
   setFilter,
   rightSection,
   filledButton,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
   rightSection: ReactNode;
   filledButton: boolean;
 }) {
   const { t } = useLingui();
-  const { data: followedConAttendees } = useFollowedConAttendeesDLE();
+  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
 
   const isLoggedIn = useIsLoggedIn();
 
@@ -185,13 +185,13 @@ export default function FilterBar({
 
   const continentCount = useMemo(() => {
     const counts: Partial<Record<Continent, number>> = {};
-    for (const con of cons) {
+    for (const event of events) {
       const continent =
-        con.country != null ? getContinentForCountry(con.country) : "XX";
+        event.country != null ? getContinentForCountry(event.country) : "XX";
       counts[continent] = (counts[continent] || 0) + 1;
     }
     return counts;
-  }, [cons]);
+  }, [events]);
 
   const sortedContinents = useMemo(
     () =>
@@ -618,7 +618,7 @@ export default function FilterBar({
 
 export function useFilterPredicate(filter: FilterOptions) {
   const { i18n, t } = useLingui();
-  const { data: followedConAttendees } = useFollowedConAttendeesDLE();
+  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
 
   const queryRe = useMemo(
     () =>
@@ -634,7 +634,7 @@ export function useFilterPredicate(filter: FilterOptions) {
   );
 
   return useCallback(
-    (con: ConWithPost) => {
+    (con: EventWithPost) => {
       const days = differenceInDays(con.end, con.start);
 
       return (

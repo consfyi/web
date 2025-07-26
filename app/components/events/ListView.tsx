@@ -25,13 +25,13 @@ import { ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
 import { reinterpretAsLocalDate } from "~/date";
 import {
-  ConWithPost,
-  useFollowedConAttendees,
-  useFollowedConAttendeesDLE,
+  EventWithPost,
+  useFollowedEventAttendees,
+  useFollowedEventAttendeesDLE,
   useIsLoggedIn,
 } from "~/hooks";
 import * as qp from "~/qp";
-import ConRow from "../ConRow";
+import EventRow from "../EventRow";
 import EmptyIcon from "../EmptyIcon";
 import EmptyState from "../EmptyState";
 import FilterBar, {
@@ -42,22 +42,22 @@ import FilterBar, {
 
 function FlatList({
   title,
-  cons,
+  events,
   sortDesc,
   density,
 }: {
   title: ReactNode | null;
-  cons: ConWithPost[];
+  events: EventWithPost[];
   sortDesc: boolean;
   density: Density;
 }) {
-  const sortedCons = useMemo(() => {
-    const sortedCons = cons.slice();
+  const sortedEvents = useMemo(() => {
+    const sortedEvents = events.slice();
     if (sortDesc) {
-      sortedCons.reverse();
+      sortedEvents.reverse();
     }
-    return sortedCons;
-  }, [cons, sortDesc]);
+    return sortedEvents;
+  }, [events, sortDesc]);
 
   return (
     <>
@@ -93,11 +93,11 @@ function FlatList({
         </Title>
       ) : null}
       <Box px="xs">
-        {sortedCons.map((con) => {
+        {sortedEvents.map((event) => {
           return (
-            <Box key={con.id} mb={density == "compact" ? "xs" : "sm"}>
-              <ConRow
-                con={con}
+            <Box key={event.id} mb={density == "compact" ? "xs" : "sm"}>
+              <EventRow
+                event={event}
                 showMonthInIcon={false}
                 showEndDateOnly
                 showLocation="inline"
@@ -120,7 +120,7 @@ function GroupedList({
   sortDesc,
   density,
 }: {
-  groups: { key: string; title: ReactNode; cons: ConWithPost[] }[];
+  groups: { key: string; title: ReactNode; events: EventWithPost[] }[];
   sortDesc: boolean;
   density: Density;
 }) {
@@ -134,9 +134,9 @@ function GroupedList({
 
   return (
     <>
-      {sortedGroups.map(({ key, title, cons }) => (
+      {sortedGroups.map(({ key, title, events }) => (
         <FlatList
-          cons={cons}
+          events={events}
           key={key}
           title={title}
           sortDesc={sortDesc}
@@ -151,13 +151,13 @@ function yearMonthKey(d: Date) {
   return getYear(d) * 12 + getMonth(d);
 }
 
-function ConsByDate({
-  cons,
+function EventsByDate({
+  events,
   hideEmptyGroups,
   sortDesc,
   density,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   hideEmptyGroups: boolean;
   sortDesc: boolean;
   density: Density;
@@ -166,14 +166,14 @@ function ConsByDate({
 
   const groups = useMemo(
     () => {
-      if (cons.length == 0) {
+      if (events.length == 0) {
         return [];
       }
 
-      const grouped: Record<number, ConWithPost[]> = {};
+      const grouped: Record<number, EventWithPost[]> = {};
       for (const g of group(
-        cons,
-        comparing((con) => yearMonthKey(reinterpretAsLocalDate(con.start))),
+        events,
+        comparing((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
       )) {
         const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
         (grouped[k] ??= []).push(...g);
@@ -181,24 +181,27 @@ function ConsByDate({
 
       const groups = [];
       for (
-        let d = setDate(reinterpretAsLocalDate(cons![0].start), 1),
+        let d = setDate(reinterpretAsLocalDate(events![0].start), 1),
           endDate = addMonths(
-            setDate(reinterpretAsLocalDate(cons![cons!.length - 1].start), 1),
+            setDate(
+              reinterpretAsLocalDate(events![events!.length - 1].start),
+              1,
+            ),
             1,
           );
         d < endDate;
         d = addMonths(d, 1)
       ) {
         const key = yearMonthKey(d);
-        const cons = grouped[key] ?? [];
+        const events = grouped[key] ?? [];
 
-        if (hideEmptyGroups && cons.length == 0) {
+        if (hideEmptyGroups && events.length == 0) {
           continue;
         }
 
         groups.push({
           key: key.toString(),
-          cons,
+          events,
           title: (
             <>
               {i18n.date(d, {
@@ -212,101 +215,101 @@ function ConsByDate({
       return groups;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cons, t],
+    [events, t],
   );
 
   return <GroupedList groups={groups} sortDesc={sortDesc} density={density} />;
 }
 
-function ConsByAttendees({
-  cons,
+function EventsByAttendees({
+  events,
   sortDesc,
   density,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   sortDesc: boolean;
   density: Density;
 }) {
-  const sortedCons = useMemo(
+  const sortedEvents = useMemo(
     () =>
       sorted(
-        cons,
-        comparing((con) => con.post.likeCount),
+        events,
+        comparing((event) => event.post.likeCount),
       ),
-    [cons],
+    [events],
   );
 
   return (
     <FlatList
       title={null}
-      cons={sortedCons}
+      events={sortedEvents}
       density={density}
       sortDesc={sortDesc}
     />
   );
 }
 
-function ConsByFollowed({
-  cons,
+function EventsByFollowed({
+  events,
   sortDesc,
   density,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   sortDesc: boolean;
   density: Density;
 }) {
-  const followedConAttendees = useFollowedConAttendees();
+  const followedConAttendees = useFollowedEventAttendees();
 
-  const sortedCons = useMemo(
+  const sortedEvents = useMemo(
     () =>
       sorted(
-        cons,
+        events,
         compareMany(
-          comparing((con) =>
+          comparing((event) =>
             followedConAttendees == null
-              ? con.post.likeCount
-              : (followedConAttendees[con.id] ?? []).length,
+              ? event.post.likeCount
+              : (followedConAttendees[event.id] ?? []).length,
           ),
-          comparing((con) => con.post.likeCount),
+          comparing((event) => event.post.likeCount),
         ),
       ),
-    [cons, followedConAttendees],
+    [events, followedConAttendees],
   );
 
   return (
     <FlatList
       title={null}
-      cons={sortedCons}
+      events={sortedEvents}
       density={density}
       sortDesc={sortDesc}
     />
   );
 }
 
-function ConsByName({
-  cons,
+function EventsByName({
+  events,
   sortDesc,
   density,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   sortDesc: boolean;
   density: Density;
 }) {
   const { i18n, t } = useLingui();
 
-  const sortedCons = useMemo(
+  const sortedEvents = useMemo(
     () => {
       const collator = new Intl.Collator(i18n.locale);
-      return sorted(cons, (x, y) => collator.compare(x.name, y.name));
+      return sorted(events, (x, y) => collator.compare(x.name, y.name));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cons, t],
+    [events, t],
   );
 
   return (
     <FlatList
       title={null}
-      cons={sortedCons}
+      events={sortedEvents}
       density={density}
       sortDesc={sortDesc}
     />
@@ -363,13 +366,13 @@ export const LayoutOptions = qp.schema({
 export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
 
 export default function ListView({
-  cons,
+  events,
   layout,
   setLayout,
   filter,
   setFilter,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   layout: LayoutOptions;
   setLayout(layout: LayoutOptions): void;
   filter: FilterOptions;
@@ -378,18 +381,18 @@ export default function ListView({
   const { t } = useLingui();
 
   const pred = useFilterPredicate(filter);
-  const filteredCons = cons.filter(pred);
+  const filteredEvents = events.filter(pred);
 
   const isLoggedIn = useIsLoggedIn();
   const [open, setOpen] = useState(false);
 
-  const { data: followedConAttendees } = useFollowedConAttendeesDLE();
+  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
 
   return (
     <Box style={{ position: "relative" }}>
       <Container size="lg" px={0}>
         <FilterBar
-          cons={cons}
+          events={events}
           filledButton={false}
           filter={filter}
           setFilter={setFilter}
@@ -537,29 +540,29 @@ export default function ListView({
           </Center>
         }
       >
-        {filteredCons.length > 0 ? (
+        {filteredEvents.length > 0 ? (
           <Container size="lg" px={0}>
             {layout.sort == "attendees" ? (
-              <ConsByAttendees
-                cons={filteredCons}
+              <EventsByAttendees
+                events={filteredEvents}
                 sortDesc={layout.desc}
                 density={layout.density}
               />
             ) : layout.sort == "followed" ? (
-              <ConsByFollowed
-                cons={filteredCons}
+              <EventsByFollowed
+                events={filteredEvents}
                 sortDesc={layout.desc}
                 density={layout.density}
               />
             ) : layout.sort == "name" ? (
-              <ConsByName
-                cons={filteredCons}
+              <EventsByName
+                events={filteredEvents}
                 sortDesc={layout.desc}
                 density={layout.density}
               />
             ) : layout.sort == "date" ? (
-              <ConsByDate
-                cons={filteredCons}
+              <EventsByDate
+                events={filteredEvents}
                 sortDesc={layout.desc}
                 density={layout.density}
                 hideEmptyGroups={filter.attending || filter.q != ""}

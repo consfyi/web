@@ -19,7 +19,7 @@ import { Day, getDay } from "date-fns";
 import { Suspense, useEffect, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
-import { ConWithPost } from "~/hooks";
+import { EventWithPost } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
 import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";
@@ -37,20 +37,20 @@ export const LayoutOptions = qp.schema({
 export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
 
 export default function CalendarView({
-  cons,
+  events,
   layout,
   setLayout,
   filter,
   setFilter,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   layout: LayoutOptions;
   setLayout(layout: LayoutOptions): void;
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
 }) {
   const pred = useFilterPredicate(filter);
-  const filteredCons = cons.filter(pred);
+  const filteredEvents = events.filter(pred);
 
   const { i18n, t } = useLingui();
 
@@ -71,7 +71,7 @@ export default function CalendarView({
     <Box style={{ position: "relative" }}>
       <Container size="lg" px={0}>
         <FilterBar
-          cons={cons}
+          events={events}
           filledButton={false}
           filter={filter}
           setFilter={setFilter}
@@ -206,12 +206,12 @@ export default function CalendarView({
           </Center>
         }
       >
-        {filteredCons.length > 0 ? (
+        {filteredEvents.length > 0 ? (
           <Container size="lg" px={0}>
             <Calendar
               inYourTimeZone={layout.timezone == "yours"}
               includeToday={!filter.attending && filter.q == ""}
-              events={filteredCons.map((con) => ({
+              events={filteredEvents.map((con) => ({
                 id: con.id,
                 anchor: con.id,
                 label: (

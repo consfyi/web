@@ -9,24 +9,24 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router";
 import SimpleErrorBoundary from "~/components/SimpleErrorBoundary";
-import { ConWithPost, useConsWithPosts, useIsLoggedIn } from "~/hooks";
+import { EventWithPost, useEventsWithPosts, useIsLoggedIn } from "~/hooks";
 import * as qp from "~/qp";
 import { FilterOptions } from "./FilterBar";
 
-export default function ConsListPage<T extends qp.Schema>({
+export default function EventsListPage<T extends qp.Schema>({
   LayoutOptions,
   Component,
 }: {
   LayoutOptions: T;
   Component(props: {
-    cons: ConWithPost[];
+    events: EventWithPost[];
     layout: qp.Infer<typeof LayoutOptions>;
     setLayout(layout: qp.Infer<typeof LayoutOptions>): void;
     filter: FilterOptions;
     setFilter(filter: FilterOptions): void;
   }): ReactNode;
 }) {
-  const cons = useConsWithPosts();
+  const events = useEventsWithPosts();
 
   const isLoggedIn = useIsLoggedIn();
 
@@ -64,10 +64,10 @@ export default function ConsListPage<T extends qp.Schema>({
           hash: location.hash,
           search: searchParams.toString(),
         },
-        { replace: true }
+        { replace: true },
       );
     },
-    [LayoutOptions, location, navigate]
+    [LayoutOptions, location, navigate],
   );
 
   const view = viewInternal;
@@ -83,7 +83,7 @@ export default function ConsListPage<T extends qp.Schema>({
           }
         >
           <Component
-            cons={cons}
+            events={events}
             filter={{
               ...view.filter,
               attending: isLoggedIn && view.filter.attending,

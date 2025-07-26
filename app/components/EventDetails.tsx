@@ -32,9 +32,9 @@ import { LABELER_DID } from "~/config";
 import { reinterpretAsLocalDate } from "~/date";
 import { Profile } from "~/endpoints";
 import {
-  Con,
-  ConWithPost,
-  useFollowedConAttendeesDLE,
+  Event,
+  EventWithPost,
+  useFollowedEventAttendeesDLE,
   useLikes,
   useNow,
   useSelf,
@@ -82,16 +82,16 @@ function Actor({ actor }: { actor: Profile }) {
 
 function AttendeesList({
   isSelfAttending,
-  con,
+  event,
 }: {
   isSelfAttending: boolean;
-  con: Con;
+  event: Event;
 }) {
   const self = useSelf();
   const { data: selfFollows } = useSelfFollowsDLE();
 
   const likes = useLikes(
-    `at://${LABELER_DID}/app.bsky.feed.post/${con.postRkey}`,
+    `at://${LABELER_DID}/app.bsky.feed.post/${event.postRkey}`,
   );
 
   const [knownLikes, unknownLikes] = useMemo(() => {
@@ -164,21 +164,22 @@ function AttendeesList({
   );
 }
 
-export function Title({ con }: { con: ConWithPost }) {
+export function Title({ event }: { event: EventWithPost }) {
   const { t } = useLingui();
 
   return (
     <Group gap={7} wrap="nowrap" align="top">
-      {con.post.viewer != null ? (
+      {event.post.viewer != null ? (
         <Box mt={2} mb={-2}>
-          <LikeButton size="sm" iconSize={24} post={con.post} />
+          <LikeButton size="sm" iconSize={24} post={event.post} />
         </Box>
       ) : null}
       <MantineTitle size="h4" fw={500}>
-        <Flag country={con.country ?? undefined} size={14} me={6} /> {con.name}{" "}
+        <Flag country={event.country ?? undefined} size={14} me={6} />{" "}
+        {event.name}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
-            href={`https://bsky.app/profile/${LABELER_DID}/post/${con.postRkey}`}
+            href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -194,7 +195,7 @@ export function Title({ con }: { con: ConWithPost }) {
   );
 }
 
-export function Body({ con }: { con: ConWithPost }) {
+export function Body({ event }: { event: EventWithPost }) {
   const { i18n, t } = useLingui();
 
   const dateTimeFormat = useMemo(
@@ -210,21 +211,21 @@ export function Body({ con }: { con: ConWithPost }) {
   );
 
   const now = useNow();
-  const active = isAfter(now, con.start) && !isAfter(now, con.end);
+  const active = isAfter(now, event.start) && !isAfter(now, event.end);
 
   const { data: followedConAttendees, loading: followedConAttendeesLoading } =
-    useFollowedConAttendeesDLE();
+    useFollowedEventAttendeesDLE();
 
   const self = useSelf();
 
-  const isAttending = con.post.viewer?.like != null;
+  const isAttending = event.post.viewer?.like != null;
 
-  const likeCount = con.post.likeCount ?? 0;
+  const likeCount = event.post.likeCount ?? 0;
 
   const knownLikeCount =
     self != null
-      ? (followedConAttendees != null && followedConAttendees[con.id] != null
-          ? followedConAttendees[con.id].length
+      ? (followedConAttendees != null && followedConAttendees[event.id] != null
+          ? followedConAttendees[event.id].length
           : 0) + (isAttending ? 1 : 0)
       : likeCount;
 
@@ -251,12 +252,12 @@ export function Body({ con }: { con: ConWithPost }) {
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days long)">
                 {dateTimeFormat.formatRange(
-                  reinterpretAsLocalDate(con.start),
-                  reinterpretAsLocalDate(subDays(con.end, 1)),
+                  reinterpretAsLocalDate(event.start),
+                  reinterpretAsLocalDate(subDays(event.end, 1)),
                 )}{" "}
                 (
                 <Plural
-                  value={differenceInDays(con.end, con.start)}
+                  value={differenceInDays(event.end, event.start)}
                   one="# day long"
                   other="# days long"
                 />
@@ -271,11 +272,11 @@ export function Body({ con }: { con: ConWithPost }) {
             </Box>
             <Text size="sm" mb={5}>
               <Anchor
-                href={con.url}
+                href={event.url}
                 target="_blank"
                 style={{ wordBreak: "break-all" }}
               >
-                {con.url.replace(/https:\/\//, "")}
+                {event.url.replace(/https:\/\//, "")}
               </Anchor>
             </Text>
           </Group>
@@ -287,10 +288,10 @@ export function Body({ con }: { con: ConWithPost }) {
             <Text size="sm" mb={5}>
               <Anchor
                 component={Link}
-                to={`/map#${con.id}`}
+                to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {con.location}
+                {event.location}
               </Anchor>{" "}
             </Text>
           </Group>
@@ -305,11 +306,11 @@ export function Body({ con }: { con: ConWithPost }) {
                 >
                   File an issue here.
                 </Anchor>{" "}
-                {con.sources != null && con.sources.length > 0 ? (
+                {event.sources != null && event.sources.length > 0 ? (
                   <Trans>
                     This information was originally sourced from{" "}
                     <IntlList
-                      items={con.sources.map((source) => {
+                      items={event.sources.map((source) => {
                         const attribution = attributions[source];
                         return attribution != undefined ? (
                           <Anchor
@@ -394,7 +395,7 @@ export function Body({ con }: { con: ConWithPost }) {
                 </>
               }
             >
-              <AttendeesList con={con} isSelfAttending={isAttending} />
+              <AttendeesList event={event} isSelfAttending={isAttending} />
             </Suspense>
           </SimpleErrorBoundary>
         </Box>
@@ -403,11 +404,11 @@ export function Body({ con }: { con: ConWithPost }) {
   );
 }
 
-export default function ConDetails({ con }: { con: ConWithPost }) {
+export default function EventDetails({ event }: { event: EventWithPost }) {
   return (
     <>
-      <Title con={con} />
-      <Body con={con} />
+      <Title event={event} />
+      <Body event={event} />
     </>
   );
 }

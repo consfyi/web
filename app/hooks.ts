@@ -8,7 +8,7 @@ import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
-  getCons,
+  getEvents,
   Post,
   Profile,
   useGetAuthorPosts,
@@ -39,10 +39,10 @@ export const useClient = (() => {
   };
 })();
 
-function useConPosts() {
+function useEventPosts() {
   const resp = useSuspense(useGetAuthorPosts(), { actor: LABELER_DID });
   const posts = useGlobalMemo(
-    "conPosts",
+    "eventPosts",
     () => {
       const postsMap: Record<string, Post> = {};
       for (const post of resp) {
@@ -59,7 +59,7 @@ function useConPosts() {
   return posts;
 }
 
-export interface Con {
+export interface Event {
   labelId: string;
 
   id: string;
@@ -76,17 +76,17 @@ export interface Con {
   postRkey: string;
 }
 
-export type ConWithPost = Con & { post: Post };
+export type EventWithPost = Event & { post: Post };
 
-export function useCons() {
-  const details = useSuspense(getCons, {});
+export function useEvents() {
+  const details = useSuspense(getEvents, {});
 
   const labelerView = useSuspense(useGetLabelerView(), { did: LABELER_DID });
 
   const now = useNow();
 
-  const cons = useGlobalMemo(
-    "cons",
+  const events = useGlobalMemo(
+    "events",
     () => {
       const labelsById: Record<string, { labelId: string; postRkey: string }> =
         {};
@@ -103,13 +103,13 @@ export function useCons() {
         };
       }
 
-      return details.flatMap((con) => {
-        const label = labelsById[con.id!];
+      return details.flatMap((event) => {
+        const label = labelsById[event.id!];
         if (label == undefined) {
           return [];
         }
 
-        const end = setDate(addDays<TZDate, TZDate>(con.endDate!, 1), {
+        const end = setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
           hours: 12,
           minutes: 0,
           seconds: 0,
@@ -123,39 +123,39 @@ export function useCons() {
           {
             labelId: label.labelId,
 
-            id: con.id!,
-            name: con.name!,
-            start: setDate(con.startDate!, {
+            id: event.id!,
+            name: event.name!,
+            start: setDate(event.startDate!, {
               hours: 12,
               minutes: 0,
               seconds: 0,
               milliseconds: 0,
             }),
             end,
-            url: con.url!,
-            location: con.location!,
-            country: con.country!,
-            latLng: con.latLng ?? null,
-            timezone: con.timezone ?? null,
-            sources: con.sources ?? null,
+            url: event.url!,
+            location: event.location!,
+            country: event.country!,
+            latLng: event.latLng ?? null,
+            timezone: event.timezone ?? null,
+            sources: event.sources ?? null,
 
             postRkey: label.postRkey,
-          } satisfies Con,
+          } satisfies Event,
         ];
       });
     },
     [labelerView, now],
   );
-  return cons;
+  return events;
 }
 
-export function useConsWithPosts() {
-  const cons = useCons();
-  const conPosts = useConPosts();
+export function useEventsWithPosts() {
+  const events = useEvents();
+  const eventPosts = useEventPosts();
 
-  return cons.flatMap((con) =>
-    Object.prototype.hasOwnProperty.call(conPosts, con.postRkey)
-      ? [{ ...con, post: conPosts[con.postRkey] }]
+  return events.flatMap((event) =>
+    Object.prototype.hasOwnProperty.call(eventPosts, event.postRkey)
+      ? [{ ...event, post: eventPosts[event.postRkey] }]
       : [],
   );
 }
@@ -208,13 +208,13 @@ export function useSelfFollowsDLE() {
   return { data: follows, loading, error };
 }
 
-function useFollowedConAttendeesGlobalMemo(data: Profile[] | undefined) {
+function useFollowedEventAttendeesGlobalMemo(data: Profile[] | undefined) {
   const { data: labelerView } = useDLE(useGetLabelerView(), {
     did: LABELER_DID,
   });
 
   return useGlobalMemo(
-    "followedConAttendees",
+    "followedEventAttendees",
     () => {
       if (data == null || labelerView == null) {
         return null;
@@ -227,44 +227,44 @@ function useFollowedConAttendeesGlobalMemo(data: Profile[] | undefined) {
         ).fbl_eventId;
       }
 
-      const followedCons: Record<string, Profile[]> = {};
+      const followedEvents: Record<string, Profile[]> = {};
       for (const follow of data) {
         for (const label of follow.labels!) {
           if (label.src != LABELER_DID) {
             continue;
           }
-          const followed = (followedCons[conIdByLabelId[label.val]] ??= []);
+          const followed = (followedEvents[conIdByLabelId[label.val]] ??= []);
           followed.push(follow);
         }
       }
-      for (const k in followedCons) {
-        followedCons[k] = sorted(
-          followedCons[k],
+      for (const k in followedEvents) {
+        followedEvents[k] = sorted(
+          followedEvents[k],
           comparing((v) => v.handle),
         );
       }
-      return followedCons;
+      return followedEvents;
     },
     [labelerView, data],
   );
 }
 
-export function useFollowedConAttendees() {
+export function useFollowedEventAttendees() {
   const client = useClient();
   const data = useSuspense(
     useGetFollows(),
     client.did != null ? { actor: client.did } : null,
   );
-  return useFollowedConAttendeesGlobalMemo(data);
+  return useFollowedEventAttendeesGlobalMemo(data);
 }
 
-export function useFollowedConAttendeesDLE() {
+export function useFollowedEventAttendeesDLE() {
   const client = useClient();
   const { data, loading, error } = useDLE(
     useGetFollows(),
     client.did != null ? { actor: client.did } : null,
   );
-  return { data: useFollowedConAttendeesGlobalMemo(data), loading, error };
+  return { data: useFollowedEventAttendeesGlobalMemo(data), loading, error };
 }
 
 export function useIsLoggedIn() {

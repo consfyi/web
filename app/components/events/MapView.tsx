@@ -2,9 +2,9 @@ import { Box, Center, Container, Loader } from "@mantine/core";
 import { getDay, isAfter } from "date-fns";
 import { Suspense, use, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { ConWithPost, useNow } from "~/hooks";
+import { EventWithPost, useNow } from "~/hooks";
 import * as qp from "~/qp";
-import ConRow from "../ConRow";
+import EventRow from "../EventRow";
 import EmptyState from "../EmptyState";
 import FilterBar, {
   FilterOptions,
@@ -44,13 +44,13 @@ const myLocationPromise = (async () => {
 })();
 
 function MapInner({
-  cons,
+  events,
   layout,
   setLayout,
   filter,
   setFilter,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   layout: LayoutOptions;
   setLayout(layout: LayoutOptions): void;
   filter: FilterOptions;
@@ -62,8 +62,9 @@ function MapInner({
   const slug = location.hash != "" ? location.hash.slice(1) : null;
 
   const selected = useMemo(
-    () => (slug != null ? (cons.find((con) => con.id == slug) ?? null) : null),
-    [slug, cons],
+    () =>
+      slug != null ? (events.find((event) => event.id == slug) ?? null) : null,
+    [slug, events],
   );
 
   const myLatLng = use(myLocationPromise);
@@ -85,7 +86,8 @@ function MapInner({
   const now = useNow();
 
   const pred = useFilterPredicate(filter);
-  const filteredCons = cons.filter(pred);
+  const filteredEvents = events.filter(pred);
+  console.log(events);
 
   return (
     <>
@@ -99,9 +101,9 @@ function MapInner({
         }}
         selected={selected != null ? selected.id : null}
         setSelected={(identifier) => {
-          const con =
+          const event =
             identifier != null
-              ? cons.find((con) => con.id == identifier)
+              ? events.find((event) => event.id == identifier)
               : null;
           setLayout({
             ...layout,
@@ -110,18 +112,18 @@ function MapInner({
             {
               pathname: location.pathname,
               search: location.search,
-              hash: con != null ? con.id : "",
+              hash: event != null ? event.id : "",
             },
             { replace: true },
           );
         }}
-        pins={filteredCons.flatMap((con) => {
-          if (con.latLng == null) {
+        pins={filteredEvents.flatMap((event) => {
+          if (event.latLng == null) {
             return [];
           }
 
-          const [lat, lng] = con.latLng;
-          const active = isAfter(now, con.start) && !isAfter(now, con.end);
+          const [lat, lng] = event.latLng;
+          const active = isAfter(now, event.start) && !isAfter(now, event.end);
 
           const color = [
             "red",
@@ -131,30 +133,30 @@ function MapInner({
             "blue",
             "indigo",
             "violet",
-          ][getDay(con.start)];
+          ][getDay(event.start)];
 
           const variant =
-            con.post.viewer != null && con.post.viewer.like != null
+            event.post.viewer != null && event.post.viewer.like != null
               ? "filled"
               : "light";
 
           return [
             {
-              id: con.id,
+              id: event.id,
               lat,
               lng,
               active,
               color,
               variant,
               zIndex:
-                con.post.viewer != null && con.post.viewer.like != null
+                event.post.viewer != null && event.post.viewer.like != null
                   ? 2
                   : active
                     ? 1
                     : 0,
               popup: (
-                <ConRow
-                  con={con}
+                <EventRow
+                  event={event}
                   showMonthInIcon
                   showEndDateOnly={false}
                   showLocation="break"
@@ -171,7 +173,7 @@ function MapInner({
         initialCenter={center}
         setCenter={(center) => setLayout({ ...layout, center })}
       />
-      {filteredCons.length == 0 ? (
+      {filteredEvents.length == 0 ? (
         <Center
           style={{
             position: "absolute",
@@ -191,13 +193,13 @@ function MapInner({
 }
 
 export default function MapView({
-  cons,
+  events,
   layout,
   setLayout,
   filter,
   setFilter,
 }: {
-  cons: ConWithPost[];
+  events: EventWithPost[];
   layout: LayoutOptions;
   setLayout(layout: LayoutOptions): void;
   filter: FilterOptions;
@@ -217,7 +219,7 @@ export default function MapView({
         }}
       >
         <FilterBar
-          cons={cons}
+          events={events}
           filledButton={true}
           filter={filter}
           setFilter={setFilter}
@@ -238,7 +240,7 @@ export default function MapView({
           }
         >
           <MapInner
-            cons={cons}
+            events={events}
             layout={layout}
             setLayout={setLayout}
             filter={filter}

@@ -25,13 +25,13 @@ import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import { reinterpretAsLocalDate } from "~/date";
-import { ConWithPost, useFollowedConAttendeesDLE, useNow } from "~/hooks";
-import classes from "./ConRow.module.css";
+import { EventWithPost, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
+import classes from "./EventRow.module.css";
 
 const MAX_AVATARS_IN_STACK = 3;
 
-export default function ConRow({
-  con,
+export default function EventRow({
+  event,
   showMonthInIcon,
   showEndDateOnly,
   showLocation,
@@ -41,7 +41,7 @@ export default function ConRow({
   showDuration,
   withId,
 }: {
-  con: ConWithPost;
+  event: EventWithPost;
   showMonthInIcon: boolean;
   showEndDateOnly: boolean;
   showLocation: "inline" | "break" | "hide";
@@ -51,11 +51,11 @@ export default function ConRow({
   showDuration: boolean;
   withId: boolean;
 }) {
-  const isAttending = con.post.viewer?.like != null;
-  const { data: followedConAttendees } = useFollowedConAttendeesDLE();
+  const isAttending = event.post.viewer?.like != null;
+  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
 
   const likeCountWithoutSelf =
-    (con.post.likeCount || 0) - (isAttending ? 1 : 0);
+    (event.post.likeCount || 0) - (isAttending ? 1 : 0);
 
   const likeCount = likeCountWithoutSelf + (isAttending ? 1 : 0);
 
@@ -86,9 +86,9 @@ export default function ConRow({
   const follows = useMemo(
     () =>
       followedConAttendees != null
-        ? (followedConAttendees[con.id] ?? [])
+        ? (followedConAttendees[event.id] ?? [])
         : null,
-    [followedConAttendees, con.id],
+    [followedConAttendees, event.id],
   );
 
   const sampledFollows = useMemo(
@@ -97,16 +97,16 @@ export default function ConRow({
   );
 
   const now = useNow();
-  const active = isAfter(now, con.start) && !isAfter(now, con.end);
+  const active = isAfter(now, event.start) && !isAfter(now, event.end);
   const dateRange = dateTimeFormat.formatRange(
-    reinterpretAsLocalDate(con.start),
-    reinterpretAsLocalDate(subDays(con.end, 1)),
+    reinterpretAsLocalDate(event.start),
+    reinterpretAsLocalDate(subDays(event.end, 1)),
   );
 
   return (
-    <Group gap="xs" wrap="nowrap" id={withId ? con.id : undefined}>
+    <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
       {density == "comfortable" ? (
-        <Anchor component={Link} to={`/${con.id}`}>
+        <Anchor component={Link} to={`/${event.id}`}>
           <Indicator
             position="top-start"
             color="green"
@@ -128,21 +128,21 @@ export default function ConRow({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(reinterpretAsLocalDate(con.start))]
+                ][getDay(reinterpretAsLocalDate(event.start))]
               }
             >
               <Stack gap={0}>
                 <Text size="md" ta="center" fw={500}>
                   {showMonthInIcon
-                    ? i18n.date(reinterpretAsLocalDate(con.start), {
+                    ? i18n.date(reinterpretAsLocalDate(event.start), {
                         month: "short",
                       })
-                    : i18n.date(reinterpretAsLocalDate(con.start), {
+                    : i18n.date(reinterpretAsLocalDate(event.start), {
                         weekday: "short",
                       })}
                 </Text>
                 <Text size="xs" ta="center" fw={500}>
-                  {i18n.date(reinterpretAsLocalDate(con.start), {
+                  {i18n.date(reinterpretAsLocalDate(event.start), {
                     day: "numeric",
                   })}
                 </Text>
@@ -159,14 +159,14 @@ export default function ConRow({
         className={density == "compact" ? classes.compact : ""}
       >
         <Group gap={7} wrap="nowrap">
-          {showLikeButton && con.post.viewer != null ? (
-            <LikeButton size="xs" post={con.post} />
+          {showLikeButton && event.post.viewer != null ? (
+            <LikeButton size="xs" post={event.post} />
           ) : null}
 
           <Text size="sm" truncate>
-            <Flag country={con.country ?? undefined} size={10} me={6} />
-            <Anchor fw={500} component={Link} to={`/${con.id}`}>
-              {con.name}
+            <Flag country={event.country ?? undefined} size={10} me={6} />
+            <Anchor fw={500} component={Link} to={`/${event.id}`}>
+              {event.name}
             </Anchor>
           </Text>
         </Group>
@@ -231,7 +231,7 @@ export default function ConRow({
                 <Trans context="[start date]-[end date] ([duration] days long)">
                   {[dateRange][0]} (
                   <Plural
-                    value={differenceInDays(con.end, con.start)}
+                    value={differenceInDays(event.end, event.start)}
                     one="# day long"
                     other="# days long"
                   />
@@ -246,19 +246,19 @@ export default function ConRow({
               <IconCalendarWeek title={t`End date`} size={12} />{" "}
               <Trans context="until [date] ([duration] days long)">
                 until{" "}
-                {i18n.date(reinterpretAsLocalDate(subDays(con.end, 1)), {
+                {i18n.date(reinterpretAsLocalDate(subDays(event.end, 1)), {
                   weekday: "short",
                   day: "numeric",
                   month: "short",
                   year:
-                    getYear(reinterpretAsLocalDate(con.start)) !=
-                    getYear(reinterpretAsLocalDate(subDays(con.end, 1)))
+                    getYear(reinterpretAsLocalDate(event.start)) !=
+                    getYear(reinterpretAsLocalDate(subDays(event.end, 1)))
                       ? "numeric"
                       : undefined,
                 })}{" "}
                 (
                 <Plural
-                  value={differenceInDays(con.end, con.start)}
+                  value={differenceInDays(event.end, event.start)}
                   one="# day long"
                   other="# days long"
                 />
@@ -271,10 +271,10 @@ export default function ConRow({
               <IconMapPin title={t`Location`} size={12} />{" "}
               <Anchor
                 component={Link}
-                to={`/map#${con.id}`}
+                to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {con.location}
+                {event.location}
               </Anchor>
             </Text>
           ) : null}
@@ -282,7 +282,7 @@ export default function ConRow({
         {showLocation == "break" ? (
           <Text size="sm" truncate>
             <Text span>
-              <IconMapPin title={t`Location`} size={12} /> {con.location}
+              <IconMapPin title={t`Location`} size={12} /> {event.location}
             </Text>
           </Text>
         ) : null}

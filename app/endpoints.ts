@@ -19,7 +19,7 @@ export class ProfileLabels extends Entity {
   }
 }
 
-export class Con extends Entity {
+export class Event extends Entity {
   static key = "Con";
 
   public id?: string;
@@ -160,29 +160,29 @@ export function useGetLikes() {
   );
 }
 
-export const getCons = new Endpoint(
+export const getEvents = new Endpoint(
   // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
   async function ({}: {}) {
-    const cons = [];
+    const events = [];
     for await (const con of await (
       await fetch(`https://data.cons.fyi/active.json?${+new Date()}`, {
         signal: this.signal,
       })
     ).json()) {
       const refDate = new TZDateMini(new Date(), con.timezone ?? "Utc");
-      cons.push(
-        Con.fromJS({
+      events.push(
+        Event.fromJS({
           ...con,
           startDate: parseDate(con.startDate, "yyyy-MM-dd", refDate),
           endDate: parseDate(con.endDate, "yyyy-MM-dd", refDate),
         }),
       );
     }
-    return cons;
+    return events;
   },
   {
-    name: "getCons",
-    schema: new schema.Collection([Con]),
+    name: "getEvents",
+    schema: new schema.Collection([Event]),
     signal: undefined as AbortSignal | undefined,
   },
 );
