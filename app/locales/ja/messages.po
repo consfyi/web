@@ -109,56 +109,56 @@ msgctxt "until [date] ([duration] days long)"
 msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0}まで（{1}日間）"
 
-#: app/components/Editor.tsx:59
+#: app/components/Editor.tsx:58
 msgid "If you have any notes, please add them here."
 msgstr "メモがある場合はここに追加してください。"
 
-#: app/components/Editor.tsx:61
+#: app/components/Editor.tsx:60
 msgid "DO NOT EDIT ANYTHING BELOW THIS LINE"
 msgstr "この行より下は編集しないでください！"
 
-#: app/components/Editor.tsx:84
+#: app/components/Editor.tsx:83
 msgid "Name must not be empty."
 msgstr "名称を入力してください。"
 
-#: app/components/Editor.tsx:86
+#: app/components/Editor.tsx:85
 msgid "Start date must be set."
 msgstr "開始日を設定してください。"
 
-#: app/components/Editor.tsx:88
+#: app/components/Editor.tsx:87
 msgid "End date must be set."
 msgstr "終了日を設定してください。"
 
-#: app/components/Editor.tsx:90
+#: app/components/Editor.tsx:89
 msgid "Location must be set."
 msgstr "開催地を設定してください。"
 
-#: app/components/Editor.tsx:93
+#: app/components/Editor.tsx:92
 msgid "Website must be set."
 msgstr "ウェブサイトを設定してください。"
 
-#: app/components/Editor.tsx:95
+#: app/components/Editor.tsx:94
 msgid "Website must be a valid URL."
 msgstr "ウェブサイトは有効なURLである必要があります。"
 
-#: app/components/Editor.tsx:125
+#: app/components/Editor.tsx:124
 #: app/components/cons/ListView.tsx:329
 msgid "Name"
 msgstr "名称"
 
-#: app/components/Editor.tsx:127
+#: app/components/Editor.tsx:126
 msgid "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
 msgstr "開催年や開催回を明記してください。例：「Japan Meeting of Furries 2025」や「Kemoket 15」など。"
 
 #. placeholder {0}: start != null ? i18n.date(start, FORMAT) : ""
 #. placeholder {1}: end != null ? i18n.date(end, FORMAT) : ""
-#: app/components/Editor.tsx:160
+#: app/components/Editor.tsx:159
 msgctxt "date range"
 msgid "{0} – {1}"
 msgstr "{0}～{1}"
 
 #: app/components/Editor.tsx:228
-msgid "You must have a <0>GitHub</0> account to propose changes."
+msgid "You must have a <0>GitHub</0> account to propose edits."
 msgstr "編集を提案する場合は、<0>GitHub</0>アカウントが必要です。"
 
 #: app/components/Editor.tsx:237
@@ -284,12 +284,16 @@ msgstr "参加しない"
 msgid "Toggle going"
 msgstr "参加状況を切り替え"
 
-#. placeholder {0}: attributions.length > 0 ? ( <Trans> Result provided by{" "} <IntlList items={attributions.map(({ provider, providerURI }) => providerURI != undefined ? ( <Anchor href={providerURI} target="_blank" key={provider}> {provider} </Anchor> ) : ( <Fragment key={provider}>provider</Fragment> ), )} /> . </Trans> ) : null
-#: app/components/PlacePicker.tsx:167
-msgid "Place search provided by Google Maps. {0}"
-msgstr "場所検索はGoogleマップによって提供されています。{0}"
+#: app/components/PlacePicker.tsx:163
+msgid "In manual mode. <0>Switch to automatic mode.</0>"
+msgstr "手動モードです。<0>自動モードに切り替える。</0>"
 
-#: app/components/PlacePicker.tsx:170
+#. placeholder {0}: attributions.length > 0 ? ( <Trans> Result provided by{" "} <IntlList items={attributions.map(({ provider, providerURI }) => providerURI != undefined ? ( <Anchor href={providerURI} target="_blank" key={provider} > {provider} </Anchor> ) : ( <Fragment key={provider}>provider</Fragment> ), )} /> . </Trans> ) : null
+#: app/components/PlacePicker.tsx:175
+msgid "In automatic mode. <0>Switch to manual mode.</0> Place search provided by Google Maps. {0}"
+msgstr "自動モードです。<0>手動モードに切り替える。</0>場所検索はGoogleマップによって提供されています。{0}"
+
+#: app/components/PlacePicker.tsx:189
 msgid "Result provided by <0/>."
 msgstr "結果は<0/>によって提供されています。"
 

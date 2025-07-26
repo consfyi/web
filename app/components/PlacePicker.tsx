@@ -158,26 +158,57 @@ export default function PlacePicker({
     <Input.Wrapper
       label={label}
       description={
-        <Trans>
-          Place search provided by Google Maps.{" "}
-          {attributions.length > 0 ? (
+        <Text size="xs">
+          {manualMode ? (
             <Trans>
-              Result provided by{" "}
-              <IntlList
-                items={attributions.map(({ provider, providerURI }) =>
-                  providerURI != undefined ? (
-                    <Anchor href={providerURI} target="_blank" key={provider}>
-                      {provider}
-                    </Anchor>
-                  ) : (
-                    <Fragment key={provider}>provider</Fragment>
-                  ),
-                )}
-              />
-              .
+              In manual mode.{" "}
+              <Anchor
+                onClick={(e) => {
+                  e.preventDefault();
+                  setManualMode(false);
+                }}
+              >
+                Switch to automatic mode.
+              </Anchor>
             </Trans>
-          ) : null}
-        </Trans>
+          ) : (
+            <Trans>
+              In automatic mode.{" "}
+              <Anchor
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOptions({});
+                  setAttributions([]);
+                  setManualMode(true);
+                }}
+              >
+                Switch to manual mode.
+              </Anchor>{" "}
+              Place search provided by Google Maps.{" "}
+              {attributions.length > 0 ? (
+                <Trans>
+                  Result provided by{" "}
+                  <IntlList
+                    items={attributions.map(({ provider, providerURI }) =>
+                      providerURI != undefined ? (
+                        <Anchor
+                          href={providerURI}
+                          target="_blank"
+                          key={provider}
+                        >
+                          {provider}
+                        </Anchor>
+                      ) : (
+                        <Fragment key={provider}>provider</Fragment>
+                      ),
+                    )}
+                  />
+                  .
+                </Trans>
+              ) : null}
+            </Trans>
+          )}
+        </Text>
       }
       error={error}
       {...(props as InputWrapperProps)}
