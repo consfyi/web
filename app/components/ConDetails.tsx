@@ -273,7 +273,6 @@ export function Body({ con }: { con: ConWithPost }) {
               <Anchor
                 href={con.url}
                 target="_blank"
-                rel="noreferrer"
                 style={{ wordBreak: "break-all" }}
               >
                 {con.url.replace(/https:\/\//, "")}
