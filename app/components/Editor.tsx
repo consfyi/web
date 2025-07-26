@@ -137,7 +137,7 @@ export default function Editor({
         type="range"
         allowSingleDateInRange
         valueFormatter={({ date }) => {
-          const FORMAT = {
+          const FORMAT: Intl.DateTimeFormatOptions = {
             weekday: "short",
             day: "numeric",
             month: "short",
