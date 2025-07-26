@@ -27,9 +27,8 @@ import {
 import "maplibre-theme/icons.default.css";
 import "maplibre-theme/modern.css";
 import { MaplibreProps } from "node_modules/@vis.gl/react-maplibre/dist/maplibre/maplibre";
-import { CSSProperties, ReactNode, useMemo } from "react";
+import { CSSProperties, ReactNode, useMemo, use } from "react";
 import absurd from "~/absurd";
-import { hookifyPromise } from "~/hooks";
 import classes from "./Map.module.css";
 
 const API_KEY = "a4d6fb59d9d6e179";
@@ -203,19 +202,17 @@ async function getMyLocation(
   return { lat: latitude, lng: longitude };
 }
 
-const useMyLocation = hookifyPromise(
-  (async () => {
-    const ctrl = new AbortController();
-    setTimeout(() => {
-      ctrl.abort();
-    }, 1000);
-    try {
-      return await getMyLocation(ctrl.signal);
-    } catch {
-      return null;
-    }
-  })(),
-);
+const myLocationPromise = (async () => {
+  const ctrl = new AbortController();
+  setTimeout(() => {
+    ctrl.abort();
+  }, 1000);
+  try {
+    return await getMyLocation(ctrl.signal);
+  } catch {
+    return null;
+  }
+})();
 
 export function BasicMap({
   children,
@@ -272,7 +269,7 @@ export default function Map({
   selected: string | null;
   setSelected(selected: string | null): void;
 }) {
-  const myLatLng = useMyLocation();
+  const myLatLng = use(myLocationPromise);
 
   const center =
     initialCenter != null

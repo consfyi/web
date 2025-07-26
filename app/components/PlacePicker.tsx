@@ -14,8 +14,7 @@ import {
 } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { LayerSpecification, Popup } from "@vis.gl/react-maplibre";
-import { Fragment, useCallback, useRef, useState } from "react";
-import { hookifyPromise } from "~/hooks";
+import { Fragment, use, useCallback, useRef, useState } from "react";
 import IntlList from "./IntlList";
 import { BasicMap, BasicMarker, useMapStyle } from "./Map";
 import Flag from "./Flag";
@@ -34,15 +33,13 @@ const GOOGLE_MAPS_LOADER = new GoogleMapsLoader({
   apiKey: GOOGLE_MAPS_API_KEY,
 });
 
-const usePlacesLibrary = hookifyPromise(
-  GOOGLE_MAPS_LOADER.importLibrary("places"),
-);
+const placesLibraryPromise = GOOGLE_MAPS_LOADER.importLibrary("places");
 
 function useSessionToken(): [
   google.maps.places.AutocompleteSessionToken,
   () => void,
 ] {
-  const places = usePlacesLibrary();
+  const places = use(placesLibraryPromise);
 
   const [sessionToken, setSessionToken] = useState(
     new places.AutocompleteSessionToken(),
@@ -80,7 +77,7 @@ export default function PlacePicker({
   | "filter"
   | "onOptionSubmit"
 >) {
-  const places = usePlacesLibrary();
+  const places = use(placesLibraryPromise);
 
   const [manualMode, setManualMode] = useState(false);
 
@@ -158,7 +155,7 @@ export default function PlacePicker({
     <Input.Wrapper
       label={label}
       description={
-        <Text size="xs">
+        <Text span size="xs">
           {manualMode ? (
             <Trans>
               In manual mode.{" "}

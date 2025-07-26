@@ -3,7 +3,7 @@ import { useDLE, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
 import { addDays, isAfter, set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { use, useEffect, useState, useSyncExternalStore } from "react";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
@@ -19,33 +19,6 @@ import {
   useGetProfile,
 } from "./endpoints";
 
-export function hookifyPromise<T>(promise: Promise<T>) {
-  let status: "pending" | "success" | "error" = "pending";
-  let result: T;
-  let error: unknown;
-
-  const suspender = promise.then(
-    (r) => {
-      status = "success";
-      result = r;
-    },
-    (e) => {
-      status = "error";
-      error = e;
-    },
-  );
-
-  return () => {
-    if (status == "pending") {
-      throw suspender;
-    }
-    if (status == "error") {
-      throw error;
-    }
-    return result;
-  };
-}
-
 export const useHydrated = (() => {
   const subscribe = () => () => {};
   return () =>
@@ -57,12 +30,12 @@ export const useHydrated = (() => {
 })();
 
 export const useClient = (() => {
-  let useClientInternal: (() => Client) | null = null;
+  let clientPromise: Promise<Client> | null = null;
   return () => {
-    if (useClientInternal == null) {
-      useClientInternal = hookifyPromise(createClient());
+    if (clientPromise == null) {
+      clientPromise = createClient();
     }
-    return useClientInternal();
+    return use(clientPromise);
   };
 })();
 
