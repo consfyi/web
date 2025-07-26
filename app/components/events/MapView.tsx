@@ -87,7 +87,6 @@ function MapInner({
 
   const pred = useFilterPredicate(filter);
   const filteredEvents = events.filter(pred);
-  console.log(events);
 
   return (
     <>
