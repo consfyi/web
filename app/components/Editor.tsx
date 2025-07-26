@@ -223,7 +223,7 @@ export default function Editor({
           }));
         }}
       />
-      <Group justify="space-between" mb="xs">
+      <Group justify="space-between">
         <Text size="sm" c="dimmed">
           <Trans>
             You must have a{" "}
