@@ -7,18 +7,18 @@ import {
   Autocomplete,
   AutocompleteProps,
   Box,
-  Center,
   Input,
   InputWrapperProps,
   Loader,
   Text,
 } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
+import { LayerSpecification, Popup } from "@vis.gl/react-maplibre";
 import { Fragment, useCallback, useRef, useState } from "react";
 import { hookifyPromise } from "~/hooks";
 import IntlList from "./IntlList";
-import { BasicMap, BasicMarker } from "./Map";
-import { Popup } from "@vis.gl/react-maplibre";
+import { BasicMap, BasicMarker, useMapStyle } from "./Map";
+import Flag from "./Flag";
 
 export interface Place {
   location: string;
@@ -27,6 +27,8 @@ export interface Place {
 }
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyCxfQTZl51y6J84T_pnxCA0nUUiqE1Pxmo";
+const MAPBOX_API_KEY =
+  "pk.eyJ1IjoicGhpbG9kZW5kcm9uIiwiYSI6ImNtZGo3N2ZhazBrcGwyb3EzcmdsY3o2dzgifQ.fynxHMk_MTKjXHOZVHJBiQ";
 
 const GOOGLE_MAPS_LOADER = new GoogleMapsLoader({
   apiKey: GOOGLE_MAPS_API_KEY,
@@ -79,6 +81,8 @@ export default function PlacePicker({
   | "onOptionSubmit"
 >) {
   const places = usePlacesLibrary();
+
+  const [manualMode, setManualMode] = useState(false);
 
   const [inputValue, setInputValue] = useState(() =>
     value != null ? value.location : null,
@@ -148,6 +152,8 @@ export default function PlacePicker({
     [onChange],
   );
 
+  const mapStyle = useMapStyle();
+
   return (
     <Input.Wrapper
       label={label}
@@ -182,6 +188,76 @@ export default function PlacePicker({
           onMove={(evt) => {
             setViewState(evt.viewState);
           }}
+          onDblClick={(e) => {
+            if (!manualMode) {
+              return;
+            }
+
+            const features = e.target
+              .queryRenderedFeatures(e.point)
+              .filter((feature) => feature.source == "countries");
+
+            let country = undefined;
+            if (
+              !features.some(
+                (feature) => feature.properties.dispusted == "true",
+              )
+            ) {
+              const countries = Array.from(
+                new Set(
+                  features.map(
+                    (feature) => feature.properties.iso_3166_1 as string,
+                  ),
+                ),
+              );
+              country = countries.length == 1 ? countries[0] : undefined;
+            }
+
+            const { lat, lng } = e.lngLat;
+            const latLng: [number, number] = [lat, lng];
+            onChange(
+              value != null
+                ? { ...value, latLng, country }
+                : { location: "", latLng, country },
+            );
+            e.preventDefault();
+          }}
+          mapStyle={{
+            ...mapStyle,
+            sources: {
+              ...mapStyle.sources,
+              ...(manualMode
+                ? {
+                    countries: {
+                      type: "vector",
+                      url: `https://api.mapbox.com/v4/mapbox.country-boundaries-v1.json?secure&access_token=${MAPBOX_API_KEY}`,
+                    },
+                  }
+                : {}),
+            },
+            layers: [
+              ...mapStyle.layers,
+              ...(manualMode
+                ? [
+                    {
+                      id: "country boundaries",
+                      type: "fill",
+                      paint: {
+                        "fill-color": "rgba(0, 0, 0, 0)",
+                      },
+                      filter: ["all"],
+                      layout: {
+                        visibility: "visible",
+                      },
+                      source: "countries",
+                      maxzoom: 24,
+                      minzoom: 0,
+                      "source-layer": "country_boundaries",
+                    } as LayerSpecification,
+                  ]
+                : []),
+            ],
+          }}
           style={{
             height: "600px",
             borderRadius: "var(--mantine-radius-default)",
@@ -205,6 +281,12 @@ export default function PlacePicker({
                 anchor="bottom"
               >
                 <Text size="sm" fw={500}>
+                  <Flag
+                    key={value.country}
+                    country={value.country ?? undefined}
+                    size={10}
+                    me={6}
+                  />
                   {value.location}
                 </Text>
                 <Text size="sm">
@@ -255,6 +337,14 @@ export default function PlacePicker({
             }
             filter={({ options }) => options}
             onChange={(v) => {
+              if (manualMode) {
+                setInputValue(v);
+                onChange(
+                  value != null ? { ...value, location: v } : { location: v },
+                );
+                return;
+              }
+
               if (document.activeElement !== ref.current) {
                 return;
               }

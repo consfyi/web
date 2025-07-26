@@ -216,7 +216,7 @@ export default function CalendarView({
                 anchor: con.id,
                 label: (
                   <>
-                    <Flag country={con.country ?? "RAINBOW"} size={8} me={4} />
+                    <Flag country={con.country ?? undefined} size={8} me={4} />
                     <Text span>{con.name}</Text>
                   </>
                 ),

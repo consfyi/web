@@ -65,6 +65,7 @@ function makeStyle({
     layers: layers("protomaps", namedFlavor(flavorName), {
       lang: match([locale], SUPPORTED_LANGUAGES, "en"),
     }),
+
     transition: { duration: 0, delay: 0 },
   };
 }
@@ -220,13 +221,14 @@ export function BasicMap({
   children,
   className,
   style,
+  mapStyle,
   ...props
 }: { children?: ReactNode; className?: string; style?: CSSProperties } & Omit<
   MaplibreProps,
-  "attributionControl" | "mapStyle"
+  "attributionControl"
 >) {
   const colorScheme = useComputedColorScheme();
-  const mapStyle = useMapStyle();
+  const defaultMapStyle = useMapStyle();
 
   return (
     <div
@@ -246,7 +248,7 @@ export function BasicMap({
           map.keyboard.disableRotation();
         }}
         attributionControl={false}
-        mapStyle={mapStyle}
+        mapStyle={mapStyle != undefined ? mapStyle : defaultMapStyle}
       >
         <AttributionControl compact={false} />
         {children}

@@ -10,7 +10,7 @@ export default function Flag({
   size,
   circular = false,
   ...props
-}: { country: string; size: number; circular?: boolean } & Omit<
+}: { country?: string; size: number; circular?: boolean } & Omit<
   BoxProps,
   "w" | "h"
 >) {
@@ -20,10 +20,13 @@ export default function Flag({
     cache = {};
   }, [t]);
 
-  const cacheKey = `${i18n.locale}:${country}`;
-  const countryName = (cache[cacheKey] ??= new Intl.DisplayNames(i18n.locale, {
-    type: "region",
-  }).of(country));
+  let countryName;
+  if (country != undefined) {
+    const cacheKey = `${i18n.locale}:${country}`;
+    countryName = cache[cacheKey] ??= new Intl.DisplayNames(i18n.locale, {
+      type: "region",
+    }).of(country);
+  }
 
   return (
     <Tooltip label={countryName}>
@@ -35,7 +38,7 @@ export default function Flag({
         {...props}
       >
         <Image
-          src={`https://cdn.jsdelivr.net/npm/flagpack@latest/flags/4x3/${country.toLowerCase()}.svg`}
+          src={`https://cdn.jsdelivr.net/npm/flagpack@latest/flags/4x3/${country != null ? country.toLowerCase() : "lgbt"}.svg`}
           alt={countryName}
         />
       </Box>

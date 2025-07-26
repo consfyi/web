@@ -164,7 +164,7 @@ export default function ConRow({
           ) : null}
 
           <Text size="sm" truncate>
-            <Flag country={con.country ?? "RAINBOW"} size={10} me={6} />
+            <Flag country={con.country ?? undefined} size={10} me={6} />
             <Anchor fw={500} component={Link} to={`/${con.id}`}>
               {con.name}
             </Anchor>
