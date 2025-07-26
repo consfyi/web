@@ -82,122 +82,113 @@ export default function MapView({
         />
       </Container>
 
-      <Suspense
-        fallback={
-          <Center p="lg">
-            <Loader />
-          </Center>
-        }
-      >
-        <Box h="100dvh" mt={-50}>
-          <Suspense
-            fallback={
-              <Center p="lg" h="100%">
-                <Loader />
-              </Center>
-            }
-          >
-            <Map
+      <Box h="100dvh" mt={-50}>
+        <Suspense
+          fallback={
+            <Center p="lg" h="100%">
+              <Loader />
+            </Center>
+          }
+        >
+          <Map
+            style={{
+              position: "absolute",
+              height: "100%",
+              top: 0,
+              left: 0,
+              zIndex: 0,
+            }}
+            selected={selected != null ? selected.id : null}
+            setSelected={(identifier) => {
+              const con =
+                identifier != null
+                  ? cons.find((con) => con.id == identifier)
+                  : null;
+              setLayout({
+                ...layout,
+              });
+              navigate(
+                {
+                  pathname: location.pathname,
+                  search: location.search,
+                  hash: con != null ? con.id : "",
+                },
+                { replace: true },
+              );
+            }}
+            pins={filteredCons.flatMap((con) => {
+              if (con.latLng == null) {
+                return [];
+              }
+
+              const [lat, lng] = con.latLng;
+              const active = isAfter(now, con.start) && !isAfter(now, con.end);
+
+              const color = [
+                "red",
+                "orange",
+                "yellow",
+                "green",
+                "blue",
+                "indigo",
+                "violet",
+              ][getDay(con.start)];
+
+              const variant =
+                con.post.viewer != null && con.post.viewer.like != null
+                  ? "filled"
+                  : "light";
+
+              return [
+                {
+                  id: con.id,
+                  lat,
+                  lng,
+                  active,
+                  color,
+                  variant,
+                  zIndex:
+                    con.post.viewer != null && con.post.viewer.like != null
+                      ? 2
+                      : active
+                        ? 1
+                        : 0,
+                  popup: (
+                    <ConRow
+                      con={con}
+                      showMonthInIcon
+                      showEndDateOnly={false}
+                      showLocation="break"
+                      showFollowed
+                      showLikeButton
+                      density="cozy"
+                      showDuration={false}
+                      withId={false}
+                    />
+                  ),
+                },
+              ];
+            })}
+            initialCenter={center}
+            setCenter={(center) => setLayout({ ...layout, center })}
+          />
+          {filteredCons.length == 0 ? (
+            <Center
               style={{
                 position: "absolute",
                 height: "100%",
                 top: 0,
                 left: 0,
-                zIndex: 0,
+                right: 0,
+                background:
+                  "color-mix(in srgb, var(--mantine-color-body), transparent 50%)",
               }}
-              selected={selected != null ? selected.id : null}
-              setSelected={(identifier) => {
-                const con =
-                  identifier != null
-                    ? cons.find((con) => con.id == identifier)
-                    : null;
-                setLayout({
-                  ...layout,
-                });
-                navigate(
-                  {
-                    pathname: location.pathname,
-                    search: location.search,
-                    hash: con != null ? con.id : "",
-                  },
-                  { replace: true },
-                );
-              }}
-              pins={filteredCons.flatMap((con) => {
-                if (con.latLng == null) {
-                  return [];
-                }
-
-                const [lat, lng] = con.latLng;
-                const active =
-                  isAfter(now, con.start) && !isAfter(now, con.end);
-
-                const color = [
-                  "red",
-                  "orange",
-                  "yellow",
-                  "green",
-                  "blue",
-                  "indigo",
-                  "violet",
-                ][getDay(con.start)];
-
-                const variant =
-                  con.post.viewer != null && con.post.viewer.like != null
-                    ? "filled"
-                    : "light";
-
-                return [
-                  {
-                    id: con.id,
-                    lat,
-                    lng,
-                    active,
-                    color,
-                    variant,
-                    zIndex:
-                      con.post.viewer != null && con.post.viewer.like != null
-                        ? 2
-                        : active
-                          ? 1
-                          : 0,
-                    popup: (
-                      <ConRow
-                        con={con}
-                        showMonthInIcon
-                        showEndDateOnly={false}
-                        showLocation="break"
-                        showFollowed
-                        showLikeButton
-                        density="cozy"
-                        showDuration={false}
-                        withId={false}
-                      />
-                    ),
-                  },
-                ];
-              })}
-              initialCenter={center}
-              setCenter={(center) => setLayout({ ...layout, center })}
-            />
-            {filteredCons.length == 0 ? (
-              <Center
-                style={{
-                  position: "absolute",
-                  height: "100%",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  background:
-                    "color-mix(in srgb, var(--mantine-color-body), transparent 50%)",
-                }}
-              >
-                <EmptyState filter={filter} setFilter={setFilter} />
-              </Center>
-            ) : null}
-          </Suspense>
-        </Box>
-      </Suspense>
+            >
+              <EmptyState filter={filter} setFilter={setFilter} />
+            </Center>
+          ) : null}
+        </Suspense>
+      </Box>
     </Box>
   );
 }
