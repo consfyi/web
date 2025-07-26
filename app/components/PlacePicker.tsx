@@ -102,10 +102,11 @@ export default function PlacePicker({
     Record<string, google.maps.places.AutocompleteSuggestion>
   >({});
 
-  const sessionToken = useMemo(
-    () => new places.AutocompleteSessionToken(),
-    [places],
-  );
+  const sessionToken = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _ = value;
+    return new places.AutocompleteSessionToken();
+  }, [places, value]);
 
   const ref = useRef<HTMLInputElement | null>(null);
   const needsPredictionRef = useRef(false);
