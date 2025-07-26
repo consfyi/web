@@ -61,6 +61,23 @@ function formatPlace(place: Place) {
   return `${place.location} (${lat}, ${lng})`;
 }
 
+function useSessionToken(): [
+  google.maps.places.AutocompleteSessionToken,
+  () => void,
+] {
+  const places = usePlacesLibrary();
+
+  const [sessionToken, setSessionToken] = useState(
+    new places.AutocompleteSessionToken(),
+  );
+  return [
+    sessionToken,
+    () => {
+      setSessionToken(new places.AutocompleteSessionToken());
+    },
+  ];
+}
+
 export default function PlacePicker({
   value,
   label,
@@ -102,11 +119,7 @@ export default function PlacePicker({
     Record<string, google.maps.places.AutocompleteSuggestion>
   >({});
 
-  const sessionToken = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _ = value;
-    return new places.AutocompleteSessionToken();
-  }, [places, value]);
+  const [sessionToken, resetSessionToken] = useSessionToken();
 
   const ref = useRef<HTMLInputElement | null>(null);
   const needsPredictionRef = useRef(false);
@@ -128,7 +141,7 @@ export default function PlacePicker({
           await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
             input: v,
             locationBias: { lat: viewState.latitude, lng: viewState.longitude },
-            language: i18n.locale,
+            language: "en", // I would like to use i18n.locale here, but toPlace will return a Place whose requestedLanguage cannot be changed.
             sessionToken,
           });
         if (resp == null || !needsPredictionRef.current) {
@@ -269,12 +282,10 @@ export default function PlacePicker({
               ref.current!.blur();
               setInputValue(suggestion.placePrediction!.mainText!.text);
               setRetrieving(true);
+              resetSessionToken();
               (async () => {
                 try {
-                  const place = new places.Place({
-                    id: suggestion.placePrediction!.placeId,
-                    requestedLanguage: "en",
-                  });
+                  const place = suggestion.placePrediction!.toPlace();
                   await place.fetchFields({
                     fields: [
                       "displayName",
@@ -304,10 +315,12 @@ export default function PlacePicker({
                     zoom: 17,
                   });
                   setAttributions(place.attributions!);
-                } catch {
+                } catch (e) {
                   setInputValue("");
+                  throw e;
+                } finally {
+                  setRetrieving(false);
                 }
-                setRetrieving(false);
               })();
             }}
             onClear={() => {
