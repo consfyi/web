@@ -20,8 +20,8 @@ import { BasicMap, BasicMarker } from "./Map";
 
 export interface Place {
   location: string;
-  country: string | null;
-  latLng: [number, number] | null;
+  country?: string;
+  latLng?: [number, number];
 }
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyCxfQTZl51y6J84T_pnxCA0nUUiqE1Pxmo";
@@ -34,21 +34,22 @@ const usePlacesLibrary = hookifyPromise(
   GOOGLE_MAPS_LOADER.importLibrary("places"),
 );
 
-const useGeocodingLibrary = hookifyPromise(
-  GOOGLE_MAPS_LOADER.importLibrary("geocoding"),
-);
-
 const PERMITTED_ADDRESS_COMPONENTS = new Set([
   "locality",
   "administrative_area_level_1",
   "country",
 ]);
 
-function formatAddress(components: google.maps.places.AddressComponent[]) {
-  return components
-    .filter((c) => c.types.some((t) => PERMITTED_ADDRESS_COMPONENTS.has(t)))
-    .map((c) => c.longText)
-    .join(", ");
+function formatAddress(
+  displayName: string,
+  components: google.maps.places.AddressComponent[],
+) {
+  return [
+    displayName,
+    ...components
+      .filter((c) => c.types.some((t) => PERMITTED_ADDRESS_COMPONENTS.has(t)))
+      .map((c) => c.longText),
+  ].join(", ");
 }
 
 function formatPlace(place: Place) {
@@ -56,7 +57,7 @@ function formatPlace(place: Place) {
     return place.location;
   }
   const [lat, lng] = place.latLng;
-  return `${place.location != "" ? place.location : "(unknown)"} (${lat}, ${lng})`;
+  return `${place.location} (${lat}, ${lng})`;
 }
 
 export default function PlacePicker({
@@ -69,6 +70,7 @@ export default function PlacePicker({
   leftSection,
   rightSection,
   clearable,
+  error,
   ...props
 }: {
   value: Place | null;
@@ -85,7 +87,9 @@ export default function PlacePicker({
 >) {
   const places = usePlacesLibrary();
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(() =>
+    value != null ? formatPlace(value) : null,
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [retrieving, setRetrieving] = useState<boolean>(false);
   const [attributions, setAttributions] = useState<
@@ -178,6 +182,7 @@ export default function PlacePicker({
           ) : null}
         </Trans>
       }
+      error={error}
       {...(props as InputWrapperProps)}
     >
       <Box style={{ position: "relative" }} mt={4}>
@@ -187,7 +192,7 @@ export default function PlacePicker({
             setViewState(evt.viewState);
           }}
           style={{
-            height: "500px",
+            height: "600px",
             borderRadius: "var(--mantine-radius-default)",
           }}
         >
@@ -203,9 +208,10 @@ export default function PlacePicker({
         <Box style={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
           <Autocomplete
             {...props}
+            type="search"
             m="xs"
             ref={ref}
-            value={inputValue}
+            value={inputValue ?? undefined}
             data={Object.keys(options)}
             renderOption={({ option }) => {
               const suggestion = options[option.value];
@@ -222,16 +228,21 @@ export default function PlacePicker({
                 </Box>
               );
             }}
+            error={error != null ? true : null}
             clearable={clearable}
             disabled={disabled || retrieving}
             leftSection={leftSection}
             rightSection={
-              <>
-                {loading || retrieving ? (
-                  <Loader size="xs" color="dimmed" />
-                ) : null}
-                {rightSection}
-              </>
+              rightSection != null ? (
+                <>
+                  {loading || retrieving ? (
+                    <Loader size="xs" color="dimmed" />
+                  ) : null}
+                  {rightSection}
+                </>
+              ) : loading || retrieving ? (
+                <Loader size="xs" color="dimmed" />
+              ) : null
             }
             filter={({ options }) => options}
             onChange={(v) => {
@@ -272,7 +283,10 @@ export default function PlacePicker({
                     place.location!.lng(),
                   ] as [number, number];
                   const p = {
-                    location: `${place.displayName!}, ${formatAddress(place.addressComponents!)}`,
+                    location: formatAddress(
+                      place.displayName!,
+                      place.addressComponents!,
+                    ),
                     latLng,
                     country: place.addressComponents!.find((c) =>
                       c.types.includes("country"),

@@ -276,7 +276,7 @@ export function Body({ con }: { con: ConWithPost }) {
                 rel="noreferrer"
                 style={{ wordBreak: "break-all" }}
               >
-                {con.url.replace(/https?:\/\//, "")}
+                {con.url.replace(/https:\/\//, "")}
               </Anchor>
             </Text>
           </Group>
@@ -296,32 +296,38 @@ export function Body({ con }: { con: ConWithPost }) {
             </Text>
           </Group>
 
-          {con.sources != null && con.sources.length > 0 ? (
-            <Box mt={4}>
-              <Text size="xs">
-                <Trans>
-                  This information was originally sourced from{" "}
-                  <IntlList
-                    items={con.sources.map((source) => {
-                      const attribution = attributions[source];
-                      return attribution != undefined ? (
-                        <Anchor
-                          href={attribution.url}
-                          target="_blank"
-                          key={source}
-                        >
-                          {attribution.name}
-                        </Anchor>
-                      ) : (
-                        <Fragment key={source}>source</Fragment>
-                      );
-                    })}
-                  />
-                  . Usage restrictions may apply.
-                </Trans>
-              </Text>
-            </Box>
-          ) : null}
+          <Box mt={4}>
+            <Text size="xs">
+              <Trans>
+                Is this information incorrect?{" "}
+                <Anchor component={Link} to={`/${con.id}/edit`}>
+                  Propose a change.
+                </Anchor>{" "}
+                {con.sources != null && con.sources.length > 0 ? (
+                  <Trans>
+                    This information was originally sourced from{" "}
+                    <IntlList
+                      items={con.sources.map((source) => {
+                        const attribution = attributions[source];
+                        return attribution != undefined ? (
+                          <Anchor
+                            href={attribution.url}
+                            target="_blank"
+                            key={source}
+                          >
+                            {attribution.name}
+                          </Anchor>
+                        ) : (
+                          <Fragment key={source}>source</Fragment>
+                        );
+                      })}
+                    />
+                    . Usage restrictions may apply.
+                  </Trans>
+                ) : null}
+              </Trans>
+            </Text>
+          </Box>
         </Box>
       </Box>
 

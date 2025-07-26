@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro";
-import { TextInput } from "@mantine/core";
+import { Anchor, Button, Group, Text, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import {
@@ -8,7 +8,6 @@ import {
   IconTag,
   IconWorld,
 } from "@tabler/icons-react";
-import { format as formatDate } from "date-fns";
 import PlacePicker from "./PlacePicker";
 
 export interface Entry {
@@ -17,39 +16,87 @@ export interface Entry {
   startDate: string;
   endDate: string;
   location: string;
-  country: string | null;
-  latLng: [number, number] | null;
+  country?: string;
+  latLng?: [number, number];
   sources?: string[];
 }
 
 function makeDefaultEntry(): Entry {
-  const now = new Date();
-
   return {
     name: "",
     url: "",
-    startDate: formatDate(now, "yyyy-MM-dd"),
-    endDate: formatDate(now, "yyyy-MM-dd"),
+    startDate: "",
+    endDate: "",
     location: "",
-    country: "",
-    latLng: null,
+    country: undefined,
+    latLng: undefined,
   };
 }
 
-export default function Editor({ id, entry }: { id: string; entry: Entry }) {
+function fillTemplate({ blob }: { blob: string }) {
+  return `\
+If you have any notes, please add them here.
+
+<!-- DO NOT EDIT ANYTHING BELOW THIS LINE -->
+---
+\`\`\`
+${blob}
+\`\`\`\
+`;
+}
+
+export default function Editor({
+  id,
+  entry = makeDefaultEntry(),
+}: {
+  id?: string;
+  entry?: Entry;
+}) {
   const form = useForm({
     mode: "controlled",
-    initialValues: makeDefaultEntry(),
+    initialValues: entry,
+    validateInputOnChange: true,
     validate: {
-      name: (value) => (value != "" ? null : ""),
-      startDate: (value) => (value != null ? null : "lig"),
-      endDate: (value) => (value != null ? null : "lig"),
+      name: (value) =>
+        value == "" ? <Trans>Name must not be empty.</Trans> : null,
+      startDate: (value) =>
+        value == "" ? <Trans>Start date must be set.</Trans> : null,
+      endDate: (value) =>
+        value == "" ? <Trans>End date must be set.</Trans> : null,
+      location: (value) =>
+        value == "" ? <Trans>Location must be set.</Trans> : null,
+      url: (value) =>
+        value == "" ? (
+          <Trans>Website must be set.</Trans>
+        ) : value.match(/^https?:\/\//) == null ? (
+          <Trans>Website must be a valid URL.</Trans>
+        ) : null,
     },
   });
 
+  const startDateInputProps = form.getInputProps("startDate");
+  const endDateInputProps = form.getInputProps("endDate");
+  const locationInputProps = form.getInputProps("location");
+
   return (
-    <>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        const searchParams = new URLSearchParams();
+        searchParams.set(
+          "title",
+          id != null
+            ? `Edit convention: ${id}`
+            : `New convention: ${values.name}`,
+        );
+        searchParams.set(
+          "body",
+          fillTemplate({ blob: JSON.stringify(values, null, "  ") }),
+        );
+        window.location.href = `https://github.com/consfyi/data/issues/new?${searchParams.toString()}`;
+      })}
+    >
       <TextInput
+        {...form.getInputProps("name")}
         size="sm"
         mb="xs"
         label={<Trans>Name</Trans>}
@@ -59,10 +106,38 @@ export default function Editor({ id, entry }: { id: string; entry: Entry }) {
         size="sm"
         mb="xs"
         type="range"
+        allowSingleDateInRange
+        error={
+          startDateInputProps.error != null ||
+          endDateInputProps.error != null ? (
+            <>
+              {startDateInputProps.error} {endDateInputProps.error}
+            </>
+          ) : null
+        }
+        defaultValue={[
+          startDateInputProps.defaultValue,
+          endDateInputProps.defaultValue,
+        ]}
+        value={[startDateInputProps.value, endDateInputProps.value]}
+        onChange={(value) => {
+          const [startDate, endDate] = value;
+          startDateInputProps.onChange(startDate ?? "");
+          endDateInputProps.onChange(endDate ?? "");
+        }}
+        onFocus={() => {
+          startDateInputProps.onFocus();
+          endDateInputProps.onFocus();
+        }}
+        onBlur={() => {
+          startDateInputProps.onBlur();
+          endDateInputProps.onBlur();
+        }}
         leftSection={<IconCalendar size={16} />}
         label={<Trans>Dates</Trans>}
       />
       <TextInput
+        {...form.getInputProps("url")}
         size="sm"
         mb="xs"
         leftSection={<IconWorld size={16} />}
@@ -70,6 +145,8 @@ export default function Editor({ id, entry }: { id: string; entry: Entry }) {
       />
       <PlacePicker
         size="sm"
+        mb="xs"
+        error={locationInputProps.error}
         clearable
         leftSection={<IconMapPin size={16} />}
         value={
@@ -85,12 +162,26 @@ export default function Editor({ id, entry }: { id: string; entry: Entry }) {
         onChange={(place) => {
           form.setValues((prev) => ({
             ...prev,
-            country: place != null ? place.country : null,
-            location: place != null ? place.location : undefined,
-            latLng: place != null ? place.latLng : null,
+            country: place != null ? place.country : undefined,
+            location: place != null ? place.location : "",
+            latLng: place != null ? place.latLng : undefined,
           }));
         }}
       />
-    </>
+      <Group justify="space-between" mb="xs">
+        <Text size="sm" c="dimmed">
+          <Trans>
+            You must have a{" "}
+            <Anchor href="https://github.com" target="_blank">
+              GitHub
+            </Anchor>{" "}
+            account to propose changes.
+          </Trans>
+        </Text>
+        <Button type="submit">
+          <Trans>Propose</Trans>
+        </Button>
+      </Group>
+    </form>
   );
 }

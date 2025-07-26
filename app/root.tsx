@@ -339,13 +339,9 @@ function Footer() {
       >
         <Text c="dimmed" size="sm" mb="sm">
           <Trans>
-            Convention missing or information wrong?{" "}
-            <Anchor
-              href="https://github.com/consfyi/data/issues/new?template=missing-or-incorrect-convention.md"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Submit a request!
+            Convention missing?{" "}
+            <Anchor component={Link} to="/new">
+              Propose a change.
             </Anchor>
           </Trans>
         </Text>
