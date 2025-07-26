@@ -9,6 +9,9 @@ import { Link } from "react-router";
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   const from = url.searchParams.get("from");
+  if (from == null) {
+    return null;
+  }
 
   const res = await fetch(`https://data.cons.fyi/cons/${from}.json`);
   if (!res.ok) {
