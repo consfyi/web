@@ -9,7 +9,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { DatePicker, DatePickerInput } from "@mantine/dates";
+import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import {
   IconCalendar,
@@ -164,26 +164,40 @@ export default function Editor({
         }
         leftSection={<IconTag size={16} />}
       />
-      <Input.Wrapper size="sm" mb="xs" label={<Trans>Dates</Trans>}>
+      <Input.Wrapper
+        size="sm"
+        mb="xs"
+        label={<Trans>Dates</Trans>}
+        error={
+          startDateInputProps.error != null ||
+          endDateInputProps.error != null ? (
+            <>
+              {startDateInputProps.error} {endDateInputProps.error}
+            </>
+          ) : null
+        }
+      >
         <TextInput
           mb="sm"
           leftSection={<IconCalendar size={16} />}
           value={dateValue}
-          readOnly
           error={
-            startDateInputProps.error != null ||
-            endDateInputProps.error != null ? (
-              <>
-                {startDateInputProps.error} {endDateInputProps.error}
-              </>
-            ) : null
+            startDateInputProps.error != null || endDateInputProps.error != null
           }
+          readOnly
         />
         <Center>
           <DatePicker
             type="range"
             numberOfColumns={3}
+            columnsToScroll={1}
             allowSingleDateInRange
+            monthLabelFormat={(date) =>
+              i18n.date(new Date(date), { month: "long", year: "numeric" })
+            }
+            weekdayFormat={(date) =>
+              i18n.date(new Date(date), { weekday: "narrow" })
+            }
             defaultValue={[
               startDateInputProps.defaultValue,
               endDateInputProps.defaultValue,
