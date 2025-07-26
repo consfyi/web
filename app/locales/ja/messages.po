@@ -31,7 +31,7 @@ msgstr "Blueskyの投稿を見る"
 
 #: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
-#: app/components/Editor.tsx:145
+#: app/components/Editor.tsx:148
 msgid "Dates"
 msgstr "日付"
 
@@ -45,14 +45,14 @@ msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0}（{1}日間）"
 
 #: app/components/ConDetails.tsx:270
-#: app/components/Editor.tsx:152
+#: app/components/Editor.tsx:155
 msgid "Website"
 msgstr "ウェブサイト"
 
 #: app/components/ConDetails.tsx:286
 #: app/components/ConRow.tsx:271
 #: app/components/ConRow.tsx:285
-#: app/components/Editor.tsx:169
+#: app/components/Editor.tsx:172
 msgid "Location"
 msgstr "開催地"
 
@@ -109,44 +109,52 @@ msgctxt "until [date] ([duration] days long)"
 msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0}まで（{1}日間）"
 
-#: app/components/Editor.tsx:63
+#: app/components/Editor.tsx:41
+msgid "If you have any notes, please add them here."
+msgstr "メモがある場合はここに追加してください。"
+
+#: app/components/Editor.tsx:43
+msgid "DO NOT EDIT ANYTHING BELOW THIS LINE"
+msgstr "この行より下は編集しないでください！"
+
+#: app/components/Editor.tsx:66
 msgid "Name must not be empty."
 msgstr "名称を入力してください。"
 
-#: app/components/Editor.tsx:65
+#: app/components/Editor.tsx:68
 msgid "Start date must be set."
 msgstr "開始日を設定してください。"
 
-#: app/components/Editor.tsx:67
+#: app/components/Editor.tsx:70
 msgid "End date must be set."
 msgstr "終了日を設定してください。"
 
-#: app/components/Editor.tsx:69
+#: app/components/Editor.tsx:72
 msgid "Location must be set."
 msgstr "開催地を設定してください。"
 
-#: app/components/Editor.tsx:72
+#: app/components/Editor.tsx:75
 msgid "Website must be set."
 msgstr "ウェブサイトを設定してください。"
 
-#: app/components/Editor.tsx:74
+#: app/components/Editor.tsx:77
 msgid "Website must be a valid URL."
 msgstr "ウェブサイトは有効なURLである必要があります。"
 
-#: app/components/Editor.tsx:104
+#: app/components/Editor.tsx:107
 #: app/components/cons/ListView.tsx:329
 msgid "Name"
 msgstr "名称"
 
-#: app/components/Editor.tsx:106
+#: app/components/Editor.tsx:109
 msgid "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
 msgstr "開催年や開催回を明記してください。例：「Japan Meeting of Furries 2025」や「Kemoket 15」など。"
 
-#: app/components/Editor.tsx:181
+#: app/components/Editor.tsx:184
 msgid "You must have a <0>GitHub</0> account to propose changes."
 msgstr "変更を提案する場合は、<0>GitHub</0>アカウントが必要です。"
 
-#: app/components/Editor.tsx:190
+#: app/components/Editor.tsx:193
 msgid "Propose"
 msgstr "提案"
 

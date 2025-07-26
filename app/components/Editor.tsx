@@ -1,4 +1,5 @@
-import { Trans } from "@lingui/react/macro";
+import { msg } from "@lingui/core/macro";
+import { _t, Trans, useLingui } from "@lingui/react/macro";
 import { Anchor, Button, Group, Text, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -36,10 +37,10 @@ function makeDefaultEntry(): Entry {
 }
 
 function fillTemplate({ blob }: { blob: string }) {
-  return `\
-If you have any notes, please add them here.
+  return (t: typeof _t) => `\
+${t(msg`If you have any notes, please add them here.`)}
 
-<!-- DO NOT EDIT ANYTHING BELOW THIS LINE -->
+<!-- ${t(msg`DO NOT EDIT ANYTHING BELOW THIS LINE`)} -->
 ---
 \`\`\`
 ${blob}
@@ -54,6 +55,8 @@ export default function Editor({
   id?: string;
   entry?: Entry;
 }) {
+  const { t } = useLingui();
+
   const form = useForm({
     mode: "controlled",
     initialValues: entry,
@@ -92,7 +95,7 @@ export default function Editor({
         );
         searchParams.set(
           "body",
-          fillTemplate({ blob: JSON.stringify(values, null, "  ") }),
+          fillTemplate({ blob: JSON.stringify(values, null, "  ") })(t),
         );
         window.location.href = `https://github.com/consfyi/data/issues/new?${searchParams.toString()}`;
       })}
