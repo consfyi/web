@@ -1,7 +1,15 @@
 import { msg } from "@lingui/core/macro";
 import { _t, Trans, useLingui } from "@lingui/react/macro";
-import { Anchor, Button, Group, Text, TextInput } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
+import {
+  Anchor,
+  Button,
+  Center,
+  Group,
+  Input,
+  Text,
+  TextInput,
+} from "@mantine/core";
+import { DatePicker, DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import {
   IconCalendar,
@@ -100,6 +108,32 @@ export default function Editor({
   const endDateInputProps = form.getInputProps("endDate");
   const locationInputProps = form.getInputProps("location");
 
+  const FORMAT: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+
+  const refDate = new Date();
+  const start =
+    startDateInputProps.value != ""
+      ? parseDate(startDateInputProps.value, "yyyy-MM-dd", refDate)
+      : null;
+  const end =
+    endDateInputProps.value != ""
+      ? parseDate(endDateInputProps.value, "yyyy-MM-dd", refDate)
+      : null;
+
+  const dateValue =
+    start != null || end != null
+      ? t({
+          // eslint-disable-next-line no-irregular-whitespace
+          message: `${start != null ? i18n.date(start, FORMAT) : ""} – ${end != null ? i18n.date(end, FORMAT) : ""}`,
+          context: "date range",
+        })
+      : "";
+
   return (
     <form
       onSubmit={form.onSubmit((values) => {
@@ -130,67 +164,47 @@ export default function Editor({
         }
         leftSection={<IconTag size={16} />}
       />
-      <DatePickerInput
-        size="sm"
-        mb="xs"
-        type="range"
-        allowSingleDateInRange
-        valueFormatter={({ date }) => {
-          const FORMAT: Intl.DateTimeFormatOptions = {
-            weekday: "short",
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          };
-
-          const [startDate, endDate] = date as [string, string];
-
-          const refDate = new Date();
-          const start =
-            startDate != ""
-              ? parseDate(startDate, "yyyy-MM-dd", refDate)
-              : null;
-          const end =
-            endDate != "" ? parseDate(endDate, "yyyy-MM-dd", refDate) : null;
-          if (start == null && end == null) {
-            return "";
+      <Input.Wrapper size="sm" mb="xs" label={<Trans>Dates</Trans>}>
+        <TextInput
+          mb="sm"
+          leftSection={<IconCalendar size={16} />}
+          value={dateValue}
+          readOnly
+          error={
+            startDateInputProps.error != null ||
+            endDateInputProps.error != null ? (
+              <>
+                {startDateInputProps.error} {endDateInputProps.error}
+              </>
+            ) : null
           }
-
-          return t({
-            // eslint-disable-next-line no-irregular-whitespace
-            message: `${start != null ? i18n.date(start, FORMAT) : ""} – ${end != null ? i18n.date(end, FORMAT) : ""}`,
-            context: "date range",
-          });
-        }}
-        error={
-          startDateInputProps.error != null ||
-          endDateInputProps.error != null ? (
-            <>
-              {startDateInputProps.error} {endDateInputProps.error}
-            </>
-          ) : null
-        }
-        defaultValue={[
-          startDateInputProps.defaultValue,
-          endDateInputProps.defaultValue,
-        ]}
-        value={[startDateInputProps.value, endDateInputProps.value]}
-        onChange={(value) => {
-          const [startDate, endDate] = value;
-          startDateInputProps.onChange(startDate ?? "");
-          endDateInputProps.onChange(endDate ?? "");
-        }}
-        onFocus={() => {
-          startDateInputProps.onFocus();
-          endDateInputProps.onFocus();
-        }}
-        onBlur={() => {
-          startDateInputProps.onBlur();
-          endDateInputProps.onBlur();
-        }}
-        leftSection={<IconCalendar size={16} />}
-        label={<Trans>Dates</Trans>}
-      />
+        />
+        <Center>
+          <DatePicker
+            type="range"
+            numberOfColumns={3}
+            allowSingleDateInRange
+            defaultValue={[
+              startDateInputProps.defaultValue,
+              endDateInputProps.defaultValue,
+            ]}
+            value={[startDateInputProps.value, endDateInputProps.value]}
+            onChange={(value) => {
+              const [startDate, endDate] = value;
+              startDateInputProps.onChange(startDate ?? "");
+              endDateInputProps.onChange(endDate ?? "");
+            }}
+            onFocus={() => {
+              startDateInputProps.onFocus();
+              endDateInputProps.onFocus();
+            }}
+            onBlur={() => {
+              startDateInputProps.onBlur();
+              endDateInputProps.onBlur();
+            }}
+          />
+        </Center>
+      </Input.Wrapper>
       <TextInput
         {...form.getInputProps("url")}
         size="sm"
