@@ -34,12 +34,6 @@ const usePlacesLibrary = hookifyPromise(
   GOOGLE_MAPS_LOADER.importLibrary("places"),
 );
 
-const PERMITTED_ADDRESS_COMPONENTS = new Set([
-  "locality",
-  "administrative_area_level_1",
-  "country",
-]);
-
 function formatPlace(place: Place) {
   if (place.latLng == null) {
     return place.location;
