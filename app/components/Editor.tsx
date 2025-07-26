@@ -157,7 +157,10 @@ export default function Editor({
             return "";
           }
 
-          return `${start != null ? i18n.date(start, FORMAT) : ""} – ${end != null ? i18n.date(end, FORMAT) : ""}`;
+          return t({
+            message: `${start != null ? i18n.date(start, FORMAT) : ""} – ${end != null ? i18n.date(end, FORMAT) : ""}`,
+            context: "date range",
+          });
         }}
         error={
           startDateInputProps.error != null ||

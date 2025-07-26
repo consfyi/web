@@ -29,7 +29,7 @@ msgstr "View Bluesky Post"
 
 #: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
-#: app/components/Editor.tsx:148
+#: app/components/Editor.tsx:192
 msgid "Dates"
 msgstr "Dates"
 
@@ -43,14 +43,14 @@ msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
 
 #: app/components/ConDetails.tsx:270
-#: app/components/Editor.tsx:155
+#: app/components/Editor.tsx:199
 msgid "Website"
 msgstr "Website"
 
 #: app/components/ConDetails.tsx:286
 #: app/components/ConRow.tsx:271
 #: app/components/ConRow.tsx:285
-#: app/components/Editor.tsx:172
+#: app/components/Editor.tsx:216
 msgid "Location"
 msgstr "Location"
 
@@ -107,52 +107,59 @@ msgctxt "until [date] ([duration] days long)"
 msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "until {0} ({1, plural, one {# day long} other {# days long}})"
 
-#: app/components/Editor.tsx:41
+#: app/components/Editor.tsx:59
 msgid "If you have any notes, please add them here."
 msgstr "If you have any notes, please add them here."
 
-#: app/components/Editor.tsx:43
+#: app/components/Editor.tsx:61
 msgid "DO NOT EDIT ANYTHING BELOW THIS LINE"
 msgstr "DO NOT EDIT ANYTHING BELOW THIS LINE"
 
-#: app/components/Editor.tsx:66
+#: app/components/Editor.tsx:84
 msgid "Name must not be empty."
 msgstr "Name must not be empty."
 
-#: app/components/Editor.tsx:68
+#: app/components/Editor.tsx:86
 msgid "Start date must be set."
 msgstr "Start date must be set."
 
-#: app/components/Editor.tsx:70
+#: app/components/Editor.tsx:88
 msgid "End date must be set."
 msgstr "End date must be set."
 
-#: app/components/Editor.tsx:72
+#: app/components/Editor.tsx:90
 msgid "Location must be set."
 msgstr "Location must be set."
 
-#: app/components/Editor.tsx:75
+#: app/components/Editor.tsx:93
 msgid "Website must be set."
 msgstr "Website must be set."
 
-#: app/components/Editor.tsx:77
+#: app/components/Editor.tsx:95
 msgid "Website must be a valid URL."
 msgstr "Website must be a valid URL."
 
-#: app/components/Editor.tsx:107
+#: app/components/Editor.tsx:125
 #: app/components/cons/ListView.tsx:329
 msgid "Name"
 msgstr "Name"
 
-#: app/components/Editor.tsx:109
+#: app/components/Editor.tsx:127
 msgid "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
 msgstr "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
 
-#: app/components/Editor.tsx:184
+#. placeholder {0}: start != null ? i18n.date(start, FORMAT) : ""
+#. placeholder {1}: end != null ? i18n.date(end, FORMAT) : ""
+#: app/components/Editor.tsx:160
+msgctxt "date range"
+msgid "{0} – {1}"
+msgstr "{0} – {1}"
+
+#: app/components/Editor.tsx:228
 msgid "You must have a <0>GitHub</0> account to propose changes."
 msgstr "You must have a <0>GitHub</0> account to propose changes."
 
-#: app/components/Editor.tsx:193
+#: app/components/Editor.tsx:237
 msgid "Propose"
 msgstr "Propose"
 
@@ -276,11 +283,11 @@ msgid "Toggle going"
 msgstr "Toggle going"
 
 #. placeholder {0}: attributions.length > 0 ? ( <Trans> Result provided by{" "} <IntlList items={attributions.map(({ provider, providerURI }) => providerURI != undefined ? ( <Anchor href={providerURI} target="_blank" key={provider}> {provider} </Anchor> ) : ( <Fragment key={provider}>provider</Fragment> ), )} /> . </Trans> ) : null
-#: app/components/PlacePicker.tsx:164
+#: app/components/PlacePicker.tsx:167
 msgid "Place search provided by Google Maps. {0}"
 msgstr "Place search provided by Google Maps. {0}"
 
-#: app/components/PlacePicker.tsx:167
+#: app/components/PlacePicker.tsx:170
 msgid "Result provided by <0/>."
 msgstr "Result provided by <0/>."
 
