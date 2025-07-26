@@ -27,7 +27,7 @@ import {
 import "maplibre-theme/icons.default.css";
 import "maplibre-theme/modern.css";
 import { MaplibreProps } from "node_modules/@vis.gl/react-maplibre/dist/maplibre/maplibre";
-import { CSSProperties, ReactNode, useMemo, use } from "react";
+import { CSSProperties, ReactNode, useMemo } from "react";
 import absurd from "~/absurd";
 import classes from "./Map.module.css";
 
@@ -189,31 +189,6 @@ function MarkerWithPopup({
   );
 }
 
-async function getMyLocation(
-  signal?: AbortSignal,
-): Promise<{ lat: number; lng: number }> {
-  const resp = await fetch("https://free.freeipapi.com/api/json", {
-    signal,
-  });
-  if (!resp.ok) {
-    throw resp;
-  }
-  const { latitude, longitude } = await resp.json();
-  return { lat: latitude, lng: longitude };
-}
-
-const myLocationPromise = (async () => {
-  const ctrl = new AbortController();
-  setTimeout(() => {
-    ctrl.abort();
-  }, 1000);
-  try {
-    return await getMyLocation(ctrl.signal);
-  } catch {
-    return null;
-  }
-})();
-
 export function BasicMap({
   children,
   className,
@@ -264,20 +239,11 @@ export default function Map({
 }: {
   pins: Pin[];
   style: CSSProperties;
-  initialCenter: { lat: number; lng: number; zoom: number } | null;
+  initialCenter: { lat: number; lng: number; zoom: number };
   setCenter(center: { lat: number; lng: number; zoom: number }): void;
   selected: string | null;
   setSelected(selected: string | null): void;
 }) {
-  const myLatLng = use(myLocationPromise);
-
-  const center =
-    initialCenter != null
-      ? initialCenter
-      : myLatLng != null
-        ? { ...myLatLng, zoom: 3 }
-        : { lat: 0, lng: 0, zoom: 0 };
-
   return (
     <BasicMap
       style={style}
@@ -292,9 +258,9 @@ export default function Map({
         setSelected(null);
       }}
       initialViewState={{
-        latitude: center.lat,
-        longitude: center.lng,
-        zoom: center.zoom,
+        latitude: initialCenter.lat,
+        longitude: initialCenter.lng,
+        zoom: initialCenter.zoom,
       }}
     >
       {pins.map((pin, i) => (
