@@ -7,6 +7,7 @@ import {
   Autocomplete,
   AutocompleteProps,
   Box,
+  Center,
   Input,
   InputWrapperProps,
   Loader,
@@ -17,6 +18,7 @@ import { Fragment, useCallback, useRef, useState } from "react";
 import { hookifyPromise } from "~/hooks";
 import IntlList from "./IntlList";
 import { BasicMap, BasicMarker } from "./Map";
+import { Popup } from "@vis.gl/react-maplibre";
 
 export interface Place {
   location: string;
@@ -33,14 +35,6 @@ const GOOGLE_MAPS_LOADER = new GoogleMapsLoader({
 const usePlacesLibrary = hookifyPromise(
   GOOGLE_MAPS_LOADER.importLibrary("places"),
 );
-
-function formatPlace(place: Place) {
-  if (place.latLng == null) {
-    return place.location;
-  }
-  const [lat, lng] = place.latLng;
-  return `${place.location} (${lat}, ${lng})`;
-}
 
 function useSessionToken(): [
   google.maps.places.AutocompleteSessionToken,
@@ -87,7 +81,7 @@ export default function PlacePicker({
   const places = usePlacesLibrary();
 
   const [inputValue, setInputValue] = useState(() =>
-    value != null ? formatPlace(value) : null,
+    value != null ? value.location : null,
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [retrieving, setRetrieving] = useState<boolean>(false);
@@ -146,7 +140,7 @@ export default function PlacePicker({
     (v: Place | null) => {
       setOptions({});
       onChange(v);
-      setInputValue(v != null ? formatPlace(v) : "");
+      setInputValue(v != null ? v.location : "");
       if (v == null) {
         setAttributions([]);
       }
@@ -194,12 +188,30 @@ export default function PlacePicker({
           }}
         >
           {value != null && value.latLng != null ? (
-            <BasicMarker
-              latitude={value.latLng[0]}
-              longitude={value.latLng[1]}
-              color="red"
-              variant="filled"
-            />
+            <>
+              <BasicMarker
+                latitude={value.latLng[0]}
+                longitude={value.latLng[1]}
+                color="red"
+                variant="filled"
+              />
+              <Popup
+                latitude={value.latLng[0]}
+                longitude={value.latLng[1]}
+                closeButton={false}
+                closeOnClick={false}
+                focusAfterOpen={false}
+                maxWidth="none"
+                anchor="bottom"
+              >
+                <Text size="sm" fw={500}>
+                  {value.location}
+                </Text>
+                <Text size="sm">
+                  ({value.latLng[0].toFixed(4)}, {value.latLng[1].toFixed(4)})
+                </Text>
+              </Popup>
+            </>
           ) : null}
         </BasicMap>
         <Box style={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
@@ -311,7 +323,7 @@ export default function PlacePicker({
             onBlur={(e) => {
               needsPredictionRef.current = false;
               setOptions({});
-              setInputValue(value != null ? formatPlace(value) : "");
+              setInputValue(value != null ? value.location : "");
               if (onBlur != null) {
                 onBlur(e);
               }

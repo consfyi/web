@@ -135,7 +135,7 @@ export function BasicMarker({
   );
 }
 
-function MarkupWithPopup({
+function MarkerWithPopup({
   pin,
   showPopup,
   setShowPopup,
@@ -299,7 +299,7 @@ export default function Map({
       }}
     >
       {pins.map((pin, i) => (
-        <MarkupWithPopup
+        <MarkerWithPopup
           key={i}
           pin={pin}
           showPopup={pin.id == selected}
