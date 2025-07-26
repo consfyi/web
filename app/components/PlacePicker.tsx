@@ -219,7 +219,7 @@ export default function PlacePicker({
           onMove={(evt) => {
             setViewState(evt.viewState);
           }}
-          onDblClick={(e) => {
+          onClick={(e) => {
             if (!manualMode) {
               return;
             }
