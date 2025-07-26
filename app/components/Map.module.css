@@ -69,6 +69,11 @@
     padding-right: 17px;
 }
 
+.map :global(.maplibregl-popup-anchor-top) :global(.maplibregl-popup-tip) {
+    transform: rotate(45deg);
+    top: -2.5px;
+}
+
 .map :global(.maplibregl-popup-anchor-bottom) :global(.maplibregl-popup-tip) {
     transform: rotate(225deg);
     bottom: 34.5px;
