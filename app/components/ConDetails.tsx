@@ -299,8 +299,11 @@ export function Body({ con }: { con: ConWithPost }) {
             <Text size="xs">
               <Trans>
                 Is this information incorrect?{" "}
-                <Anchor component={Link} to={`/${con.id}/edit`}>
-                  Propose an edit.
+                <Anchor
+                  href="https://github.com/consfyi/data/issues/new?template=missing-or-incorrect-convention.md"
+                  target="_blank"
+                >
+                  File an issue here.
                 </Anchor>{" "}
                 {con.sources != null && con.sources.length > 0 ? (
                   <Trans>

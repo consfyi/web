@@ -14,7 +14,7 @@ msgstr ""
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/ConDetails.tsx:141
-#: app/components/ConDetails.tsx:374
+#: app/components/ConDetails.tsx:376
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 
@@ -29,7 +29,6 @@ msgstr "View Bluesky Post"
 
 #: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
-#: app/components/Editor.tsx:192
 msgid "Dates"
 msgstr "Dates"
 
@@ -43,45 +42,43 @@ msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
 
 #: app/components/ConDetails.tsx:270
-#: app/components/Editor.tsx:199
 msgid "Website"
 msgstr "Website"
 
-#: app/components/ConDetails.tsx:286
+#: app/components/ConDetails.tsx:285
 #: app/components/ConRow.tsx:271
 #: app/components/ConRow.tsx:285
-#: app/components/Editor.tsx:216
 msgid "Location"
 msgstr "Location"
 
 #. placeholder {0}: con.sources != null && con.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={con.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/ConDetails.tsx:301
-msgid "Is this information incorrect? <0>Propose an edit.</0> {0}"
-msgstr "Is this information incorrect? <0>Propose an edit.</0> {0}"
+#: app/components/ConDetails.tsx:300
+msgid "Is this information incorrect? <0>File an issue here.</0> {0}"
+msgstr "Is this information incorrect? <0>File an issue here.</0> {0}"
 
-#: app/components/ConDetails.tsx:307
+#: app/components/ConDetails.tsx:309
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
 
-#: app/components/ConDetails.tsx:336
+#: app/components/ConDetails.tsx:338
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "Going"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:339
+#: app/components/ConDetails.tsx:341
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0} including you"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:343
+#: app/components/ConDetails.tsx:345
 #: app/components/ConRow.tsx:182
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}"
 
-#: app/components/ConDetails.tsx:353
+#: app/components/ConDetails.tsx:355
 msgid "Loading people you follow"
 msgstr "Loading people you follow"
 
@@ -106,62 +103,6 @@ msgstr "End date"
 msgctxt "until [date] ([duration] days long)"
 msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "until {0} ({1, plural, one {# day long} other {# days long}})"
-
-#: app/components/Editor.tsx:58
-msgid "If you have any notes, please add them here."
-msgstr "If you have any notes, please add them here."
-
-#: app/components/Editor.tsx:60
-msgid "DO NOT EDIT ANYTHING BELOW THIS LINE"
-msgstr "DO NOT EDIT ANYTHING BELOW THIS LINE"
-
-#: app/components/Editor.tsx:83
-msgid "Name must not be empty."
-msgstr "Name must not be empty."
-
-#: app/components/Editor.tsx:85
-msgid "Start date must be set."
-msgstr "Start date must be set."
-
-#: app/components/Editor.tsx:87
-msgid "End date must be set."
-msgstr "End date must be set."
-
-#: app/components/Editor.tsx:89
-msgid "Location must be set."
-msgstr "Location must be set."
-
-#: app/components/Editor.tsx:92
-msgid "Website must be set."
-msgstr "Website must be set."
-
-#: app/components/Editor.tsx:94
-msgid "Website must be a valid URL."
-msgstr "Website must be a valid URL."
-
-#: app/components/Editor.tsx:124
-#: app/components/cons/ListView.tsx:329
-msgid "Name"
-msgstr "Name"
-
-#: app/components/Editor.tsx:126
-msgid "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
-msgstr "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
-
-#. placeholder {0}: start != null ? i18n.date(start, FORMAT) : ""
-#. placeholder {1}: end != null ? i18n.date(end, FORMAT) : ""
-#: app/components/Editor.tsx:159
-msgctxt "date range"
-msgid "{0} – {1}"
-msgstr "{0} – {1}"
-
-#: app/components/Editor.tsx:228
-msgid "You must have a <0>GitHub</0> account to propose edits."
-msgstr "You must have a <0>GitHub</0> account to propose edits."
-
-#: app/components/Editor.tsx:237
-msgid "Propose"
-msgstr "Propose"
 
 #: app/components/EmptyState.tsx:17
 msgid "No cons to display."
@@ -282,16 +223,16 @@ msgstr "Not going"
 msgid "Toggle going"
 msgstr "Toggle going"
 
-#: app/components/PlacePicker.tsx:163
+#: app/components/PlacePicker.tsx:160
 msgid "In manual mode. <0>Switch to automatic mode.</0>"
 msgstr "In manual mode. <0>Switch to automatic mode.</0>"
 
 #. placeholder {0}: attributions.length > 0 ? ( <Trans> Result provided by{" "} <IntlList items={attributions.map(({ provider, providerURI }) => providerURI != undefined ? ( <Anchor href={providerURI} target="_blank" key={provider} > {provider} </Anchor> ) : ( <Fragment key={provider}>provider</Fragment> ), )} /> . </Trans> ) : null
-#: app/components/PlacePicker.tsx:175
+#: app/components/PlacePicker.tsx:172
 msgid "In automatic mode. <0>Switch to manual mode.</0> Place search provided by Google Maps. {0}"
 msgstr "In automatic mode. <0>Switch to manual mode.</0> Place search provided by Google Maps. {0}"
 
-#: app/components/PlacePicker.tsx:189
+#: app/components/PlacePicker.tsx:186
 msgid "Result provided by <0/>."
 msgstr "Result provided by <0/>."
 
@@ -361,6 +302,10 @@ msgstr "Soonest to latest"
 msgid "Latest to soonest"
 msgstr "Latest to soonest"
 
+#: app/components/cons/ListView.tsx:329
+msgid "Name"
+msgstr "Name"
+
 #: app/components/cons/ListView.tsx:330
 msgid "A to Z"
 msgstr "A to Z"
@@ -429,53 +374,34 @@ msgid "https://your.pds.com"
 msgstr "https://your.pds.com"
 
 #: app/root.tsx:341
-msgid "Convention missing? <0>Propose an edit.</0>"
-msgstr "Convention missing? <0>Propose an edit.</0>"
+msgid "Convention missing? <0>File an issue here.</0>"
+msgstr "Convention missing? <0>File an issue here.</0>"
 
-#: app/root.tsx:381
-#: app/root.tsx:388
+#: app/root.tsx:384
+#: app/root.tsx:391
 msgid "Not found"
 msgstr "Not found"
 
-#: app/root.tsx:391
+#: app/root.tsx:394
 msgid "The page you requested could not be found."
 msgstr "The page you requested could not be found."
 
-#: app/root.tsx:423
+#: app/root.tsx:426
 msgid "Welcome!"
 msgstr "Welcome!"
 
-#: app/root.tsx:429
+#: app/root.tsx:432
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 
-#: app/root.tsx:516
+#: app/root.tsx:519
 msgid "Not subscribed to labeler"
 msgstr "Not subscribed to labeler"
 
-#: app/root.tsx:520
+#: app/root.tsx:523
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 
-#: app/root.tsx:533
+#: app/root.tsx:536
 msgid "Fix this for me"
 msgstr "Fix this for me"
-
-#. placeholder {0}: loaderData.name
-#: app/routes/$conId.edit.tsx:33
-msgid "Edit convention: {0}"
-msgstr "Edit convention: {0}"
-
-#. placeholder {0}: loaderData.name
-#: app/routes/$conId.edit.tsx:40
-msgid "You are proposing an edit to <0>{0}</0>."
-msgstr "You are proposing an edit to <0>{0}</0>."
-
-#: app/routes/new.tsx:28
-msgid "New convention"
-msgstr "New convention"
-
-#. placeholder {0}: loaderData.name
-#: app/routes/new.tsx:36
-msgid "This convention will be linked to <0>{0}</0> as its next instance."
-msgstr "This convention will be linked to <0>{0}</0> as its next instance."
