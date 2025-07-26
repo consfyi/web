@@ -29,7 +29,7 @@ msgstr "View Bluesky Post"
 
 #: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
-#: app/components/Editor.tsx:143
+#: app/components/Editor.tsx:145
 msgid "Dates"
 msgstr "Dates"
 
@@ -43,14 +43,14 @@ msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
 
 #: app/components/ConDetails.tsx:270
-#: app/components/Editor.tsx:150
+#: app/components/Editor.tsx:152
 msgid "Website"
 msgstr "Website"
 
 #: app/components/ConDetails.tsx:286
 #: app/components/ConRow.tsx:271
 #: app/components/ConRow.tsx:285
-#: app/components/Editor.tsx:167
+#: app/components/Editor.tsx:169
 msgid "Location"
 msgstr "Location"
 
@@ -107,44 +107,44 @@ msgctxt "until [date] ([duration] days long)"
 msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "until {0} ({1, plural, one {# day long} other {# days long}})"
 
-#: app/components/Editor.tsx:61
+#: app/components/Editor.tsx:63
 msgid "Name must not be empty."
 msgstr "Name must not be empty."
 
-#: app/components/Editor.tsx:63
+#: app/components/Editor.tsx:65
 msgid "Start date must be set."
 msgstr "Start date must be set."
 
-#: app/components/Editor.tsx:65
+#: app/components/Editor.tsx:67
 msgid "End date must be set."
 msgstr "End date must be set."
 
-#: app/components/Editor.tsx:67
+#: app/components/Editor.tsx:69
 msgid "Location must be set."
 msgstr "Location must be set."
 
-#: app/components/Editor.tsx:70
+#: app/components/Editor.tsx:72
 msgid "Website must be set."
 msgstr "Website must be set."
 
-#: app/components/Editor.tsx:72
+#: app/components/Editor.tsx:74
 msgid "Website must be a valid URL."
 msgstr "Website must be a valid URL."
 
-#: app/components/Editor.tsx:102
+#: app/components/Editor.tsx:104
 #: app/components/cons/ListView.tsx:329
 msgid "Name"
 msgstr "Name"
 
-#: app/components/Editor.tsx:104
+#: app/components/Editor.tsx:106
 msgid "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
 msgstr "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
 
-#: app/components/Editor.tsx:179
+#: app/components/Editor.tsx:181
 msgid "You must have a <0>GitHub</0> account to propose changes."
 msgstr "You must have a <0>GitHub</0> account to propose changes."
 
-#: app/components/Editor.tsx:188
+#: app/components/Editor.tsx:190
 msgid "Propose"
 msgstr "Propose"
 
@@ -442,11 +442,16 @@ msgstr "You are currently not subscribed to the labeler. That means you won’t 
 msgid "Fix this for me"
 msgstr "Fix this for me"
 
-#. placeholder {0}: entry.name
-#: app/routes/$conId.edit.tsx:33
+#. placeholder {0}: loaderData.name
+#: app/routes/$conId.edit.tsx:31
 msgid "Edit convention: {0}"
 msgstr "Edit convention: {0}"
 
-#: app/routes/new.tsx:10
+#: app/routes/new.tsx:28
 msgid "New convention"
 msgstr "New convention"
+
+#. placeholder {0}: loaderData.name
+#: app/routes/new.tsx:36
+msgid "This convention will be linked to <0>{0}</0> as its next instance."
+msgstr "This convention will be linked to <0>{0}</0> as its next instance."

@@ -19,6 +19,7 @@ export interface Entry {
   country?: string;
   latLng?: [number, number];
   sources?: string[];
+  previousInstanceId?: string;
 }
 
 function makeDefaultEntry(): Entry {
@@ -30,6 +31,7 @@ function makeDefaultEntry(): Entry {
     location: "",
     country: undefined,
     latLng: undefined,
+    previousInstanceId: undefined,
   };
 }
 

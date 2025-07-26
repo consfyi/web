@@ -12,30 +12,28 @@ export async function clientLoader({
     return null;
   }
   const con = await res.json();
-  return con;
+  return con as Entry;
 }
 
 export default function Edit({
   params: { conId },
   loaderData,
 }: Route.ComponentProps) {
-  const entry = loaderData as Entry;
-
   const { t } = useLingui();
 
-  if (entry == null) {
+  if (loaderData == null) {
     throw new Response(null, {
       status: 404,
     });
   }
 
   useEffect(() => {
-    document.title = t`Edit convention: ${entry.name}`;
-  }, [entry, t]);
+    document.title = t`Edit convention: ${loaderData.name}`;
+  }, [loaderData, t]);
 
   return (
     <Container size="lg" p="sm">
-      <Editor id={conId} entry={entry} />
+      <Editor id={conId} entry={loaderData} />
     </Container>
   );
 }
