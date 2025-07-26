@@ -13,11 +13,10 @@ import {
   Text,
 } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
-import { Fragment, useCallback, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useRef, useState } from "react";
 import { hookifyPromise } from "~/hooks";
 import IntlList from "./IntlList";
 import { BasicMap, BasicMarker } from "./Map";
-import { useLingui } from "@lingui/react";
 
 export interface Place {
   location: string;
@@ -40,18 +39,6 @@ const PERMITTED_ADDRESS_COMPONENTS = new Set([
   "administrative_area_level_1",
   "country",
 ]);
-
-function formatAddress(
-  displayName: string,
-  components: google.maps.places.AddressComponent[],
-) {
-  return [
-    displayName,
-    ...components
-      .filter((c) => c.types.some((t) => PERMITTED_ADDRESS_COMPONENTS.has(t)))
-      .map((c) => c.longText),
-  ].join(", ");
-}
 
 function formatPlace(place: Place) {
   if (place.latLng == null) {
@@ -104,7 +91,6 @@ export default function PlacePicker({
   | "onOptionSubmit"
 >) {
   const places = usePlacesLibrary();
-  const { i18n } = useLingui();
 
   const [inputValue, setInputValue] = useState(() =>
     value != null ? formatPlace(value) : null,
@@ -280,29 +266,27 @@ export default function PlacePicker({
               const suggestion = options[v];
               setOptions({});
               ref.current!.blur();
-              setInputValue(suggestion.placePrediction!.mainText!.text);
+              const location = [
+                suggestion.placePrediction!.mainText!.text,
+                ...(suggestion.placePrediction!.secondaryText != null
+                  ? [suggestion.placePrediction!.secondaryText.text]
+                  : []),
+              ].join(", ");
+              setInputValue(location);
               setRetrieving(true);
               resetSessionToken();
               (async () => {
                 try {
                   const place = suggestion.placePrediction!.toPlace();
                   await place.fetchFields({
-                    fields: [
-                      "displayName",
-                      "location",
-                      "addressComponents",
-                      "attributions",
-                    ],
+                    fields: ["location", "addressComponents", "attributions"],
                   });
                   const latLng = [
                     place.location!.lat(),
                     place.location!.lng(),
                   ] as [number, number];
                   const p = {
-                    location: formatAddress(
-                      place.displayName!,
-                      place.addressComponents!,
-                    ),
+                    location,
                     latLng,
                     country: place.addressComponents!.find((c) =>
                       c.types.includes("country"),
