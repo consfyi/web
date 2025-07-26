@@ -462,9 +462,14 @@ msgid "Fix this for me"
 msgstr "Fix this for me"
 
 #. placeholder {0}: loaderData.name
-#: app/routes/$conId.edit.tsx:31
+#: app/routes/$conId.edit.tsx:33
 msgid "Edit convention: {0}"
 msgstr "Edit convention: {0}"
+
+#. placeholder {0}: loaderData.name
+#: app/routes/$conId.edit.tsx:40
+msgid "You are proposing an edit to <0>{0}</0>."
+msgstr "You are proposing an edit to <0>{0}</0>."
 
 #: app/routes/new.tsx:28
 msgid "New convention"
