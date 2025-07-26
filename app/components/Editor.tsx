@@ -9,6 +9,8 @@ import {
   IconTag,
   IconWorld,
 } from "@tabler/icons-react";
+import { parse as parseDate } from "date-fns";
+import { useMemo } from "react";
 import PlacePicker from "./PlacePicker";
 
 export interface Entry {
@@ -71,7 +73,7 @@ export default function Editor({
   id?: string;
   entry?: Entry;
 }) {
-  const { t } = useLingui();
+  const { i18n, t } = useLingui();
 
   const form = useForm({
     mode: "controlled",
@@ -134,6 +136,29 @@ export default function Editor({
         mb="xs"
         type="range"
         allowSingleDateInRange
+        valueFormatter={({ date }) => {
+          const FORMAT = {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          };
+
+          const [startDate, endDate] = date as [string, string];
+
+          const refDate = new Date();
+          const start =
+            startDate != ""
+              ? parseDate(startDate, "yyyy-MM-dd", refDate)
+              : null;
+          const end =
+            endDate != "" ? parseDate(endDate, "yyyy-MM-dd", refDate) : null;
+          if (start == null && end == null) {
+            return "";
+          }
+
+          return `${start != null ? i18n.date(start, FORMAT) : ""} – ${end != null ? i18n.date(end, FORMAT) : ""}`;
+        }}
         error={
           startDateInputProps.error != null ||
           endDateInputProps.error != null ? (
