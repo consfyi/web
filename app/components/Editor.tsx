@@ -100,6 +100,12 @@ export default function Editor({
         size="sm"
         mb="xs"
         label={<Trans>Name</Trans>}
+        description={
+          <Trans>
+            Include the year or number of the convention, e.g. “RainFurrest
+            2016” or “Eurofurence 29”.
+          </Trans>
+        }
         leftSection={<IconTag size={16} />}
       />
       <DatePickerInput

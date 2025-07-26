@@ -29,7 +29,7 @@ msgstr "View Bluesky Post"
 
 #: app/components/ConDetails.tsx:248
 #: app/components/ConRow.tsx:229
-#: app/components/Editor.tsx:137
+#: app/components/Editor.tsx:143
 msgid "Dates"
 msgstr "Dates"
 
@@ -43,14 +43,14 @@ msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
 
 #: app/components/ConDetails.tsx:270
-#: app/components/Editor.tsx:144
+#: app/components/Editor.tsx:150
 msgid "Website"
 msgstr "Website"
 
 #: app/components/ConDetails.tsx:286
 #: app/components/ConRow.tsx:271
 #: app/components/ConRow.tsx:285
-#: app/components/Editor.tsx:161
+#: app/components/Editor.tsx:167
 msgid "Location"
 msgstr "Location"
 
@@ -136,11 +136,15 @@ msgstr "Website must be a valid URL."
 msgid "Name"
 msgstr "Name"
 
-#: app/components/Editor.tsx:173
+#: app/components/Editor.tsx:104
+msgid "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
+msgstr "Include the year or number of the convention, e.g. “RainFurrest 2016” or “Eurofurence 29”."
+
+#: app/components/Editor.tsx:179
 msgid "You must have a <0>GitHub</0> account to propose changes."
 msgstr "You must have a <0>GitHub</0> account to propose changes."
 
-#: app/components/Editor.tsx:182
+#: app/components/Editor.tsx:188
 msgid "Propose"
 msgstr "Propose"
 
