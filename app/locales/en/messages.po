@@ -11,99 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: unknownLikes.length
-#. placeholder {0}: [unknownLikeCount][0]
-#: app/components/ConDetails.tsx:141
-#: app/components/ConDetails.tsx:376
-msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
-msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
-
-#: app/components/ConDetails.tsx:161
-msgid "Nobody known to be going yet."
-msgstr "Nobody known to be going yet."
-
-#: app/components/ConDetails.tsx:179
-#: app/components/ConDetails.tsx:186
-msgid "View Bluesky Post"
-msgstr "View Bluesky Post"
-
-#: app/components/ConDetails.tsx:248
-#: app/components/ConRow.tsx:229
-msgid "Dates"
-msgstr "Dates"
-
-#. placeholder {0}: [dateRange][0]
-#. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(con.start), reinterpretAsLocalDate(subDays(con.end, 1)), )
-#. placeholder {1}: differenceInDays(con.end, con.start)
-#: app/components/ConDetails.tsx:252
-#: app/components/ConRow.tsx:231
-msgctxt "[start date]-[end date] ([duration] days long)"
-msgid "{0} ({1, plural, one {# day long} other {# days long}})"
-msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
-
-#: app/components/ConDetails.tsx:270
-msgid "Website"
-msgstr "Website"
-
-#: app/components/ConDetails.tsx:285
-#: app/components/ConRow.tsx:271
-#: app/components/ConRow.tsx:285
-msgid "Location"
-msgstr "Location"
-
-#. placeholder {0}: con.sources != null && con.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={con.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/ConDetails.tsx:300
-msgid "Is this information incorrect? <0>File an issue here.</0> {0}"
-msgstr "Is this information incorrect? <0>File an issue here.</0> {0}"
-
-#: app/components/ConDetails.tsx:309
-msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
-msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
-
-#: app/components/ConDetails.tsx:338
-#: app/components/LikeButton.tsx:31
-msgid "Going"
-msgstr "Going"
-
-#. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:341
-msgctxt "attendee count, including you"
-msgid "{0} including you"
-msgstr "{0} including you"
-
-#. placeholder {0}: [likeCount][0]
-#: app/components/ConDetails.tsx:345
-#: app/components/ConRow.tsx:182
-msgctxt "attendee count"
-msgid "{0}"
-msgstr "{0}"
-
-#: app/components/ConDetails.tsx:355
-msgid "Loading people you follow"
-msgstr "Loading people you follow"
-
-#: app/components/ConRow.tsx:176
-#: app/components/cons/ListView.tsx:337
-msgctxt "number of people going"
-msgid "People going"
-msgstr "People going"
-
-#. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
-#: app/components/ConRow.tsx:195
-msgid "{0, plural, one {# other you follow} other {# others you follow}}"
-msgstr "{0, plural, one {# other you follow} other {# others you follow}}"
-
-#: app/components/ConRow.tsx:246
-msgid "End date"
-msgstr "End date"
-
-#. placeholder {0}: i18n.date(reinterpretAsLocalDate(subDays(con.end, 1)), { weekday: "short", day: "numeric", month: "short", year: getYear(reinterpretAsLocalDate(con.start)) != getYear(reinterpretAsLocalDate(subDays(con.end, 1))) ? "numeric" : undefined, })
-#. placeholder {1}: differenceInDays(con.end, con.start)
-#: app/components/ConRow.tsx:247
-msgctxt "until [date] ([duration] days long)"
-msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
-msgstr "until {0} ({1, plural, one {# day long} other {# days long}})"
-
 #: app/components/EmptyState.tsx:17
 msgid "No cons to display."
 msgstr "No cons to display."
@@ -111,6 +18,99 @@ msgstr "No cons to display."
 #: app/components/EmptyState.tsx:27
 msgid "Clear all filters"
 msgstr "Clear all filters"
+
+#. placeholder {0}: unknownLikes.length
+#. placeholder {0}: [unknownLikeCount][0]
+#: app/components/EventDetails.tsx:141
+#: app/components/EventDetails.tsx:377
+msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
+msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
+
+#: app/components/EventDetails.tsx:161
+msgid "Nobody known to be going yet."
+msgstr "Nobody known to be going yet."
+
+#: app/components/EventDetails.tsx:180
+#: app/components/EventDetails.tsx:187
+msgid "View Bluesky Post"
+msgstr "View Bluesky Post"
+
+#: app/components/EventDetails.tsx:249
+#: app/components/EventRow.tsx:229
+msgid "Dates"
+msgstr "Dates"
+
+#. placeholder {0}: [dateRange][0]
+#. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
+#. placeholder {1}: differenceInDays(event.end, event.start)
+#: app/components/EventDetails.tsx:253
+#: app/components/EventRow.tsx:231
+msgctxt "[start date]-[end date] ([duration] days long)"
+msgid "{0} ({1, plural, one {# day long} other {# days long}})"
+msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
+
+#: app/components/EventDetails.tsx:271
+msgid "Website"
+msgstr "Website"
+
+#: app/components/EventDetails.tsx:286
+#: app/components/EventRow.tsx:271
+#: app/components/EventRow.tsx:285
+msgid "Location"
+msgstr "Location"
+
+#. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
+#: app/components/EventDetails.tsx:301
+msgid "Is this information incorrect? <0>File an issue here.</0> {0}"
+msgstr "Is this information incorrect? <0>File an issue here.</0> {0}"
+
+#: app/components/EventDetails.tsx:310
+msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
+msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
+
+#: app/components/EventDetails.tsx:339
+#: app/components/LikeButton.tsx:31
+msgid "Going"
+msgstr "Going"
+
+#. placeholder {0}: [likeCount][0]
+#: app/components/EventDetails.tsx:342
+msgctxt "attendee count, including you"
+msgid "{0} including you"
+msgstr "{0} including you"
+
+#. placeholder {0}: [likeCount][0]
+#: app/components/EventDetails.tsx:346
+#: app/components/EventRow.tsx:182
+msgctxt "attendee count"
+msgid "{0}"
+msgstr "{0}"
+
+#: app/components/EventDetails.tsx:356
+msgid "Loading people you follow"
+msgstr "Loading people you follow"
+
+#: app/components/EventRow.tsx:176
+#: app/components/events/ListView.tsx:340
+msgctxt "number of people going"
+msgid "People going"
+msgstr "People going"
+
+#. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
+#: app/components/EventRow.tsx:195
+msgid "{0, plural, one {# other you follow} other {# others you follow}}"
+msgstr "{0, plural, one {# other you follow} other {# others you follow}}"
+
+#: app/components/EventRow.tsx:246
+msgid "End date"
+msgstr "End date"
+
+#. placeholder {0}: i18n.date(reinterpretAsLocalDate(subDays(event.end, 1)), { weekday: "short", day: "numeric", month: "short", year: getYear(reinterpretAsLocalDate(event.start)) != getYear(reinterpretAsLocalDate(subDays(event.end, 1))) ? "numeric" : undefined, })
+#. placeholder {1}: differenceInDays(event.end, event.start)
+#: app/components/EventRow.tsx:247
+msgctxt "until [date] ([duration] days long)"
+msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
+msgstr "until {0} ({1, plural, one {# day long} other {# days long}})"
 
 #: app/components/FilterBar.tsx:60
 msgid "List"
@@ -223,19 +223,6 @@ msgstr "Not going"
 msgid "Toggle going"
 msgstr "Toggle going"
 
-#: app/components/PlacePicker.tsx:160
-msgid "In manual mode. <0>Switch to automatic mode.</0>"
-msgstr "In manual mode. <0>Switch to automatic mode.</0>"
-
-#. placeholder {0}: attributions.length > 0 ? ( <Trans> Result provided by{" "} <IntlList items={attributions.map(({ provider, providerURI }) => providerURI != undefined ? ( <Anchor href={providerURI} target="_blank" key={provider} > {provider} </Anchor> ) : ( <Fragment key={provider}>provider</Fragment> ), )} /> . </Trans> ) : null
-#: app/components/PlacePicker.tsx:172
-msgid "In automatic mode. <0>Switch to manual mode.</0> Place search provided by Google Maps. {0}"
-msgstr "In automatic mode. <0>Switch to manual mode.</0> Place search provided by Google Maps. {0}"
-
-#: app/components/PlacePicker.tsx:186
-msgid "Result provided by <0/>."
-msgstr "Result provided by <0/>."
-
 #: app/components/SimpleErrorBoundary.tsx:18
 msgid "Error"
 msgstr "Error"
@@ -245,94 +232,98 @@ msgid "An error occurred while attempting to load this data."
 msgstr "An error occurred while attempting to load this data."
 
 #: app/components/UserDetails.tsx:47
-#: app/components/UserDetails.tsx:139
-msgctxt "user attending cons"
+msgctxt "user attending events"
 msgid "Going"
 msgstr "Going"
 
-#. placeholder {0}: filteredCons.length
+#. placeholder {0}: filteredEvents.length
 #: app/components/UserDetails.tsx:49
 msgctxt "convention count"
 msgid "{0}"
 msgstr "{0}"
 
-#. placeholder {0}: unknownCons.length
+#. placeholder {0}: unknownEvents.length
 #: app/components/UserDetails.tsx:75
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 
-#: app/components/cons/CalendarView.tsx:88
+#: app/components/UserDetails.tsx:139
+msgctxt "user attending cons"
+msgid "Going"
+msgstr "Going"
+
+#: app/components/events/CalendarView.tsx:88
 msgid "Subscribe"
 msgstr "Subscribe"
 
-#: app/components/cons/CalendarView.tsx:104
+#: app/components/events/CalendarView.tsx:104
 msgid "Calendar URL"
 msgstr "Calendar URL"
 
-#: app/components/cons/CalendarView.tsx:122
-#: app/components/cons/ListView.tsx:406
+#: app/components/events/CalendarView.tsx:122
+#: app/components/events/ListView.tsx:409
 msgid "Settings"
 msgstr "Settings"
 
-#: app/components/cons/CalendarView.tsx:136
+#: app/components/events/CalendarView.tsx:136
 msgid "Week starts on"
 msgstr "Week starts on"
 
-#: app/components/cons/CalendarView.tsx:158
+#: app/components/events/CalendarView.tsx:158
 msgid "Use time zone"
 msgstr "Use time zone"
 
-#: app/components/cons/CalendarView.tsx:175
+#: app/components/events/CalendarView.tsx:175
 msgid "Theirs"
 msgstr "Theirs"
 
-#: app/components/cons/CalendarView.tsx:192
+#: app/components/events/CalendarView.tsx:192
 msgid "Yours"
 msgstr "Yours"
 
-#: app/components/cons/ListView.tsx:321
+#: app/components/events/ListView.tsx:324
 msgid "Date"
 msgstr "Date"
 
-#: app/components/cons/ListView.tsx:322
+#: app/components/events/ListView.tsx:325
 msgid "Soonest to latest"
 msgstr "Soonest to latest"
 
-#: app/components/cons/ListView.tsx:324
+#: app/components/events/ListView.tsx:327
 msgid "Latest to soonest"
 msgstr "Latest to soonest"
 
-#: app/components/cons/ListView.tsx:329
+#: app/components/events/ListView.tsx:332
 msgid "Name"
 msgstr "Name"
 
-#: app/components/cons/ListView.tsx:330
+#: app/components/events/ListView.tsx:333
 msgid "A to Z"
 msgstr "A to Z"
 
-#: app/components/cons/ListView.tsx:332
+#: app/components/events/ListView.tsx:335
 msgid "Z to A"
 msgstr "Z to A"
 
-#: app/components/cons/ListView.tsx:338
-#: app/components/cons/ListView.tsx:346
+#: app/components/events/ListView.tsx:341
+#: app/components/events/ListView.tsx:349
 msgid "Fewest to most"
 msgstr "Fewest to most"
 
-#: app/components/cons/ListView.tsx:340
-#: app/components/cons/ListView.tsx:348
+#: app/components/events/ListView.tsx:343
+#: app/components/events/ListView.tsx:351
 msgid "Most to fewest"
 msgstr "Most to fewest"
 
-#: app/components/cons/ListView.tsx:345
+#: app/components/events/ListView.tsx:348
 msgid "People you follow going"
 msgstr "People you follow going"
 
-#: app/components/cons/ListView.tsx:434
+#: app/components/events/ListView.tsx:437
 msgid "Sort by"
 msgstr "Sort by"
 
-#: app/components/cons/ListView.tsx:475
+#: app/components/events/ListView.tsx:478
 msgid "Order"
 msgstr "Order"
 
@@ -377,31 +368,31 @@ msgstr "https://your.pds.com"
 msgid "Convention missing? <0>File an issue here.</0>"
 msgstr "Convention missing? <0>File an issue here.</0>"
 
-#: app/root.tsx:384
-#: app/root.tsx:391
+#: app/root.tsx:381
+#: app/root.tsx:388
 msgid "Not found"
 msgstr "Not found"
 
-#: app/root.tsx:394
+#: app/root.tsx:391
 msgid "The page you requested could not be found."
 msgstr "The page you requested could not be found."
 
-#: app/root.tsx:426
+#: app/root.tsx:423
 msgid "Welcome!"
 msgstr "Welcome!"
 
-#: app/root.tsx:432
+#: app/root.tsx:429
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 
-#: app/root.tsx:519
+#: app/root.tsx:516
 msgid "Not subscribed to labeler"
 msgstr "Not subscribed to labeler"
 
-#: app/root.tsx:523
+#: app/root.tsx:520
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 
-#: app/root.tsx:536
+#: app/root.tsx:533
 msgid "Fix this for me"
 msgstr "Fix this for me"
