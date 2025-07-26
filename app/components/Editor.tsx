@@ -36,6 +36,22 @@ function makeDefaultEntry(): Entry {
   };
 }
 
+function guessLanguageForRegion(regionCode: string) {
+  // "und" stands for "undetermined language" — like ICU's fallback
+  return new Intl.Locale(`und-${regionCode}`).maximize().baseName;
+}
+
+function slugify(s: string, locale: string) {
+  return s
+    .normalize("NFKC")
+    .toLocaleLowerCase(locale)
+    .replace(/&/g, "and")
+    .replace(/[^\p{L}\p{N}\s-]+/gu, "")
+    .trim()
+    .split(/\s+/)
+    .join("-");
+}
+
 function fillTemplate({ blob }: { blob: string }) {
   return (t: typeof _t) => `\
 ${t(msg`If you have any notes, please add them here.`)}
@@ -91,7 +107,7 @@ export default function Editor({
           "title",
           id != null
             ? `Edit convention: ${id}`
-            : `New convention: ${values.name}`,
+            : `New convention: ${slugify(values.name, values.country != null ? guessLanguageForRegion(values.country) : "en")}`,
         );
         searchParams.set(
           "body",

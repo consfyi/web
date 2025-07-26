@@ -17,6 +17,7 @@ import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import { hookifyPromise } from "~/hooks";
 import IntlList from "./IntlList";
 import { BasicMap, BasicMarker } from "./Map";
+import { useLingui } from "@lingui/react";
 
 export interface Place {
   location: string;
@@ -86,6 +87,7 @@ export default function PlacePicker({
   | "onOptionSubmit"
 >) {
   const places = usePlacesLibrary();
+  const { i18n } = useLingui();
 
   const [inputValue, setInputValue] = useState(() =>
     value != null ? formatPlace(value) : null,
@@ -125,6 +127,7 @@ export default function PlacePicker({
           await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
             input: v,
             locationBias: { lat: viewState.latitude, lng: viewState.longitude },
+            language: i18n.locale,
             sessionToken,
           });
         if (resp == null || !needsPredictionRef.current) {
@@ -269,6 +272,7 @@ export default function PlacePicker({
                 try {
                   const place = new places.Place({
                     id: suggestion.placePrediction!.placeId,
+                    requestedLanguage: "en",
                   });
                   await place.fetchFields({
                     fields: [
