@@ -339,8 +339,15 @@ function Footer() {
       >
         <Text c="dimmed" size="sm" mb="sm">
           <Trans>
-            Convention missing?{" "}
-            <Anchor href="https://github.com/consfyi/data/issues/new?template=missing-or-incorrect-convention.md">
+            Data sourced from{" "}
+            <Anchor href="https://data.cons.fyi" target="_blank">
+              data.cons.fyi
+            </Anchor>
+            . Convention missing?{" "}
+            <Anchor
+              href="https://github.com/consfyi/data/issues/new?template=missing-or-incorrect-convention.md"
+              target="_blank"
+            >
               File an issue here.
             </Anchor>
           </Trans>
