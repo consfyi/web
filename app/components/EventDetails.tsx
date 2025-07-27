@@ -181,7 +181,6 @@ export function Title({ event }: { event: EventWithPost }) {
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}
             target="_blank"
-            rel="noreferrer"
           >
             <IconBrandBluesky
               title={t`View Bluesky Post`}

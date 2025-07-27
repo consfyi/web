@@ -122,7 +122,6 @@ export default function UserDetails({ profile }: { profile: Profile }) {
               <Anchor
                 href={`https://bsky.app/profile/${profile.handle}`}
                 target="_blank"
-                rel="noreferrer"
                 c="dimmed"
               >
                 @{profile.handle}

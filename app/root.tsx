@@ -358,7 +358,6 @@ function Footer() {
             component="a"
             href="https://bsky.app/profile/cons.fyi"
             target="_blank"
-            rel="noreferrer"
             size="md"
             color="gray"
             variant="subtle"
@@ -436,11 +435,7 @@ function Welcome() {
         <Trans>
           <Text size="sm" mb="xs">
             This the website for the{" "}
-            <Anchor
-              href="https://bsky.app/profile/cons.fyi"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Anchor href="https://bsky.app/profile/cons.fyi" target="_blank">
               <IconBrandBluesky size={12} /> @cons.fyi
             </Anchor>{" "}
             service. For the full experience, please log in. You’ll be able to:
@@ -465,11 +460,7 @@ function Welcome() {
           </Text>
           <Text size="sm">
             A huge thank you to{" "}
-            <Anchor
-              href="https://furrycons.com"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Anchor href="https://furrycons.com" target="_blank">
               FurryCons.com
             </Anchor>{" "}
             who provides all the data on conventions!
