@@ -172,8 +172,8 @@ export default function EventRow({
           ) : null}
 
           <Text size="sm" truncate>
-            <Flag country={event.country ?? undefined} size={10} me={6} />
             <Anchor fw={500} component={Link} to={`/${event.id}`}>
+              <Flag country={event.country ?? undefined} size={10} me={6} />
               {event.name}
             </Anchor>
           </Text>
