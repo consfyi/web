@@ -15,11 +15,11 @@ import {
   IconRss,
   IconSettings,
 } from "@tabler/icons-react";
-import { Day, getDay } from "date-fns";
+import { type Day, getDay } from "date-fns";
 import { Suspense, useEffect, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
-import { EventWithPost } from "~/hooks";
+import { type EventWithPost } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
 import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";

@@ -32,8 +32,8 @@ import { LABELER_DID } from "~/config";
 import { reinterpretAsLocalDate } from "~/date";
 import { Profile } from "~/endpoints";
 import {
-  Event,
-  EventWithPost,
+  type Event,
+  type EventWithPost,
   useFollowedEventAttendeesDLE,
   useLikes,
   useNow,

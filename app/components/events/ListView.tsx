@@ -21,11 +21,11 @@ import {
 } from "@tabler/icons-react";
 import { addMonths, getMonth, getYear, setDate } from "date-fns";
 import { compareMany, comparing, group, sorted } from "iter-fns";
-import { ReactNode, Suspense, useMemo, useState } from "react";
+import { type ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
 import { reinterpretAsLocalDate } from "~/date";
 import {
-  EventWithPost,
+  type EventWithPost,
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,

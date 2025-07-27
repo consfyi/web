@@ -1,7 +1,11 @@
-import type { Label } from "@atcute/atproto/types/label/defs";
-import type { Preferences as ActorPreferences } from "@atcute/bluesky/types/app/actor/defs";
-import { LabelerPolicies } from "@atcute/bluesky/types/app/labeler/defs";
-import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
+import { type Label } from "@atcute/atproto/types/label/defs";
+import { type Preferences as ActorPreferences } from "@atcute/bluesky/types/app/actor/defs";
+import { type LabelerPolicies } from "@atcute/bluesky/types/app/labeler/defs";
+import {
+  type ActorIdentifier,
+  type Did,
+  type ResourceUri,
+} from "@atcute/lexicons";
 import { Endpoint, Entity, schema } from "@data-client/endpoint";
 import { useController } from "@data-client/react";
 import { type TZDate, TZDateMini } from "@date-fns/tz";

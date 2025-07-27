@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { BoxProps, Image, Box, Tooltip } from "@mantine/core";
+import { Box, type BoxProps, Image, Tooltip } from "@mantine/core";
 import { useEffect } from "react";
 import classes from "./Flag.module.css";
 

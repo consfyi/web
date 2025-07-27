@@ -1,6 +1,6 @@
 import { useController, useLoading } from "@data-client/react";
 import { Trans, useLingui } from "@lingui/react/macro";
-import { ActionIcon, ActionIconProps, Tooltip } from "@mantine/core";
+import { ActionIcon, type ActionIconProps, Tooltip } from "@mantine/core";
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { Post, useLikePost, useUnlikePost } from "~/endpoints";
 

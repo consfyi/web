@@ -2,7 +2,7 @@ import { useLingui } from "@lingui/react/macro";
 import {
   Anchor,
   Box,
-  MantineColor,
+  type MantineColor,
   Table,
   Text,
   Title,
@@ -12,7 +12,7 @@ import { useDatesContext } from "@mantine/dates";
 import {
   addDays,
   addWeeks,
-  Day,
+  type Day,
   differenceInCalendarDays,
   endOfWeek,
   getDate,
@@ -27,7 +27,7 @@ import {
 } from "date-fns";
 import { comparing, map, max, min, Range, sorted, toArray } from "iter-fns";
 import {
-  MouseEventHandler,
+  type MouseEventHandler,
   useLayoutEffect,
   useMemo,
   useRef,

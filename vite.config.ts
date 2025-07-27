@@ -1,4 +1,3 @@
-import { readdirSync } from "node:fs";
 import { lingui } from "@lingui/vite-plugin";
 import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";

@@ -1,4 +1,4 @@
-import { AvatarProps, Avatar as OriginalAvatar } from "@mantine/core";
+import { type AvatarProps, Avatar as OriginalAvatar } from "@mantine/core";
 
 function DefaultAvatar() {
   return (

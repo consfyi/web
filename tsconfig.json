@@ -10,7 +10,7 @@
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["@react-router/node", "vite/client"],
+    "types": ["vite/client"],
     "typeRoots": ["./src/*.d.ts", "./node_modules/@types/"],
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -23,6 +23,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "rootDirs": [".", "./.react-router/types"],
     "paths": {

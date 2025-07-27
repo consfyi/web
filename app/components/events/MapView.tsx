@@ -2,7 +2,7 @@ import { Box, Center, Container, Loader } from "@mantine/core";
 import { getDay, isAfter } from "date-fns";
 import { Suspense, use, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { EventWithPost, useNow } from "~/hooks";
+import { type EventWithPost, useNow } from "~/hooks";
 import * as qp from "~/qp";
 import EventRow from "../EventRow";
 import EmptyState from "../EmptyState";

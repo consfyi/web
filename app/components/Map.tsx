@@ -5,7 +5,7 @@ import {
   CloseButton,
   Flex,
   Indicator,
-  MantineColor,
+  type MantineColor,
   useComputedColorScheme,
   useMantineTheme,
 } from "@mantine/core";
@@ -19,15 +19,19 @@ import {
   AttributionControl,
   Map as Maplibre,
   Marker,
-  MarkerProps,
+  type MarkerProps,
   Popup,
-  StyleSpecification,
+  type StyleSpecification,
   useMap,
 } from "@vis.gl/react-maplibre";
 import "maplibre-theme/icons.default.css";
 import "maplibre-theme/modern.css";
-import { MaplibreProps } from "node_modules/@vis.gl/react-maplibre/dist/maplibre/maplibre";
-import { CSSProperties, ReactNode, useMemo } from "react";
+import {
+  type ComponentProps,
+  type CSSProperties,
+  type ReactNode,
+  useMemo,
+} from "react";
 import absurd from "~/absurd";
 import classes from "./Map.module.css";
 
@@ -196,7 +200,7 @@ export function BasicMap({
   mapStyle,
   ...props
 }: { children?: ReactNode; className?: string; style?: CSSProperties } & Omit<
-  MaplibreProps,
+  ComponentProps<typeof Maplibre>,
   "attributionControl"
 >) {
   const colorScheme = useComputedColorScheme();

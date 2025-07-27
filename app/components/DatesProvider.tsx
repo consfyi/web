@@ -1,6 +1,6 @@
 import { DatesProvider as MantineDatesProvider } from "@mantine/dates";
 import { useLocalStorage } from "@mantine/hooks";
-import { Day } from "date-fns";
+import { type Day } from "date-fns";
 import { useLinguiContext } from "./LinguiProvider";
 import { rotateLeft } from "iter-fns";
 

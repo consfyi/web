@@ -1,4 +1,4 @@
-import { MessageDescriptor } from "@lingui/core";
+import { type MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
@@ -20,7 +20,7 @@ import {
   Title,
 } from "@mantine/core";
 import {
-  Icon,
+  type Icon,
   IconAdjustmentsHorizontal,
   IconCalendarWeek,
   IconCheck,
@@ -34,12 +34,16 @@ import {
 } from "@tabler/icons-react";
 import { differenceInDays } from "date-fns";
 import { compareDesc, comparing, map, Range, sorted, toArray } from "iter-fns";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
 import regexpEscape from "regexp.escape";
-import { Continent, CONTINENTS, getContinentForCountry } from "~/continents";
 import {
-  EventWithPost,
+  type Continent,
+  CONTINENTS,
+  getContinentForCountry,
+} from "~/continents";
+import {
+  type EventWithPost,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
 } from "~/hooks";
@@ -634,19 +638,19 @@ export function useFilterPredicate(filter: FilterOptions) {
   );
 
   return useCallback(
-    (con: EventWithPost) => {
-      const days = differenceInDays(con.end, con.start);
+    (event: EventWithPost) => {
+      const days = differenceInDays(event.end, event.start);
 
       return (
         // Query
-        removeDiacritics(con.name.toLocaleLowerCase(i18n.locale)).match(
+        removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
           queryRe,
         ) != null &&
         // Attending filter
-        (!filter.attending || con.post.viewer?.like != null) &&
+        (!filter.attending || event.post.viewer?.like != null) &&
         // Continents filter
         filter.continents.includes(
-          con.country != null ? getContinentForCountry(con.country) : "XX",
+          event.country != null ? getContinentForCountry(event.country) : "XX",
         ) &&
         // Duration filter
         days >= filter.minDays &&
@@ -655,7 +659,7 @@ export function useFilterPredicate(filter: FilterOptions) {
         // Followed filter
         (!filter.followed ||
           followedConAttendees == null ||
-          (followedConAttendees[con.id] ?? []).length > 0)
+          (followedConAttendees[event.id] ?? []).length > 0)
       );
     },
     [t, filter, followedConAttendees, queryRe],

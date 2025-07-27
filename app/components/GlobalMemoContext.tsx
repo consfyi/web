@@ -1,7 +1,7 @@
 import {
   createContext,
-  DependencyList,
-  MutableRefObject,
+  type DependencyList,
+  type RefObject,
   useContext,
   useEffect,
   useRef,
@@ -13,7 +13,7 @@ interface CacheItem {
   value: unknown;
 }
 
-const GlobalMemoContext = createContext<MutableRefObject<
+const GlobalMemoContext = createContext<RefObject<
   Record<string, CacheItem>
 > | null>(null);
 
@@ -34,7 +34,7 @@ export function GlobalMemoProvider({
 export function useGlobalMemo<T>(
   key: string,
   factory: () => T,
-  deps: DependencyList
+  deps: DependencyList,
 ): T {
   const cache = useContext(GlobalMemoContext)!.current;
 

@@ -220,9 +220,9 @@ function useFollowedEventAttendeesGlobalMemo(data: Profile[] | undefined) {
         return null;
       }
 
-      const conIdByLabelId: Record<string, string> = {};
+      const eventIdByLabelId: Record<string, string> = {};
       for (const def of labelerView.policies!.labelValueDefinitions!) {
-        conIdByLabelId[def.identifier] = (
+        eventIdByLabelId[def.identifier] = (
           def as typeof def & { fbl_eventId: string }
         ).fbl_eventId;
       }
@@ -233,7 +233,7 @@ function useFollowedEventAttendeesGlobalMemo(data: Profile[] | undefined) {
           if (label.src != LABELER_DID) {
             continue;
           }
-          const followed = (followedEvents[conIdByLabelId[label.val]] ??= []);
+          const followed = (followedEvents[eventIdByLabelId[label.val]] ??= []);
           followed.push(follow);
         }
       }

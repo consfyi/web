@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { Fragment, ReactNode, useEffect } from "react";
+import { Fragment, type ReactNode, useEffect } from "react";
 
 let cache: Record<string, Intl.ListFormat | undefined> = {};
 

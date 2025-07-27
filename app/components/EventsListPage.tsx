@@ -1,6 +1,6 @@
 import { Center, Loader } from "@mantine/core";
 import {
-  ReactNode,
+  type ReactNode,
   Suspense,
   useCallback,
   useEffect,
@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router";
 import SimpleErrorBoundary from "~/components/SimpleErrorBoundary";
-import { EventWithPost, useEventsWithPosts, useIsLoggedIn } from "~/hooks";
+import { type EventWithPost, useEventsWithPosts, useIsLoggedIn } from "~/hooks";
 import * as qp from "~/qp";
 import { FilterOptions } from "./FilterBar";
 

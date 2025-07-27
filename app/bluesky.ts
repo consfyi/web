@@ -1,38 +1,38 @@
-import type { } from "@atcute/atproto";
-import { Label } from "@atcute/atproto/types/label/defs";
+import type {} from "@atcute/atproto";
+import { type Label } from "@atcute/atproto/types/label/defs";
 import type { AppBskyFeedLike } from "@atcute/bluesky";
 import type {
-    Preferences,
-    ProfileView,
-    ProfileViewDetailed,
+  Preferences,
+  ProfileView,
+  ProfileViewDetailed,
 } from "@atcute/bluesky/types/app/actor/defs";
 import type {
-    PostView,
-    ThreadViewPost,
+  PostView,
+  ThreadViewPost,
 } from "@atcute/bluesky/types/app/feed/defs";
 import type { Like } from "@atcute/bluesky/types/app/feed/getLikes";
 import type { LabelerViewDetailed } from "@atcute/bluesky/types/app/labeler/defs";
 import {
-    Client as AtcuteClient,
-    buildFetchHandler,
-    simpleFetchHandler,
+  Client as AtcuteClient,
+  buildFetchHandler,
+  simpleFetchHandler,
 } from "@atcute/client";
 import type {
-    ActorIdentifier,
-    Cid,
-    Did,
-    Nsid,
-    ResourceUri,
+  ActorIdentifier,
+  Cid,
+  Did,
+  Nsid,
+  ResourceUri,
 } from "@atcute/lexicons";
 import {
-    configureOAuth as configureOAuthInternal,
-    createAuthorizationUrl,
-    deleteStoredSession,
-    getSession,
-    listStoredSessions,
-    OAuthUserAgent,
-    resolveFromService,
-    Session,
+  configureOAuth as configureOAuthInternal,
+  createAuthorizationUrl,
+  deleteStoredSession,
+  getSession,
+  listStoredSessions,
+  OAuthUserAgent,
+  resolveFromService,
+  type Session,
 } from "@atcute/oauth-browser-client";
 import clientMetadata from "~/../public/client-metadata.json";
 import { LABELER_DID } from "./config";
@@ -99,7 +99,7 @@ export class Client {
 
   async putPreferences(
     preferences: Preferences,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): Promise<void> {
     const { ok, data } = await this.rpc.post("app.bsky.actor.putPreferences", {
       input: { preferences },
@@ -113,7 +113,7 @@ export class Client {
 
   async *getAuthorPosts(
     actor: ActorIdentifier,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): AsyncGenerator<PostView> {
     const LIMIT = 100;
     let cursor = "";
@@ -145,7 +145,7 @@ export class Client {
 
   async getProfile(
     actor: ActorIdentifier,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): Promise<ProfileViewDetailed> {
     const { ok, data } = await this.rpc.get("app.bsky.actor.getProfile", {
       params: { actor },
@@ -160,7 +160,7 @@ export class Client {
 
   async getPostThread(
     uri: ResourceUri,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): Promise<ThreadViewPost> {
     const { ok, data } = await this.rpc.get("app.bsky.feed.getPostThread", {
       params: { uri, depth: 0, parentHeight: 0 },
@@ -178,7 +178,7 @@ export class Client {
 
   async getLabelerView(
     did: Did,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): Promise<LabelerViewDetailed> {
     const { ok, data } = await this.rpc.get("app.bsky.labeler.getServices", {
       params: { dids: [did], detailed: true },
@@ -196,7 +196,7 @@ export class Client {
 
   async *getFollows(
     actor: ActorIdentifier,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): AsyncGenerator<ProfileView> {
     const LIMIT = 100;
     let cursor = "";
@@ -220,7 +220,7 @@ export class Client {
 
   async *getLabels(
     did: Did,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): AsyncGenerator<Label> {
     const LIMIT = 250;
     let cursor = "";
@@ -248,7 +248,7 @@ export class Client {
 
   async *getLikes(
     uri: ResourceUri,
-    { signal }: RequestOptions = {}
+    { signal }: RequestOptions = {},
   ): AsyncGenerator<Like> {
     const LIMIT = 100;
     let cursor = "";

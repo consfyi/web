@@ -25,7 +25,11 @@ import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import { reinterpretAsLocalDate } from "~/date";
-import { EventWithPost, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
+import {
+  type EventWithPost,
+  useFollowedEventAttendeesDLE,
+  useNow,
+} from "~/hooks";
 import classes from "./EventRow.module.css";
 
 const MAX_AVATARS_IN_STACK = 3;

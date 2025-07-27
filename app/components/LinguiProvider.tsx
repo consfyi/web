@@ -1,7 +1,7 @@
 import { match } from "@formatjs/intl-localematcher";
-import { i18n, Locale } from "@lingui/core";
-import { I18nProvider, I18nProviderProps } from "@lingui/react";
-import { Direction, useDirection } from "@mantine/core";
+import { i18n, type Locale } from "@lingui/core";
+import { I18nProvider, type I18nProviderProps } from "@lingui/react";
+import { type Direction, useDirection } from "@mantine/core";
 import DEFAULT_DAYJS_LOCALE from "dayjs/locale/en";
 import IntlLocale from "intl-locale-textinfo-polyfill";
 import {
