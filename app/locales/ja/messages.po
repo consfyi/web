@@ -368,7 +368,7 @@ msgstr "https://jibun-no.pds.com"
 
 #: app/root.tsx:341
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1>"
-msgstr "データの出典：<0>data.cons.fyi</0>。コンベンション情報が不足しています？<1>ここで問題を報告してください。</1>"
+msgstr "データは<0>data.cons.fyi</0>から取得しています。コンベンション情報が掲載されていない場合は、<1>こちらで問題を報告してください。</1>"
 
 #: app/root.tsx:388
 #: app/root.tsx:395
