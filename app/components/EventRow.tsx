@@ -26,7 +26,8 @@ import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import { reinterpretAsLocalDate } from "~/date";
 import {
-  type EventWithPost,
+  type Event,
+  eventHasPost,
   useFollowedEventAttendeesDLE,
   useNow,
 } from "~/hooks";
@@ -45,7 +46,7 @@ export default function EventRow({
   showDuration,
   withId,
 }: {
-  event: EventWithPost;
+  event: Event;
   showMonthInIcon: boolean;
   showEndDateOnly: boolean;
   showLocation: "inline" | "break" | "hide";
@@ -55,11 +56,12 @@ export default function EventRow({
   showDuration: boolean;
   withId: boolean;
 }) {
-  const isAttending = event.post.viewer?.like != null;
+  const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
   const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
 
   const likeCountWithoutSelf =
-    (event.post.likeCount || 0) - (isAttending ? 1 : 0);
+    (eventHasPost(event) ? event.post.likeCount || 0 : 0) -
+    (isAttending ? 1 : 0);
 
   const likeCount = likeCountWithoutSelf + (isAttending ? 1 : 0);
 
@@ -163,7 +165,9 @@ export default function EventRow({
         className={density == "compact" ? classes.compact : ""}
       >
         <Group gap={7} wrap="nowrap">
-          {showLikeButton && event.post.viewer != null ? (
+          {showLikeButton &&
+          eventHasPost(event) &&
+          event.post.viewer != null ? (
             <LikeButton size="xs" post={event.post} />
           ) : null}
 
@@ -175,59 +179,61 @@ export default function EventRow({
           </Text>
         </Group>
         <Text size="sm" truncate className={classes.itemDetails}>
-          <Text span>
-            <IconUsers
-              title={t({
-                message: "People going",
-                context: "number of people going",
-              })}
-              size={12}
-            />{" "}
-            <Trans context="attendee count">{[likeCount][0]}</Trans>
-            {showFollowed && follows != null && follows.length > 0 ? (
-              <>
-                {" "}
-                <Tooltip
-                  label={listFormat.format(
-                    sampledFollows!
-                      .map(
-                        (follow) => follow.displayName ?? follow.handle ?? "",
-                      )
-                      .concat(
-                        follows.length > MAX_AVATARS_IN_STACK
-                          ? [
-                              plural(follows.length - MAX_AVATARS_IN_STACK, {
-                                one: "# other you follow",
-                                other: "# others you follow",
-                              }),
-                            ]
-                          : [],
-                      ),
-                  )}
-                >
-                  <Avatar.Group
-                    display="inline-flex"
-                    spacing="xs"
-                    style={{ verticalAlign: "bottom" }}
+          {eventHasPost(event) ? (
+            <Text span>
+              <IconUsers
+                title={t({
+                  message: "People going",
+                  context: "number of people going",
+                })}
+                size={12}
+              />{" "}
+              <Trans context="attendee count">{[likeCount][0]}</Trans>
+              {showFollowed && follows != null && follows.length > 0 ? (
+                <>
+                  {" "}
+                  <Tooltip
+                    label={listFormat.format(
+                      sampledFollows!
+                        .map(
+                          (follow) => follow.displayName ?? follow.handle ?? "",
+                        )
+                        .concat(
+                          follows.length > MAX_AVATARS_IN_STACK
+                            ? [
+                                plural(follows.length - MAX_AVATARS_IN_STACK, {
+                                  one: "# other you follow",
+                                  other: "# others you follow",
+                                }),
+                              ]
+                            : [],
+                        ),
+                    )}
                   >
-                    {sampledFollows!.map((follow) => (
-                      <Avatar
-                        key={follow.did}
-                        src={follow.avatar}
-                        alt={`@${follow.handle}`}
-                        size={22}
-                      />
-                    ))}
-                    {follows.length > MAX_AVATARS_IN_STACK ? (
-                      <Avatar size={22}>
-                        +{follows.length - MAX_AVATARS_IN_STACK}
-                      </Avatar>
-                    ) : null}
-                  </Avatar.Group>
-                </Tooltip>
-              </>
-            ) : null}
-          </Text>
+                    <Avatar.Group
+                      display="inline-flex"
+                      spacing="xs"
+                      style={{ verticalAlign: "bottom" }}
+                    >
+                      {sampledFollows!.map((follow) => (
+                        <Avatar
+                          key={follow.did}
+                          src={follow.avatar}
+                          alt={`@${follow.handle}`}
+                          size={22}
+                        />
+                      ))}
+                      {follows.length > MAX_AVATARS_IN_STACK ? (
+                        <Avatar size={22}>
+                          +{follows.length - MAX_AVATARS_IN_STACK}
+                        </Avatar>
+                      ) : null}
+                    </Avatar.Group>
+                  </Tooltip>
+                </>
+              ) : null}
+            </Text>
+          ) : null}
           {density != "comfortable" || !showEndDateOnly ? (
             <Text span>
               <IconCalendar title={t`Dates`} size={12} />{" "}

@@ -26,6 +26,7 @@ import absurd from "~/absurd";
 import { reinterpretAsLocalDate } from "~/date";
 import {
   type EventWithPost,
+  type Event,
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
@@ -47,7 +48,7 @@ function FlatList({
   density,
 }: {
   title: ReactNode | null;
-  events: EventWithPost[];
+  events: Event[];
   sortDesc: boolean;
   density: Density;
 }) {
@@ -120,7 +121,7 @@ function GroupedList({
   sortDesc,
   density,
 }: {
-  groups: { key: string; title: ReactNode; events: EventWithPost[] }[];
+  groups: { key: string; title: ReactNode; events: Event[] }[];
   sortDesc: boolean;
   density: Density;
 }) {
@@ -157,7 +158,7 @@ function EventsByDate({
   sortDesc,
   density,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   hideEmptyGroups: boolean;
   sortDesc: boolean;
   density: Density;
@@ -170,7 +171,7 @@ function EventsByDate({
         return [];
       }
 
-      const grouped: Record<number, EventWithPost[]> = {};
+      const grouped: Record<number, Event[]> = {};
       for (const g of group(
         events,
         comparing((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
@@ -291,7 +292,7 @@ function EventsByName({
   sortDesc,
   density,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   sortDesc: boolean;
   density: Density;
 }) {

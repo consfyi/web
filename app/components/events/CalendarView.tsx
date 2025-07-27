@@ -19,7 +19,7 @@ import { type Day, getDay } from "date-fns";
 import { Suspense, useEffect, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
-import { type EventWithPost } from "~/hooks";
+import { eventHasPost, type Event } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
 import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";
@@ -43,7 +43,7 @@ export default function CalendarView({
   filter,
   setFilter,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   layout: LayoutOptions;
   setLayout(layout: LayoutOptions): void;
   filter: FilterOptions;
@@ -211,13 +211,17 @@ export default function CalendarView({
             <Calendar
               inYourTimeZone={layout.timezone == "yours"}
               includeToday={!filter.attending && filter.q == ""}
-              events={filteredEvents.map((con) => ({
-                id: con.id,
-                anchor: con.id,
+              events={filteredEvents.map((event) => ({
+                id: event.id,
+                anchor: event.id,
                 label: (
                   <>
-                    <Flag country={con.country ?? undefined} size={8} me={4} />
-                    <Text span>{con.name}</Text>
+                    <Flag
+                      country={event.country ?? undefined}
+                      size={8}
+                      me={4}
+                    />
+                    <Text span>{event.name}</Text>
                   </>
                 ),
                 color: [
@@ -228,15 +232,17 @@ export default function CalendarView({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(con.start)],
+                ][getDay(event.start)],
                 variant:
-                  con.post.viewer != null && con.post.viewer.like != null
+                  eventHasPost(event) &&
+                  event.post.viewer != null &&
+                  event.post.viewer.like != null
                     ? "filled"
                     : "light",
-                title: con.name,
-                link: `/${con.id}`,
-                start: con.start,
-                end: con.end,
+                title: event.name,
+                link: `/${event.id}`,
+                start: event.start,
+                end: event.end,
               }))}
             />
           </Container>

@@ -43,7 +43,8 @@ import {
   getContinentForCountry,
 } from "~/continents";
 import {
-  type EventWithPost,
+  type Event,
+  eventHasPost,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
 } from "~/hooks";
@@ -171,7 +172,7 @@ export default function FilterBar({
   rightSection,
   filledButton,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
   rightSection: ReactNode;
@@ -638,7 +639,7 @@ export function useFilterPredicate(filter: FilterOptions) {
   );
 
   return useCallback(
-    (event: EventWithPost) => {
+    (event: Event) => {
       const days = differenceInDays(event.end, event.start);
 
       return (
@@ -647,7 +648,8 @@ export function useFilterPredicate(filter: FilterOptions) {
           queryRe,
         ) != null &&
         // Attending filter
-        (!filter.attending || event.post.viewer?.like != null) &&
+        (!filter.attending ||
+          (eventHasPost(event) && event.post.viewer?.like != null)) &&
         // Continents filter
         filter.continents.includes(
           event.country != null ? getContinentForCountry(event.country) : "XX",

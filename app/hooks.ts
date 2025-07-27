@@ -289,3 +289,7 @@ export function useNow(interval: number = Infinity) {
   }, [interval, setNow]);
   return now;
 }
+
+export function eventHasPost(e: Event): e is EventWithPost {
+  return "post" in e;
+}
