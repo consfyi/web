@@ -20,21 +20,21 @@ import {
   IconSortDescendingNumbers,
 } from "@tabler/icons-react";
 import { addMonths, getMonth, getYear, setDate } from "date-fns";
-import { compareMany, comparing, group, sorted } from "iter-fns";
+import { compareMany, equaling, group, sorted } from "iter-fns";
 import { type ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
 import { reinterpretAsLocalDate } from "~/date";
 import {
-  type EventWithPost,
   type Event,
+  type EventWithPost,
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
 } from "~/hooks";
 import * as qp from "~/qp";
-import EventRow from "../EventRow";
 import EmptyIcon from "../EmptyIcon";
 import EmptyState from "../EmptyState";
+import EventRow from "../EventRow";
 import FilterBar, {
   FilterOptions,
   LayoutSwitcher,
@@ -174,7 +174,7 @@ function EventsByDate({
       const grouped: Record<number, Event[]> = {};
       for (const g of group(
         events,
-        comparing((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
+        equaling((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
       )) {
         const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
         (grouped[k] ??= []).push(...g);
