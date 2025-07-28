@@ -57,7 +57,7 @@ export default function EventRow({
   withId: boolean;
 }) {
   const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
-  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
+  const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
   const likeCountWithoutSelf =
     (eventHasPost(event) ? event.post.likeCount || 0 : 0) -
@@ -91,10 +91,10 @@ export default function EventRow({
 
   const follows = useMemo(
     () =>
-      followedConAttendees != null
-        ? (followedConAttendees[event.id] ?? [])
+      followedEventAttendees != null
+        ? (followedEventAttendees[event.id] ?? [])
         : null,
-    [followedConAttendees, event.id],
+    [followedEventAttendees, event.id],
   );
 
   const now = useNow();

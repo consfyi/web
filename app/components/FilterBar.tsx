@@ -179,7 +179,7 @@ export default function FilterBar({
   filledButton: boolean;
 }) {
   const { t } = useLingui();
-  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
+  const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
   const isLoggedIn = useIsLoggedIn();
 
@@ -466,7 +466,7 @@ export default function FilterBar({
               radius="lg"
               size="xs"
               style={{ flexShrink: 0 }}
-              loading={followedConAttendees == null}
+              loading={followedEventAttendees == null}
               onClick={() => {
                 setFilter({
                   ...filter,
@@ -516,7 +516,7 @@ export default function FilterBar({
             />
             <Checkbox
               mb="sm"
-              disabled={followedConAttendees == null}
+              disabled={followedEventAttendees == null}
               checked={followedFiltered}
               label={<Trans>With followed only</Trans>}
               onChange={(e) => {
@@ -623,7 +623,7 @@ export default function FilterBar({
 
 export function useFilterPredicate(filter: FilterOptions) {
   const { i18n, t } = useLingui();
-  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
+  const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
   const queryRe = useMemo(
     () =>
@@ -660,10 +660,10 @@ export function useFilterPredicate(filter: FilterOptions) {
           days <= filter.maxDays) &&
         // Followed filter
         (!filter.followed ||
-          followedConAttendees == null ||
-          (followedConAttendees[event.id] ?? []).length > 0)
+          followedEventAttendees == null ||
+          (followedEventAttendees[event.id] ?? []).length > 0)
       );
     },
-    [t, filter, followedConAttendees, queryRe],
+    [t, filter, followedEventAttendees, queryRe],
   );
 }

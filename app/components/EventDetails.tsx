@@ -212,8 +212,10 @@ export function Body({ event }: { event: EventWithPost }) {
   const now = useNow();
   const active = isAfter(now, event.start) && !isAfter(now, event.end);
 
-  const { data: followedConAttendees, loading: followedConAttendeesLoading } =
-    useFollowedEventAttendeesDLE();
+  const {
+    data: followedEventAttendees,
+    loading: followedEventAttendeesLoading,
+  } = useFollowedEventAttendeesDLE();
 
   const self = useSelf();
 
@@ -223,8 +225,9 @@ export function Body({ event }: { event: EventWithPost }) {
 
   const knownLikeCount =
     self != null
-      ? (followedConAttendees != null && followedConAttendees[event.id] != null
-          ? followedConAttendees[event.id].length
+      ? (followedEventAttendees != null &&
+        followedEventAttendees[event.id] != null
+          ? followedEventAttendees[event.id].length
           : 0) + (isAttending ? 1 : 0)
       : likeCount;
 
@@ -348,7 +351,7 @@ export function Body({ event }: { event: EventWithPost }) {
         </MantineTitle>
         <Box>
           <SimpleErrorBoundary>
-            {followedConAttendeesLoading ? (
+            {followedEventAttendeesLoading ? (
               <Group wrap="nowrap" gap={7} mb="sm">
                 <Loader size={8} color="dimmed" type="bars" />
                 <Text c="dimmed" size="xs" lh="md">

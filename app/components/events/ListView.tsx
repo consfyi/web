@@ -259,7 +259,7 @@ function EventsByFollowed({
   sortDesc: boolean;
   density: Density;
 }) {
-  const followedConAttendees = useFollowedEventAttendees();
+  const followedEventAttendees = useFollowedEventAttendees();
 
   const sortedEvents = useMemo(
     () =>
@@ -267,14 +267,14 @@ function EventsByFollowed({
         events,
         compareMany(
           comparing((event) =>
-            followedConAttendees == null
+            followedEventAttendees == null
               ? event.post.likeCount
-              : (followedConAttendees[event.id] ?? []).length,
+              : (followedEventAttendees[event.id] ?? []).length,
           ),
           comparing((event) => event.post.likeCount),
         ),
       ),
-    [events, followedConAttendees],
+    [events, followedEventAttendees],
   );
 
   return (
@@ -387,7 +387,7 @@ export default function ListView({
   const isLoggedIn = useIsLoggedIn();
   const [open, setOpen] = useState(false);
 
-  const { data: followedConAttendees } = useFollowedEventAttendeesDLE();
+  const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
   return (
     <Box style={{ position: "relative" }}>
@@ -447,7 +447,7 @@ export default function ListView({
                     return (
                       <Menu.Item
                         disabled={
-                          sortBy == "followed" && followedConAttendees == null
+                          sortBy == "followed" && followedEventAttendees == null
                         }
                         aria-selected={selected}
                         onClick={() => {
@@ -460,7 +460,7 @@ export default function ListView({
                         key={sortBy}
                         leftSection={
                           sortBy != "followed" ||
-                          followedConAttendees != null ? (
+                          followedEventAttendees != null ? (
                             selected ? (
                               <IconCheck size={14} />
                             ) : (
