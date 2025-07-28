@@ -131,11 +131,15 @@ export function useGetProfile() {
 
   return new Endpoint(
     async function ({ actor }: { actor: ActorIdentifier }) {
-      return Profile.fromJS(
-        await client.getProfile(actor, {
-          signal: this.signal,
-        }),
-      );
+      const profile = await client.getProfile(actor, {
+        signal: this.signal,
+      });
+      if (profile == null) {
+        throw new Response(null, {
+          status: 404,
+        });
+      }
+      return Profile.fromJS(profile);
     },
     {
       name: "getProfile",

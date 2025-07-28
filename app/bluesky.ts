@@ -146,13 +146,19 @@ export class Client {
   async getProfile(
     actor: ActorIdentifier,
     { signal }: RequestOptions = {},
-  ): Promise<ProfileViewDetailed> {
-    const { ok, data } = await this.rpc.get("app.bsky.actor.getProfile", {
-      params: { actor },
-      headers: { "Atproto-Accept-Labelers": LABELER_DID },
-      signal,
-    });
+  ): Promise<ProfileViewDetailed | null> {
+    const { ok, data, status } = await this.rpc.get(
+      "app.bsky.actor.getProfile",
+      {
+        params: { actor },
+        headers: { "Atproto-Accept-Labelers": LABELER_DID },
+        signal,
+      },
+    );
     if (!ok) {
+      if (status == 400) {
+        return null;
+      }
       throw data.error;
     }
     return data;
