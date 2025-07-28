@@ -97,12 +97,17 @@ export default function EventRow({
     [followedConAttendees, event.id],
   );
 
-  const sampledFollows = useMemo(
-    () => (follows != null ? sample(follows, MAX_AVATARS_IN_STACK) : null),
-    [follows],
-  );
-
   const now = useNow();
+  const sampledFollows = useMemo(() => {
+    let seed = +now;
+    return follows != null
+      ? sample(follows, MAX_AVATARS_IN_STACK, () => {
+          seed = (seed * 25214903917 + 11) % 2 ** 48;
+          return seed / 2 ** 48;
+        })
+      : null;
+  }, [follows, now]);
+
   const active = isAfter(now, event.start) && !isAfter(now, event.end);
   const dateRange = dateTimeFormat.formatRange(
     reinterpretAsLocalDate(event.start),
