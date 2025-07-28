@@ -103,7 +103,7 @@ export default function EventRow({
     return follows != null
       ? sample(follows, MAX_AVATARS_IN_STACK, () => {
           seed = (seed * 25214903917 + 11) % 2 ** 48;
-          return ((seed / 2 ** 48) * 0x100000000) >>> 0;
+          return seed / 2 ** 48;
         })
       : null;
   }, [follows, now]);

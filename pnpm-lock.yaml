@@ -96,8 +96,8 @@ importers:
         specifier: ^5
         version: 5.1.28
       iter-fns:
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.13.0
+        version: 0.13.0
       maplibre-theme:
         specifier: ^1.0.0
         version: 1.0.0
@@ -2366,8 +2366,8 @@ packages:
     resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
     engines: {node: '>=0.10.0'}
 
-  iter-fns@0.12.0:
-    resolution: {integrity: sha512-WLXWsiIF5P3ADWtWmhLD9ZEeGQo+sFYDaO8NEYpo5ekkr9aO6YdkalNmpgU8XNujP73CRxui4fijs3LD9Um87w==}
+  iter-fns@0.13.0:
+    resolution: {integrity: sha512-JHb0lRNVI6ZCgE9TUW28rMwJ+Du4r7Iq1v/+yHk6/lisCXq5KM+uGlXsc4q0uX9dUar+pdQNwFhKLC+SEfln2Q==}
 
   iterator.prototype@1.1.5:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
@@ -6183,7 +6183,7 @@ snapshots:
 
   isobject@3.0.1: {}
 
-  iter-fns@0.12.0: {}
+  iter-fns@0.13.0: {}
 
   iterator.prototype@1.1.5:
     dependencies:
