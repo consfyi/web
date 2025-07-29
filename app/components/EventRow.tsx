@@ -247,12 +247,12 @@ export default function EventRow({
           <Text span>
             <IconCalendarWeek title={t`Dates`} size={12} />{" "}
             {showDuration ? (
-              <Trans context="[start date]-[end date] ([duration] days long)">
+              <Trans context="[start date]-[end date] ([duration] days)">
                 {[dateRange][0]} (
                 <Plural
                   value={differenceInDays(event.end, event.start)}
-                  one="# day long"
-                  other="# days long"
+                  one="# day"
+                  other="# days"
                 />
                 )
               </Trans>

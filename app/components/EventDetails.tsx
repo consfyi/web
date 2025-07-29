@@ -252,7 +252,7 @@ export function Body({ event }: { event: EventWithPost }) {
               </Indicator>
             </Box>
             <Text size="sm" mb={5}>
-              <Trans context="[start date]-[end date] ([duration] days long)">
+              <Trans context="[start date]-[end date] ([duration] days)">
                 {dateTimeFormat.formatRange(
                   reinterpretAsLocalDate(event.start),
                   reinterpretAsLocalDate(subDays(event.end, 1)),
@@ -260,8 +260,8 @@ export function Body({ event }: { event: EventWithPost }) {
                 (
                 <Plural
                   value={differenceInDays(event.end, event.start)}
-                  one="# day long"
-                  other="# days long"
+                  one="# day"
+                  other="# days"
                 />
                 )
               </Trans>

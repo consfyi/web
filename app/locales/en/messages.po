@@ -45,9 +45,9 @@ msgstr "Dates"
 #. placeholder {1}: differenceInDays(event.end, event.start)
 #: app/components/EventDetails.tsx:255
 #: app/components/EventRow.tsx:250
-msgctxt "[start date]-[end date] ([duration] days long)"
-msgid "{0} ({1, plural, one {# day long} other {# days long}})"
-msgstr "{0} ({1, plural, one {# day long} other {# days long}})"
+msgctxt "[start date]-[end date] ([duration] days)"
+msgid "{0} ({1, plural, one {# day} other {# days}})"
+msgstr "{0} ({1, plural, one {# day} other {# days}})"
 
 #: app/components/EventDetails.tsx:273
 msgid "Website"
