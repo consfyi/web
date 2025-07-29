@@ -26,8 +26,6 @@ import {
   Menu,
   Text,
   TextInput,
-  Tooltip,
-  useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
@@ -39,11 +37,14 @@ import {
 import {
   IconAlertTriangle,
   IconBrandBluesky,
+  IconCheck,
   IconChevronDown,
   IconLogout2,
   IconMoon,
   IconPaw,
+  IconSettings,
   IconSun,
+  IconSunMoon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
 import { Suspense, useEffect, useState } from "react";
@@ -75,6 +76,7 @@ import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
 import "./styles.css";
+import EmptyIcon from "./components/EmptyIcon";
 
 const theme = createTheme({});
 
@@ -117,8 +119,7 @@ function Header() {
   const { t } = useLingui();
   const client = useClient();
   const self = useSelf();
-  const { setColorScheme } = useMantineColorScheme();
-  const colorScheme = useComputedColorScheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
     <Box
@@ -152,32 +153,75 @@ function Header() {
             </Group>
           </Anchor>
           <Group my={-8}>
-            <Tooltip
-              label={
-                colorScheme == "light" ? (
-                  <Trans>Dark mode</Trans>
-                ) : (
-                  <Trans>Light mode</Trans>
-                )
-              }
-            >
-              <ActionIcon
-                variant="outline"
-                size="sm"
-                color="gray"
-                w={36}
-                h={36}
-                onClick={() => {
-                  setColorScheme(colorScheme == "light" ? "dark" : "light");
-                }}
-              >
-                {colorScheme == "light" ? (
-                  <IconMoon size={18} />
-                ) : (
-                  <IconSun size={18} />
-                )}
-              </ActionIcon>
-            </Tooltip>
+            <Menu position="bottom-end" withArrow>
+              <Menu.Target>
+                <Button
+                  px="xs"
+                  variant="outline"
+                  color="var(--mantine-color-dimmed)"
+                  c="var(--mantine-color-dimmed)"
+                  rightSection={<IconChevronDown size={14} />}
+                >
+                  <IconSettings size={18} />
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>
+                  <Trans>Color scheme</Trans>
+                </Menu.Label>
+                <Menu.Item
+                  onClick={() => {
+                    setColorScheme("auto");
+                  }}
+                  leftSection={
+                    <Group gap={6}>
+                      {colorScheme == "auto" ? (
+                        <IconCheck size={14} />
+                      ) : (
+                        <EmptyIcon size={14} />
+                      )}
+                      <IconSunMoon size={14} />
+                    </Group>
+                  }
+                >
+                  <Trans>Auto</Trans>
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => {
+                    setColorScheme("light");
+                  }}
+                  leftSection={
+                    <Group gap={6}>
+                      {colorScheme == "light" ? (
+                        <IconCheck size={14} />
+                      ) : (
+                        <EmptyIcon size={14} />
+                      )}
+                      <IconSun size={14} />
+                    </Group>
+                  }
+                >
+                  <Trans>Light</Trans>
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => {
+                    setColorScheme("dark");
+                  }}
+                  leftSection={
+                    <Group gap={6}>
+                      {colorScheme == "dark" ? (
+                        <IconCheck size={14} />
+                      ) : (
+                        <EmptyIcon size={14} />
+                      )}
+                      <IconMoon size={14} />
+                    </Group>
+                  }
+                >
+                  <Trans>Dark</Trans>
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
             {self != null ? (
               <Menu
                 position="bottom-end"
@@ -202,6 +246,7 @@ function Header() {
                         size="sm"
                       />
                     }
+                    px="xs"
                     rightSection={<IconChevronDown size={14} />}
                   >
                     <Text span size="sm" fw={500} visibleFrom="xs">
