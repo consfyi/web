@@ -139,7 +139,7 @@ export const CONTINENT_NAMES: Record<Continent, MessageDescriptor> = {
 
 function DayText({ minDays, maxDays }: { minDays: number; maxDays: number }) {
   return (
-    <Text size="sm">
+    <Text span size="sm">
       {minDays == maxDays ? (
         minDays >= DEFAULT_FILTER_OPTIONS.maxDays ? (
           <Plural
