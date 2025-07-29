@@ -173,7 +173,7 @@ export const getEvents = new Endpoint(
   async function ({}: {}) {
     const events = [];
     for await (const con of await (
-      await fetch(`https://data.cons.fyi/active.json?${+new Date()}`, {
+      await fetch(`https://data.cons.fyi/current.json?${+new Date()}`, {
         signal: this.signal,
       })
     ).json()) {
