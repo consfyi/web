@@ -602,15 +602,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                             <Alerts />
                           </Container>
                         ) : null}
-                        <Suspense
-                          fallback={
-                            <Center p="lg">
-                              <Loader />
-                            </Center>
-                          }
-                        >
-                          {children}
-                        </Suspense>
+                        {children}
                         <Footer />
                       </DatesProvider>
                     </LinguiProvider>
@@ -629,5 +621,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Suspense
+      fallback={
+        <Center p="lg">
+          <Loader />
+        </Center>
+      }
+    >
+      <Outlet />
+    </Suspense>
+  );
 }
