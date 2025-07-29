@@ -300,6 +300,10 @@ function Header() {
                     loading={pending}
                     type="submit"
                     size="sm"
+                    style={{
+                      paddingInlineStart: "var(--mantine-spacing-xs)",
+                      paddingInlineEnd: "calc(var(--mantine-spacing-xs) / 2)",
+                    }}
                     leftSection={<IconBrandBluesky size={18} />}
                     color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
                   >
@@ -325,7 +329,11 @@ function Header() {
                     <Menu.Target>
                       <Button
                         size="sm"
-                        px={4}
+                        style={{
+                          paddingInlineStart:
+                            "calc(var(--mantine-spacing-xs) / 2)",
+                          paddingInlineEnd: "var(--mantine-spacing-xs)",
+                        }}
                         title={t`Log in via custom PDS`}
                         color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
                       >
