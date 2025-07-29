@@ -57,7 +57,6 @@ function Attending({ profile }: { profile: Profile }) {
               key={event.id}
               event={event}
               showMonthInIcon
-              showEndDateOnly
               showLocation="hide"
               showFollowed={false}
               showLikeButton={false}
@@ -87,7 +86,6 @@ function Attending({ profile }: { profile: Profile }) {
                 key={event.id}
                 event={event}
                 showMonthInIcon
-                showEndDateOnly
                 showLocation="hide"
                 showFollowed={false}
                 showLikeButton={false}

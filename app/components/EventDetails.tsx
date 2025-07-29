@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import {
   IconBrandBluesky,
-  IconCalendar,
+  IconCalendarWeek,
   IconMapPin,
   IconWorld,
 } from "@tabler/icons-react";
@@ -248,7 +248,7 @@ export function Body({ event }: { event: EventWithPost }) {
                 disabled={!active}
                 zIndex={2}
               >
-                <IconCalendar title={t`Dates`} size={16} stroke={1.5} />
+                <IconCalendarWeek title={t`Dates`} size={16} stroke={1.5} />
               </Indicator>
             </Box>
             <Text size="sm" mb={5}>

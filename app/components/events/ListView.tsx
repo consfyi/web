@@ -100,7 +100,6 @@ function FlatList({
               <EventRow
                 event={event}
                 showMonthInIcon={false}
-                showEndDateOnly
                 showLocation="inline"
                 showFollowed
                 showLikeButton

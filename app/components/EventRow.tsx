@@ -11,13 +11,12 @@ import {
   Tooltip,
 } from "@mantine/core";
 import {
-  IconCalendar,
   IconCalendarWeek,
   IconMapPin,
   IconUsers,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, getDay, getYear, isAfter, subDays } from "date-fns";
+import { differenceInDays, getDay, isAfter, subDays } from "date-fns";
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
@@ -39,7 +38,6 @@ const MAX_AVATARS_IN_STACK = 3;
 export default function EventRow({
   event,
   showMonthInIcon,
-  showEndDateOnly,
   showLocation,
   showFollowed,
   showLikeButton,
@@ -49,7 +47,6 @@ export default function EventRow({
 }: {
   event: Event;
   showMonthInIcon: boolean;
-  showEndDateOnly: boolean;
   showLocation: "inline" | "break" | "hide";
   showFollowed: boolean;
   showLikeButton: boolean;
@@ -74,7 +71,6 @@ export default function EventRow({
         weekday: "short",
         day: "numeric",
         month: "short",
-        year: "numeric",
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
@@ -245,39 +241,11 @@ export default function EventRow({
               ) : null}
             </Text>
           ) : null}
-          {density != "comfortable" || !showEndDateOnly ? (
-            <Text span>
-              <IconCalendar title={t`Dates`} size={12} />{" "}
-              {showDuration ? (
-                <Trans context="[start date]-[end date] ([duration] days long)">
-                  {[dateRange][0]} (
-                  <Plural
-                    value={differenceInDays(event.end, event.start)}
-                    one="# day long"
-                    other="# days long"
-                  />
-                  )
-                </Trans>
-              ) : (
-                dateRange
-              )}
-            </Text>
-          ) : (
-            <Text span>
-              <IconCalendarWeek title={t`End date`} size={12} />{" "}
-              <Trans context="until [date] ([duration] days long)">
-                until{" "}
-                {i18n.date(reinterpretAsLocalDate(subDays(event.end, 1)), {
-                  weekday: "short",
-                  day: "numeric",
-                  month: "short",
-                  year:
-                    getYear(reinterpretAsLocalDate(event.start)) !=
-                    getYear(reinterpretAsLocalDate(subDays(event.end, 1)))
-                      ? "numeric"
-                      : undefined,
-                })}{" "}
-                (
+          <Text span>
+            <IconCalendarWeek title={t`Dates`} size={12} />{" "}
+            {showDuration ? (
+              <Trans context="[start date]-[end date] ([duration] days long)">
+                {[dateRange][0]} (
                 <Plural
                   value={differenceInDays(event.end, event.start)}
                   one="# day long"
@@ -285,8 +253,10 @@ export default function EventRow({
                 />
                 )
               </Trans>
-            </Text>
-          )}
+            ) : (
+              dateRange
+            )}
+          </Text>
           {showLocation == "inline" ? (
             <Text span visibleFrom="xs">
               <IconMapPin title={t`Location`} size={12} />{" "}

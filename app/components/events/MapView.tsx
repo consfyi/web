@@ -161,7 +161,6 @@ function MapInner({
                 <EventRow
                   event={event}
                   showMonthInIcon
-                  showEndDateOnly={false}
                   showLocation="break"
                   showFollowed
                   showLikeButton
