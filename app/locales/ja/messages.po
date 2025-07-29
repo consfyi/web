@@ -38,7 +38,7 @@ msgid "View Bluesky Post"
 msgstr "Blueskyの投稿を見る"
 
 #: app/components/EventDetails.tsx:251
-#: app/components/EventRow.tsx:250
+#: app/components/EventRow.tsx:248
 msgid "Dates"
 msgstr "日付"
 
@@ -46,7 +46,7 @@ msgstr "日付"
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
 #. placeholder {1}: differenceInDays(event.end, event.start)
 #: app/components/EventDetails.tsx:255
-#: app/components/EventRow.tsx:252
+#: app/components/EventRow.tsx:250
 msgctxt "[start date]-[end date] ([duration] days long)"
 msgid "{0} ({1, plural, one {# day long} other {# days long}})"
 msgstr "{0}（{1}日間）"
@@ -56,8 +56,8 @@ msgid "Website"
 msgstr "ウェブサイト"
 
 #: app/components/EventDetails.tsx:288
-#: app/components/EventRow.tsx:292
-#: app/components/EventRow.tsx:306
+#: app/components/EventRow.tsx:265
+#: app/components/EventRow.tsx:279
 msgid "Location"
 msgstr "開催地"
 
@@ -83,7 +83,7 @@ msgstr "{0}人（自分込み）"
 
 #. placeholder {0}: [likeCount][0]
 #: app/components/EventDetails.tsx:348
-#: app/components/EventRow.tsx:202
+#: app/components/EventRow.tsx:201
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}人"
@@ -92,27 +92,16 @@ msgstr "{0}人"
 msgid "Loading people you follow"
 msgstr "フォロー中のユーザーを読み込み中"
 
-#: app/components/EventRow.tsx:196
+#: app/components/EventRow.tsx:195
 #: app/components/events/ListView.tsx:341
 msgctxt "number of people going"
 msgid "People going"
 msgstr "参加者数"
 
 #. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
-#: app/components/EventRow.tsx:215
+#: app/components/EventRow.tsx:214
 msgid "{0, plural, one {# other you follow} other {# others you follow}}"
 msgstr "フォロー中の他の{0}人"
-
-#: app/components/EventRow.tsx:267
-msgid "End date"
-msgstr "終了日"
-
-#. placeholder {0}: i18n.date(reinterpretAsLocalDate(subDays(event.end, 1)), { weekday: "short", day: "numeric", month: "short", year: getYear(reinterpretAsLocalDate(event.start)) != getYear(reinterpretAsLocalDate(subDays(event.end, 1))) ? "numeric" : undefined, })
-#. placeholder {1}: differenceInDays(event.end, event.start)
-#: app/components/EventRow.tsx:268
-msgctxt "until [date] ([duration] days long)"
-msgid "until {0} ({1, plural, one {# day long} other {# days long}})"
-msgstr "{0}まで（{1}日間）"
 
 #: app/components/FilterBar.tsx:65
 msgid "List"
