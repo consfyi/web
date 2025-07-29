@@ -159,7 +159,7 @@ function Header() {
                   px="xs"
                   variant="outline"
                   color="var(--mantine-color-dimmed)"
-                  c="var(--mantine-color-dimmed)"
+                  c="var(--mantine-color-text)"
                   rightSection={<IconChevronDown size={14} />}
                 >
                   <IconSettings size={18} />
