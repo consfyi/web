@@ -15,6 +15,7 @@ import {
   IconCalendarWeek,
   IconMapPin,
   IconUsers,
+  IconWorld,
 } from "@tabler/icons-react";
 import { differenceInDays, getDay, getYear, isAfter, subDays } from "date-fns";
 import { sample } from "iter-fns";
@@ -180,7 +181,12 @@ export default function EventRow({
             <Anchor fw={500} component={Link} to={`/${event.id}`}>
               <Flag country={event.country ?? undefined} size={10} me={6} />
               {event.name}
-            </Anchor>
+            </Anchor>{" "}
+            <Tooltip label={event.url.replace(/https:\/\//, "")}>
+              <Anchor href={event.url} target="_blank" opacity={0.4}>
+                <IconWorld size={12} />
+              </Anchor>
+            </Tooltip>
           </Text>
         </Group>
         <Text size="sm" truncate className={classes.itemDetails}>
