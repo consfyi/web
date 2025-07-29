@@ -165,6 +165,210 @@ function DayText({ minDays, maxDays }: { minDays: number; maxDays: number }) {
   );
 }
 
+function FilterDrawer({
+  events,
+  opened,
+  onClose,
+  filter,
+  setFilter,
+}: {
+  events: Event[];
+  opened: boolean;
+  onClose(): void;
+  filter: FilterOptions;
+  setFilter(filter: FilterOptions): void;
+}) {
+  const { t } = useLingui();
+  const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
+
+  const [dirty, setDirty] = useState<FilterOptions | null>(null);
+  const uncommitted = useMemo(
+    () => (dirty == null ? filter : dirty),
+    [dirty, filter],
+  );
+
+  const continentCount = useMemo(() => {
+    const counts: Partial<Record<Continent, number>> = {};
+    for (const event of events) {
+      const continent =
+        event.country != null ? getContinentForCountry(event.country) : "XX";
+      counts[continent] = (counts[continent] || 0) + 1;
+    }
+    return counts;
+  }, [events]);
+
+  const sortedContinents = useMemo(
+    () =>
+      sorted(
+        [...DEFAULT_FILTER_OPTIONS.continents],
+        compareDesc(comparing((code) => continentCount[code] ?? 0)),
+      ),
+    [continentCount],
+  );
+
+  const continentsFiltered =
+    uncommitted.continents.length != DEFAULT_FILTER_OPTIONS.continents.length ||
+    !uncommitted.continents.every(
+      (c, i) => DEFAULT_FILTER_OPTIONS.continents[i] == c,
+    );
+
+  const isLoggedIn = useIsLoggedIn();
+
+  return (
+    <Drawer
+      position="bottom"
+      opened={opened}
+      withCloseButton={false}
+      onClose={() => {
+        onClose();
+      }}
+      hiddenFrom="lg"
+      styles={{
+        title: {
+          display: "flex",
+          flexWrap: "nowrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        },
+      }}
+      title={
+        <>
+          <Trans>Filters</Trans>
+          <Button
+            size="xs"
+            onClick={() => {
+              setFilter(uncommitted);
+              setDirty(null);
+              onClose();
+            }}
+          >
+            <Trans>Apply</Trans>
+          </Button>
+        </>
+      }
+    >
+      {isLoggedIn ? (
+        <>
+          <Checkbox
+            mb="sm"
+            checked={uncommitted.attending}
+            color="red"
+            icon={(props) => <IconHeartFilled {...props} />}
+            label={<Trans>Going only</Trans>}
+            onChange={(e) => {
+              setDirty({
+                ...uncommitted,
+                attending: e.target.checked,
+              });
+            }}
+          />
+          <Checkbox
+            mb="sm"
+            disabled={followedEventAttendees == null}
+            checked={uncommitted.followed}
+            label={<Trans>With followed only</Trans>}
+            onChange={(e) => {
+              setDirty({
+                ...uncommitted,
+                followed: e.target.checked,
+              });
+            }}
+          />
+
+          <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
+        </>
+      ) : null}
+      <Title order={2} size="h5" mb="sm">
+        <Trans>Regions</Trans>
+      </Title>
+      <Checkbox
+        mb="sm"
+        checked={uncommitted.continents.length > 0}
+        indeterminate={uncommitted.continents.length != 0 && continentsFiltered}
+        onChange={(e) => {
+          setDirty({
+            ...uncommitted,
+            continents: e.target.checked
+              ? DEFAULT_FILTER_OPTIONS.continents
+              : [],
+          });
+        }}
+        fw="bold"
+        label={
+          <Plural
+            value={uncommitted.continents.length}
+            one="# selected"
+            other="# selected"
+          />
+        }
+      />
+      {sortedContinents.map((code) => {
+        return (
+          <Checkbox
+            key={code}
+            mb="sm"
+            checked={uncommitted.continents.includes(code)}
+            onChange={(e) => {
+              setDirty({
+                ...uncommitted,
+                continents: e.target.checked
+                  ? sorted([...uncommitted.continents, code])
+                  : uncommitted.continents.filter((c) => c != code),
+              });
+            }}
+            label={
+              <>
+                {t(CONTINENT_NAMES[code])}{" "}
+                <Text span size="xs" c="dimmed">
+                  {continentCount[code] ?? 0}
+                </Text>
+              </>
+            }
+          />
+        );
+      })}
+      <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
+      <Title order={2} size="h5" mb="sm">
+        <Trans>Number of days</Trans>
+      </Title>
+      <RangeSlider
+        w="100%"
+        min={1}
+        mb="sm"
+        max={DEFAULT_FILTER_OPTIONS.maxDays}
+        minRange={0}
+        value={[uncommitted.minDays, uncommitted.maxDays]}
+        onChange={([minDays, maxDays]) => {
+          setDirty({ ...uncommitted, minDays, maxDays });
+        }}
+        label={(value) =>
+          value < DEFAULT_FILTER_OPTIONS.maxDays ? (
+            <Plural value={[value][0]} one="# day" other="# days" />
+          ) : (
+            <Plural
+              value={DEFAULT_FILTER_OPTIONS.maxDays}
+              one="# day or more"
+              other="# days or more"
+            />
+          )
+        }
+        marks={toArray(
+          map(
+            Range.from(DEFAULT_FILTER_OPTIONS.minDays).toInclusive(
+              DEFAULT_FILTER_OPTIONS.maxDays,
+            ),
+            (value) => ({ value }),
+          ),
+        )}
+      />
+      <Text size="sm">
+        <DayText minDays={uncommitted.minDays} maxDays={uncommitted.maxDays} />
+      </Text>
+    </Drawer>
+  );
+}
+
 export default function FilterBar({
   events,
   filter,
@@ -184,9 +388,6 @@ export default function FilterBar({
   const isLoggedIn = useIsLoggedIn();
 
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
-
-  const attendingFiltered = isLoggedIn && filter.attending;
-  const followedFiltered = isLoggedIn && filter.followed;
 
   const continentCount = useMemo(() => {
     const counts: Partial<Record<Continent, number>> = {};
@@ -217,8 +418,8 @@ export default function FilterBar({
     filter.maxDays != DEFAULT_FILTER_OPTIONS.maxDays;
 
   const numFilters = [
-    followedFiltered,
-    attendingFiltered,
+    filter.attending,
+    filter.followed,
     continentsFiltered,
     durationFiltered,
   ].reduce((acc, v) => acc + (v ? 1 : 0), 0);
@@ -294,7 +495,7 @@ export default function FilterBar({
                   attending: !filter.attending,
                 });
               }}
-              {...(attendingFiltered
+              {...(filter.attending
                 ? {
                     color: "red",
                     variant: "filled",
@@ -473,7 +674,7 @@ export default function FilterBar({
                   followed: !filter.followed,
                 });
               }}
-              {...(followedFiltered
+              {...(filter.followed
                 ? {
                     variant: "filled",
                   }
@@ -490,133 +691,15 @@ export default function FilterBar({
         <Group gap="xs">{rightSection}</Group>
       </Group>
 
-      <Drawer
-        position="bottom"
+      <FilterDrawer
         opened={filterDrawerOpen}
         onClose={() => {
           setFilterDrawerOpen(false);
         }}
-        hiddenFrom="lg"
-        title={<Trans>Filters</Trans>}
-      >
-        {isLoggedIn ? (
-          <>
-            <Checkbox
-              mb="sm"
-              checked={attendingFiltered}
-              color="red"
-              icon={(props) => <IconHeartFilled {...props} />}
-              label={<Trans>Going only</Trans>}
-              onChange={(e) => {
-                setFilter({
-                  ...filter,
-                  attending: e.target.checked,
-                });
-              }}
-            />
-            <Checkbox
-              mb="sm"
-              disabled={followedEventAttendees == null}
-              checked={followedFiltered}
-              label={<Trans>With followed only</Trans>}
-              onChange={(e) => {
-                setFilter({
-                  ...filter,
-                  followed: e.target.checked,
-                });
-              }}
-            />
-
-            <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
-          </>
-        ) : null}
-        <Title order={2} size="h5" mb="sm">
-          <Trans>Regions</Trans>
-        </Title>
-        <Checkbox
-          mb="sm"
-          checked={filter.continents.length > 0}
-          indeterminate={filter.continents.length != 0 && continentsFiltered}
-          onChange={(e) => {
-            setFilter({
-              ...filter,
-              continents: e.target.checked
-                ? DEFAULT_FILTER_OPTIONS.continents
-                : [],
-            });
-          }}
-          fw="bold"
-          label={
-            <Plural
-              value={filter.continents.length}
-              one="# selected"
-              other="# selected"
-            />
-          }
-        />
-        {sortedContinents.map((code) => {
-          return (
-            <Checkbox
-              key={code}
-              mb="sm"
-              checked={filter.continents.includes(code)}
-              onChange={(e) => {
-                setFilter({
-                  ...filter,
-                  continents: e.target.checked
-                    ? sorted([...filter.continents, code])
-                    : filter.continents.filter((c) => c != code),
-                });
-              }}
-              label={
-                <>
-                  {t(CONTINENT_NAMES[code])}{" "}
-                  <Text span size="xs" c="dimmed">
-                    {continentCount[code] ?? 0}
-                  </Text>
-                </>
-              }
-            />
-          );
-        })}
-        <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
-        <Title order={2} size="h5" mb="sm">
-          <Trans>Number of days</Trans>
-        </Title>
-        <RangeSlider
-          w="100%"
-          min={1}
-          mb="sm"
-          max={DEFAULT_FILTER_OPTIONS.maxDays}
-          minRange={0}
-          value={[filter.minDays, filter.maxDays]}
-          onChange={([minDays, maxDays]) => {
-            setFilter({ ...filter, minDays, maxDays });
-          }}
-          label={(value) =>
-            value < DEFAULT_FILTER_OPTIONS.maxDays ? (
-              <Plural value={[value][0]} one="# day" other="# days" />
-            ) : (
-              <Plural
-                value={DEFAULT_FILTER_OPTIONS.maxDays}
-                one="# day or more"
-                other="# days or more"
-              />
-            )
-          }
-          marks={toArray(
-            map(
-              Range.from(DEFAULT_FILTER_OPTIONS.minDays).toInclusive(
-                DEFAULT_FILTER_OPTIONS.maxDays,
-              ),
-              (value) => ({ value }),
-            ),
-          )}
-        />
-        <Text size="sm">
-          <DayText minDays={filter.minDays} maxDays={filter.maxDays} />
-        </Text>
-      </Drawer>
+        events={events}
+        filter={filter}
+        setFilter={setFilter}
+      />
     </>
   );
 }
