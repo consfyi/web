@@ -268,7 +268,7 @@ export default function EventRow({
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.location}
+                {event.location.join(", ")}
               </Anchor>
             </Text>
           ) : null}
@@ -276,7 +276,8 @@ export default function EventRow({
         {showLocation == "break" ? (
           <Text size="sm" truncate>
             <Text span>
-              <IconMapPin title={t`Location`} size={12} /> {event.location}
+              <IconMapPin title={t`Location`} size={12} />{" "}
+              {event.location.join(", ")}
             </Text>
           </Text>
         ) : null}

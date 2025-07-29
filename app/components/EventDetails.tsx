@@ -293,7 +293,7 @@ export function Body({ event }: { event: EventWithPost }) {
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.location}
+                {event.location.join(", ")}
               </Anchor>{" "}
             </Text>
           </Group>

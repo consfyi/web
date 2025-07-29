@@ -67,7 +67,7 @@ export interface Event {
   start: TZDate;
   end: TZDate;
   url: string;
-  location: string;
+  location: string[];
   country: string | null;
   latLng: [number, number] | null;
   timezone: string | null;
