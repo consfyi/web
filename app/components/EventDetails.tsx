@@ -233,6 +233,9 @@ export function Body({ event }: { event: EventWithPost }) {
 
   const unknownLikeCount = likeCount - knownLikeCount;
 
+  const [primaryLocation, ...secondaryLocationParts] = event.location;
+  const secondaryLocation = secondaryLocationParts.join(", ");
+
   return (
     <>
       <Box mb="sm">
@@ -293,7 +296,10 @@ export function Body({ event }: { event: EventWithPost }) {
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.location.join(", ")}
+                {primaryLocation},{" "}
+                <Text span size="xs">
+                  {secondaryLocation}
+                </Text>
               </Anchor>{" "}
             </Text>
           </Group>

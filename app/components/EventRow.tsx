@@ -114,6 +114,9 @@ export default function EventRow({
     reinterpretAsLocalDate(subDays(event.end, 1)),
   );
 
+  const [primaryLocation, ...secondaryLocationParts] = event.location;
+  const secondaryLocation = secondaryLocationParts.join(", ");
+
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
       {density == "comfortable" ? (
@@ -268,7 +271,10 @@ export default function EventRow({
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.location.join(", ")}
+                {primaryLocation},{" "}
+                <Text span size="xs">
+                  {secondaryLocation}
+                </Text>
               </Anchor>
             </Text>
           ) : null}
@@ -276,8 +282,10 @@ export default function EventRow({
         {showLocation == "break" ? (
           <Text size="sm" truncate>
             <Text span>
-              <IconMapPin title={t`Location`} size={12} />{" "}
-              {event.location.join(", ")}
+              <IconMapPin title={t`Location`} size={12} /> {primaryLocation},{" "}
+              <Text span size="xs">
+                {secondaryLocation}
+              </Text>
             </Text>
           </Text>
         ) : null}
