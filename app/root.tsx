@@ -30,15 +30,12 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
-import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
   NavigationProgress,
   startNavigationProgress,
 } from "@mantine/nprogress";
-import "@mantine/nprogress/styles.css";
 import {
   IconAlertTriangle,
   IconBrandBluesky,
@@ -73,6 +70,10 @@ import LocaleSelector from "./components/LocaleSelector";
 import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
 import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
+
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/nprogress/styles.css";
 import "./styles.css";
 
 const theme = createTheme({});
