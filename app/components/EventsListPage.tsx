@@ -9,25 +9,25 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router";
 import SimpleErrorBoundary from "~/components/SimpleErrorBoundary";
-import { type EventWithPost, useEventsWithPosts, useIsLoggedIn } from "~/hooks";
+import { type Event, useIsLoggedIn } from "~/hooks";
 import * as qp from "~/qp";
 import { FilterOptions } from "./FilterBar";
 
 export default function EventsListPage<T extends qp.Schema>({
+  events,
   LayoutOptions,
   Component,
 }: {
+  events: Event[];
   LayoutOptions: T;
   Component(props: {
-    events: EventWithPost[];
+    events: Event[];
     layout: qp.Infer<typeof LayoutOptions>;
     setLayout(layout: qp.Infer<typeof LayoutOptions>): void;
     filter: FilterOptions;
     setFilter(filter: FilterOptions): void;
   }): ReactNode;
 }) {
-  const events = useEventsWithPosts();
-
   const isLoggedIn = useIsLoggedIn();
 
   const navigate = useNavigate();

@@ -2,6 +2,7 @@ import { type MetaFunction } from "react-router";
 import clientMetadata from "~/../public/client-metadata.json";
 import ListView, { LayoutOptions } from "~/components/events/ListView";
 import EventsListPage from "~/components/EventsListPage";
+import { useEventsWithPosts } from "~/hooks";
 
 export const meta: MetaFunction = ({ matches }) => [
   ...matches.flatMap((match) => match.meta ?? []),
@@ -9,5 +10,12 @@ export const meta: MetaFunction = ({ matches }) => [
 ];
 
 export default function Index() {
-  return <EventsListPage LayoutOptions={LayoutOptions} Component={ListView} />;
+  const events = useEventsWithPosts();
+  return (
+    <EventsListPage
+      events={events}
+      LayoutOptions={LayoutOptions}
+      Component={ListView}
+    />
+  );
 }
