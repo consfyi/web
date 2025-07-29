@@ -103,6 +103,7 @@ function FlatList({
                 showLocation="inline"
                 showFollowed
                 showLikeButton
+                showYear={false}
                 density={density}
                 showDuration
                 withId

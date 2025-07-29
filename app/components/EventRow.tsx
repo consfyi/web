@@ -41,6 +41,7 @@ export default function EventRow({
   showLocation,
   showFollowed,
   showLikeButton,
+  showYear,
   density,
   showDuration,
   withId,
@@ -50,6 +51,7 @@ export default function EventRow({
   showLocation: "inline" | "break" | "hide";
   showFollowed: boolean;
   showLikeButton: boolean;
+  showYear: boolean;
   density: "comfortable" | "cozy" | "compact";
   showDuration: boolean;
   withId: boolean;
@@ -71,6 +73,7 @@ export default function EventRow({
         weekday: "short",
         day: "numeric",
         month: "short",
+        year: showYear ? "numeric" : undefined,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],

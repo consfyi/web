@@ -164,6 +164,7 @@ function MapInner({
                   showLocation="break"
                   showFollowed
                   showLikeButton
+                  showYear
                   density="cozy"
                   showDuration={false}
                   withId={false}

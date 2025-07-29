@@ -60,6 +60,7 @@ function Attending({ profile }: { profile: Profile }) {
               showLocation="hide"
               showFollowed={false}
               showLikeButton={false}
+              showYear
               density="comfortable"
               showDuration
               withId={false}
@@ -89,6 +90,7 @@ function Attending({ profile }: { profile: Profile }) {
                 showLocation="hide"
                 showFollowed={false}
                 showLikeButton={false}
+                showYear
                 density="comfortable"
                 showDuration
                 withId={false}
