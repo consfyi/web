@@ -153,6 +153,7 @@ function MarkerWithPopup({
   return (
     <>
       <BasicMarker
+        anchor="bottom"
         latitude={pin.lat}
         longitude={pin.lng}
         onClick={(e) => {
