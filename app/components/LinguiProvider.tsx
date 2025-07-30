@@ -26,9 +26,9 @@ function getRequestedLocales(): Locale[] {
     if (storedLocale != null) {
       requestedLocales.push(storedLocale);
     }
+    requestedLocales.push(...navigator.languages);
   }
 
-  requestedLocales.push(...navigator.languages);
   return requestedLocales;
 }
 
