@@ -1,26 +1,33 @@
 import { DatesProvider as MantineDatesProvider } from "@mantine/dates";
 import { useLocalStorage } from "@mantine/hooks";
 import { type Day } from "date-fns";
-import { useLinguiContext } from "./LinguiProvider";
 import { rotateLeft } from "iter-fns";
+import { useLinguiContext } from "./LinguiProvider";
 
-const DEFAULT_FIRST_DAY_OF_WEEK = (() => {
-  // Use the locale of the browser rather than the set locale.
+const WEEK_INFO = (() => {
+  const DEFAULT = { firstDay: 7, weekend: [6, 7] };
+  if (typeof window == "undefined") {
+    return DEFAULT;
+  }
   const locale = new Intl.Locale(navigator.language);
-  const weekInfo = (
-    locale as {
-      getWeekInfo?(): { firstDay: number };
-    }
-  ).getWeekInfo?.() ?? { firstDay: 7 };
-
-  return (weekInfo.firstDay % 7) as Day;
+  return (
+    (
+      locale as {
+        getWeekInfo?(): { firstDay: number; weekend: number[] };
+      }
+    ).getWeekInfo?.() ?? DEFAULT
+  );
 })();
+
+const DEFAULT_FIRST_DAY = (WEEK_INFO.firstDay % 7) as Day;
+
+const WEEKEND = WEEK_INFO.weekend.map((d) => (d % 7) as Day);
 
 export const FIRST_DAYS_OF_WEEK: Day[] = (() => {
   const days = [0, 1, 6] as Day[];
-  const idx = days.indexOf(DEFAULT_FIRST_DAY_OF_WEEK);
+  const idx = days.indexOf(DEFAULT_FIRST_DAY);
   if (idx == -1) {
-    days.unshift(DEFAULT_FIRST_DAY_OF_WEEK);
+    days.unshift(DEFAULT_FIRST_DAY);
   } else {
     rotateLeft(days, idx);
   }
@@ -30,36 +37,25 @@ export const FIRST_DAYS_OF_WEEK: Day[] = (() => {
 export function useFirstDayOfWeek() {
   return useLocalStorage({
     key: "fbl:firstDayOfWeek",
-    defaultValue: DEFAULT_FIRST_DAY_OF_WEEK,
+    defaultValue: DEFAULT_FIRST_DAY,
     getInitialValueInEffect: false,
     deserialize(value) {
       if (value == undefined) {
-        return DEFAULT_FIRST_DAY_OF_WEEK;
+        return DEFAULT_FIRST_DAY;
       }
 
       try {
         const day = JSON.parse(value);
         if (!FIRST_DAYS_OF_WEEK.includes(day)) {
-          return DEFAULT_FIRST_DAY_OF_WEEK;
+          return DEFAULT_FIRST_DAY;
         }
         return day;
       } catch (e) {
-        return DEFAULT_FIRST_DAY_OF_WEEK;
+        return DEFAULT_FIRST_DAY;
       }
     },
   });
 }
-
-const WEEKEND_DAYS = (() => {
-  // Use the locale of the browser rather than the set locale.
-  const locale = new Intl.Locale(navigator.language);
-  const weekInfo = (
-    locale as {
-      getWeekInfo?(): { weekend: number[] };
-    }
-  ).getWeekInfo?.() ?? { weekend: [6, 7] };
-  return weekInfo.weekend.map((d) => (d % 7) as Day);
-})();
 
 export default function DatesProvider({
   children,
@@ -73,7 +69,7 @@ export default function DatesProvider({
     <MantineDatesProvider
       settings={{
         locale: dayjsLocale.name,
-        weekendDays: WEEKEND_DAYS,
+        weekendDays: WEEKEND,
         firstDayOfWeek,
       }}
     >
