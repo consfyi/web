@@ -296,7 +296,7 @@ export function Body({ event }: { event: EventWithPost }) {
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {primaryLocation},{" "}
+                {primaryLocation}{" "}
                 <Text span size="xs">
                   {secondaryLocation}
                 </Text>

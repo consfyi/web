@@ -271,7 +271,7 @@ export default function EventRow({
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {primaryLocation},{" "}
+                {primaryLocation}{" "}
                 <Text span size="xs">
                   {secondaryLocation}
                 </Text>
@@ -282,7 +282,7 @@ export default function EventRow({
         {showLocation == "break" ? (
           <Text size="sm" truncate>
             <Text span>
-              <IconMapPin title={t`Location`} size={12} /> {primaryLocation},{" "}
+              <IconMapPin title={t`Location`} size={12} /> {primaryLocation}{" "}
               <Text span size="xs">
                 {secondaryLocation}
               </Text>
