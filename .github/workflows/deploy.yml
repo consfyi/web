@@ -15,9 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install && npm run build
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install && pnpm build
       - uses: cloudflare/wrangler-action@v3
         with:
           command: pages deploy build/client --project-name=fbl --commit-dirty=true
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          packageManager: pnpm
