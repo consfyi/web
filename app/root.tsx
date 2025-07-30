@@ -157,9 +157,9 @@ function Header() {
               <Menu.Target>
                 <Button
                   px="xs"
-                  variant="outline"
+                  variant="subtle"
                   color="var(--mantine-color-dimmed)"
-                  c="var(--mantine-color-text)"
+                  c="dimmed"
                   rightSection={<IconChevronDown size={14} />}
                 >
                   <IconSettings size={18} />
