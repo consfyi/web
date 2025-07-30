@@ -67,7 +67,8 @@ export interface Event {
   start: TZDate;
   end: TZDate;
   url: string;
-  location: string[];
+  venue: string;
+  address: string | null;
   country: string | null;
   latLng: [number, number] | null;
   timezone: string | null;
@@ -133,7 +134,8 @@ export function useEvents() {
             }),
             end,
             url: event.url!,
-            location: event.location!,
+            venue: event.venue!,
+            address: event.address ?? null,
             country: event.country!,
             latLng: event.latLng ?? null,
             timezone: event.timezone ?? null,
