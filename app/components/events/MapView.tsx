@@ -59,7 +59,8 @@ function MapInner({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const slug = location.hash != "" ? location.hash.slice(1) : null;
+  const slug =
+    location.hash != "" ? decodeURIComponent(location.hash.slice(1)) : null;
 
   const selected = useMemo(
     () =>
