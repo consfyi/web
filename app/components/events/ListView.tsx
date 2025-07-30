@@ -105,7 +105,6 @@ function FlatList({
                 showLikeButton
                 showYear={false}
                 density={density}
-                showDuration
                 withId
               />
             </Box>

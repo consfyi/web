@@ -43,7 +43,6 @@ export default function EventRow({
   showLikeButton,
   showYear,
   density,
-  showDuration,
   withId,
 }: {
   event: Event;
@@ -53,7 +52,6 @@ export default function EventRow({
   showLikeButton: boolean;
   showYear: boolean;
   density: "comfortable" | "cozy" | "compact";
-  showDuration: boolean;
   withId: boolean;
 }) {
   const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
@@ -109,10 +107,6 @@ export default function EventRow({
   }, [follows, now]);
 
   const active = isAfter(now, event.start) && !isAfter(now, event.end);
-  const dateRange = dateTimeFormat.formatRange(
-    reinterpretAsLocalDate(event.start),
-    reinterpretAsLocalDate(subDays(event.end, 1)),
-  );
 
   const [primaryLocation, ...secondaryLocationParts] = event.location;
   const secondaryLocation = secondaryLocationParts.join(", ");
@@ -249,19 +243,23 @@ export default function EventRow({
           ) : null}
           <Text span>
             <IconCalendarWeek title={t`Dates`} size={12} />{" "}
-            {showDuration ? (
-              <Trans context="[start date]-[end date] ([duration] days)">
-                {[dateRange][0]} (
-                <Plural
-                  value={differenceInDays(event.end, event.start)}
-                  one="# day"
-                  other="# days"
-                />
-                )
-              </Trans>
-            ) : (
-              dateRange
-            )}
+            <Trans context="[start date]-[end date] ([duration] days)">
+              {
+                [
+                  dateTimeFormat.formatRange(
+                    reinterpretAsLocalDate(event.start),
+                    reinterpretAsLocalDate(subDays(event.end, 1)),
+                  ),
+                ][0]
+              }{" "}
+              (
+              <Plural
+                value={differenceInDays(event.end, event.start)}
+                one="# day"
+                other="# days"
+              />
+              )
+            </Trans>
           </Text>
           {showLocation == "inline" ? (
             <Text span visibleFrom="xs">
