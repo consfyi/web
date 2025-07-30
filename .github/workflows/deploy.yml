@@ -18,6 +18,6 @@ jobs:
       - run: npm install && npm run build
       - uses: cloudflare/wrangler-action@v3
         with:
-          command: pages deploy build/client --project-name=fbl
+          command: pages deploy build/client --project-name=fbl --commit-dirty=true
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
