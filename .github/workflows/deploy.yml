@@ -18,5 +18,5 @@ jobs:
       - run: npm install && npm run build
       - uses: cloudflare/wrangler-action@v3
         with:
+          command: pages deploy build/client --project-name=fbl
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: build/client
