@@ -3,6 +3,7 @@ import { msg } from "@lingui/core/macro";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
   Anchor,
+  Autocomplete,
   Badge,
   Box,
   Button,
@@ -16,7 +17,6 @@ import {
   RangeSlider,
   SegmentedControl,
   Text,
-  TextInput,
   Title,
 } from "@mantine/core";
 import {
@@ -426,9 +426,10 @@ export default function FilterBar({
 
   return (
     <>
-      <TextInput
+      <Autocomplete
         name="q"
         m="xs"
+        filter={({ options }) => options}
         leftSection={<IconSearch size={16} />}
         rightSection={
           <CloseButton
@@ -446,10 +447,10 @@ export default function FilterBar({
         }
         placeholder={t`Search`}
         value={filter.q}
-        onChange={(e) => {
+        onChange={(q) => {
           setFilter({
             ...filter,
-            q: e.target.value,
+            q,
           });
         }}
       />
