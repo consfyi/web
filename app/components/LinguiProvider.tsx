@@ -19,14 +19,14 @@ function getRequestedLocales(): Locale[] {
   const requestedLocales: string[] = [];
 
   if (typeof window !== "undefined") {
-    const searchParams = new URLSearchParams(location.search);
+    const searchParams = new URLSearchParams(window.location.search);
     requestedLocales.push(...searchParams.getAll("lang"));
 
     const storedLocale = window.localStorage.getItem(LOCALE_KEY);
     if (storedLocale != null) {
       requestedLocales.push(storedLocale);
     }
-    requestedLocales.push(...navigator.languages);
+    requestedLocales.push(...window.navigator.languages);
   }
 
   return requestedLocales;

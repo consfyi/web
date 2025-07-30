@@ -4,23 +4,15 @@ import { type Day } from "date-fns";
 import { rotateLeft } from "iter-fns";
 import { useLinguiContext } from "./LinguiProvider";
 
-const WEEK_INFO = (() => {
-  const DEFAULT = { firstDay: 7, weekend: [6, 7] };
-  if (typeof window == "undefined") {
-    return DEFAULT;
-  }
-  const locale = new Intl.Locale(navigator.language);
-  return (
-    (
-      locale as {
+const WEEK_INFO = (typeof window !== "undefined"
+  ? ((
+      new Intl.Locale(window.navigator.language) as {
         getWeekInfo?(): { firstDay: number; weekend: number[] };
       }
-    ).getWeekInfo?.() ?? DEFAULT
-  );
-})();
+    ).getWeekInfo?.() ?? null)
+  : null) ?? { firstDay: 7, weekend: [6, 7] };
 
 const DEFAULT_FIRST_DAY = (WEEK_INFO.firstDay % 7) as Day;
-
 const WEEKEND = WEEK_INFO.weekend.map((d) => (d % 7) as Day);
 
 export const FIRST_DAYS_OF_WEEK: Day[] = (() => {
