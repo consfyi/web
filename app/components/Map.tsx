@@ -153,7 +153,6 @@ function MarkerWithPopup({
   return (
     <>
       <BasicMarker
-        anchor="bottom"
         latitude={pin.lat}
         longitude={pin.lng}
         onClick={(e) => {
@@ -172,6 +171,7 @@ function MarkerWithPopup({
       />
       {showPopup && pin.popup != null ? (
         <Popup
+          anchor="bottom"
           closeButton={false}
           closeOnClick={false}
           focusAfterOpen={false}
