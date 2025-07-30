@@ -1,6 +1,6 @@
 import { Box, Center, Container, Loader } from "@mantine/core";
 import { getDay, isAfter } from "date-fns";
-import { Suspense, use, useMemo, useState } from "react";
+import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { type Event, eventHasPost, useNow } from "~/hooks";
 import * as qp from "~/qp";
@@ -59,13 +59,33 @@ function MapInner({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const slug =
-    location.hash != "" ? decodeURIComponent(location.hash.slice(1)) : null;
+  const selectedEvent = useMemo(() => {
+    if (location.hash == "") {
+      return null;
+    }
+    const slug = decodeURIComponent(location.hash.slice(1));
+    return events.find((event) => event.id == slug) ?? null;
+  }, [events, location.hash]);
 
-  const selected = useMemo(
-    () =>
-      slug != null ? (events.find((event) => event.id == slug) ?? null) : null,
-    [slug, events],
+  const setSelected = useCallback(
+    (identifier: string) => {
+      const event =
+        identifier != null
+          ? events.find((event) => event.id == identifier)
+          : null;
+      setLayout({
+        ...layout,
+      });
+      navigate(
+        {
+          pathname: location.pathname,
+          search: location.search,
+          hash: event != null ? event.id : "",
+        },
+        { replace: true },
+      );
+    },
+    [events, layout, location.pathname, location.search, navigate, setLayout],
   );
 
   const myLatLng = use(myLocationPromise);
@@ -74,8 +94,8 @@ function MapInner({
     if (layout.center != null) {
       return layout.center;
     }
-    if (selected != null && selected.latLng != null) {
-      const [lat, lng] = selected.latLng;
+    if (selectedEvent != null && selectedEvent.latLng != null) {
+      const [lat, lng] = selectedEvent.latLng;
       return { lat, lng, zoom: 17 };
     }
     if (myLatLng != null) {
@@ -99,24 +119,8 @@ function MapInner({
           left: 0,
           zIndex: 0,
         }}
-        selected={selected != null ? selected.id : null}
-        setSelected={(identifier) => {
-          const event =
-            identifier != null
-              ? events.find((event) => event.id == identifier)
-              : null;
-          setLayout({
-            ...layout,
-          });
-          navigate(
-            {
-              pathname: location.pathname,
-              search: location.search,
-              hash: event != null ? event.id : "",
-            },
-            { replace: true },
-          );
-        }}
+        selected={selectedEvent != null ? selectedEvent.id : null}
+        setSelected={setSelected}
         pins={filteredEvents.flatMap((event) => {
           if (event.latLng == null) {
             return [];
