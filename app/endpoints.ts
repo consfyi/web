@@ -275,7 +275,9 @@ export function useLikePost() {
     async function ({ uri }: { uri: ResourceUri }) {
       const post = ctrl.get(Post, { uri }, ctrl.getState());
       if (post == null) {
-        throw "post not found";
+        throw new Response(null, {
+          status: 404,
+        });
       }
 
       if (post.viewer == null || post.viewer.like != null) {
@@ -305,7 +307,9 @@ export function useUnlikePost() {
     async function ({ uri }: { uri: ResourceUri }) {
       const post = ctrl.get(Post, { uri }, ctrl.getState());
       if (post == null) {
-        throw "post not found";
+        throw new Response(null, {
+          status: 404,
+        });
       }
 
       if (post.viewer == null || post.viewer.like == null) {
