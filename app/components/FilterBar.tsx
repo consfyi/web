@@ -118,7 +118,7 @@ export function LayoutSwitcher({
 export const FilterOptions = qp.schema({
   q: qp.default_(qp.string, ""),
   active: qp.flag,
-  attending: qp.flag,
+  going: qp.flag,
   followed: qp.flag,
   continents: qp.default_(qp.array(qp.literal(CONTINENTS), " "), [
     ...CONTINENTS,
@@ -266,14 +266,14 @@ function FilterDrawer({
       {isLoggedIn ? (
         <Checkbox
           mb="sm"
-          checked={uncommitted.attending}
+          checked={uncommitted.going}
           color="red"
           icon={(props) => <IconHeartFilled {...props} />}
           label={<Trans>Going only</Trans>}
           onChange={(e) => {
             setDirty({
               ...uncommitted,
-              attending: e.target.checked,
+              going: e.target.checked,
             });
           }}
         />
@@ -434,7 +434,7 @@ export default function FilterBar({
     filter.maxDays != DEFAULT_FILTER_OPTIONS.maxDays;
 
   const numFilters = [
-    filter.attending,
+    filter.going,
     filter.followed,
     continentsFiltered,
     durationFiltered,
@@ -531,10 +531,10 @@ export default function FilterBar({
               onClick={() => {
                 setFilter({
                   ...filter,
-                  attending: !filter.attending,
+                  going: !filter.going,
                 });
               }}
-              {...(filter.attending
+              {...(filter.going
                 ? {
                     color: "red",
                     variant: "filled",
@@ -774,7 +774,7 @@ export function useFilterPredicate(filter: FilterOptions) {
           queryRe,
         ) != null &&
         // Attending filter
-        (!filter.attending ||
+        (!filter.going ||
           (eventHasPost(event) && event.post.viewer?.like != null)) &&
         // Continents filter
         filter.continents.includes(

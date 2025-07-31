@@ -86,7 +86,7 @@ export default function EventsListPage<T extends qp.Schema>({
             events={events}
             filter={{
               ...view.filter,
-              attending: isLoggedIn && view.filter.attending,
+              going: isLoggedIn && view.filter.going,
               followed: isLoggedIn && view.filter.followed,
             }}
             setFilter={(filter) => {

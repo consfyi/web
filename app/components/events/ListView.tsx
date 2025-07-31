@@ -572,7 +572,7 @@ export default function ListView({
                 events={filteredEvents}
                 sortDesc={layout.desc}
                 density={layout.density}
-                hideEmptyGroups={filter.attending || filter.q != ""}
+                hideEmptyGroups={filter.going || filter.q != ""}
               />
             ) : (
               absurd(layout.sort)

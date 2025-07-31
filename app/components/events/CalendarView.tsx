@@ -211,7 +211,7 @@ export default function CalendarView({
           <Container size="lg" px={0}>
             <Calendar
               inYourTimeZone={layout.timezone == "yours"}
-              includeToday={!filter.attending && filter.q == ""}
+              includeToday={!filter.going && filter.q == ""}
               events={filteredEvents.map((event) => {
                 const over = isAfter(now, event.end);
 
