@@ -15,11 +15,11 @@ import {
   IconRss,
   IconSettings,
 } from "@tabler/icons-react";
-import { type Day, getDay } from "date-fns";
+import { type Day, getDay, isAfter } from "date-fns";
 import { Suspense, useEffect, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
-import { eventHasPost, type Event } from "~/hooks";
+import { eventHasPost, useNow, type Event } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
 import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";
@@ -50,6 +50,7 @@ export default function CalendarView({
   setFilter(filter: FilterOptions): void;
 }) {
   const pred = useFilterPredicate(filter);
+  const now = useNow();
   const filteredEvents = events.filter(pred);
 
   const { i18n, t } = useLingui();
@@ -211,39 +212,48 @@ export default function CalendarView({
             <Calendar
               inYourTimeZone={layout.timezone == "yours"}
               includeToday={!filter.attending && filter.q == ""}
-              events={filteredEvents.map((event) => ({
-                id: event.id,
-                anchor: event.id,
-                label: (
-                  <>
-                    <Flag
-                      country={event.country ?? undefined}
-                      size={8}
-                      me={4}
-                    />
-                    <Text span>{event.name}</Text>
-                  </>
-                ),
-                color: [
-                  "red",
-                  "orange",
-                  "yellow",
-                  "green",
-                  "blue",
-                  "indigo",
-                  "violet",
-                ][getDay(event.start)],
-                variant:
-                  eventHasPost(event) &&
-                  event.post.viewer != null &&
-                  event.post.viewer.like != null
-                    ? "filled"
-                    : "light",
-                title: event.name,
-                link: `/${event.id}`,
-                start: event.start,
-                end: event.end,
-              }))}
+              events={filteredEvents.map((event) => {
+                const over = isAfter(now, event.end);
+
+                return {
+                  id: event.id,
+                  anchor: event.id,
+                  label: (
+                    <>
+                      <Flag
+                        country={event.country ?? undefined}
+                        size={8}
+                        me={4}
+                        style={{
+                          filter: over ? "grayscale(1)" : undefined,
+                        }}
+                      />
+                      <Text span>{event.name}</Text>
+                    </>
+                  ),
+                  color: !over
+                    ? [
+                        "red",
+                        "orange",
+                        "yellow",
+                        "green",
+                        "blue",
+                        "indigo",
+                        "violet",
+                      ][getDay(event.start)]
+                    : "gray",
+                  variant:
+                    eventHasPost(event) &&
+                    event.post.viewer != null &&
+                    event.post.viewer.like != null
+                      ? "filled"
+                      : "light",
+                  title: event.name,
+                  link: `/${event.id}`,
+                  start: event.start,
+                  end: event.end,
+                };
+              })}
             />
           </Container>
         ) : (

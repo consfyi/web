@@ -127,17 +127,15 @@ function MapInner({
           }
 
           const [lat, lng] = event.latLng;
-          const active = isAfter(now, event.start) && !isAfter(now, event.end);
 
-          const color = [
-            "red",
-            "orange",
-            "yellow",
-            "green",
-            "blue",
-            "indigo",
-            "violet",
-          ][getDay(event.start)];
+          const over = isAfter(now, event.end);
+          const active = isAfter(now, event.start) && !over;
+
+          const color = !over
+            ? ["red", "orange", "yellow", "green", "blue", "indigo", "violet"][
+                getDay(event.start)
+              ]
+            : "gray";
 
           const variant =
             eventHasPost(event) &&
@@ -158,10 +156,12 @@ function MapInner({
                 eventHasPost(event) &&
                 event.post.viewer != null &&
                 event.post.viewer.like != null
-                  ? 2
+                  ? 3
                   : active
-                    ? 1
-                    : 0,
+                    ? 2
+                    : !over
+                      ? 1
+                      : 0,
               popup: (
                 <EventRow
                   event={event}
