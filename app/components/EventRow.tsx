@@ -109,7 +109,7 @@ export default function EventRow({
   }, [follows, now]);
 
   const over = isAfter(now, event.end);
-  const active = isAfter(now, event.start) && !over;
+  const inProgress = isAfter(now, event.start) && !over;
 
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
@@ -118,10 +118,10 @@ export default function EventRow({
           <Indicator
             position="top-start"
             color="green"
-            processing={active}
+            processing={inProgress}
             size={12}
             withBorder
-            disabled={!active}
+            disabled={!inProgress}
             zIndex={2}
           >
             <ThemeIcon

@@ -129,7 +129,7 @@ function MapInner({
           const [lat, lng] = event.latLng;
 
           const over = isAfter(now, event.end);
-          const active = isAfter(now, event.start) && !over;
+          const inProgress = isAfter(now, event.start) && !over;
 
           const color = !over
             ? ["red", "orange", "yellow", "green", "blue", "indigo", "violet"][
@@ -149,7 +149,7 @@ function MapInner({
               id: event.id,
               lat,
               lng,
-              active,
+              active: inProgress,
               color,
               variant,
               zIndex:
@@ -157,7 +157,7 @@ function MapInner({
                 event.post.viewer != null &&
                 event.post.viewer.like != null
                   ? 3
-                  : active
+                  : inProgress
                     ? 2
                     : !over
                       ? 1

@@ -117,7 +117,7 @@ export function LayoutSwitcher({
 
 export const FilterOptions = qp.schema({
   q: qp.default_(qp.string, ""),
-  historical: qp.flag,
+  active: qp.flag,
   attending: qp.flag,
   followed: qp.flag,
   continents: qp.default_(qp.array(qp.literal(CONTINENTS), " "), [
@@ -216,14 +216,17 @@ function FilterDrawer({
 
   const isLoggedIn = useIsLoggedIn();
 
+  const close = useCallback(() => {
+    setDirty(null);
+    onClose();
+  }, [setDirty, onClose]);
+
   return (
     <Drawer
       position="bottom"
       opened={opened}
       withCloseButton={false}
-      onClose={() => {
-        onClose();
-      }}
+      onClose={close}
       hiddenFrom="lg"
       styles={{
         title: {
@@ -241,8 +244,7 @@ function FilterDrawer({
             size="xs"
             onClick={() => {
               setFilter(uncommitted);
-              setDirty(null);
-              onClose();
+              close();
             }}
           >
             <Trans>Apply</Trans>
@@ -250,37 +252,49 @@ function FilterDrawer({
         </>
       }
     >
+      <Checkbox
+        mb="sm"
+        checked={uncommitted.active}
+        label={<Trans>Active only</Trans>}
+        onChange={(e) => {
+          setDirty({
+            ...uncommitted,
+            active: e.target.checked,
+          });
+        }}
+      />
       {isLoggedIn ? (
-        <>
-          <Checkbox
-            mb="sm"
-            checked={uncommitted.attending}
-            color="red"
-            icon={(props) => <IconHeartFilled {...props} />}
-            label={<Trans>Going only</Trans>}
-            onChange={(e) => {
-              setDirty({
-                ...uncommitted,
-                attending: e.target.checked,
-              });
-            }}
-          />
-          <Checkbox
-            mb="sm"
-            disabled={followedEventAttendees == null}
-            checked={uncommitted.followed}
-            label={<Trans>With followed only</Trans>}
-            onChange={(e) => {
-              setDirty({
-                ...uncommitted,
-                followed: e.target.checked,
-              });
-            }}
-          />
-
-          <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
-        </>
+        <Checkbox
+          mb="sm"
+          checked={uncommitted.attending}
+          color="red"
+          icon={(props) => <IconHeartFilled {...props} />}
+          label={<Trans>Going only</Trans>}
+          onChange={(e) => {
+            setDirty({
+              ...uncommitted,
+              attending: e.target.checked,
+            });
+          }}
+        />
       ) : null}
+      {isLoggedIn ? (
+        <Checkbox
+          mb="sm"
+          disabled={followedEventAttendees == null}
+          checked={uncommitted.followed}
+          label={<Trans>With followed only</Trans>}
+          onChange={(e) => {
+            setDirty({
+              ...uncommitted,
+              followed: e.target.checked,
+            });
+          }}
+        />
+      ) : null}
+
+      <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
+
       <Title order={2} size="h5" mb="sm">
         <Trans>Regions</Trans>
       </Title>
@@ -487,6 +501,28 @@ export default function FilterBar({
           gap="xs"
           visibleFrom="lg"
         >
+          <Button
+            radius="lg"
+            size="xs"
+            style={{ flexShrink: 0 }}
+            onClick={() => {
+              setFilter({
+                ...filter,
+                active: !filter.active,
+              });
+            }}
+            {...(filter.active
+              ? {
+                  variant: "filled",
+                }
+              : {
+                  c: "dimmed",
+                  color: "var(--mantine-color-dimmed)",
+                  variant: "default",
+                })}
+          >
+            <Trans>Active only</Trans>
+          </Button>
           {isLoggedIn ? (
             <Button
               radius="lg"
@@ -731,7 +767,8 @@ export function useFilterPredicate(filter: FilterOptions) {
       const days = differenceInDays(event.end, event.start);
 
       return (
-        (filter.historical || !isAfter(now, event.end)) &&
+        // Upcoming
+        (!filter.active || !isAfter(now, event.end)) &&
         // Query
         removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
           queryRe,

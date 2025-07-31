@@ -22,7 +22,7 @@ msgstr "Clear all filters"
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:141
-#: app/components/EventDetails.tsx:385
+#: app/components/EventDetails.tsx:382
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 
@@ -35,177 +35,182 @@ msgstr "Nobody known to be going yet."
 msgid "View Bluesky Post"
 msgstr "View Bluesky Post"
 
-#: app/components/EventDetails.tsx:254
-#: app/components/EventRow.tsx:245
+#: app/components/EventDetails.tsx:251
+#: app/components/EventRow.tsx:264
 msgid "Dates"
 msgstr "Dates"
 
 #. placeholder {0}: [ dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), ), ][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
 #. placeholder {1}: differenceInDays(event.end, event.start)
-#: app/components/EventDetails.tsx:258
-#: app/components/EventRow.tsx:246
+#: app/components/EventDetails.tsx:255
+#: app/components/EventRow.tsx:265
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
 msgstr "{0} ({1, plural, one {# day} other {# days}})"
 
-#: app/components/EventDetails.tsx:276
+#: app/components/EventDetails.tsx:273
 msgid "Website"
 msgstr "Website"
 
-#: app/components/EventDetails.tsx:291
-#: app/components/EventRow.tsx:266
-#: app/components/EventRow.tsx:283
+#: app/components/EventDetails.tsx:288
+#: app/components/EventRow.tsx:285
+#: app/components/EventRow.tsx:302
 msgid "Location"
 msgstr "Location"
 
 #. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:309
+#: app/components/EventDetails.tsx:306
 msgid "Is this information incorrect? <0>File an issue here.</0> {0}"
 msgstr "Is this information incorrect? <0>File an issue here.</0> {0}"
 
-#: app/components/EventDetails.tsx:318
+#: app/components/EventDetails.tsx:315
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
 
-#: app/components/EventDetails.tsx:347
+#: app/components/EventDetails.tsx:344
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "Going"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:350
+#: app/components/EventDetails.tsx:347
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0} including you"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:354
-#: app/components/EventRow.tsx:198
+#: app/components/EventDetails.tsx:351
+#: app/components/EventRow.tsx:217
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}"
 
-#: app/components/EventDetails.tsx:364
+#: app/components/EventDetails.tsx:361
 msgid "Loading people you follow"
 msgstr "Loading people you follow"
 
-#: app/components/EventRow.tsx:192
-#: app/components/events/ListView.tsx:340
+#: app/components/EventRow.tsx:211
+#: app/components/events/ListView.tsx:347
 msgctxt "number of people going"
 msgid "People going"
 msgstr "People going"
 
 #. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
-#: app/components/EventRow.tsx:211
+#: app/components/EventRow.tsx:230
 msgid "{0, plural, one {# other you follow} other {# others you follow}}"
 msgstr "{0, plural, one {# other you follow} other {# others you follow}}"
 
-#: app/components/FilterBar.tsx:65
+#: app/components/FilterBar.tsx:66
 msgid "List"
 msgstr "List"
 
-#: app/components/FilterBar.tsx:70
+#: app/components/FilterBar.tsx:71
 msgid "Calendar"
 msgstr "Calendar"
 
-#: app/components/FilterBar.tsx:75
+#: app/components/FilterBar.tsx:76
 msgid "Map"
 msgstr "Map"
 
-#: app/components/FilterBar.tsx:131
+#: app/components/FilterBar.tsx:133
 msgid "North America"
 msgstr "North America"
 
-#: app/components/FilterBar.tsx:132
+#: app/components/FilterBar.tsx:134
 msgid "Europe"
 msgstr "Europe"
 
-#: app/components/FilterBar.tsx:133
+#: app/components/FilterBar.tsx:135
 msgid "Asia"
 msgstr "Asia"
 
-#: app/components/FilterBar.tsx:134
+#: app/components/FilterBar.tsx:136
 msgid "South America"
 msgstr "South America"
 
-#: app/components/FilterBar.tsx:135
+#: app/components/FilterBar.tsx:137
 msgid "Oceania"
 msgstr "Oceania"
 
-#: app/components/FilterBar.tsx:136
+#: app/components/FilterBar.tsx:138
 msgid "Africa"
 msgstr "Africa"
 
-#: app/components/FilterBar.tsx:137
+#: app/components/FilterBar.tsx:139
 msgid "Unknown"
 msgstr "Unknown"
 
 #. placeholder {0}: DEFAULT_FILTER_OPTIONS.maxDays
 #. placeholder {0}: [minDays][0]
-#: app/components/FilterBar.tsx:145
-#: app/components/FilterBar.tsx:154
-#: app/components/FilterBar.tsx:349
-#: app/components/FilterBar.tsx:649
+#: app/components/FilterBar.tsx:147
+#: app/components/FilterBar.tsx:156
+#: app/components/FilterBar.tsx:365
+#: app/components/FilterBar.tsx:688
 msgid "{0, plural, one {# day or more} other {# days or more}}"
 msgstr "{0, plural, one {# day or more} other {# days or more}}"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {0}: [value][0]
-#: app/components/FilterBar.tsx:151
-#: app/components/FilterBar.tsx:347
-#: app/components/FilterBar.tsx:647
+#: app/components/FilterBar.tsx:153
+#: app/components/FilterBar.tsx:363
+#: app/components/FilterBar.tsx:686
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0, plural, one {# day} other {# days}}"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {1}: [maxDays][0]
-#: app/components/FilterBar.tsx:160
+#: app/components/FilterBar.tsx:162
 msgid "{0} to {1} days"
 msgstr "{0} to {1} days"
 
-#: app/components/FilterBar.tsx:237
-#: app/components/FilterBar.tsx:470
+#: app/components/FilterBar.tsx:242
+#: app/components/FilterBar.tsx:487
 msgid "Filters"
 msgstr "Filters"
 
-#: app/components/FilterBar.tsx:246
+#: app/components/FilterBar.tsx:250
 msgid "Apply"
 msgstr "Apply"
 
 #: app/components/FilterBar.tsx:258
-#: app/components/FilterBar.tsx:509
+#: app/components/FilterBar.tsx:524
+msgid "Active only"
+msgstr "Active only"
+
+#: app/components/FilterBar.tsx:272
+#: app/components/FilterBar.tsx:548
 msgid "Going only"
 msgstr "Going only"
 
-#: app/components/FilterBar.tsx:270
-#: app/components/FilterBar.tsx:687
+#: app/components/FilterBar.tsx:286
+#: app/components/FilterBar.tsx:726
 msgid "With followed only"
 msgstr "With followed only"
 
-#: app/components/FilterBar.tsx:283
-#: app/components/FilterBar.tsx:540
+#: app/components/FilterBar.tsx:299
+#: app/components/FilterBar.tsx:579
 msgid "Regions"
 msgstr "Regions"
 
 #. placeholder {0}: uncommitted.continents.length
 #. placeholder {0}: filter.continents.length
-#: app/components/FilterBar.tsx:299
-#: app/components/FilterBar.tsx:567
+#: app/components/FilterBar.tsx:315
+#: app/components/FilterBar.tsx:606
 msgid "{0, plural, one {# selected} other {# selected}}"
 msgstr "{0, plural, one {# selected} other {# selected}}"
 
-#: app/components/FilterBar.tsx:333
-#: app/components/FilterBar.tsx:626
+#: app/components/FilterBar.tsx:349
+#: app/components/FilterBar.tsx:665
 msgid "Number of days"
 msgstr "Number of days"
 
-#: app/components/FilterBar.tsx:447
+#: app/components/FilterBar.tsx:464
 msgid "Search"
 msgstr "Search"
 
 #. placeholder {0}: filter.continents.length
-#: app/components/FilterBar.tsx:533
+#: app/components/FilterBar.tsx:572
 msgid "{0, plural, one {# region} other {# regions}}"
 msgstr "{0, plural, one {# region} other {# regions}}"
 
@@ -237,87 +242,87 @@ msgid "{0}"
 msgstr "{0}"
 
 #. placeholder {0}: unknownEvents.length
-#: app/components/UserDetails.tsx:74
+#: app/components/UserDetails.tsx:75
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 
-#: app/components/UserDetails.tsx:136
+#: app/components/UserDetails.tsx:138
 msgctxt "user attending cons"
 msgid "Going"
 msgstr "Going"
 
-#: app/components/events/CalendarView.tsx:88
+#: app/components/events/CalendarView.tsx:89
 msgid "Subscribe"
 msgstr "Subscribe"
 
-#: app/components/events/CalendarView.tsx:104
+#: app/components/events/CalendarView.tsx:105
 msgid "Calendar URL"
 msgstr "Calendar URL"
 
-#: app/components/events/CalendarView.tsx:122
-#: app/components/events/ListView.tsx:409
+#: app/components/events/CalendarView.tsx:123
+#: app/components/events/ListView.tsx:416
 msgid "Settings"
 msgstr "Settings"
 
-#: app/components/events/CalendarView.tsx:136
+#: app/components/events/CalendarView.tsx:137
 msgid "Week starts on"
 msgstr "Week starts on"
 
-#: app/components/events/CalendarView.tsx:158
+#: app/components/events/CalendarView.tsx:159
 msgid "Use time zone"
 msgstr "Use time zone"
 
-#: app/components/events/CalendarView.tsx:175
+#: app/components/events/CalendarView.tsx:176
 msgid "Theirs"
 msgstr "Theirs"
 
-#: app/components/events/CalendarView.tsx:192
+#: app/components/events/CalendarView.tsx:193
 msgid "Yours"
 msgstr "Yours"
 
-#: app/components/events/ListView.tsx:324
+#: app/components/events/ListView.tsx:331
 msgid "Date"
 msgstr "Date"
 
-#: app/components/events/ListView.tsx:325
+#: app/components/events/ListView.tsx:332
 msgid "Soonest to latest"
 msgstr "Soonest to latest"
 
-#: app/components/events/ListView.tsx:327
+#: app/components/events/ListView.tsx:334
 msgid "Latest to soonest"
 msgstr "Latest to soonest"
 
-#: app/components/events/ListView.tsx:332
+#: app/components/events/ListView.tsx:339
 msgid "Name"
 msgstr "Name"
 
-#: app/components/events/ListView.tsx:333
+#: app/components/events/ListView.tsx:340
 msgid "A to Z"
 msgstr "A to Z"
 
-#: app/components/events/ListView.tsx:335
+#: app/components/events/ListView.tsx:342
 msgid "Z to A"
 msgstr "Z to A"
 
-#: app/components/events/ListView.tsx:341
-#: app/components/events/ListView.tsx:349
+#: app/components/events/ListView.tsx:348
+#: app/components/events/ListView.tsx:356
 msgid "Fewest to most"
 msgstr "Fewest to most"
 
-#: app/components/events/ListView.tsx:343
-#: app/components/events/ListView.tsx:351
+#: app/components/events/ListView.tsx:350
+#: app/components/events/ListView.tsx:358
 msgid "Most to fewest"
 msgstr "Most to fewest"
 
-#: app/components/events/ListView.tsx:348
+#: app/components/events/ListView.tsx:355
 msgid "People you follow going"
 msgstr "People you follow going"
 
-#: app/components/events/ListView.tsx:437
+#: app/components/events/ListView.tsx:444
 msgid "Sort by"
 msgstr "Sort by"
 
-#: app/components/events/ListView.tsx:478
+#: app/components/events/ListView.tsx:485
 msgid "Order"
 msgstr "Order"
 
