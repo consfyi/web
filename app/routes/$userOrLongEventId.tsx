@@ -25,7 +25,7 @@ function UserPage({ actor }: { actor: string }) {
   }
 
   return (
-    <Container size="lg" p="sm">
+    <Container size="lg" px="sm" pb="sm">
       <UserDetails profile={profile} />
     </Container>
   );
@@ -53,7 +53,7 @@ function EventPage({ id }: { id: string }) {
   }
 
   return (
-    <Container size="lg" p="sm">
+    <Container size="lg" px="sm" pb="sm">
       <EventDetails event={event} />
     </Container>
   );

@@ -130,18 +130,25 @@ function Header() {
       />
       <Box
         style={{
-          background:
-            "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
+          transitionProperty:
+            "border-bottom-color, background, backdrop-filter",
+          transitionDuration: "0.1s",
+          transitionTimingFunction: "ease-out",
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: !inViewport
-            ? "var(--mantine-color-default-border)"
-            : "transparent",
-          transition: "border-bottom-color 0.1s ease-out",
           position: "sticky",
           top: "0px",
           zIndex: "var(--mantine-z-index-app)",
-          backdropFilter: "blur(5px)",
+          ...(inViewport
+            ? {
+                borderBottomColor: "transparent",
+              }
+            : {
+                backdropFilter: "blur(5px)",
+                borderBottomColor: "var(--mantine-color-default-border)",
+                background:
+                  "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
+              }),
         }}
       >
         <Container size="lg" p="sm">
@@ -157,8 +164,21 @@ function Header() {
                   h={26}
                   w={26}
                   alt={clientMetadata.client_name}
+                  style={{
+                    filter:
+                      "drop-shadow(0px 0px 5px color-mix(in srgb, var(--mantine-color-body), transparent 50%))",
+                  }}
                 />
-                <Text fw={500} size="lg" lh={1} visibleFrom="xs">
+                <Text
+                  fw={500}
+                  size="lg"
+                  lh={1}
+                  visibleFrom="xs"
+                  style={{
+                    textShadow:
+                      "0px 0px 5px color-mix(in srgb, var(--mantine-color-body), transparent 50%)",
+                  }}
+                >
                   {clientMetadata.client_name}
                 </Text>
               </Group>

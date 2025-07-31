@@ -444,7 +444,7 @@ export default function FilterBar({
     <>
       <Autocomplete
         name="q"
-        m="xs"
+        mx="xs"
         filter={({ options }) => options}
         leftSection={<IconSearch size={16} />}
         rightSection={
