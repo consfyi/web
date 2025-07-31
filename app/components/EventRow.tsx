@@ -239,7 +239,11 @@ export default function EventRow({
                     <Avatar.Group
                       display="inline-flex"
                       spacing="xs"
-                      style={{ verticalAlign: "bottom" }}
+                      style={{
+                        verticalAlign: "bottom",
+                        filter:
+                          over && grayOutIfOver ? "grayscale(1)" : undefined,
+                      }}
                     >
                       {sampledFollows!.map((follow) => (
                         <Avatar
