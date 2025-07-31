@@ -105,6 +105,9 @@ export default function CalendarView({
                     label={t`Calendar URL`}
                     m={4}
                     w={210}
+                    onClick={(e) => {
+                      e.currentTarget.select();
+                    }}
                     onFocus={(e) => {
                       e.target.select();
                     }}
