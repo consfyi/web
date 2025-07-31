@@ -43,6 +43,7 @@ export default function EventRow({
   showLikeButton,
   showYear,
   density,
+  grayOutIfOver,
   withId,
 }: {
   event: Event;
@@ -52,6 +53,7 @@ export default function EventRow({
   showLikeButton: boolean;
   showYear: boolean;
   density: "comfortable" | "cozy" | "compact";
+  grayOutIfOver: boolean;
   withId: boolean;
 }) {
   const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
@@ -126,7 +128,7 @@ export default function EventRow({
               size="xl"
               variant="light"
               color={
-                !over
+                !over || !grayOutIfOver
                   ? [
                       "red",
                       "orange",
@@ -177,7 +179,7 @@ export default function EventRow({
             <Anchor
               component={Link}
               to={`/${event.id}`}
-              c={over ? "gray" : undefined}
+              c={over && grayOutIfOver ? "gray" : undefined}
               fw={500}
             >
               <Flag
@@ -185,7 +187,7 @@ export default function EventRow({
                 size={10}
                 me={6}
                 style={{
-                  filter: over ? "grayscale(1)" : undefined,
+                  filter: over && grayOutIfOver ? "grayscale(1)" : undefined,
                 }}
               />
               {event.name}
@@ -195,7 +197,7 @@ export default function EventRow({
                 href={event.url}
                 target="_blank"
                 opacity={0.4}
-                c={over ? "gray" : undefined}
+                c={over && grayOutIfOver ? "gray" : undefined}
               >
                 <IconWorld size={12} />
               </Anchor>

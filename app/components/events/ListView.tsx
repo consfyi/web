@@ -30,7 +30,6 @@ import {
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
-  useNow,
 } from "~/hooks";
 import * as qp from "~/qp";
 import EmptyIcon from "../EmptyIcon";
@@ -60,8 +59,6 @@ function FlatList({
     }
     return sortedEvents;
   }, [events, sortDesc]);
-
-  const now = useNow();
 
   return (
     <>
@@ -108,6 +105,7 @@ function FlatList({
                 showLikeButton
                 showYear={false}
                 density={density}
+                grayOutIfOver
                 withId
               />
             </Box>

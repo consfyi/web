@@ -171,6 +171,7 @@ function MapInner({
                   showLikeButton
                   showYear
                   density="cozy"
+                  grayOutIfOver={false}
                   withId={false}
                 />
               ),
