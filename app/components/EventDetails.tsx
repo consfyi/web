@@ -1,23 +1,23 @@
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
-    Anchor,
-    Box,
-    Divider,
-    Group,
-    Indicator,
-    Loader,
-    Title as MantineTitle,
-    SimpleGrid,
-    Skeleton,
-    Stack,
-    Text,
-    Tooltip,
+  Anchor,
+  Box,
+  Divider,
+  Group,
+  Indicator,
+  Loader,
+  Title as MantineTitle,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Text,
+  Tooltip,
 } from "@mantine/core";
 import {
-    IconBrandBluesky,
-    IconCalendarWeek,
-    IconMapPin,
-    IconWorld,
+  IconBrandBluesky,
+  IconCalendarWeek,
+  IconMapPin,
+  IconWorld,
 } from "@tabler/icons-react";
 import { differenceInDays, isBefore, subDays } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
@@ -32,13 +32,13 @@ import { LABELER_DID } from "~/config";
 import { reinterpretAsLocalDate } from "~/date";
 import { Profile } from "~/endpoints";
 import {
-    type Event,
-    type EventWithPost,
-    useFollowedEventAttendeesDLE,
-    useLikes,
-    useNow,
-    useSelf,
-    useSelfFollowsDLE,
+  type Event,
+  type EventWithPost,
+  useFollowedEventAttendeesDLE,
+  useLikes,
+  useNow,
+  useSelf,
+  useSelfFollowsDLE,
 } from "~/hooks";
 import IntlList from "./IntlList";
 
@@ -175,7 +175,7 @@ export function Title({ event }: { event: EventWithPost }) {
         </Box>
       ) : null}
       <MantineTitle size="h4" fw={500}>
-        <Flag country={event.country ?? undefined} size={14} me={6} />{" "}
+        <Flag country={event.country ?? undefined} size={14} me={6} />
         {event.name}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
