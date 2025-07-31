@@ -1,8 +1,8 @@
 import {
   DataProvider,
   useController,
+  useDLE,
   useLoading,
-  useSuspense,
 } from "@data-client/react";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
@@ -581,7 +581,7 @@ function Welcome() {
 
 function NotSubscribedToLabelerAlert() {
   const getPreferences = useGetPreferences();
-  const preferences = useSuspense(getPreferences);
+  const { data: preferences } = useDLE(getPreferences);
 
   const putPreferences = usePutPreferences();
   const ctrl = useController();
@@ -606,6 +606,7 @@ function NotSubscribedToLabelerAlert() {
   }, [ctrl, preferences, putPreferences]);
 
   const subscribedToLabeler =
+    preferences == null ||
     preferences.preferences == null ||
     preferences.preferences.some(
       (preference) =>
