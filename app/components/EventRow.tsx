@@ -178,6 +178,7 @@ export default function EventRow({
               component={Link}
               to={`/${event.id}`}
               c={over ? "gray" : undefined}
+              fw={500}
             >
               <Flag
                 country={event.country ?? undefined}
