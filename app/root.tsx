@@ -166,7 +166,7 @@ function Header() {
                   alt={clientMetadata.client_name}
                   style={{
                     filter:
-                      "drop-shadow(0px 0px 5px color-mix(in srgb, var(--mantine-color-body), transparent 50%))",
+                      "drop-shadow(0px 0px 2px color-mix(in srgb, var(--mantine-color-body), transparent 50%))",
                   }}
                 />
                 <Text
@@ -176,7 +176,7 @@ function Header() {
                   visibleFrom="xs"
                   style={{
                     textShadow:
-                      "0px 0px 5px color-mix(in srgb, var(--mantine-color-body), transparent 50%)",
+                      "0px 0px 2px color-mix(in srgb, var(--mantine-color-body), transparent 50%)",
                   }}
                 >
                   {clientMetadata.client_name}
