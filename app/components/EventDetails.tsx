@@ -1,5 +1,6 @@
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
+  Alert,
   Anchor,
   Box,
   Divider,
@@ -33,7 +34,7 @@ import { reinterpretAsLocalDate } from "~/date";
 import { Profile } from "~/endpoints";
 import {
   type Event,
-  type EventWithPost,
+  eventHasPost,
   useFollowedEventAttendeesDLE,
   useLikes,
   useNow,
@@ -164,12 +165,12 @@ function AttendeesList({
   );
 }
 
-export function Title({ event }: { event: EventWithPost }) {
+export function Title({ event }: { event: Event }) {
   const { t } = useLingui();
 
   return (
     <Group gap={7} wrap="nowrap" align="top">
-      {event.post.viewer != null ? (
+      {eventHasPost(event) && event.post.viewer != null ? (
         <Box mt={2} mb={-2}>
           <LikeButton size="sm" iconSize={24} post={event.post} />
         </Box>
@@ -194,7 +195,7 @@ export function Title({ event }: { event: EventWithPost }) {
   );
 }
 
-export function Body({ event }: { event: EventWithPost }) {
+export function Body({ event }: { event: Event }) {
   const { i18n, t } = useLingui();
 
   const dateTimeFormat = useMemo(
@@ -219,9 +220,8 @@ export function Body({ event }: { event: EventWithPost }) {
 
   const self = useSelf();
 
-  const isAttending = event.post.viewer?.like != null;
-
-  const likeCount = event.post.likeCount ?? 0;
+  const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
+  const likeCount = eventHasPost(event) ? (event.post.likeCount ?? 0) : 0;
 
   const knownLikeCount =
     self != null
@@ -339,77 +339,86 @@ export function Body({ event }: { event: EventWithPost }) {
         </Box>
       </Box>
 
-      <Box mb="calc(var(--mantine-spacing-sm) * -1)">
-        <MantineTitle order={2} size="h5" fw={500} mb="sm">
-          <Trans>Going</Trans>{" "}
-          <Text size="sm" span>
-            {isAttending ? (
-              <Trans context="attendee count, including you">
-                {[likeCount][0]} including you
-              </Trans>
-            ) : (
-              <Trans context="attendee count">{[likeCount][0]}</Trans>
-            )}{" "}
-          </Text>
-        </MantineTitle>
-        <Box>
-          <SimpleErrorBoundary>
-            {followedEventAttendeesLoading ? (
-              <Group wrap="nowrap" gap={7} mb="sm">
-                <Loader size={8} color="dimmed" type="bars" />
-                <Text c="dimmed" size="xs" lh="md">
-                  <Trans>Loading people you follow</Trans>
-                </Text>
-              </Group>
-            ) : null}
-            <Suspense
-              fallback={
-                <>
-                  {knownLikeCount > 0 || unknownLikeCount == 0 ? (
-                    <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
-                      {toArray(
-                        map(
-                          Range.to(knownLikeCount > 0 ? knownLikeCount : 1),
-                          (i) => <ActorSkeleton key={i} />,
-                        ),
-                      )}
-                    </SimpleGrid>
-                  ) : null}
-                  {unknownLikeCount > 0 ? (
-                    <>
-                      <Divider
-                        label={
-                          <Plural
-                            value={[unknownLikeCount][0]}
-                            one="# person you don’t follow"
-                            other="# people you don’t follow"
-                          />
-                        }
-                        labelPosition="left"
-                        mb="sm"
-                      />
+      {eventHasPost(event) ? (
+        <Box mb="calc(var(--mantine-spacing-sm) * -1)">
+          <MantineTitle order={2} size="h5" fw={500} mb="sm">
+            <Trans>Going</Trans>{" "}
+            <Text size="sm" span>
+              {isAttending ? (
+                <Trans context="attendee count, including you">
+                  {[likeCount][0]} including you
+                </Trans>
+              ) : (
+                <Trans context="attendee count">{[likeCount][0]}</Trans>
+              )}{" "}
+            </Text>
+          </MantineTitle>
+          <Box>
+            <SimpleErrorBoundary>
+              {followedEventAttendeesLoading ? (
+                <Group wrap="nowrap" gap={7} mb="sm">
+                  <Loader size={8} color="dimmed" type="bars" />
+                  <Text c="dimmed" size="xs" lh="md">
+                    <Trans>Loading people you follow</Trans>
+                  </Text>
+                </Group>
+              ) : null}
+              <Suspense
+                fallback={
+                  <>
+                    {knownLikeCount > 0 || unknownLikeCount == 0 ? (
                       <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
                         {toArray(
-                          map(Range.to(unknownLikeCount), (i) => (
-                            <ActorSkeleton key={i} />
-                          )),
+                          map(
+                            Range.to(knownLikeCount > 0 ? knownLikeCount : 1),
+                            (i) => <ActorSkeleton key={i} />,
+                          ),
                         )}
                       </SimpleGrid>
-                    </>
-                  ) : null}
-                </>
-              }
-            >
-              <AttendeesList event={event} isSelfAttending={isAttending} />
-            </Suspense>
-          </SimpleErrorBoundary>
+                    ) : null}
+                    {unknownLikeCount > 0 ? (
+                      <>
+                        <Divider
+                          label={
+                            <Plural
+                              value={[unknownLikeCount][0]}
+                              one="# person you don’t follow"
+                              other="# people you don’t follow"
+                            />
+                          }
+                          labelPosition="left"
+                          mb="sm"
+                        />
+                        <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
+                          {toArray(
+                            map(Range.to(unknownLikeCount), (i) => (
+                              <ActorSkeleton key={i} />
+                            )),
+                          )}
+                        </SimpleGrid>
+                      </>
+                    ) : null}
+                  </>
+                }
+              >
+                <AttendeesList event={event} isSelfAttending={isAttending} />
+              </Suspense>
+            </SimpleErrorBoundary>
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        <Alert c="dimmed">
+          <Trans>
+            This convention has already ended. Information on who is going is no
+            longer available.
+          </Trans>
+        </Alert>
+      )}
     </>
   );
 }
 
-export default function EventDetails({ event }: { event: EventWithPost }) {
+export default function EventDetails({ event }: { event: Event }) {
   return (
     <>
       <Title event={event} />

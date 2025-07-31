@@ -28,7 +28,7 @@ import {
   TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
-import { useInViewport, useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
   NavigationProgress,
@@ -75,8 +75,8 @@ import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import "./styles.css";
 import EmptyIcon from "./components/EmptyIcon";
+import "./styles.css";
 
 const theme = createTheme({});
 

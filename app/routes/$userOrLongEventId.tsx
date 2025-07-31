@@ -3,7 +3,7 @@ import { Container } from "@mantine/core";
 import { useEffect } from "react";
 import EventDetails from "~/components/EventDetails";
 import UserDetails from "~/components/UserDetails";
-import { useEventsWithPosts, useProfile } from "~/hooks";
+import { useEventWithMaybePost, useProfile } from "~/hooks";
 import type { Route } from "./+types/$userOrLongEventId";
 
 function UserPage({ actor }: { actor: string }) {
@@ -32,9 +32,7 @@ function UserPage({ actor }: { actor: string }) {
 }
 
 function EventPage({ id }: { id: string }) {
-  const events = useEventsWithPosts();
-
-  const event = events != null ? events.find((event) => event.id == id) : null;
+  const event = useEventWithMaybePost(id);
 
   useEffect(() => {
     if (event == null) {

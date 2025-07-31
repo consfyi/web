@@ -172,18 +172,24 @@ export function useGetLikes() {
 export const getEvents = new Endpoint(
   // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
   async function ({}: {}) {
-    const events = [];
-    for await (const con of await (
-      await fetch(`https://data.cons.fyi/current.json?${+new Date()}`, {
+    const resp = await fetch(
+      `https://data.cons.fyi/current.json?${+new Date()}`,
+      {
         signal: this.signal,
-      })
-    ).json()) {
-      const refDate = new TZDateMini(new Date(), con.timezone ?? "Utc");
+      },
+    );
+    if (!resp.ok) {
+      throw resp;
+    }
+
+    const events = [];
+    for (const event of await resp.json()) {
+      const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
       events.push(
         Event.fromJS({
-          ...con,
-          startDate: parseDate(con.startDate, "yyyy-MM-dd", refDate),
-          endDate: parseDate(con.endDate, "yyyy-MM-dd", refDate),
+          ...event,
+          startDate: parseDate(event.startDate, "yyyy-MM-dd", refDate),
+          endDate: parseDate(event.endDate, "yyyy-MM-dd", refDate),
         }),
       );
     }
@@ -192,6 +198,33 @@ export const getEvents = new Endpoint(
   {
     name: "getEvents",
     schema: new schema.Collection([Event]),
+    signal: undefined as AbortSignal | undefined,
+  },
+);
+
+export const getEvent = new Endpoint(
+  async function ({ id }: { id: string }) {
+    const resp = await fetch(
+      `https://data.cons.fyi/events/${id}.json?${+new Date()}`,
+      {
+        signal: this.signal,
+      },
+    );
+    if (!resp.ok) {
+      throw resp;
+    }
+
+    const event = await resp.json();
+    const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
+    return Event.fromJS({
+      ...event,
+      startDate: parseDate(event.startDate, "yyyy-MM-dd", refDate),
+      endDate: parseDate(event.endDate, "yyyy-MM-dd", refDate),
+    });
+  },
+  {
+    name: "getEvent",
+    schema: Event,
     signal: undefined as AbortSignal | undefined,
   },
 );

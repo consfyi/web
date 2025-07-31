@@ -12,6 +12,7 @@ import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
+  getEvent,
   getEvents,
   Post,
   Profile,
@@ -64,8 +65,6 @@ function useEventPosts() {
 }
 
 export interface Event {
-  labelId: string;
-
   id: string;
   name: string;
   start: TZDate;
@@ -78,20 +77,49 @@ export interface Event {
   timezone: string | null;
   sources: string[] | null;
 
-  postRkey: string;
+  labelId: string | null;
+  postRkey: string | null;
 }
 
 export type EventWithPost = Event & { post: Post };
 
-export function useEvents() {
-  const details = useSuspense(getEvents, {});
+export function useEvent(id: string): Event {
+  const event = useSuspense(getEvent, { id });
+  const labelsById = useLabelsById();
+  const label = labelsById[event.id!];
+  return {
+    id: event.id!,
+    name: event.name!,
+    start: setDate(event.startDate!, {
+      hours: 12,
+      minutes: 0,
+      seconds: 0,
+      milliseconds: 0,
+    }),
+    end: setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
+      hours: 12,
+      minutes: 0,
+      seconds: 0,
+      milliseconds: 0,
+    }),
+    url: event.url!,
+    venue: event.venue!,
+    address: event.address ?? null,
+    country: event.country!,
+    latLng: event.latLng ?? null,
+    timezone: event.timezone ?? null,
+    sources: event.sources ?? null,
 
+    labelId: label != null ? label.labelId : null,
+    postRkey: label != null ? label.postRkey : null,
+  } satisfies Event;
+}
+
+export function useLabelsById() {
   const labelerView = useSuspense(useGetLabelerView(), { did: LABELER_DID });
 
-  const now = useNow();
-
-  const events = useGlobalMemo(
-    "events",
+  const labelsById = useGlobalMemo(
+    "labelsById",
     () => {
       const labelsById: Record<string, { labelId: string; postRkey: string }> =
         {};
@@ -108,23 +136,27 @@ export function useEvents() {
         };
       }
 
+      return labelsById;
+    },
+    [labelerView],
+  );
+  return labelsById;
+}
+
+export function useEvents() {
+  const details = useSuspense(getEvents, {});
+  const labelsById = useLabelsById();
+  const events = useGlobalMemo(
+    "events",
+    () => {
       return details.flatMap((event) => {
         const label = labelsById[event.id!];
         if (label == undefined) {
           return [];
         }
 
-        const end = setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
-          hours: 12,
-          minutes: 0,
-          seconds: 0,
-          milliseconds: 0,
-        });
-
         return [
           {
-            labelId: label.labelId,
-
             id: event.id!,
             name: event.name!,
             start: setDate(event.startDate!, {
@@ -133,7 +165,12 @@ export function useEvents() {
               seconds: 0,
               milliseconds: 0,
             }),
-            end,
+            end: setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
+              hours: 12,
+              minutes: 0,
+              seconds: 0,
+              milliseconds: 0,
+            }),
             url: event.url!,
             venue: event.venue!,
             address: event.address ?? null,
@@ -142,16 +179,26 @@ export function useEvents() {
             timezone: event.timezone ?? null,
             sources: event.sources ?? null,
 
+            labelId: label.labelId,
             postRkey: label.postRkey,
           } satisfies Event,
         ];
       });
     },
-    [labelerView, now],
+    [labelsById],
   );
   return events;
 }
 
+export function useEventWithMaybePost(id: string): Event | EventWithPost {
+  const event = useEvent(id);
+  const eventPosts = useEventPosts();
+  const post = event.postRkey != null ? eventPosts[event.postRkey] : null;
+  return {
+    ...event,
+    ...(post != null ? { post } : {}),
+  };
+}
 export function useEventsWithPosts() {
   const events = useEvents();
   const eventPosts = useEventPosts();

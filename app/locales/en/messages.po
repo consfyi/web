@@ -21,22 +21,22 @@ msgstr "Clear all filters"
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
-#: app/components/EventDetails.tsx:141
-#: app/components/EventDetails.tsx:382
+#: app/components/EventDetails.tsx:142
+#: app/components/EventDetails.tsx:383
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 
-#: app/components/EventDetails.tsx:161
+#: app/components/EventDetails.tsx:162
 msgid "Nobody known to be going yet."
 msgstr "Nobody known to be going yet."
 
-#: app/components/EventDetails.tsx:180
-#: app/components/EventDetails.tsx:186
+#: app/components/EventDetails.tsx:181
+#: app/components/EventDetails.tsx:187
 msgid "View Bluesky Post"
 msgstr "View Bluesky Post"
 
 #: app/components/EventDetails.tsx:251
-#: app/components/EventRow.tsx:264
+#: app/components/EventRow.tsx:268
 msgid "Dates"
 msgstr "Dates"
 
@@ -44,7 +44,7 @@ msgstr "Dates"
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
 #. placeholder {1}: differenceInDays(event.end, event.start)
 #: app/components/EventDetails.tsx:255
-#: app/components/EventRow.tsx:265
+#: app/components/EventRow.tsx:269
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
 msgstr "{0} ({1, plural, one {# day} other {# days}})"
@@ -54,8 +54,8 @@ msgid "Website"
 msgstr "Website"
 
 #: app/components/EventDetails.tsx:288
-#: app/components/EventRow.tsx:285
-#: app/components/EventRow.tsx:302
+#: app/components/EventRow.tsx:289
+#: app/components/EventRow.tsx:306
 msgid "Location"
 msgstr "Location"
 
@@ -68,30 +68,34 @@ msgstr "Is this information incorrect? <0>File an issue here.</0> {0}"
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
 
-#: app/components/EventDetails.tsx:344
+#: app/components/EventDetails.tsx:345
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "Going"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:347
+#: app/components/EventDetails.tsx:348
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0} including you"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:351
+#: app/components/EventDetails.tsx:352
 #: app/components/EventRow.tsx:217
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}"
 
-#: app/components/EventDetails.tsx:361
+#: app/components/EventDetails.tsx:362
 msgid "Loading people you follow"
 msgstr "Loading people you follow"
 
+#: app/components/EventDetails.tsx:411
+msgid "This event has already ended and information on who is going is no longer available."
+msgstr "This event has already ended and information on who is going is no longer available."
+
 #: app/components/EventRow.tsx:211
-#: app/components/events/ListView.tsx:347
+#: app/components/events/ListView.tsx:349
 msgctxt "number of people going"
 msgid "People going"
 msgstr "People going"
@@ -259,147 +263,147 @@ msgstr "Subscribe"
 msgid "Calendar URL"
 msgstr "Calendar URL"
 
-#: app/components/events/CalendarView.tsx:123
-#: app/components/events/ListView.tsx:416
+#: app/components/events/CalendarView.tsx:126
+#: app/components/events/ListView.tsx:418
 msgid "Settings"
 msgstr "Settings"
 
-#: app/components/events/CalendarView.tsx:137
+#: app/components/events/CalendarView.tsx:140
 msgid "Week starts on"
 msgstr "Week starts on"
 
-#: app/components/events/CalendarView.tsx:159
+#: app/components/events/CalendarView.tsx:162
 msgid "Use time zone"
 msgstr "Use time zone"
 
-#: app/components/events/CalendarView.tsx:176
+#: app/components/events/CalendarView.tsx:179
 msgid "Theirs"
 msgstr "Theirs"
 
-#: app/components/events/CalendarView.tsx:193
+#: app/components/events/CalendarView.tsx:196
 msgid "Yours"
 msgstr "Yours"
 
-#: app/components/events/ListView.tsx:331
+#: app/components/events/ListView.tsx:333
 msgid "Date"
 msgstr "Date"
 
-#: app/components/events/ListView.tsx:332
+#: app/components/events/ListView.tsx:334
 msgid "Soonest to latest"
 msgstr "Soonest to latest"
 
-#: app/components/events/ListView.tsx:334
+#: app/components/events/ListView.tsx:336
 msgid "Latest to soonest"
 msgstr "Latest to soonest"
 
-#: app/components/events/ListView.tsx:339
+#: app/components/events/ListView.tsx:341
 msgid "Name"
 msgstr "Name"
 
-#: app/components/events/ListView.tsx:340
+#: app/components/events/ListView.tsx:342
 msgid "A to Z"
 msgstr "A to Z"
 
-#: app/components/events/ListView.tsx:342
+#: app/components/events/ListView.tsx:344
 msgid "Z to A"
 msgstr "Z to A"
 
-#: app/components/events/ListView.tsx:348
-#: app/components/events/ListView.tsx:356
+#: app/components/events/ListView.tsx:350
+#: app/components/events/ListView.tsx:358
 msgid "Fewest to most"
 msgstr "Fewest to most"
 
-#: app/components/events/ListView.tsx:350
-#: app/components/events/ListView.tsx:358
+#: app/components/events/ListView.tsx:352
+#: app/components/events/ListView.tsx:360
 msgid "Most to fewest"
 msgstr "Most to fewest"
 
-#: app/components/events/ListView.tsx:355
+#: app/components/events/ListView.tsx:357
 msgid "People you follow going"
 msgstr "People you follow going"
 
-#: app/components/events/ListView.tsx:444
+#: app/components/events/ListView.tsx:446
 msgid "Sort by"
 msgstr "Sort by"
 
-#: app/components/events/ListView.tsx:485
+#: app/components/events/ListView.tsx:487
 msgid "Order"
 msgstr "Order"
 
-#: app/root.tsx:170
+#: app/root.tsx:222
 msgid "Color scheme"
 msgstr "Color scheme"
 
-#: app/root.tsx:187
+#: app/root.tsx:239
 msgid "Auto"
 msgstr "Auto"
 
-#: app/root.tsx:204
+#: app/root.tsx:256
 msgid "Light"
 msgstr "Light"
 
-#: app/root.tsx:221
+#: app/root.tsx:273
 msgid "Dark"
 msgstr "Dark"
 
-#: app/root.tsx:275
+#: app/root.tsx:327
 msgid "Log out"
 msgstr "Log out"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
-#: app/root.tsx:311
+#: app/root.tsx:363
 msgid "Log in via {0}"
 msgstr "Log in via {0}"
 
-#: app/root.tsx:315
+#: app/root.tsx:367
 msgid "Log in"
 msgstr "Log in"
 
-#: app/root.tsx:337
+#: app/root.tsx:389
 msgid "Log in via custom PDS"
 msgstr "Log in via custom PDS"
 
-#: app/root.tsx:345
+#: app/root.tsx:397
 msgid "Custom PDS"
 msgstr "Custom PDS"
 
-#: app/root.tsx:352
+#: app/root.tsx:404
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
 msgstr "Couldn’t log in with this PDS. Is the URL correct?"
 
-#: app/root.tsx:357
+#: app/root.tsx:410
 msgid "https://your.pds.com"
 msgstr "https://your.pds.com"
 
-#: app/root.tsx:395
+#: app/root.tsx:449
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1>"
 msgstr "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1>"
 
-#: app/root.tsx:441
-#: app/root.tsx:448
+#: app/root.tsx:495
+#: app/root.tsx:502
 msgid "Not found"
 msgstr "Not found"
 
-#: app/root.tsx:451
+#: app/root.tsx:505
 msgid "The page you requested could not be found."
 msgstr "The page you requested could not be found."
 
-#: app/root.tsx:483
+#: app/root.tsx:537
 msgid "Welcome!"
 msgstr "Welcome!"
 
-#: app/root.tsx:489
+#: app/root.tsx:543
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 
-#: app/root.tsx:568
+#: app/root.tsx:622
 msgid "Not subscribed to labeler"
 msgstr "Not subscribed to labeler"
 
-#: app/root.tsx:572
+#: app/root.tsx:626
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 
-#: app/root.tsx:585
+#: app/root.tsx:639
 msgid "Fix this for me"
 msgstr "Fix this for me"
