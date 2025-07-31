@@ -195,10 +195,14 @@ function EventSegment({ segment }: { segment: Segment }) {
           borderBottomWidth: "1px",
           borderInlineStartWidth: segment.hasStart ? "1px" : 0,
           borderInlineEndWidth: segment.hasEnd ? "1px" : 0,
-          borderStartStartRadius: segment.hasStart ? "100px" : 0,
-          borderEndStartRadius: segment.hasStart ? "100px" : 0,
-          borderStartEndRadius: segment.hasEnd ? "100px" : 0,
-          borderEndEndRadius: segment.hasEnd ? "100px" : 0,
+          borderStartStartRadius: segment.hasStart
+            ? "var(--mantine-radius-xl)"
+            : 0,
+          borderEndStartRadius: segment.hasStart
+            ? "var(--mantine-radius-xl)"
+            : 0,
+          borderStartEndRadius: segment.hasEnd ? "var(--mantine-radius-xl)" : 0,
+          borderEndEndRadius: segment.hasEnd ? "var(--mantine-radius-xl)" : 0,
           zIndex: 1,
         }}
       >
