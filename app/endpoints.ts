@@ -106,6 +106,28 @@ export class LabelerView extends Entity {
   }
 }
 
+export function useGetPost() {
+  const client = useClient();
+
+  return new Endpoint(
+    async function ({ uri }: { uri: ResourceUri }) {
+      const post = await client.getPostThread(uri, {
+        signal: this.signal,
+      });
+      if (post == null) {
+        throw new Response(null, {
+          status: 404,
+        });
+      }
+      return Post.fromJS(post.post);
+    },
+    {
+      name: "getPost",
+      schema: Post,
+      signal: undefined as AbortSignal | undefined,
+    },
+  );
+}
 export function useGetAuthorPosts() {
   const client = useClient();
 

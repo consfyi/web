@@ -21,6 +21,7 @@ import {
   useGetLabelerView,
   useGetLabels,
   useGetLikes,
+  useGetPost,
   useGetProfile,
 } from "./endpoints";
 
@@ -192,8 +193,11 @@ export function useEvents() {
 
 export function useEventWithMaybePost(id: string): Event | EventWithPost {
   const event = useEvent(id);
-  const eventPosts = useEventPosts();
-  const post = event.postRkey != null ? eventPosts[event.postRkey] : null;
+  const post = usePost(
+    event.postRkey != null
+      ? `at://${LABELER_DID}/app.bsky.feed.post/${event.postRkey}`
+      : null,
+  );
   return {
     ...event,
     ...(post != null ? { post } : {}),
@@ -212,6 +216,10 @@ export function useEventsWithPosts() {
 
 export function useLikes(uri: ResourceUri) {
   return useSuspense(useGetLikes(), { uri });
+}
+
+export function usePost(uri: ResourceUri | null) {
+  return useSuspense(useGetPost(), uri != null ? { uri } : null);
 }
 
 export function useSelf() {
