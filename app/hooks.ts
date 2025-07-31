@@ -1,7 +1,11 @@
-import type { ActorIdentifier, Did, ResourceUri } from "@atcute/lexicons";
+import {
+  type ActorIdentifier,
+  type Did,
+  type ResourceUri,
+} from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
-import { addDays, isAfter, set as setDate } from "date-fns";
+import { addDays, set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { use, useEffect, useState, useSyncExternalStore } from "react";
 import { LABELER_DID } from "~/config";
@@ -116,9 +120,6 @@ export function useEvents() {
           seconds: 0,
           milliseconds: 0,
         });
-        if (isAfter(now, end)) {
-          return [];
-        }
 
         return [
           {

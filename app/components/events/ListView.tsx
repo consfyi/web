@@ -19,7 +19,7 @@ import {
   IconSortDescendingLetters,
   IconSortDescendingNumbers,
 } from "@tabler/icons-react";
-import { addMonths, getMonth, getYear, setDate } from "date-fns";
+import { addMonths, getMonth, getYear, isAfter, setDate } from "date-fns";
 import { compareMany, comparing, equaling, group, sorted } from "iter-fns";
 import { type ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
@@ -30,6 +30,7 @@ import {
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
+  useNow,
 } from "~/hooks";
 import * as qp from "~/qp";
 import EmptyIcon from "../EmptyIcon";
@@ -59,6 +60,8 @@ function FlatList({
     }
     return sortedEvents;
   }, [events, sortDesc]);
+
+  const now = useNow();
 
   return (
     <>

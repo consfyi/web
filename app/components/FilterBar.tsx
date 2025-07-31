@@ -32,7 +32,7 @@ import {
   IconSearch,
   IconX,
 } from "@tabler/icons-react";
-import { differenceInDays } from "date-fns";
+import { differenceInDays, isAfter } from "date-fns";
 import { compareDesc, comparing, map, Range, sorted, toArray } from "iter-fns";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
@@ -47,6 +47,7 @@ import {
   eventHasPost,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
+  useNow,
 } from "~/hooks";
 import * as qp from "~/qp";
 import removeDiacritics from "~/removeDiacritics";
@@ -116,8 +117,9 @@ export function LayoutSwitcher({
 
 export const FilterOptions = qp.schema({
   q: qp.default_(qp.string, ""),
-  attending: qp.default_(qp.boolean, false),
-  followed: qp.default_(qp.boolean, false),
+  historical: qp.flag,
+  attending: qp.flag,
+  followed: qp.flag,
   continents: qp.default_(qp.array(qp.literal(CONTINENTS), " "), [
     ...CONTINENTS,
   ]),
@@ -709,6 +711,8 @@ export function useFilterPredicate(filter: FilterOptions) {
   const { i18n, t } = useLingui();
   const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
+  const now = useNow();
+
   const queryRe = useMemo(
     () =>
       new RegExp(
@@ -727,6 +731,7 @@ export function useFilterPredicate(filter: FilterOptions) {
       const days = differenceInDays(event.end, event.start);
 
       return (
+        (filter.historical || !isAfter(now, event.end)) &&
         // Query
         removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
           queryRe,
@@ -748,6 +753,6 @@ export function useFilterPredicate(filter: FilterOptions) {
           (followedEventAttendees[event.id] ?? []).length > 0)
       );
     },
-    [t, filter, followedEventAttendees, queryRe],
+    [t, now, filter, followedEventAttendees, queryRe],
   );
 }

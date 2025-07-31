@@ -106,7 +106,8 @@ export default function EventRow({
       : null;
   }, [follows, now]);
 
-  const active = isAfter(now, event.start) && !isAfter(now, event.end);
+  const over = isAfter(now, event.end);
+  const active = isAfter(now, event.start) && !over;
 
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
@@ -115,7 +116,7 @@ export default function EventRow({
           <Indicator
             position="top-start"
             color="green"
-            processing
+            processing={active}
             size={12}
             withBorder
             disabled={!active}
@@ -125,15 +126,17 @@ export default function EventRow({
               size="xl"
               variant="light"
               color={
-                [
-                  "red",
-                  "orange",
-                  "yellow",
-                  "green",
-                  "blue",
-                  "indigo",
-                  "violet",
-                ][getDay(reinterpretAsLocalDate(event.start))]
+                !over
+                  ? [
+                      "red",
+                      "orange",
+                      "yellow",
+                      "green",
+                      "blue",
+                      "indigo",
+                      "violet",
+                    ][getDay(reinterpretAsLocalDate(event.start))]
+                  : "gray"
               }
             >
               <Stack gap={0}>
@@ -171,12 +174,28 @@ export default function EventRow({
           ) : null}
 
           <Text size="sm" truncate>
-            <Anchor fw={500} component={Link} to={`/${event.id}`}>
-              <Flag country={event.country ?? undefined} size={10} me={6} />
+            <Anchor
+              component={Link}
+              to={`/${event.id}`}
+              c={over ? "gray" : undefined}
+            >
+              <Flag
+                country={event.country ?? undefined}
+                size={10}
+                me={6}
+                style={{
+                  filter: over ? "grayscale(1)" : undefined,
+                }}
+              />
               {event.name}
             </Anchor>{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
-              <Anchor href={event.url} target="_blank" opacity={0.4}>
+              <Anchor
+                href={event.url}
+                target="_blank"
+                opacity={0.4}
+                c={over ? "gray" : undefined}
+              >
                 <IconWorld size={12} />
               </Anchor>
             </Tooltip>
