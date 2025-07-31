@@ -47,7 +47,7 @@ import {
   IconSunMoon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import {
   Link,
   Links,
@@ -120,13 +120,34 @@ function Header() {
   const client = useClient();
   const self = useSelf();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
-  const { ref, inViewport } = useInViewport();
+
+  const [inViewport, setInViewport] = useState(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const observedRef = useCallback(
+    (el: HTMLElement | null) => {
+      if (el == null) {
+        if (observer.current != null) {
+          observer.current.disconnect();
+        }
+        setInViewport(true);
+        return;
+      }
+
+      if (observer.current == null) {
+        observer.current = new IntersectionObserver((entries) =>
+          setInViewport(entries.some((entry) => entry.isIntersecting)),
+        );
+      }
+      observer.current.observe(el);
+    },
+    [setInViewport],
+  );
 
   return (
     <>
       <div
-        ref={ref}
-        style={{ position: "absolute", bottom: "-1px", left: "0px" }}
+        ref={observedRef}
+        style={{ position: "absolute", top: "0px", left: "0px" }}
       />
       <Box
         style={{
@@ -139,7 +160,7 @@ function Header() {
           position: "sticky",
           top: "0px",
           zIndex: "var(--mantine-z-index-app)",
-          ...(!inViewport
+          ...(inViewport
             ? {
                 borderBottomColor: "transparent",
               }
