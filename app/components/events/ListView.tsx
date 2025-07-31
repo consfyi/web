@@ -19,7 +19,7 @@ import {
   IconSortDescendingLetters,
   IconSortDescendingNumbers,
 } from "@tabler/icons-react";
-import { addMonths, getMonth, getYear, isAfter, setDate } from "date-fns";
+import { addMonths, getMonth, getYear, isBefore, setDate } from "date-fns";
 import { compareMany, comparing, equaling, group, sorted } from "iter-fns";
 import { type ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
@@ -97,19 +97,21 @@ function FlatList({
       <Box px="xs">
         {sortedEvents.map((event) => {
           return (
-            <Box key={event.id} mb={density == "compact" ? "xs" : "sm"}>
-              <EventRow
-                event={event}
-                showMonthInIcon={false}
-                showLocation="inline"
-                showFollowed
-                showLikeButton
-                showYear={false}
-                density={density}
-                grayOutIfOver
-                withId
-              />
-            </Box>
+            <>
+              <Box key={event.id} mb={density == "compact" ? "xs" : "sm"}>
+                <EventRow
+                  event={event}
+                  showMonthInIcon={false}
+                  showLocation="inline"
+                  showFollowed
+                  showLikeButton
+                  showYear={false}
+                  density={density}
+                  grayOutIfOver
+                  withId
+                />
+              </Box>
+            </>
           );
         })}
       </Box>
@@ -209,7 +211,7 @@ function EventsByDate({
             <Text
               span
               fw={500}
-              c={isAfter(now, addMonths(d, 1)) ? "gray" : undefined}
+              c={!isBefore(now, addMonths(d, 1)) ? "gray" : undefined}
             >
               {i18n.date(d, {
                 month: "long",

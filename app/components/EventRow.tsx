@@ -16,7 +16,7 @@ import {
   IconUsers,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, getDay, isAfter, subDays } from "date-fns";
+import { differenceInDays, getDay, isBefore, subDays } from "date-fns";
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
@@ -108,8 +108,8 @@ export default function EventRow({
       : null;
   }, [follows, now]);
 
-  const over = isAfter(now, event.end);
-  const inProgress = isAfter(now, event.start) && !over;
+  const over = !isBefore(now, event.end);
+  const inProgress = !isBefore(now, event.start) && !over;
 
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>

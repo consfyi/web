@@ -15,7 +15,7 @@ import {
   IconRss,
   IconSettings,
 } from "@tabler/icons-react";
-import { type Day, getDay, isAfter } from "date-fns";
+import { getDay, isBefore, type Day } from "date-fns";
 import { Suspense, useEffect, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
@@ -216,7 +216,7 @@ export default function CalendarView({
               inYourTimeZone={layout.timezone == "yours"}
               includeToday={!filter.going && filter.q == ""}
               events={filteredEvents.map((event) => {
-                const over = isAfter(now, event.end);
+                const over = !isBefore(now, event.end);
 
                 return {
                   id: event.id,

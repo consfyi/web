@@ -32,7 +32,7 @@ import {
   IconSearch,
   IconX,
 } from "@tabler/icons-react";
-import { differenceInDays, isAfter } from "date-fns";
+import { differenceInDays, isBefore } from "date-fns";
 import { compareDesc, comparing, map, Range, sorted, toArray } from "iter-fns";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
@@ -768,7 +768,7 @@ export function useFilterPredicate(filter: FilterOptions) {
 
       return (
         // Upcoming
-        (!filter.active || !isAfter(now, event.end)) &&
+        (!filter.active || isBefore(now, event.end)) &&
         // Query
         removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
           queryRe,

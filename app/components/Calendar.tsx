@@ -20,7 +20,6 @@ import {
   getDay,
   getMonth,
   getYear,
-  isAfter,
   isBefore,
   isSameDay,
   startOfDay,
@@ -73,7 +72,7 @@ function segment(event: Event, weekStartsOn: Day): Segment[] {
 
     const segment: Segment = {
       event,
-      start: isAfter(segmentStart, weekStart) ? segmentStart : weekStart,
+      start: !isBefore(segmentStart, weekStart) ? segmentStart : weekStart,
       end: isBefore(eventEnd, weekEnd) ? eventEnd : weekEnd,
       hasStart: false,
       hasEnd: false,
@@ -368,7 +367,7 @@ export default function Calendar({
           px={{ base: "xs", lg: 0 }}
           pt={{ base: 4, lg: 8 }}
           pb={4}
-          c={isAfter(now, addMonths(titleDate, 1)) ? "gray" : undefined}
+          c={!isBefore(now, addMonths(titleDate, 1)) ? "gray" : undefined}
         >
           {i18n.date(titleDate, {
             month: "long",
@@ -484,8 +483,9 @@ export default function Calendar({
                               ta="start"
                               truncate
                               c={
+                                isBefore(now, addDays(d, 1)) &&
                                 getYear(d) * 12 + getMonth(d) ==
-                                highlightedMonthIndex
+                                  highlightedMonthIndex
                                   ? ""
                                   : "var(--mantine-color-disabled-color)"
                               }

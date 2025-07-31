@@ -1,5 +1,5 @@
 import { Box, Center, Container, Loader } from "@mantine/core";
-import { getDay, isAfter } from "date-fns";
+import { getDay, isBefore } from "date-fns";
 import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { type Event, eventHasPost, useNow } from "~/hooks";
@@ -128,8 +128,8 @@ function MapInner({
 
           const [lat, lng] = event.latLng;
 
-          const over = isAfter(now, event.end);
-          const inProgress = isAfter(now, event.start) && !over;
+          const over = !isBefore(now, event.end);
+          const inProgress = !isBefore(now, event.start) && !over;
 
           const color = !over
             ? ["red", "orange", "yellow", "green", "blue", "indigo", "violet"][
