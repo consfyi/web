@@ -111,15 +111,15 @@ export function useGetPost() {
 
   return new Endpoint(
     async function ({ uri }: { uri: ResourceUri }) {
-      const post = await client.getPostThread(uri, {
+      const thread = await client.getPostThread(uri, {
         signal: this.signal,
       });
-      if (post == null) {
+      if (thread == null) {
         throw new Response(null, {
           status: 404,
         });
       }
-      return Post.fromJS(post.post);
+      return Post.fromJS(thread.post);
     },
     {
       name: "getPost",
