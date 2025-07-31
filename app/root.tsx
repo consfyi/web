@@ -28,7 +28,7 @@ import {
   TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useInViewport, useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
   NavigationProgress,
@@ -120,256 +120,269 @@ function Header() {
   const client = useClient();
   const self = useSelf();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+  const { ref, inViewport } = useInViewport();
 
   return (
-    <Box
-      style={{
-        background:
-          "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
-        borderBottom: "1px solid var(--mantine-color-default-border)",
-        position: "sticky",
-        top: "0px",
-        zIndex: "var(--mantine-z-index-app)",
-        backdropFilter: "blur(5px)",
-      }}
-    >
-      <Container size="lg" p="sm">
-        <Group justify="space-between" wrap="nowrap">
-          <Anchor
-            component={Link}
-            to="/"
-            aria-label={clientMetadata.client_name}
-          >
-            <Group gap={7}>
-              <Image
-                src="/logo.png"
-                h={26}
-                w={26}
-                alt={clientMetadata.client_name}
-              />
-              <Text fw={500} size="lg" lh={1} visibleFrom="xs">
-                {clientMetadata.client_name}
-              </Text>
-            </Group>
-          </Anchor>
-          <Group my={-8}>
-            <Menu position="bottom-end" withArrow>
-              <Menu.Target>
-                <Button
-                  px="xs"
-                  variant="subtle"
-                  color="var(--mantine-color-dimmed)"
-                  c="dimmed"
-                  rightSection={<IconChevronDown size={14} />}
-                >
-                  <IconSettings size={18} />
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Label>
-                  <Trans>Color scheme</Trans>
-                </Menu.Label>
-                <Menu.Item
-                  onClick={() => {
-                    setColorScheme("auto");
-                  }}
-                  leftSection={
-                    <Group gap={6}>
-                      {colorScheme == "auto" ? (
-                        <IconCheck size={14} />
-                      ) : (
-                        <EmptyIcon size={14} />
-                      )}
-                      <IconSunMoon size={14} />
-                    </Group>
-                  }
-                >
-                  <Trans>Auto</Trans>
-                </Menu.Item>
-                <Menu.Item
-                  onClick={() => {
-                    setColorScheme("light");
-                  }}
-                  leftSection={
-                    <Group gap={6}>
-                      {colorScheme == "light" ? (
-                        <IconCheck size={14} />
-                      ) : (
-                        <EmptyIcon size={14} />
-                      )}
-                      <IconSun size={14} />
-                    </Group>
-                  }
-                >
-                  <Trans>Light</Trans>
-                </Menu.Item>
-                <Menu.Item
-                  onClick={() => {
-                    setColorScheme("dark");
-                  }}
-                  leftSection={
-                    <Group gap={6}>
-                      {colorScheme == "dark" ? (
-                        <IconCheck size={14} />
-                      ) : (
-                        <EmptyIcon size={14} />
-                      )}
-                      <IconMoon size={14} />
-                    </Group>
-                  }
-                >
-                  <Trans>Dark</Trans>
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-            {self != null ? (
-              <Menu
-                position="bottom-end"
-                withArrow
-                opened={menuOpen}
-                onChange={(value) => {
-                  if (!value && pending) {
-                    return;
-                  }
-                  setMenuOpen(value);
-                }}
-              >
+    <>
+      <div
+        ref={ref}
+        style={{ position: "absolute", top: "0px", left: "0px" }}
+      />
+      <Box
+        style={{
+          background:
+            "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: !inViewport
+            ? "var(--mantine-color-default-border)"
+            : "transparent",
+          transition: "border-bottom-color 0.1s ease-out",
+          position: "sticky",
+          top: "0px",
+          zIndex: "var(--mantine-z-index-app)",
+          backdropFilter: "blur(5px)",
+        }}
+      >
+        <Container size="lg" p="sm">
+          <Group justify="space-between" wrap="nowrap">
+            <Anchor
+              component={Link}
+              to="/"
+              aria-label={clientMetadata.client_name}
+            >
+              <Group gap={7}>
+                <Image
+                  src="/logo.png"
+                  h={26}
+                  w={26}
+                  alt={clientMetadata.client_name}
+                />
+                <Text fw={500} size="lg" lh={1} visibleFrom="xs">
+                  {clientMetadata.client_name}
+                </Text>
+              </Group>
+            </Anchor>
+            <Group my={-8}>
+              <Menu position="bottom-end" withArrow>
                 <Menu.Target>
                   <Button
-                    variant="outline"
-                    color="var(--mantine-color-dimmed)"
-                    c="var(--mantine-color-text)"
-                    leftSection={
-                      <Avatar
-                        src={self.avatar}
-                        alt={`@${self.handle}`}
-                        size="sm"
-                      />
-                    }
                     px="xs"
+                    variant="subtle"
+                    color="var(--mantine-color-dimmed)"
+                    c="dimmed"
                     rightSection={<IconChevronDown size={14} />}
                   >
-                    <Text span size="sm" fw={500} visibleFrom="xs">
-                      @{self.handle}
-                    </Text>
+                    <IconSettings size={18} />
                   </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Menu.Label hiddenFrom="xs">@{self.handle}</Menu.Label>
-                  <Button
-                    fullWidth
-                    loading={pending}
-                    color="red"
-                    variant="subtle"
-                    leftSection={<IconLogout2 size={18} />}
+                  <Menu.Label>
+                    <Trans>Color scheme</Trans>
+                  </Menu.Label>
+                  <Menu.Item
                     onClick={() => {
-                      setIsPending(true);
-                      setMenuOpen(true);
-
-                      (async () => {
-                        await client.logout();
-                        window.location.replace(window.location.toString());
-                      })();
+                      setColorScheme("auto");
                     }}
+                    leftSection={
+                      <Group gap={6}>
+                        {colorScheme == "auto" ? (
+                          <IconCheck size={14} />
+                        ) : (
+                          <EmptyIcon size={14} />
+                        )}
+                        <IconSunMoon size={14} />
+                      </Group>
+                    }
                   >
-                    <Trans>Log out</Trans>
-                  </Button>
+                    <Trans>Auto</Trans>
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      setColorScheme("light");
+                    }}
+                    leftSection={
+                      <Group gap={6}>
+                        {colorScheme == "light" ? (
+                          <IconCheck size={14} />
+                        ) : (
+                          <EmptyIcon size={14} />
+                        )}
+                        <IconSun size={14} />
+                      </Group>
+                    }
+                  >
+                    <Trans>Light</Trans>
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      setColorScheme("dark");
+                    }}
+                    leftSection={
+                      <Group gap={6}>
+                        {colorScheme == "dark" ? (
+                          <IconCheck size={14} />
+                        ) : (
+                          <EmptyIcon size={14} />
+                        )}
+                        <IconMoon size={14} />
+                      </Group>
+                    }
+                  >
+                    <Trans>Dark</Trans>
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
-            ) : (
-              <form
-                onSubmit={(evt) => {
-                  evt.preventDefault();
-                  setIsPending(true);
-                  (async () => {
-                    try {
-                      await startLogin(realPdsHost);
-                    } catch (e) {
-                      if (!usingDefaultPdsHost) {
-                        setMenuOpen(true);
-                        setLoginError(e);
-                      }
-                    } finally {
-                      setIsPending(false);
+              {self != null ? (
+                <Menu
+                  position="bottom-end"
+                  withArrow
+                  opened={menuOpen}
+                  onChange={(value) => {
+                    if (!value && pending) {
+                      return;
                     }
-                  })();
-                }}
-              >
-                <Button.Group>
-                  <Button
-                    loading={pending}
-                    type="submit"
-                    size="sm"
-                    style={{
-                      paddingInlineStart: "var(--mantine-spacing-xs)",
-                      paddingInlineEnd: "calc(var(--mantine-spacing-xs) / 2)",
-                    }}
-                    leftSection={<IconBrandBluesky size={18} />}
-                    color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
-                  >
-                    {!usingDefaultPdsHost ? (
-                      <Trans>
-                        Log in via {realPdsHost.replace(/^https?:\/\//, "")}
-                      </Trans>
-                    ) : (
-                      <Trans>Log in</Trans>
-                    )}
-                  </Button>
-                  <Menu
-                    position="bottom-end"
-                    withArrow
-                    opened={menuOpen}
-                    onChange={(value) => {
-                      if (!value && pending) {
-                        return;
+                    setMenuOpen(value);
+                  }}
+                >
+                  <Menu.Target>
+                    <Button
+                      variant="outline"
+                      color="var(--mantine-color-dimmed)"
+                      c="var(--mantine-color-text)"
+                      leftSection={
+                        <Avatar
+                          src={self.avatar}
+                          alt={`@${self.handle}`}
+                          size="sm"
+                        />
                       }
-                      setMenuOpen(value);
-                    }}
-                  >
-                    <Menu.Target>
-                      <Button
-                        size="sm"
-                        style={{
-                          paddingInlineStart:
-                            "calc(var(--mantine-spacing-xs) / 2)",
-                          paddingInlineEnd: "var(--mantine-spacing-xs)",
-                        }}
-                        title={t`Log in via custom PDS`}
-                        color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
-                      >
-                        <IconChevronDown size={14} />
-                      </Button>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                      <TextInput
-                        label={<Trans>Custom PDS</Trans>}
-                        name="pds"
-                        m={4}
-                        w={300}
-                        disabled={pending}
-                        error={
-                          loginError != null ? (
-                            <Trans>
-                              Couldn’t log in with this PDS. Is the URL correct?
-                            </Trans>
-                          ) : null
+                      px="xs"
+                      rightSection={<IconChevronDown size={14} />}
+                    >
+                      <Text span size="sm" fw={500} visibleFrom="xs">
+                        @{self.handle}
+                      </Text>
+                    </Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label hiddenFrom="xs">@{self.handle}</Menu.Label>
+                    <Button
+                      fullWidth
+                      loading={pending}
+                      color="red"
+                      variant="subtle"
+                      leftSection={<IconLogout2 size={18} />}
+                      onClick={() => {
+                        setIsPending(true);
+                        setMenuOpen(true);
+
+                        (async () => {
+                          await client.logout();
+                          window.location.replace(window.location.toString());
+                        })();
+                      }}
+                    >
+                      <Trans>Log out</Trans>
+                    </Button>
+                  </Menu.Dropdown>
+                </Menu>
+              ) : (
+                <form
+                  onSubmit={(evt) => {
+                    evt.preventDefault();
+                    setIsPending(true);
+                    (async () => {
+                      try {
+                        await startLogin(realPdsHost);
+                      } catch (e) {
+                        if (!usingDefaultPdsHost) {
+                          setMenuOpen(true);
+                          setLoginError(e);
                         }
-                        placeholder={t`https://your.pds.com`}
-                        value={pdsHost}
-                        onChange={(e) => {
-                          setPdsHost(e.target.value);
-                          setLoginError(null);
-                        }}
-                      />
-                    </Menu.Dropdown>
-                  </Menu>
-                </Button.Group>
-              </form>
-            )}
+                      } finally {
+                        setIsPending(false);
+                      }
+                    })();
+                  }}
+                >
+                  <Button.Group>
+                    <Button
+                      loading={pending}
+                      type="submit"
+                      size="sm"
+                      style={{
+                        paddingInlineStart: "var(--mantine-spacing-xs)",
+                        paddingInlineEnd: "calc(var(--mantine-spacing-xs) / 2)",
+                      }}
+                      leftSection={<IconBrandBluesky size={18} />}
+                      color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
+                    >
+                      {!usingDefaultPdsHost ? (
+                        <Trans>
+                          Log in via {realPdsHost.replace(/^https?:\/\//, "")}
+                        </Trans>
+                      ) : (
+                        <Trans>Log in</Trans>
+                      )}
+                    </Button>
+                    <Menu
+                      position="bottom-end"
+                      withArrow
+                      opened={menuOpen}
+                      onChange={(value) => {
+                        if (!value && pending) {
+                          return;
+                        }
+                        setMenuOpen(value);
+                      }}
+                    >
+                      <Menu.Target>
+                        <Button
+                          size="sm"
+                          style={{
+                            paddingInlineStart:
+                              "calc(var(--mantine-spacing-xs) / 2)",
+                            paddingInlineEnd: "var(--mantine-spacing-xs)",
+                          }}
+                          title={t`Log in via custom PDS`}
+                          color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
+                        >
+                          <IconChevronDown size={14} />
+                        </Button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        <TextInput
+                          label={<Trans>Custom PDS</Trans>}
+                          name="pds"
+                          m={4}
+                          w={300}
+                          disabled={pending}
+                          error={
+                            loginError != null ? (
+                              <Trans>
+                                Couldn’t log in with this PDS. Is the URL
+                                correct?
+                              </Trans>
+                            ) : null
+                          }
+                          placeholder={t`https://your.pds.com`}
+                          value={pdsHost}
+                          onChange={(e) => {
+                            setPdsHost(e.target.value);
+                            setLoginError(null);
+                          }}
+                        />
+                      </Menu.Dropdown>
+                    </Menu>
+                  </Button.Group>
+                </form>
+              )}
+            </Group>
           </Group>
-        </Group>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </>
   );
 }
 
