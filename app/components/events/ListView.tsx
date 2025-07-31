@@ -19,7 +19,7 @@ import {
   IconSortDescendingLetters,
   IconSortDescendingNumbers,
 } from "@tabler/icons-react";
-import { addMonths, getMonth, getYear, setDate } from "date-fns";
+import { addMonths, getMonth, getYear, isAfter, setDate } from "date-fns";
 import { compareMany, comparing, equaling, group, sorted } from "iter-fns";
 import { type ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
@@ -30,6 +30,7 @@ import {
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
+  useNow,
 } from "~/hooks";
 import * as qp from "~/qp";
 import EmptyIcon from "../EmptyIcon";
@@ -164,6 +165,7 @@ function EventsByDate({
   density: Density;
 }) {
   const { i18n, t } = useLingui();
+  const now = useNow();
 
   const groups = useMemo(
     () => {
@@ -204,12 +206,16 @@ function EventsByDate({
           key: key.toString(),
           events,
           title: (
-            <>
+            <Text
+              span
+              fw={500}
+              c={isAfter(now, addMonths(d, 1)) ? "gray" : undefined}
+            >
               {i18n.date(d, {
                 month: "long",
                 year: "numeric",
               })}
-            </>
+            </Text>
           ),
         });
       }

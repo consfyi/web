@@ -11,6 +11,7 @@ import {
 import { useDatesContext } from "@mantine/dates";
 import {
   addDays,
+  addMonths,
   addWeeks,
   type Day,
   differenceInCalendarDays,
@@ -327,6 +328,12 @@ export default function Calendar({
     min(visibleMonths) ??
     getYear(calendarStartDate) * 12 + getMonth(calendarStartDate);
 
+  const titleDate = new Date(
+    Math.floor(highlightedMonthIndex / 12),
+    highlightedMonthIndex % 12,
+    1,
+  );
+
   return (
     <>
       <Title
@@ -351,18 +358,12 @@ export default function Calendar({
           px={{ base: "xs", lg: 0 }}
           pt={{ base: 4, lg: 8 }}
           pb={4}
+          c={isAfter(now, addMonths(titleDate, 1)) ? "gray" : undefined}
         >
-          {i18n.date(
-            new Date(
-              Math.floor(highlightedMonthIndex / 12),
-              highlightedMonthIndex % 12,
-              1,
-            ),
-            {
-              month: "long",
-              year: "numeric",
-            },
-          )}
+          {i18n.date(titleDate, {
+            month: "long",
+            year: "numeric",
+          })}
         </Text>
         <Table
           layout="fixed"
