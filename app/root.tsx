@@ -126,7 +126,7 @@ function Header() {
     <>
       <div
         ref={ref}
-        style={{ position: "absolute", top: "0px", left: "0px" }}
+        style={{ position: "absolute", bottom: "-1px", left: "0px" }}
       />
       <Box
         style={{
@@ -139,7 +139,7 @@ function Header() {
           position: "sticky",
           top: "0px",
           zIndex: "var(--mantine-z-index-app)",
-          ...(inViewport
+          ...(!inViewport
             ? {
                 borderBottomColor: "transparent",
               }
