@@ -91,8 +91,8 @@ msgid "Loading people you follow"
 msgstr "Loading people you follow"
 
 #: app/components/EventDetails.tsx:411
-msgid "This event has already ended and information on who is going is no longer available."
-msgstr "This event has already ended and information on who is going is no longer available."
+msgid "This convention has already ended. Information on who is going is no longer available."
+msgstr "This convention has already ended. Information on who is going is no longer available."
 
 #: app/components/EventRow.tsx:211
 #: app/components/events/ListView.tsx:349
@@ -396,14 +396,14 @@ msgstr "Welcome!"
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 
-#: app/root.tsx:622
+#: app/root.tsx:623
 msgid "Not subscribed to labeler"
 msgstr "Not subscribed to labeler"
 
-#: app/root.tsx:626
+#: app/root.tsx:627
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 
-#: app/root.tsx:639
+#: app/root.tsx:640
 msgid "Fix this for me"
 msgstr "Fix this for me"
