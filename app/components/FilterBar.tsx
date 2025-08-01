@@ -436,20 +436,7 @@ export default function FilterBar({
         mx="xs"
         filter={({ options }) => options}
         leftSection={<IconSearch size={16} />}
-        rightSection={
-          <CloseButton
-            icon={<IconX size={16} />}
-            onClick={() => {
-              setFilter({
-                ...filter,
-                q: "",
-              });
-            }}
-            style={{
-              display: filter.q != "" ? undefined : "none",
-            }}
-          />
-        }
+        clearable
         placeholder={t`Search`}
         value={filter.q}
         onChange={(q) => {
