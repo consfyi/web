@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import {
   IconBrandBluesky,
+  IconCalendarCheck,
   IconCalendarWeek,
   IconMapPin,
   IconWorld,
@@ -342,7 +343,7 @@ export function Body({ event }: { event: Event }) {
       </Box>
 
       {over ? (
-        <Alert c="dimmed">
+        <Alert icon={<IconCalendarCheck />}>
           {eventHasPost(event) ? (
             <Trans>This convention has already ended.</Trans>
           ) : (
