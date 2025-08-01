@@ -22,7 +22,7 @@ msgstr "Clear all filters"
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:142
-#: app/components/EventDetails.tsx:383
+#: app/components/EventDetails.tsx:398
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 
@@ -35,7 +35,7 @@ msgstr "Nobody known to be going yet."
 msgid "View Bluesky Post"
 msgstr "View Bluesky Post"
 
-#: app/components/EventDetails.tsx:251
+#: app/components/EventDetails.tsx:253
 #: app/components/EventRow.tsx:245
 msgid "Dates"
 msgstr "Dates"
@@ -43,56 +43,60 @@ msgstr "Dates"
 #. placeholder {0}: [ dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), ), ][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
 #. placeholder {1}: differenceInDays(event.end, event.start)
-#: app/components/EventDetails.tsx:255
+#: app/components/EventDetails.tsx:257
 #: app/components/EventRow.tsx:246
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
 msgstr "{0} ({1, plural, one {# day} other {# days}})"
 
-#: app/components/EventDetails.tsx:273
+#: app/components/EventDetails.tsx:275
 msgid "Website"
 msgstr "Website"
 
-#: app/components/EventDetails.tsx:288
+#: app/components/EventDetails.tsx:290
 #: app/components/EventRow.tsx:266
 #: app/components/EventRow.tsx:283
 msgid "Location"
 msgstr "Location"
 
 #. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:306
+#: app/components/EventDetails.tsx:308
 msgid "Is this information incorrect? <0>File an issue here.</0> {0}"
 msgstr "Is this information incorrect? <0>File an issue here.</0> {0}"
 
-#: app/components/EventDetails.tsx:315
+#: app/components/EventDetails.tsx:317
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "This information was originally sourced from <0/>. Usage restrictions may apply."
 
-#: app/components/EventDetails.tsx:345
+#: app/components/EventDetails.tsx:347
+msgid "This convention has already ended."
+msgstr "This convention has already ended."
+
+#: app/components/EventDetails.tsx:349
+msgid "This convention has already ended. Information on who is going is no longer available."
+msgstr "This convention has already ended. Information on who is going is no longer available."
+
+#: app/components/EventDetails.tsx:360
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "Going"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:348
+#: app/components/EventDetails.tsx:363
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0} including you"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:352
+#: app/components/EventDetails.tsx:367
 #: app/components/EventRow.tsx:196
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}"
 
-#: app/components/EventDetails.tsx:362
+#: app/components/EventDetails.tsx:377
 msgid "Loading people you follow"
 msgstr "Loading people you follow"
-
-#: app/components/EventDetails.tsx:411
-msgid "This convention has already ended. Information on who is going is no longer available."
-msgstr "This convention has already ended. Information on who is going is no longer available."
 
 #: app/components/EventRow.tsx:190
 #: app/components/events/ListView.tsx:348

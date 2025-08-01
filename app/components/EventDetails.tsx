@@ -233,6 +233,8 @@ export function Body({ event }: { event: Event }) {
 
   const unknownLikeCount = likeCount - knownLikeCount;
 
+  const over = !isBefore(now, event.end);
+
   return (
     <>
       <Box mb="sm">
@@ -339,8 +341,21 @@ export function Body({ event }: { event: Event }) {
         </Box>
       </Box>
 
+      {over ? (
+        <Alert c="dimmed">
+          {eventHasPost(event) ? (
+            <Trans>This convention has already ended.</Trans>
+          ) : (
+            <Trans>
+              This convention has already ended. Information on who is going is
+              no longer available.
+            </Trans>
+          )}
+        </Alert>
+      ) : null}
+
       {eventHasPost(event) ? (
-        <Box mb="calc(var(--mantine-spacing-sm) * -1)">
+        <Box mt="sm" mb="calc(var(--mantine-spacing-sm) * -1)">
           <MantineTitle order={2} size="h5" fw={500} mb="sm">
             <Trans>Going</Trans>{" "}
             <Text size="sm" span>
@@ -406,14 +421,7 @@ export function Body({ event }: { event: Event }) {
             </SimpleErrorBoundary>
           </Box>
         </Box>
-      ) : (
-        <Alert c="dimmed">
-          <Trans>
-            This convention has already ended. Information on who is going is no
-            longer available.
-          </Trans>
-        </Alert>
-      )}
+      ) : null}
     </>
   );
 }
