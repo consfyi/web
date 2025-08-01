@@ -72,7 +72,7 @@ function FlatList({
           size="h5"
           fw={500}
           pos="sticky"
-          top={56}
+          top={61}
           style={{
             zIndex: 3,
             background:

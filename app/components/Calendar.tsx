@@ -276,7 +276,7 @@ export default function Calendar({
           return toArray(set);
         });
       },
-      { rootMargin: "-50px 0px 0px 0px" },
+      { rootMargin: "-61px 0px 0px 0px" },
     );
 
     for (const el of Object.values(checkpointRefs.current)) {
@@ -367,7 +367,7 @@ export default function Calendar({
         size="h5"
         fw={500}
         pos="sticky"
-        top={56}
+        top={61}
         style={{
           zIndex: 3,
           background:

@@ -226,7 +226,7 @@ export default function MapView({
         style={{
           left: 0,
           right: 0,
-          top: 50,
+          top: 61,
           position: "absolute",
           zIndex: 1,
         }}
@@ -244,7 +244,7 @@ export default function MapView({
         />
       </Container>
 
-      <Box h="100dvh" mt={-50}>
+      <Box h="100dvh" mt={-61}>
         <Suspense
           fallback={
             <Center p="lg" h="100%">
