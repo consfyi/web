@@ -9,6 +9,7 @@ import {
   ActionIcon,
   Alert,
   Anchor,
+  Autocomplete,
   Box,
   Button,
   Center,
@@ -42,12 +43,13 @@ import {
   IconLogout2,
   IconMoon,
   IconPaw,
+  IconSearch,
   IconSettings,
   IconSun,
   IconSunMoon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, use, useCallback, useEffect, useRef, useState } from "react";
 import {
   Link,
   Links,
@@ -58,6 +60,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
+  useNavigate,
   useNavigation,
   useRouteError,
 } from "react-router";
@@ -65,7 +68,12 @@ import clientMetadata from "~/../public/client-metadata.json";
 import Avatar from "~/components/Avatar";
 import { DEFAULT_PDS_HOST, startLogin } from "./bluesky";
 import DatesProvider from "./components/DatesProvider";
+import EmptyIcon from "./components/EmptyIcon";
 import { GlobalMemoProvider } from "./components/GlobalMemoContext";
+import {
+  GlobalSearchContext,
+  GlobalSearchProvider,
+} from "./components/GlobalSearchContext";
 import LinguiProvider, { INITIAL_LOCALE } from "./components/LinguiProvider";
 import LocaleSelector from "./components/LocaleSelector";
 import { LABELER_DID } from "./config";
@@ -75,7 +83,6 @@ import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import EmptyIcon from "./components/EmptyIcon";
 import "./styles.css";
 
 const theme = createTheme({});
@@ -143,6 +150,9 @@ function Header() {
     [setInViewport],
   );
 
+  const navigate = useNavigate();
+  const { query, setQuery } = use(GlobalSearchContext)!;
+
   return (
     <>
       <div
@@ -173,7 +183,7 @@ function Header() {
         }}
       >
         <Container size="lg" p="sm">
-          <Group justify="space-between" wrap="nowrap">
+          <Group justify="space-between" wrap="nowrap" gap="md">
             <Anchor
               component={Link}
               to="/"
@@ -204,7 +214,33 @@ function Header() {
                 </Text>
               </Group>
             </Anchor>
-            <Group my={-8}>
+            <form
+              style={{ flexGrow: 1 }}
+              action="/"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const searchParams = new URLSearchParams();
+                searchParams.set("q", query);
+                navigate({
+                  pathname: "/",
+                  search: searchParams.toString(),
+                });
+              }}
+            >
+              <Autocomplete
+                name="q"
+                my={-8}
+                filter={({ options }) => options}
+                leftSection={<IconSearch size={16} />}
+                clearable
+                placeholder={t`Search`}
+                value={query}
+                onChange={(q) => {
+                  setQuery(q);
+                }}
+              />
+            </form>
+            <Group my={-8} gap="md">
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
                   <Button
@@ -704,22 +740,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   >
                     <LinguiProvider>
                       <DatesProvider>
-                        <Header />
-                        {showAlerts ? (
-                          <Container size="lg" px={0}>
-                            <Alerts />
-                          </Container>
-                        ) : null}
-                        <Suspense
-                          fallback={
-                            <Center p="lg">
-                              <Loader />
-                            </Center>
-                          }
-                        >
-                          {children}
-                        </Suspense>
-                        <Footer />
+                        <GlobalSearchProvider>
+                          <Header />
+                          {showAlerts ? (
+                            <Container size="lg" px={0}>
+                              <Alerts />
+                            </Container>
+                          ) : null}
+                          <Suspense
+                            fallback={
+                              <Center p="lg">
+                                <Loader />
+                              </Center>
+                            }
+                          >
+                            {children}
+                          </Suspense>
+                          <Footer />
+                        </GlobalSearchProvider>
                       </DatesProvider>
                     </LinguiProvider>
                   </Suspense>

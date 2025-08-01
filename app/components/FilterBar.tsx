@@ -3,7 +3,6 @@ import { msg } from "@lingui/core/macro";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
   Anchor,
-  Autocomplete,
   Badge,
   Box,
   Button,
@@ -28,7 +27,6 @@ import {
   IconList,
   IconMap,
   IconMinus,
-  IconSearch,
 } from "@tabler/icons-react";
 import { differenceInDays } from "date-fns";
 import { compareDesc, comparing, map, Range, sorted, toArray } from "iter-fns";
@@ -429,23 +427,7 @@ export default function FilterBar({
 
   return (
     <>
-      <Autocomplete
-        name="q"
-        mx="xs"
-        filter={({ options }) => options}
-        leftSection={<IconSearch size={16} />}
-        clearable
-        placeholder={t`Search`}
-        value={filter.q}
-        onChange={(q) => {
-          setFilter({
-            ...filter,
-            q,
-          });
-        }}
-      />
-
-      <Group wrap="nowrap" m="xs" justify="space-between" gap="0">
+      <Group wrap="nowrap" m="xs" mt={0} justify="space-between" gap="0">
         <Button
           size="xs"
           c="dimmed"

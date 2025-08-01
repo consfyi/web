@@ -97,20 +97,18 @@ function FlatList({
       <Box px="xs">
         {sortedEvents.map((event) => {
           return (
-            <>
-              <Box key={event.id} mb={density == "compact" ? "xs" : "sm"}>
-                <EventRow
-                  event={event}
-                  showMonthInIcon={false}
-                  showLocation="inline"
-                  showFollowed
-                  showLikeButton
-                  showYear={false}
-                  density={density}
-                  withId
-                />
-              </Box>
-            </>
+            <Box key={event.id} mb={density == "compact" ? "xs" : "sm"}>
+              <EventRow
+                event={event}
+                showMonthInIcon={false}
+                showLocation="inline"
+                showFollowed
+                showLikeButton
+                showYear={false}
+                density={density}
+                withId
+              />
+            </Box>
           );
         })}
       </Box>

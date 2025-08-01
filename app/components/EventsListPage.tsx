@@ -12,6 +12,7 @@ import SimpleErrorBoundary from "~/components/SimpleErrorBoundary";
 import { type Event, useIsLoggedIn } from "~/hooks";
 import * as qp from "~/qp";
 import { FilterOptions } from "./FilterBar";
+import { useGlobalQuery as useGlobalSearchQuery } from "./GlobalSearchContext";
 
 export default function EventsListPage<T extends qp.Schema>({
   events,
@@ -32,6 +33,8 @@ export default function EventsListPage<T extends qp.Schema>({
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const query = useGlobalSearchQuery();
 
   const pendingView = useMemo(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -71,6 +74,16 @@ export default function EventsListPage<T extends qp.Schema>({
   );
 
   const view = viewInternal;
+
+  useEffect(() => {
+    if (query == view.filter.q) {
+      return;
+    }
+    setView({
+      ...view,
+      filter: { ...view.filter, q: query },
+    });
+  }, [query, view, setView]);
 
   return (
     <>
