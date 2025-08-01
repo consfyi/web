@@ -288,7 +288,7 @@ function Header() {
                 >
                   <Menu.Target>
                     <Button
-                      variant="outline"
+                      variant="default"
                       color="var(--mantine-color-dimmed)"
                       c="var(--mantine-color-text)"
                       leftSection={
