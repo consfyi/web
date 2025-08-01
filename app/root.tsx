@@ -245,7 +245,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
             >
               <Autocomplete
                 ref={autocompleteRef}
-                visibleFrom={showSearch ? undefined : "xs"}
+                visibleFrom={showSearch ? undefined : "sm"}
                 name="q"
                 filter={({ options }) => options}
                 leftSection={
@@ -266,7 +266,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 variant="subtle"
                 color="var(--mantine-color-dimmed)"
                 c="var(--mantine-color-dimmed)"
-                hiddenFrom="xs"
+                hiddenFrom="sm"
                 p="xs"
                 aria-label={t`Search`}
                 onClick={() => {
@@ -282,7 +282,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 <IconSearch size={16} />
               </Button>
             </Box>
-            <Group gap="md" visibleFrom={showSearch ? "xs" : undefined}>
+            <Group gap="md" visibleFrom={showSearch ? "sm" : undefined}>
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
                   <Button
