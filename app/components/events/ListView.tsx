@@ -205,11 +205,7 @@ function EventsByDate({
           key: key.toString(),
           events,
           title: (
-            <Text
-              span
-              fw={500}
-              c={!isBefore(now, addMonths(d, 1)) ? "gray" : undefined}
-            >
+            <Text span fw={500}>
               {i18n.date(d, {
                 month: "long",
                 year: "numeric",
