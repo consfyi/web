@@ -230,7 +230,6 @@ function Header() {
                   search: searchParams.toString(),
                 });
               }}
-              my={-8}
             >
               <Autocomplete
                 ref={autocompleteRef}
@@ -271,7 +270,7 @@ function Header() {
                 <IconSearch size={16} />
               </Button>
             </Box>
-            <Group my={-8} gap="md" visibleFrom={showSearch ? "xs" : undefined}>
+            <Group gap="md" visibleFrom={showSearch ? "xs" : undefined}>
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
                   <Button
@@ -564,7 +563,7 @@ export function ErrorBoundary() {
 
   return (
     <Container size="lg" p={0}>
-      <Box p={50} ta="center">
+      <Box p={56} ta="center">
         <Text size="xl" fw={500} mb="sm">
           <Trans>Not found</Trans>
         </Text>

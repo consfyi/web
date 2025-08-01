@@ -363,7 +363,7 @@ export default function Calendar({
         size="h5"
         fw={500}
         pos="sticky"
-        top={50}
+        top={56}
         style={{
           zIndex: 3,
           background:
