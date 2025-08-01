@@ -117,7 +117,6 @@ export function LayoutSwitcher({
 
 export const FilterOptions = qp.schema({
   q: qp.default_(qp.string, ""),
-  active: qp.flag,
   going: qp.flag,
   followed: qp.flag,
   continents: qp.default_(qp.array(qp.literal(CONTINENTS), " "), [
@@ -251,17 +250,6 @@ function FilterDrawer({
         </>
       }
     >
-      <Checkbox
-        mb="sm"
-        checked={uncommitted.active}
-        label={<Trans>Active only</Trans>}
-        onChange={(e) => {
-          setDirty({
-            ...uncommitted,
-            active: e.target.checked,
-          });
-        }}
-      />
       {isLoggedIn ? (
         <Checkbox
           mb="sm"
@@ -292,7 +280,9 @@ function FilterDrawer({
         />
       ) : null}
 
-      <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
+      {isLoggedIn ? (
+        <Divider mb="sm" mx="calc(var(--mantine-spacing-md) * -1)" />
+      ) : null}
 
       <Title order={2} size="h5" mb="sm">
         <Trans>Regions</Trans>
@@ -500,28 +490,6 @@ export default function FilterBar({
           gap="xs"
           visibleFrom="lg"
         >
-          <Button
-            radius="lg"
-            size="xs"
-            style={{ flexShrink: 0 }}
-            onClick={() => {
-              setFilter({
-                ...filter,
-                active: !filter.active,
-              });
-            }}
-            {...(filter.active
-              ? {
-                  variant: "filled",
-                }
-              : {
-                  c: "dimmed",
-                  color: "var(--mantine-color-dimmed)",
-                  variant: "default",
-                })}
-          >
-            <Trans>Active only</Trans>
-          </Button>
           {isLoggedIn ? (
             <Button
               radius="lg"
@@ -767,7 +735,7 @@ export function useFilterPredicate(filter: FilterOptions) {
 
       return (
         // Upcoming
-        (!filter.active || isBefore(now, event.end)) &&
+        isBefore(now, event.end) &&
         // Query
         removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
           queryRe,

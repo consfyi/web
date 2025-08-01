@@ -131,11 +131,15 @@ function MapInner({
           const over = !isBefore(now, event.end);
           const inProgress = !isBefore(now, event.start) && !over;
 
-          const color = !over
-            ? ["red", "orange", "yellow", "green", "blue", "indigo", "violet"][
-                getDay(event.start)
-              ]
-            : "gray";
+          const color = [
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "indigo",
+            "violet",
+          ][getDay(event.start)];
 
           const variant =
             eventHasPost(event) &&
@@ -171,7 +175,6 @@ function MapInner({
                   showLikeButton
                   showYear
                   density="cozy"
-                  grayOutIfOver={false}
                   withId={false}
                 />
               ),

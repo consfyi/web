@@ -38,7 +38,7 @@ msgid "View Bluesky Post"
 msgstr "Blueskyの投稿を見る"
 
 #: app/components/EventDetails.tsx:251
-#: app/components/EventRow.tsx:268
+#: app/components/EventRow.tsx:245
 msgid "Dates"
 msgstr "日付"
 
@@ -46,7 +46,7 @@ msgstr "日付"
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
 #. placeholder {1}: differenceInDays(event.end, event.start)
 #: app/components/EventDetails.tsx:255
-#: app/components/EventRow.tsx:269
+#: app/components/EventRow.tsx:246
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
 msgstr "{0}（{1}日間）"
@@ -56,8 +56,8 @@ msgid "Website"
 msgstr "ウェブサイト"
 
 #: app/components/EventDetails.tsx:288
-#: app/components/EventRow.tsx:289
-#: app/components/EventRow.tsx:306
+#: app/components/EventRow.tsx:266
+#: app/components/EventRow.tsx:283
 msgid "Location"
 msgstr "開催地"
 
@@ -83,7 +83,7 @@ msgstr "{0}人（自分込み）"
 
 #. placeholder {0}: [likeCount][0]
 #: app/components/EventDetails.tsx:352
-#: app/components/EventRow.tsx:217
+#: app/components/EventRow.tsx:196
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}人"
@@ -96,14 +96,14 @@ msgstr "フォロー中のユーザーを読み込み中"
 msgid "This convention has already ended. Information on who is going is no longer available."
 msgstr "このコンベンションはすでに終了しています。参加者に関する情報はもう利用できません。"
 
-#: app/components/EventRow.tsx:211
-#: app/components/events/ListView.tsx:349
+#: app/components/EventRow.tsx:190
+#: app/components/events/ListView.tsx:348
 msgctxt "number of people going"
 msgid "People going"
 msgstr "参加者数"
 
 #. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
-#: app/components/EventRow.tsx:230
+#: app/components/EventRow.tsx:209
 msgid "{0, plural, one {# other you follow} other {# others you follow}}"
 msgstr "フォロー中の他の{0}人"
 
@@ -119,104 +119,99 @@ msgstr "カレンダー"
 msgid "Map"
 msgstr "地図"
 
-#: app/components/FilterBar.tsx:133
+#: app/components/FilterBar.tsx:132
 msgid "North America"
 msgstr "北アメリカ"
 
-#: app/components/FilterBar.tsx:134
+#: app/components/FilterBar.tsx:133
 msgid "Europe"
 msgstr "ヨーロッパ"
 
-#: app/components/FilterBar.tsx:135
+#: app/components/FilterBar.tsx:134
 msgid "Asia"
 msgstr "アジア"
 
-#: app/components/FilterBar.tsx:136
+#: app/components/FilterBar.tsx:135
 msgid "South America"
 msgstr "南アメリカ"
 
-#: app/components/FilterBar.tsx:137
+#: app/components/FilterBar.tsx:136
 msgid "Oceania"
 msgstr "オセアニア"
 
-#: app/components/FilterBar.tsx:138
+#: app/components/FilterBar.tsx:137
 msgid "Africa"
 msgstr "アフリカ"
 
-#: app/components/FilterBar.tsx:139
+#: app/components/FilterBar.tsx:138
 msgid "Unknown"
 msgstr "不明"
 
 #. placeholder {0}: DEFAULT_FILTER_OPTIONS.maxDays
 #. placeholder {0}: [minDays][0]
-#: app/components/FilterBar.tsx:147
-#: app/components/FilterBar.tsx:156
-#: app/components/FilterBar.tsx:365
-#: app/components/FilterBar.tsx:688
+#: app/components/FilterBar.tsx:146
+#: app/components/FilterBar.tsx:155
+#: app/components/FilterBar.tsx:354
+#: app/components/FilterBar.tsx:655
 msgid "{0, plural, one {# day or more} other {# days or more}}"
 msgstr "{0}日以上"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {0}: [value][0]
-#: app/components/FilterBar.tsx:153
-#: app/components/FilterBar.tsx:363
-#: app/components/FilterBar.tsx:686
+#: app/components/FilterBar.tsx:152
+#: app/components/FilterBar.tsx:352
+#: app/components/FilterBar.tsx:653
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0}日間"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {1}: [maxDays][0]
-#: app/components/FilterBar.tsx:162
+#: app/components/FilterBar.tsx:161
 msgid "{0} to {1} days"
 msgstr "{0}〜{1}日間"
 
-#: app/components/FilterBar.tsx:242
-#: app/components/FilterBar.tsx:487
+#: app/components/FilterBar.tsx:239
+#: app/components/FilterBar.tsx:476
 msgid "Filters"
 msgstr "絞り込み"
 
-#: app/components/FilterBar.tsx:250
+#: app/components/FilterBar.tsx:248
 msgid "Apply"
 msgstr "適用"
 
-#: app/components/FilterBar.tsx:258
-#: app/components/FilterBar.tsx:524
-msgid "Active only"
-msgstr "有効のみ"
-
-#: app/components/FilterBar.tsx:272
-#: app/components/FilterBar.tsx:548
+#: app/components/FilterBar.tsx:259
+#: app/components/FilterBar.tsx:515
 msgid "Going only"
 msgstr "参加予定のみ"
 
-#: app/components/FilterBar.tsx:286
-#: app/components/FilterBar.tsx:726
+#: app/components/FilterBar.tsx:273
+#: app/components/FilterBar.tsx:693
 msgid "With followed only"
 msgstr "フォロー中のユーザーのみ"
 
-#: app/components/FilterBar.tsx:299
-#: app/components/FilterBar.tsx:579
+#: app/components/FilterBar.tsx:288
+#: app/components/FilterBar.tsx:546
 msgid "Regions"
 msgstr "地域"
 
 #. placeholder {0}: uncommitted.continents.length
 #. placeholder {0}: filter.continents.length
-#: app/components/FilterBar.tsx:315
-#: app/components/FilterBar.tsx:606
+#: app/components/FilterBar.tsx:304
+#: app/components/FilterBar.tsx:573
 msgid "{0, plural, one {# selected} other {# selected}}"
 msgstr "{0}地域選択中"
 
-#: app/components/FilterBar.tsx:349
-#: app/components/FilterBar.tsx:665
+#: app/components/FilterBar.tsx:338
+#: app/components/FilterBar.tsx:632
 msgid "Number of days"
 msgstr "開催日数"
 
-#: app/components/FilterBar.tsx:464
+#: app/components/FilterBar.tsx:453
 msgid "Search"
 msgstr "検索"
 
 #. placeholder {0}: filter.continents.length
-#: app/components/FilterBar.tsx:572
+#: app/components/FilterBar.tsx:539
 msgid "{0, plural, one {# region} other {# regions}}"
 msgstr "{0}地域"
 
@@ -248,11 +243,11 @@ msgid "{0}"
 msgstr "{0}件"
 
 #. placeholder {0}: unknownEvents.length
-#: app/components/UserDetails.tsx:75
+#: app/components/UserDetails.tsx:74
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "自分が参加予定のないコンベンション{0}件"
 
-#: app/components/UserDetails.tsx:138
+#: app/components/UserDetails.tsx:136
 msgctxt "user attending cons"
 msgid "Going"
 msgstr "参加予定"
@@ -266,7 +261,7 @@ msgid "Calendar URL"
 msgstr "カレンダーのURL"
 
 #: app/components/events/CalendarView.tsx:126
-#: app/components/events/ListView.tsx:418
+#: app/components/events/ListView.tsx:417
 msgid "Settings"
 msgstr "設定"
 
@@ -286,49 +281,49 @@ msgstr "相手の"
 msgid "Yours"
 msgstr "自分の"
 
-#: app/components/events/ListView.tsx:333
+#: app/components/events/ListView.tsx:332
 msgid "Date"
 msgstr "開催日"
 
-#: app/components/events/ListView.tsx:334
+#: app/components/events/ListView.tsx:333
 msgid "Soonest to latest"
 msgstr "早い順"
 
-#: app/components/events/ListView.tsx:336
+#: app/components/events/ListView.tsx:335
 msgid "Latest to soonest"
 msgstr "遅い順"
 
-#: app/components/events/ListView.tsx:341
+#: app/components/events/ListView.tsx:340
 msgid "Name"
 msgstr "名称"
 
-#: app/components/events/ListView.tsx:342
+#: app/components/events/ListView.tsx:341
 msgid "A to Z"
 msgstr "A-Z順"
 
-#: app/components/events/ListView.tsx:344
+#: app/components/events/ListView.tsx:343
 msgid "Z to A"
 msgstr "Z-A順"
 
-#: app/components/events/ListView.tsx:350
-#: app/components/events/ListView.tsx:358
+#: app/components/events/ListView.tsx:349
+#: app/components/events/ListView.tsx:357
 msgid "Fewest to most"
 msgstr "少ない順"
 
-#: app/components/events/ListView.tsx:352
-#: app/components/events/ListView.tsx:360
+#: app/components/events/ListView.tsx:351
+#: app/components/events/ListView.tsx:359
 msgid "Most to fewest"
 msgstr "多い順"
 
-#: app/components/events/ListView.tsx:357
+#: app/components/events/ListView.tsx:356
 msgid "People you follow going"
 msgstr "フォロー中の参加者数"
 
-#: app/components/events/ListView.tsx:446
+#: app/components/events/ListView.tsx:445
 msgid "Sort by"
 msgstr "並び順"
 
-#: app/components/events/ListView.tsx:487
+#: app/components/events/ListView.tsx:486
 msgid "Order"
 msgstr "順序"
 

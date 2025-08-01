@@ -62,7 +62,6 @@ function Attending({ profile }: { profile: Profile }) {
               showLikeButton={false}
               showYear
               density="comfortable"
-              grayOutIfOver={false}
               withId={false}
             />
           ))}
@@ -92,7 +91,6 @@ function Attending({ profile }: { profile: Profile }) {
                 showLikeButton={false}
                 showYear
                 density="comfortable"
-                grayOutIfOver={false}
                 withId={false}
               />
             ))}

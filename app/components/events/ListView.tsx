@@ -107,7 +107,6 @@ function FlatList({
                   showLikeButton
                   showYear={false}
                   density={density}
-                  grayOutIfOver
                   withId
                 />
               </Box>

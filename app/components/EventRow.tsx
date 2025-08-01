@@ -43,7 +43,6 @@ export default function EventRow({
   showLikeButton,
   showYear,
   density,
-  grayOutIfOver,
   withId,
 }: {
   event: Event;
@@ -53,7 +52,6 @@ export default function EventRow({
   showLikeButton: boolean;
   showYear: boolean;
   density: "comfortable" | "cozy" | "compact";
-  grayOutIfOver: boolean;
   withId: boolean;
 }) {
   const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
@@ -128,17 +126,15 @@ export default function EventRow({
               size="xl"
               variant="light"
               color={
-                !over || !grayOutIfOver
-                  ? [
-                      "red",
-                      "orange",
-                      "yellow",
-                      "green",
-                      "blue",
-                      "indigo",
-                      "violet",
-                    ][getDay(reinterpretAsLocalDate(event.start))]
-                  : "gray"
+                [
+                  "red",
+                  "orange",
+                  "yellow",
+                  "green",
+                  "blue",
+                  "indigo",
+                  "violet",
+                ][getDay(reinterpretAsLocalDate(event.start))]
               }
             >
               <Stack gap={0}>
@@ -176,29 +172,12 @@ export default function EventRow({
           ) : null}
 
           <Text size="sm" truncate>
-            <Anchor
-              component={Link}
-              to={`/${event.id}`}
-              c={over && grayOutIfOver ? "gray" : undefined}
-              fw={500}
-            >
-              <Flag
-                country={event.country ?? undefined}
-                size={10}
-                me={6}
-                style={{
-                  filter: over && grayOutIfOver ? "grayscale(1)" : undefined,
-                }}
-              />
+            <Anchor component={Link} to={`/${event.id}`} fw={500}>
+              <Flag country={event.country ?? undefined} size={10} me={6} />
               {event.name}
             </Anchor>{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
-              <Anchor
-                href={event.url}
-                target="_blank"
-                opacity={0.4}
-                c={over && grayOutIfOver ? "gray" : undefined}
-              >
+              <Anchor href={event.url} target="_blank" opacity={0.4}>
                 <IconWorld size={12} />
               </Anchor>
             </Tooltip>
@@ -241,8 +220,6 @@ export default function EventRow({
                       spacing="xs"
                       style={{
                         verticalAlign: "bottom",
-                        filter:
-                          over && grayOutIfOver ? "grayscale(1)" : undefined,
                       }}
                     >
                       {sampledFollows!.map((follow) => (
