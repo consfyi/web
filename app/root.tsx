@@ -219,7 +219,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                   fw={500}
                   size="lg"
                   lh={1}
-                  visibleFrom="xs"
+                  visibleFrom="sm"
                   style={{
                     textShadow:
                       "0px 0px 2px color-mix(in srgb, var(--mantine-color-body), transparent 50%)",
