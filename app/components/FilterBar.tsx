@@ -734,8 +734,6 @@ export function useFilterPredicate(filter: FilterOptions) {
       const days = differenceInDays(event.end, event.start);
 
       return (
-        // Upcoming
-        isBefore(now, event.end) &&
         // Query
         removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
           queryRe,

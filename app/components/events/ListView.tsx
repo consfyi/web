@@ -388,8 +388,11 @@ export default function ListView({
 }) {
   const { t } = useLingui();
 
+  const now = useNow();
   const pred = useFilterPredicate(filter);
-  const filteredEvents = events.filter(pred);
+  const filteredEvents = events.filter(
+    (event) => isBefore(now, event.end) && pred(event),
+  );
 
   const isLoggedIn = useIsLoggedIn();
   const [open, setOpen] = useState(false);

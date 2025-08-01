@@ -51,7 +51,9 @@ export default function CalendarView({
 }) {
   const pred = useFilterPredicate(filter);
   const now = useNow();
-  const filteredEvents = events.filter(pred);
+  const filteredEvents = events.filter(
+    (event) => isBefore(now, event.end) && pred(event),
+  );
 
   const { i18n, t } = useLingui();
 
