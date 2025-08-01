@@ -58,6 +58,11 @@ interface Segment {
   hasEnd: boolean;
 }
 
+function monthKey(date: Date) {
+  const d = addDays(date, 6);
+  return getYear(d) * 12 + getMonth(d);
+}
+
 function segment(event: Event, weekStartsOn: Day): Segment[] {
   const segments: Segment[] = [];
 
@@ -339,8 +344,7 @@ export default function Calendar({
   );
 
   const highlightedMonthIndex =
-    min(visibleMonths) ??
-    getYear(calendarStartDate) * 12 + getMonth(calendarStartDate);
+    min(visibleMonths) ?? monthKey(calendarStartDate);
 
   const titleDate = new Date(
     Math.floor(highlightedMonthIndex / 12),
@@ -422,17 +426,13 @@ export default function Calendar({
         <Table layout="fixed" withColumnBorders withRowBorders withTableBorder>
           <Table.Tbody>
             <Table.Tr
-              data-month={
-                getYear(calendarStartDate) * 12 + getMonth(calendarStartDate)
-              }
+              data-month={monthKey(calendarStartDate)}
               ref={(el) => {
                 if (el == null) {
                   return;
                 }
 
-                checkpointRefs.current[
-                  getYear(calendarStartDate) * 12 + getMonth(calendarStartDate)
-                ] = el;
+                checkpointRefs.current[monthKey(calendarStartDate)] = el;
               }}
             ></Table.Tr>
             {toArray(
@@ -443,7 +443,7 @@ export default function Calendar({
                 return (
                   <Table.Tr
                     key={week}
-                    data-month={getYear(weekStart) * 12 + getMonth(weekStart)}
+                    data-month={monthKey(weekStart)}
                     ref={(el) => {
                       if (el == null) {
                         return;
@@ -454,9 +454,7 @@ export default function Calendar({
                           (getDate(weekStart) + getDay(weekStart)) / 7,
                         ) == 1
                       ) {
-                        checkpointRefs.current[
-                          getYear(weekStart) * 12 + getMonth(weekStart)
-                        ] = el;
+                        checkpointRefs.current[monthKey(weekStart)] = el;
                       }
                     }}
                   >
