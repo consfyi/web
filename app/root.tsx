@@ -150,8 +150,10 @@ function Header() {
     [setInViewport],
   );
 
+  const [showSearch, setShowSearch] = useState(false);
   const navigate = useNavigate();
   const { query, setQuery } = use(GlobalSearchContext)!;
+  const autocompleteRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
@@ -214,7 +216,8 @@ function Header() {
                 </Text>
               </Group>
             </Anchor>
-            <form
+            <Box
+              component={"form"}
               style={{ flexGrow: 1 }}
               action="/"
               onSubmit={(e) => {
@@ -226,21 +229,48 @@ function Header() {
                   search: searchParams.toString(),
                 });
               }}
+              my={-8}
             >
               <Autocomplete
+                ref={autocompleteRef}
+                visibleFrom={showSearch ? undefined : "xs"}
                 name="q"
-                my={-8}
                 filter={({ options }) => options}
-                leftSection={<IconSearch size={16} />}
+                leftSection={
+                  <IconSearch size={16} style={{ marginLeft: "2px" }} />
+                }
                 clearable
                 placeholder={t`Search`}
                 value={query}
                 onChange={(q) => {
                   setQuery(q);
                 }}
+                onBlur={() => {
+                  setShowSearch(false);
+                }}
               />
-            </form>
-            <Group my={-8} gap="md">
+              <Button
+                display={showSearch ? "none" : undefined}
+                variant="subtle"
+                color="var(--mantine-color-dimmed)"
+                c="var(--mantine-color-dimmed)"
+                hiddenFrom="xs"
+                p="xs"
+                aria-label={t`Search`}
+                onClick={() => {
+                  setShowSearch(true);
+                  setTimeout(() => {
+                    if (autocompleteRef.current == null) {
+                      return;
+                    }
+                    autocompleteRef.current.focus();
+                  }, 0);
+                }}
+              >
+                <IconSearch size={16} />
+              </Button>
+            </Box>
+            <Group my={-8} gap="md" visibleFrom={showSearch ? "xs" : undefined}>
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
                   <Button
