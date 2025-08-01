@@ -785,8 +785,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <LinguiProvider>
                       <DatesProvider>
                         <GlobalSearchProvider>
+                          <Header ref={headerRef} />
                           <HeaderHeightProvider value={headerHeight}>
-                            <Header ref={headerRef} />
                             {showAlerts ? (
                               <Container size="lg" px={0}>
                                 <Alerts />
@@ -801,8 +801,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                             >
                               {children}
                             </Suspense>
-                            <Footer />
                           </HeaderHeightProvider>
+                          <Footer />
                         </GlobalSearchProvider>
                       </DatesProvider>
                     </LinguiProvider>
