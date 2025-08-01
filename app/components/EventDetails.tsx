@@ -5,7 +5,6 @@ import {
   Box,
   Divider,
   Group,
-  Indicator,
   Loader,
   Title as MantineTitle,
   SimpleGrid,
@@ -17,6 +16,7 @@ import {
 import {
   IconBrandBluesky,
   IconCalendarCheck,
+  IconCalendarClock,
   IconCalendarWeek,
   IconMapPin,
   IconWorld,
@@ -242,17 +242,7 @@ export function Body({ event }: { event: Event }) {
         <Box mt={4}>
           <Group wrap="nowrap" gap="xs" align="top">
             <Box>
-              <Indicator
-                position="top-start"
-                color="green"
-                processing
-                size={12}
-                withBorder
-                disabled={!active}
-                zIndex={2}
-              >
-                <IconCalendarWeek title={t`Dates`} size={16} stroke={1.5} />
-              </Indicator>
+              <IconCalendarWeek title={t`Dates`} size={16} stroke={1.5} />
             </Box>
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days)">
@@ -342,7 +332,11 @@ export function Body({ event }: { event: Event }) {
         </Box>
       </Box>
 
-      {over ? (
+      {active ? (
+        <Alert color="green" icon={<IconCalendarClock />}>
+          <Trans>This convention is currently in progress.</Trans>
+        </Alert>
+      ) : over ? (
         <Alert icon={<IconCalendarCheck />}>
           {eventHasPost(event) ? (
             <Trans>This convention has already ended.</Trans>
