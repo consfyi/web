@@ -271,12 +271,12 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 aria-label={t`Search`}
                 onClick={() => {
                   setShowSearch(true);
-                  setTimeout(() => {
+                  requestAnimationFrame(() => {
                     if (autocompleteRef.current == null) {
                       return;
                     }
                     autocompleteRef.current.focus();
-                  }, 0);
+                  });
                 }}
               >
                 <IconSearch size={16} />

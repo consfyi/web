@@ -62,13 +62,6 @@ export default function CalendarView({
   const [icsOpen, setIcsOpen] = useState(false);
 
   const icsInputRef = useRef<HTMLInputElement | null>(null);
-  useEffect(() => {
-    if (icsOpen) {
-      setTimeout(() => {
-        icsInputRef.current!.focus();
-      }, 1);
-    }
-  }, [icsOpen]);
 
   return (
     <Box style={{ position: "relative" }}>
@@ -84,7 +77,14 @@ export default function CalendarView({
                 position="bottom-end"
                 withArrow
                 opened={icsOpen}
-                onChange={setIcsOpen}
+                onChange={(v) => {
+                  setIcsOpen(v);
+                  if (v) {
+                    setTimeout(() => {
+                      icsInputRef.current!.select();
+                    }, 1);
+                  }
+                }}
               >
                 <Menu.Target>
                   <Button
