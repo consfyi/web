@@ -223,7 +223,7 @@ function EventSegment({ segment }: { segment: Segment }) {
 }
 
 export default function Calendar({
-  events,
+  events: originalEvents,
   inYourTimeZone,
   includeToday,
 }: {
@@ -233,13 +233,17 @@ export default function Calendar({
 }) {
   const { t, i18n } = useLingui();
 
-  if (!inYourTimeZone) {
-    events = events.map((e) => ({
-      ...e,
-      start: reinterpretAsLocalDate(e.start),
-      end: reinterpretAsLocalDate(e.end),
-    }));
-  }
+  const events = useMemo(
+    () =>
+      inYourTimeZone
+        ? originalEvents
+        : originalEvents.map((e) => ({
+            ...e,
+            start: reinterpretAsLocalDate(e.start),
+            end: reinterpretAsLocalDate(e.end),
+          })),
+    [originalEvents, inYourTimeZone],
+  );
 
   const checkpointRefs = useRef<Record<number, HTMLDivElement>>({});
   checkpointRefs.current = {};

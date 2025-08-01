@@ -164,7 +164,6 @@ function EventsByDate({
   density: Density;
 }) {
   const { i18n, t } = useLingui();
-  const now = useNow();
 
   const groups = useMemo(
     () => {
