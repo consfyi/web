@@ -216,17 +216,15 @@ function FilterDrawer({
 
   const isLoggedIn = useIsLoggedIn();
 
-  const close = useCallback(() => {
-    setDirty(null);
-    onClose();
-  }, [setDirty, onClose]);
-
   return (
     <Drawer
       position="bottom"
       opened={opened}
       withCloseButton={false}
-      onClose={close}
+      onClose={onClose}
+      onExitTransitionEnd={() => {
+        setDirty(null);
+      }}
       hiddenFrom="lg"
       styles={{
         title: {
@@ -244,7 +242,8 @@ function FilterDrawer({
             size="xs"
             onClick={() => {
               setFilter(uncommitted);
-              close();
+              setDirty(null);
+              onClose();
             }}
           >
             <Trans>Apply</Trans>
