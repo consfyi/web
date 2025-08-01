@@ -29,7 +29,7 @@ import {
   TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
-import { useElementSize, useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
   NavigationProgress,
@@ -750,8 +750,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const showAlerts = !["/map", "/login"].includes(location.pathname);
 
-  const { ref: headerRef, height: headerHeight } = useElementSize();
-
   return (
     // lang is set by LinguiProvider.
     // eslint-disable-next-line jsx-a11y/html-has-lang
@@ -785,8 +783,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <LinguiProvider>
                       <DatesProvider>
                         <GlobalSearchProvider>
-                          <Header ref={headerRef} />
-                          <HeaderHeightProvider value={headerHeight}>
+                          <Header />
+                          <HeaderHeightProvider value={61}>
                             {showAlerts ? (
                               <Container size="lg" px={0}>
                                 <Alerts />
