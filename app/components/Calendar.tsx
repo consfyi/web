@@ -298,13 +298,18 @@ export default function Calendar({
     [t],
   );
 
+  const earliestEventDate = useMemo(
+    () => min(map(events, (event) => new Date(event.start)))!,
+    [events],
+  );
+
   const startDate = useMemo(() => {
-    let d = min(map(events, (con) => new Date(con.start)))!;
+    let d = earliestEventDate;
     if (includeToday) {
       d = isBefore(now, d) ? now : d;
     }
     return startOfDay(d);
-  }, [includeToday, events, now]);
+  }, [includeToday, earliestEventDate, now]);
 
   const firstDayWeekday = getDay(startDate);
   const daysToPad = (firstDayWeekday - datesContext.firstDayOfWeek + 7) % 7;
@@ -315,7 +320,7 @@ export default function Calendar({
     () =>
       Math.floor(
         differenceInCalendarDays(
-          max(map(events, (con) => addDays(con.end, 6)))!,
+          max(map(events, (event) => addDays(event.end, 6)))!,
           calendarStartDate,
         ) / 7,
       ),
