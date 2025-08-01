@@ -194,8 +194,9 @@ function Header() {
               <Group gap={7}>
                 <Image
                   src="/logo.png"
-                  h={26}
-                  w={26}
+                  h={34}
+                  w={34}
+                  my={-4}
                   alt={clientMetadata.client_name}
                   style={{
                     filter:
