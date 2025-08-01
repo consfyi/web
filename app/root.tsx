@@ -29,7 +29,7 @@ import {
   TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useElementSize, useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
   NavigationProgress,
@@ -49,7 +49,16 @@ import {
   IconSunMoon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import { Suspense, use, useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  type Ref,
+  Suspense,
+  use,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Link,
   Links,
@@ -83,6 +92,7 @@ import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
+import { HeaderHeightProvider } from "./components/HeaderHeightProvider";
 import "./styles.css";
 
 const theme = createTheme({});
@@ -105,7 +115,8 @@ export const meta: MetaFunction = ({ matches }) => [
   },
 ];
 
-function Header() {
+// eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
+const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [pdsHost, setPdsHost] = useLocalStorage({
     key: "fbl:pdsHost",
@@ -162,6 +173,7 @@ function Header() {
         style={{ position: "absolute", top: "0px", left: "0px" }}
       />
       <Box
+        ref={ref}
         style={{
           transitionProperty:
             "border-bottom-color, background, backdrop-filter",
@@ -491,7 +503,7 @@ function Header() {
       </Box>
     </>
   );
-}
+});
 
 function Footer() {
   return (
@@ -738,6 +750,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const showAlerts = !["/map", "/login"].includes(location.pathname);
 
+  const { ref: headerRef, height: headerHeight } = useElementSize();
+
   return (
     // lang is set by LinguiProvider.
     // eslint-disable-next-line jsx-a11y/html-has-lang
@@ -771,22 +785,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <LinguiProvider>
                       <DatesProvider>
                         <GlobalSearchProvider>
-                          <Header />
-                          {showAlerts ? (
-                            <Container size="lg" px={0}>
-                              <Alerts />
-                            </Container>
-                          ) : null}
-                          <Suspense
-                            fallback={
-                              <Center p="lg">
-                                <Loader />
-                              </Center>
-                            }
-                          >
-                            {children}
-                          </Suspense>
-                          <Footer />
+                          <HeaderHeightProvider value={headerHeight}>
+                            <Header ref={headerRef} />
+                            {showAlerts ? (
+                              <Container size="lg" px={0}>
+                                <Alerts />
+                              </Container>
+                            ) : null}
+                            <Suspense
+                              fallback={
+                                <Center p="lg">
+                                  <Loader />
+                                </Center>
+                              }
+                            >
+                              {children}
+                            </Suspense>
+                            <Footer />
+                          </HeaderHeightProvider>
                         </GlobalSearchProvider>
                       </DatesProvider>
                     </LinguiProvider>

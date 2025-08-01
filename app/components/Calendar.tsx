@@ -36,6 +36,7 @@ import {
 import { Link } from "react-router";
 import { reinterpretAsLocalDate } from "~/date";
 import { useNow } from "~/hooks";
+import { useHeaderHeight } from "./HeaderHeightProvider";
 
 export interface Event {
   id: string;
@@ -233,6 +234,8 @@ export default function Calendar({
 }) {
   const { t, i18n } = useLingui();
 
+  const headerHeight = useHeaderHeight();
+
   const events = useMemo(
     () =>
       inYourTimeZone
@@ -276,7 +279,7 @@ export default function Calendar({
           return toArray(set);
         });
       },
-      { rootMargin: "-61px 0px 0px 0px" },
+      { rootMargin: `-${headerHeight}px 0px 0px 0px` },
     );
 
     for (const el of Object.values(checkpointRefs.current)) {
@@ -288,7 +291,7 @@ export default function Calendar({
         observerRef.current.disconnect();
       }
     };
-  }, [events]);
+  }, [headerHeight, events]);
 
   const now = useNow();
 
@@ -367,7 +370,7 @@ export default function Calendar({
         size="h5"
         fw={500}
         pos="sticky"
-        top={61}
+        top={headerHeight}
         style={{
           zIndex: 3,
           background:

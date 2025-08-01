@@ -12,6 +12,7 @@ import FilterBar, {
   useFilterPredicate,
 } from "../FilterBar";
 import Map from "../Map";
+import { useHeaderHeight } from "../HeaderHeightProvider";
 
 export const LayoutOptions = qp.schema({
   center: qp.tuple({ lat: qp.float, lng: qp.float, zoom: qp.float }, " "),
@@ -218,6 +219,8 @@ export default function MapView({
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
 }) {
+  const headerHeight = useHeaderHeight();
+
   return (
     <Box style={{ position: "relative" }}>
       <Container
@@ -226,7 +229,7 @@ export default function MapView({
         style={{
           left: 0,
           right: 0,
-          top: 61,
+          top: headerHeight,
           position: "absolute",
           zIndex: 1,
         }}
@@ -244,7 +247,7 @@ export default function MapView({
         />
       </Container>
 
-      <Box h="100dvh" mt={-61}>
+      <Box h="100dvh" mt={-headerHeight}>
         <Suspense
           fallback={
             <Center p="lg" h="100%">

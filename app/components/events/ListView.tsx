@@ -41,6 +41,7 @@ import FilterBar, {
   LayoutSwitcher,
   useFilterPredicate,
 } from "../FilterBar";
+import { useHeaderHeight } from "../HeaderHeightProvider";
 
 function FlatList({
   title,
@@ -53,6 +54,8 @@ function FlatList({
   sortDesc: boolean;
   density: Density;
 }) {
+  const headerHeight = useHeaderHeight();
+
   const sortedEvents = useMemo(() => {
     const sortedEvents = events.slice();
     if (sortDesc) {
@@ -72,7 +75,7 @@ function FlatList({
           size="h5"
           fw={500}
           pos="sticky"
-          top={61}
+          top={headerHeight}
           style={{
             zIndex: 3,
             background:
