@@ -171,6 +171,14 @@ function AttendeesList({
 export function Title({ event }: { event: Event }) {
   const { t } = useLingui();
 
+  const guessed = useMemo(
+    () =>
+      event.sources != null
+        ? event.sources.some((source) => source == "guessed")
+        : false,
+    [event],
+  );
+
   return (
     <Group gap={7} wrap="nowrap" align="top">
       {eventHasPost(event) && event.post.viewer != null ? (
@@ -180,7 +188,12 @@ export function Title({ event }: { event: Event }) {
       ) : null}
       <MantineTitle size="h4" fw={500}>
         <Flag country={event.country ?? undefined} size={14} me={6} />
-        {event.name}{" "}
+        {event.name}
+        {guessed ? (
+          <Text span fw={500} c="red">
+            <sup>?</sup>
+          </Text>
+        ) : null}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}
@@ -310,19 +323,23 @@ export function Body({ event }: { event: Event }) {
                   <Trans>
                     This information was originally sourced from{" "}
                     <IntlList
-                      items={event.sources.map((source) => {
+                      items={event.sources.flatMap((source) => {
+                        if (source == "guessed") {
+                          return [];
+                        }
+
                         const attribution = attributions[source];
-                        return attribution != undefined ? (
-                          <Anchor
-                            href={attribution.url}
-                            target="_blank"
-                            key={source}
-                          >
-                            {attribution.name}
-                          </Anchor>
-                        ) : (
-                          <Fragment key={source}>source</Fragment>
-                        );
+                        return attribution != undefined
+                          ? [
+                              <Anchor
+                                href={attribution.url}
+                                target="_blank"
+                                key={source}
+                              >
+                                {attribution.name}
+                              </Anchor>,
+                            ]
+                          : [<Fragment key={source}>source</Fragment>];
                       })}
                     />
                     . Usage restrictions may apply.

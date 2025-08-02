@@ -109,6 +109,14 @@ export default function EventRow({
   const over = !isBefore(now, event.end);
   const active = !isBefore(now, event.start) && !over;
 
+  const guessed = useMemo(
+    () =>
+      event.sources != null
+        ? event.sources.some((source) => source == "guessed")
+        : false,
+    [event],
+  );
+
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
       {density == "comfortable" ? (
@@ -191,7 +199,12 @@ export default function EventRow({
               <Text span fw={500}>
                 {event.name}
               </Text>
-            </Anchor>{" "}
+            </Anchor>
+            {guessed ? (
+              <Text span fw={500} c="red">
+                <sup>?</sup>
+              </Text>
+            ) : null}{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
               <Anchor href={event.url} target="_blank" opacity={0.4}>
                 <IconWorld size={12} />
