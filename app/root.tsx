@@ -245,7 +245,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
             >
               <Autocomplete
                 ref={autocompleteRef}
-                visibleFrom={showSearch ? undefined : "sm"}
+                visibleFrom={showSearch ? undefined : "xs"}
                 name="q"
                 filter={({ options }) => options}
                 leftSection={
@@ -266,7 +266,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 variant="subtle"
                 color="var(--mantine-color-dimmed)"
                 c="var(--mantine-color-dimmed)"
-                hiddenFrom="sm"
+                hiddenFrom="xs"
                 p="xs"
                 aria-label={t`Search`}
                 onClick={() => {
@@ -282,7 +282,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 <IconSearch size={16} />
               </Button>
             </Box>
-            <Group gap="md" visibleFrom={showSearch ? "sm" : undefined}>
+            <Group gap="md" visibleFrom={showSearch ? "xs" : undefined}>
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
                   <Button
@@ -379,13 +379,13 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                       px="xs"
                       rightSection={<IconChevronDown size={14} />}
                     >
-                      <Text span size="sm" fw={500} visibleFrom="xs">
+                      <Text span size="sm" fw={500} visibleFrom="sm">
                         @{self.handle}
                       </Text>
                     </Button>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label hiddenFrom="xs">@{self.handle}</Menu.Label>
+                    <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
                     <Button
                       fullWidth
                       loading={pending}
