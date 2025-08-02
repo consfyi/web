@@ -299,7 +299,7 @@ export function Body({ event }: { event: Event }) {
               <Trans>
                 Is this information incorrect?{" "}
                 <Anchor
-                  href="https://github.com/consfyi/data/issues/new?template=missing-or-incorrect-convention.md"
+                  href={`https://github.com/consfyi/data/issues/new?template=edit-convention.md&title=${encodeURIComponent(`Edit convention: ${event.name}`)}`}
                   target="_blank"
                 >
                   File an issue here.
