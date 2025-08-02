@@ -107,7 +107,7 @@ export default function EventRow({
   }, [follows, now]);
 
   const over = !isBefore(now, event.end);
-  const inProgress = !isBefore(now, event.start) && !over;
+  const active = !isBefore(now, event.start) && !over;
 
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
@@ -116,10 +116,10 @@ export default function EventRow({
           <Indicator
             position="top-start"
             color="green"
-            processing={inProgress}
+            processing={active}
             size={12}
             withBorder
-            disabled={!inProgress}
+            disabled={!active}
             zIndex={2}
           >
             <ThemeIcon
@@ -161,6 +161,7 @@ export default function EventRow({
         style={{
           minWidth: 0,
           display: density == "compact" ? "flex" : "block",
+          alignItems: "end",
         }}
         h={density == "compact" ? 22 : undefined}
         className={density == "compact" ? classes.compact : ""}
@@ -173,9 +174,24 @@ export default function EventRow({
           ) : null}
 
           <Text size="sm" truncate>
-            <Anchor component={Link} to={`/${event.id}`} fw={500}>
+            <Anchor component={Link} to={`/${event.id}`}>
               <Flag country={event.country ?? undefined} size={10} me={6} />
-              {event.name}
+              {active && density == "compact" ? (
+                <Indicator
+                  inline
+                  position="middle-center"
+                  processing
+                  size={6}
+                  color="green"
+                  me={6}
+                  w="6px"
+                >
+                  <Text span>&nbsp;</Text>
+                </Indicator>
+              ) : null}
+              <Text span fw={500}>
+                {event.name}
+              </Text>
             </Anchor>{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
               <Anchor href={event.url} target="_blank" opacity={0.4}>
