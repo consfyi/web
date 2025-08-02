@@ -4,6 +4,7 @@ import {
   Button,
   Center,
   Container,
+  Indicator,
   Loader,
   Menu,
   Text,
@@ -16,7 +17,7 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 import { getDay, isBefore, type Day } from "date-fns";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
 import { eventHasPost, useNow, type Event } from "~/hooks";
@@ -219,6 +220,8 @@ export default function CalendarView({
               includeToday={!filter.going && filter.q == ""}
               events={filteredEvents.map((event) => {
                 const over = !isBefore(now, event.end);
+                const active =
+                  !isBefore(now, event.start) && isBefore(now, event.end);
 
                 return {
                   id: event.id,
@@ -233,6 +236,19 @@ export default function CalendarView({
                           filter: over ? "grayscale(1)" : undefined,
                         }}
                       />
+                      {active ? (
+                        <Indicator
+                          inline
+                          position="middle-center"
+                          processing
+                          size={6}
+                          color="green"
+                          me={4}
+                          w="1em"
+                        >
+                          <Text span>&nbsp;</Text>
+                        </Indicator>
+                      ) : null}
                       <Text span>{event.name}</Text>
                     </>
                   ),
