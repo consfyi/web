@@ -198,18 +198,16 @@ function EventSegment({ segment }: { segment: Segment }) {
           borderStyle: "solid",
           borderTopWidth: "1px",
           borderBottomWidth: "1px",
+          borderInlineStartWidth: segment.hasStart ? "1px" : 0,
+          borderInlineEndWidth: segment.hasEnd ? "1px" : 0,
           ...(segment.hasStart
             ? {
-                borderInlineStartWidth: "1px",
-                borderInlineEndWidth: 0,
                 borderStartStartRadius: "var(--mantine-radius-xl)",
                 borderEndStartRadius: "var(--mantine-radius-xl)",
               }
             : {}),
           ...(segment.hasEnd
             ? {
-                borderInlineStartWidth: 0,
-                borderInlineEndWidth: "1px",
                 borderStartEndRadius: "var(--mantine-radius-xl)",
                 borderEndEndRadius: "var(--mantine-radius-xl)",
               }
