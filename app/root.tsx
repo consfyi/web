@@ -275,7 +275,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                   // Horrible iOS Safari hack:
                   // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
                   // - We can't focus the element immediately because its display is still hidden.
-                  // - Safari will not close the keyboard if focus is trasnferred from one element to the other.
+                  // - Safari will not close the keyboard if focus is transferred from one element to the other.
                   // - We create a temporary element to focus on immediately to open the keyboard, then on requestAnimationFrame focus our actual element.
                   const tempInput = document.createElement("input");
                   tempInput.type = "text";
