@@ -271,11 +271,25 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 aria-label={t`Search`}
                 onClick={() => {
                   setShowSearch(true);
+
+                  // Horrible iOS on Safari hack...
+                  const tempInput = document.createElement("input");
+                  tempInput.type = "text";
+                  tempInput.style.position = "absolute";
+                  tempInput.style.left = "0";
+                  tempInput.style.top = "0";
+                  tempInput.style.fontSize = "16px";
+                  tempInput.style.opacity = "0";
+                  tempInput.style.pointerEvents = "none";
+                  tempInput.setAttribute("readonly", "true");
+                  document.body.appendChild(tempInput);
+                  tempInput.focus();
+
                   requestAnimationFrame(() => {
-                    if (autocompleteRef.current == null) {
-                      return;
+                    if (autocompleteRef.current != null) {
+                      autocompleteRef.current.focus();
                     }
-                    autocompleteRef.current.focus();
+                    tempInput.remove();
                   });
                 }}
               >
