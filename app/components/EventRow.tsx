@@ -162,6 +162,7 @@ export default function EventRow({
           minWidth: 0,
           display: density == "compact" ? "flex" : "block",
         }}
+        h={density == "compact" ? 22 : undefined}
         className={density == "compact" ? classes.compact : ""}
       >
         <Group gap={7} wrap="nowrap">
