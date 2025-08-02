@@ -16,6 +16,8 @@ import { Profile } from "~/endpoints";
 import { useEventsWithPosts, useProfileLabels, useSelf } from "~/hooks";
 import EventRow from "./EventRow";
 
+const GRID_COLS = { base: 1, lg: 3 };
+
 function Attending({ profile }: { profile: Profile }) {
   const self = useSelf();
   const queriedLabels = useProfileLabels(
@@ -51,7 +53,7 @@ function Attending({ profile }: { profile: Profile }) {
       </Title>
 
       {knownEvents.length > 0 ? (
-        <SimpleGrid cols={{ base: 1, lg: 3 }} mb="sm">
+        <SimpleGrid cols={GRID_COLS} mb="sm">
           {knownEvents.map((event) => (
             <EventRow
               key={event.id}
@@ -80,7 +82,7 @@ function Attending({ profile }: { profile: Profile }) {
             labelPosition="left"
             mb="sm"
           />
-          <SimpleGrid cols={{ base: 1, lg: 3 }} mb="sm">
+          <SimpleGrid cols={GRID_COLS} mb="sm">
             {unknownEvents.map((event) => (
               <EventRow
                 key={event.id}

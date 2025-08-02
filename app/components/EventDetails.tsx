@@ -57,6 +57,8 @@ function ActorSkeleton() {
   );
 }
 
+const GRID_COLS = { base: 1, xs: 2, sm: 3, md: 4, lg: 5 };
+
 function Actor({ actor }: { actor: Profile }) {
   return (
     <Anchor
@@ -130,7 +132,7 @@ function AttendeesList({
   return likes!.length > 0 ? (
     <>
       {knownLikes.length > 0 ? (
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
+        <SimpleGrid cols={GRID_COLS} mb="sm">
           {knownLikes.map((actor) => (
             <Actor actor={actor} key={actor.did} />
           ))}
@@ -149,7 +151,7 @@ function AttendeesList({
             labelPosition="left"
             mb="sm"
           />
-          <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
+          <SimpleGrid cols={GRID_COLS} mb="sm">
             {unknownLikes.map((actor) => (
               <Actor actor={actor} key={actor.did} />
             ))}
@@ -377,7 +379,7 @@ export function Body({ event }: { event: Event }) {
                 fallback={
                   <>
                     {knownLikeCount > 0 || unknownLikeCount == 0 ? (
-                      <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
+                      <SimpleGrid cols={GRID_COLS} mb="sm">
                         {toArray(
                           map(
                             Range.to(knownLikeCount > 0 ? knownLikeCount : 1),
@@ -399,7 +401,7 @@ export function Body({ event }: { event: Event }) {
                           labelPosition="left"
                           mb="sm"
                         />
-                        <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} mb="sm">
+                        <SimpleGrid cols={GRID_COLS} mb="sm">
                           {toArray(
                             map(Range.to(unknownLikeCount), (i) => (
                               <ActorSkeleton key={i} />
