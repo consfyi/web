@@ -297,7 +297,7 @@ export function Body({ event }: { event: Event }) {
           <Box mt={4}>
             <Text size="xs">
               <Trans>
-                Is this information incorrect?{" "}
+                Does this information need to be edited or delisted?{" "}
                 <Anchor
                   href={`https://github.com/consfyi/data/issues/new?template=edit-convention.yml&title=${encodeURIComponent(`Edit convention: ${event.name}`)}&name=${encodeURIComponent(event.name)}`}
                   target="_blank"
