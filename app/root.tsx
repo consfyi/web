@@ -263,9 +263,9 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
               />
               <Button
                 display={showSearch ? "none" : undefined}
-                variant="subtle"
+                variant="default"
                 color="var(--mantine-color-dimmed)"
-                c="var(--mantine-color-dimmed)"
+                c="dimmed"
                 hiddenFrom="xs"
                 p="xs"
                 aria-label={t`Search`}
@@ -283,75 +283,6 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
               </Button>
             </Box>
             <Group gap="md" visibleFrom={showSearch ? "xs" : undefined}>
-              <Menu position="bottom-end" withArrow>
-                <Menu.Target>
-                  <Button
-                    px="xs"
-                    variant="subtle"
-                    color="var(--mantine-color-dimmed)"
-                    c="dimmed"
-                    rightSection={<IconChevronDown size={14} />}
-                  >
-                    <IconSettings size={18} />
-                  </Button>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>
-                    <Trans>Color scheme</Trans>
-                  </Menu.Label>
-                  <Menu.Item
-                    onClick={() => {
-                      setColorScheme("auto");
-                    }}
-                    leftSection={
-                      <Group gap={6}>
-                        {colorScheme == "auto" ? (
-                          <IconCheck size={14} />
-                        ) : (
-                          <EmptyIcon size={14} />
-                        )}
-                        <IconSunMoon size={14} />
-                      </Group>
-                    }
-                  >
-                    <Trans>Auto</Trans>
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() => {
-                      setColorScheme("light");
-                    }}
-                    leftSection={
-                      <Group gap={6}>
-                        {colorScheme == "light" ? (
-                          <IconCheck size={14} />
-                        ) : (
-                          <EmptyIcon size={14} />
-                        )}
-                        <IconSun size={14} />
-                      </Group>
-                    }
-                  >
-                    <Trans>Light</Trans>
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() => {
-                      setColorScheme("dark");
-                    }}
-                    leftSection={
-                      <Group gap={6}>
-                        {colorScheme == "dark" ? (
-                          <IconCheck size={14} />
-                        ) : (
-                          <EmptyIcon size={14} />
-                        )}
-                        <IconMoon size={14} />
-                      </Group>
-                    }
-                  >
-                    <Trans>Dark</Trans>
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
               {self != null ? (
                 <Menu
                   position="bottom-end"
@@ -497,6 +428,75 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                   </Button.Group>
                 </form>
               )}
+              <Menu position="bottom-end" withArrow>
+                <Menu.Target>
+                  <Button
+                    px="xs"
+                    variant="default"
+                    color="var(--mantine-color-dimmed)"
+                    c="dimmed"
+                    rightSection={<IconChevronDown size={14} />}
+                  >
+                    <IconSettings size={18} />
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Label>
+                    <Trans>Color scheme</Trans>
+                  </Menu.Label>
+                  <Menu.Item
+                    onClick={() => {
+                      setColorScheme("auto");
+                    }}
+                    leftSection={
+                      <Group gap={6}>
+                        {colorScheme == "auto" ? (
+                          <IconCheck size={14} />
+                        ) : (
+                          <EmptyIcon size={14} />
+                        )}
+                        <IconSunMoon size={14} />
+                      </Group>
+                    }
+                  >
+                    <Trans>Auto</Trans>
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      setColorScheme("light");
+                    }}
+                    leftSection={
+                      <Group gap={6}>
+                        {colorScheme == "light" ? (
+                          <IconCheck size={14} />
+                        ) : (
+                          <EmptyIcon size={14} />
+                        )}
+                        <IconSun size={14} />
+                      </Group>
+                    }
+                  >
+                    <Trans>Light</Trans>
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      setColorScheme("dark");
+                    }}
+                    leftSection={
+                      <Group gap={6}>
+                        {colorScheme == "dark" ? (
+                          <IconCheck size={14} />
+                        ) : (
+                          <EmptyIcon size={14} />
+                        )}
+                        <IconMoon size={14} />
+                      </Group>
+                    }
+                  >
+                    <Trans>Dark</Trans>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </Group>
           </Group>
         </Container>
