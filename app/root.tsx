@@ -531,7 +531,7 @@ function Footer() {
             </Anchor>
             . Convention missing?{" "}
             <Anchor
-              href="https://github.com/consfyi/data/issues/new?template=new-convention.md"
+              href="https://github.com/consfyi/data/issues/new?template=add-convention.md"
               target="_blank"
             >
               File an issue here.
