@@ -272,12 +272,17 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 onClick={() => {
                   setShowSearch(true);
 
-                  // Horrible iOS on Safari hack...
+                  // Horrible iOS Safari hack:
+                  // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
+                  // - We can't focus the element immediately because its display is still hidden.
+                  // - Safari will not close the keyboard if focus is trasnferred from one element to the other.
+                  // - We create a temporary element to focus on immediately to open the keyboard, then on requestAnimationFrame focus our actual element.
                   const tempInput = document.createElement("input");
                   tempInput.type = "text";
                   tempInput.style.position = "absolute";
                   tempInput.style.left = "0";
                   tempInput.style.top = "0";
+                  // Safari will zoom the page if font-size <16px (this is disabled by maximum-scale=1 but just in case)...
                   tempInput.style.fontSize = "16px";
                   tempInput.style.opacity = "0";
                   tempInput.style.pointerEvents = "none";
