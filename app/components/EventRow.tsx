@@ -234,6 +234,7 @@ export default function EventRow({
                     <Avatar.Group
                       display="inline-flex"
                       spacing="xs"
+                      my={-1}
                       style={{
                         verticalAlign: "bottom",
                       }}
@@ -243,11 +244,11 @@ export default function EventRow({
                           key={follow.did}
                           src={follow.avatar}
                           alt={`@${follow.handle}`}
-                          size={20}
+                          size={22}
                         />
                       ))}
                       {follows.length > MAX_AVATARS_IN_STACK ? (
-                        <Avatar size={20}>
+                        <Avatar size={22}>
                           +{follows.length - MAX_AVATARS_IN_STACK}
                         </Avatar>
                       ) : null}
