@@ -163,7 +163,6 @@ export default function EventRow({
           display: density == "compact" ? "flex" : "block",
           alignItems: "end",
         }}
-        h={density == "compact" ? 22 : undefined}
         className={density == "compact" ? classes.compact : ""}
       >
         <Group gap={7} wrap="nowrap">
@@ -244,11 +243,11 @@ export default function EventRow({
                           key={follow.did}
                           src={follow.avatar}
                           alt={`@${follow.handle}`}
-                          size={22}
+                          size={20}
                         />
                       ))}
                       {follows.length > MAX_AVATARS_IN_STACK ? (
-                        <Avatar size={22}>
+                        <Avatar size={20}>
                           +{follows.length - MAX_AVATARS_IN_STACK}
                         </Avatar>
                       ) : null}
