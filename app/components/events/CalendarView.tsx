@@ -231,7 +231,7 @@ export default function CalendarView({
                       <Flag
                         country={event.country ?? undefined}
                         size={8}
-                        me={4}
+                        me={6}
                         style={{
                           filter: over ? "grayscale(1)" : undefined,
                         }}
@@ -243,8 +243,8 @@ export default function CalendarView({
                           processing
                           size={6}
                           color="green"
-                          me={4}
-                          w="1em"
+                          me={6}
+                          w="6px"
                         >
                           <Text span>&nbsp;</Text>
                         </Indicator>
