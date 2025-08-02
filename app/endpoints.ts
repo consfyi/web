@@ -35,8 +35,9 @@ export class Event extends Entity {
   public address?: string;
   public country?: string;
   public latLng?: [number, number];
-  public timezone?: string;
+  public canceled?: boolean;
   public sources?: string[];
+  public timezone?: string;
 
   pk() {
     return this.id;

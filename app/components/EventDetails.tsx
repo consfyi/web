@@ -18,6 +18,7 @@ import {
   IconCalendarCheck,
   IconCalendarClock,
   IconCalendarWeek,
+  IconCalendarX,
   IconMapPin,
   IconWorld,
 } from "@tabler/icons-react";
@@ -351,7 +352,11 @@ export function Body({ event }: { event: Event }) {
         </Box>
       </Box>
 
-      {active ? (
+      {event.canceled ? (
+        <Alert color="red" icon={<IconCalendarX />}>
+          <Trans>This convention was canceled.</Trans>
+        </Alert>
+      ) : active ? (
         <Alert color="green" icon={<IconCalendarClock />}>
           <Trans>This convention is currently in progress.</Trans>
         </Alert>

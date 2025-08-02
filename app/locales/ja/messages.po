@@ -23,95 +23,99 @@ msgstr "全ての絞り込みを解除"
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
-#: app/components/EventDetails.tsx:143
-#: app/components/EventDetails.tsx:393
+#: app/components/EventDetails.tsx:146
+#: app/components/EventDetails.tsx:417
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "フォローしていないユーザー{0}人"
 
-#: app/components/EventDetails.tsx:163
+#: app/components/EventDetails.tsx:166
 msgid "Nobody known to be going yet."
 msgstr "まだ把握されている参加者はいません。"
 
-#: app/components/EventDetails.tsx:182
-#: app/components/EventDetails.tsx:188
+#: app/components/EventDetails.tsx:198
+#: app/components/EventDetails.tsx:204
 msgid "View Bluesky Post"
 msgstr "Blueskyの投稿を見る"
 
-#: app/components/EventDetails.tsx:245
-#: app/components/EventRow.tsx:245
+#: app/components/EventDetails.tsx:261
+#: app/components/EventRow.tsx:275
 msgid "Dates"
 msgstr "日付"
 
 #. placeholder {0}: [ dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), ), ][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(subDays(event.end, 1)), )
 #. placeholder {1}: differenceInDays(event.end, event.start)
-#: app/components/EventDetails.tsx:248
-#: app/components/EventRow.tsx:246
+#: app/components/EventDetails.tsx:264
+#: app/components/EventRow.tsx:276
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
 msgstr "{0}（{1}日間）"
 
-#: app/components/EventDetails.tsx:266
+#: app/components/EventDetails.tsx:282
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: app/components/EventDetails.tsx:281
-#: app/components/EventRow.tsx:266
-#: app/components/EventRow.tsx:283
+#: app/components/EventDetails.tsx:297
+#: app/components/EventRow.tsx:296
+#: app/components/EventRow.tsx:313
 msgid "Location"
 msgstr "開催地"
 
-#. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.map((source) => { const attribution = attributions[source]; return attribution != undefined ? ( <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor> ) : ( <Fragment key={source}>source</Fragment> ); })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:299
+#. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.flatMap((source) => { if (source == "guessed") { return []; } const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
+#: app/components/EventDetails.tsx:315
 msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
 msgstr "この情報は編集または削除する必要がありますか？<0>ここで問題を報告してください。</0>{0}"
 
-#: app/components/EventDetails.tsx:308
+#: app/components/EventDetails.tsx:324
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "上記の情報は元々<0/>から提供されたものです。利用制限が適用される場合があります。"
 
-#: app/components/EventDetails.tsx:337
+#: app/components/EventDetails.tsx:357
+msgid "This convention was canceled."
+msgstr "このコンベンションはキャンセルされました。"
+
+#: app/components/EventDetails.tsx:361
 msgid "This convention is currently in progress."
 msgstr "このコンベンションは現在開催中です。"
 
-#: app/components/EventDetails.tsx:342
+#: app/components/EventDetails.tsx:366
 msgid "This convention has already ended."
 msgstr "このコンベンションはすでに終了しています。"
 
-#: app/components/EventDetails.tsx:344
+#: app/components/EventDetails.tsx:368
 msgid "This convention has already ended. Information on who is going is no longer available."
 msgstr "このコンベンションはすでに終了しています。参加者に関する情報はもう利用できません。"
 
-#: app/components/EventDetails.tsx:355
+#: app/components/EventDetails.tsx:379
 #: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "参加者"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:358
+#: app/components/EventDetails.tsx:382
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0}人（自分込み）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:362
-#: app/components/EventRow.tsx:196
+#: app/components/EventDetails.tsx:386
+#: app/components/EventRow.tsx:225
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}人"
 
-#: app/components/EventDetails.tsx:372
+#: app/components/EventDetails.tsx:396
 msgid "Loading people you follow"
 msgstr "フォロー中のユーザーを読み込み中"
 
-#: app/components/EventRow.tsx:190
+#: app/components/EventRow.tsx:219
 #: app/components/events/ListView.tsx:344
 msgctxt "number of people going"
 msgid "People going"
 msgstr "参加者数"
 
 #. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
-#: app/components/EventRow.tsx:209
+#: app/components/EventRow.tsx:238
 msgid "{0, plural, one {# other you follow} other {# others you follow}}"
 msgstr "フォロー中の他の{0}人"
 
@@ -235,23 +239,23 @@ msgstr "エラー"
 msgid "An error occurred while attempting to load this data."
 msgstr "データの読み込み中にエラーが発生しました。"
 
-#: app/components/UserDetails.tsx:47
+#: app/components/UserDetails.tsx:49
 msgctxt "user attending events"
 msgid "Going"
 msgstr "参加予定"
 
 #. placeholder {0}: filteredEvents.length
-#: app/components/UserDetails.tsx:49
+#: app/components/UserDetails.tsx:51
 msgctxt "convention count"
 msgid "{0}"
 msgstr "{0}件"
 
 #. placeholder {0}: unknownEvents.length
-#: app/components/UserDetails.tsx:74
+#: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "自分が参加予定のないコンベンション{0}件"
 
-#: app/components/UserDetails.tsx:136
+#: app/components/UserDetails.tsx:138
 msgctxt "user attending cons"
 msgid "Going"
 msgstr "参加予定"
@@ -336,80 +340,80 @@ msgstr "順序"
 msgid "Search"
 msgstr "検索"
 
-#: app/root.tsx:336
+#: app/root.tsx:355
 msgid "Log out"
 msgstr "ログアウト"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
-#: app/root.tsx:372
+#: app/root.tsx:391
 msgid "Log in via {0}"
 msgstr "{0}経由でログイン"
 
-#: app/root.tsx:376
+#: app/root.tsx:395
 msgid "Log in"
 msgstr "ログイン"
 
-#: app/root.tsx:398
+#: app/root.tsx:417
 msgid "Log in via custom PDS"
 msgstr "カスタムPDS経由でログイン"
 
-#: app/root.tsx:406
+#: app/root.tsx:425
 msgid "Custom PDS"
 msgstr "カスタムPDS"
 
-#: app/root.tsx:413
+#: app/root.tsx:432
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
 msgstr "このPDSでログインできませんでした。URLを確認してください。"
 
-#: app/root.tsx:419
+#: app/root.tsx:438
 msgid "https://your.pds.com"
 msgstr "https://jibun-no.pds.com"
 
-#: app/root.tsx:445
+#: app/root.tsx:464
 msgid "Color scheme"
 msgstr "カラースキーム"
 
-#: app/root.tsx:462
+#: app/root.tsx:481
 msgid "Auto"
 msgstr "自動"
 
-#: app/root.tsx:479
+#: app/root.tsx:498
 msgid "Light"
 msgstr "ライト"
 
-#: app/root.tsx:496
+#: app/root.tsx:515
 msgid "Dark"
 msgstr "ダーク"
 
-#: app/root.tsx:527
+#: app/root.tsx:546
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1>"
 msgstr "データは<0>data.cons.fyi</0>から取得しています。コンベンション情報が掲載されていない場合は、<1>こちらで問題を報告してください。</1>"
 
-#: app/root.tsx:573
-#: app/root.tsx:580
+#: app/root.tsx:592
+#: app/root.tsx:599
 msgid "Not found"
 msgstr "見つかりません"
 
-#: app/root.tsx:583
+#: app/root.tsx:602
 msgid "The page you requested could not be found."
 msgstr "お探しのページが見つかりませんでした。"
 
-#: app/root.tsx:615
+#: app/root.tsx:634
 msgid "Welcome!"
 msgstr "ようこそ！"
 
-#: app/root.tsx:621
+#: app/root.tsx:640
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>こちらは<1><2/>@cons.fyi</1>サービスのウェブサイトです。全ての機能をご利用いただくには、ログインしてください。ログインすると以下ができるようになります：</0><3><4>どのコンベンションに参加予定かを登録できます（Blueskyでそのコンベンションの投稿に「いいね」することでもできます）。</4><5>フォローしているユーザーがどのコンベンションに参加するかを確認できます。</5></3><6><7>注意：</7>セルフホスト型PDSを使用している場合は、ログインボタンの横にあるドロップダウンで指定する必要があります。</6><8>コンベンションの全データを提供してくださっている<9>FurryCons.com</9>の皆様に心から感謝いたします！</8>"
 
-#: app/root.tsx:701
+#: app/root.tsx:720
 msgid "Not subscribed to labeler"
 msgstr "ラベラーに登録されていません"
 
-#: app/root.tsx:705
+#: app/root.tsx:724
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "現在ラベラーに登録されていません。これにより、Bluesky上で他の人のコンベンションラベルを見ることができません。"
 
-#: app/root.tsx:718
+#: app/root.tsx:737
 msgid "Fix this for me"
 msgstr "修正する"

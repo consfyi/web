@@ -75,8 +75,9 @@ export interface Event {
   address: string | null;
   country: string | null;
   latLng: [number, number] | null;
-  timezone: string | null;
+  canceled: boolean;
   sources: string[] | null;
+  timezone: string | null;
 
   labelId: string | null;
   postRkey: string | null;
@@ -108,6 +109,7 @@ export function useEvent(id: string): Event {
     address: event.address ?? null,
     country: event.country!,
     latLng: event.latLng ?? null,
+    canceled: event.canceled ?? false,
     timezone: event.timezone ?? null,
     sources: event.sources ?? null,
 
@@ -177,6 +179,7 @@ export function useEvents() {
             address: event.address ?? null,
             country: event.country!,
             latLng: event.latLng ?? null,
+            canceled: event.canceled ?? false,
             timezone: event.timezone ?? null,
             sources: event.sources ?? null,
 
