@@ -44,6 +44,7 @@ import {
   useSelfFollowsDLE,
 } from "~/hooks";
 import IntlList from "./IntlList";
+import GuessedEventMarker from "./GuessedEventMarker";
 
 function ActorSkeleton() {
   return (
@@ -189,12 +190,7 @@ export function Title({ event }: { event: Event }) {
       ) : null}
       <MantineTitle size="h4" fw={500}>
         <Flag country={event.country ?? undefined} size={14} me={6} />
-        {event.name}
-        {guessed ? (
-          <Text span fw={500} c="red">
-            <sup>?</sup>
-          </Text>
-        ) : null}{" "}
+        {event.name} {guessed ? <GuessedEventMarker /> : null}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}

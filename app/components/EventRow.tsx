@@ -32,6 +32,7 @@ import {
   useNow,
 } from "~/hooks";
 import classes from "./EventRow.module.css";
+import GuessedEventMarker from "./GuessedEventMarker";
 
 const MAX_AVATARS_IN_STACK = 3;
 
@@ -199,12 +200,8 @@ export default function EventRow({
               <Text span fw={500}>
                 {event.name}
               </Text>
-            </Anchor>
-            {guessed ? (
-              <Text span fw={500} c="red">
-                <sup>?</sup>
-              </Text>
-            ) : null}{" "}
+            </Anchor>{" "}
+            {guessed ? <GuessedEventMarker /> : null}{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
               <Anchor href={event.url} target="_blank" opacity={0.4}>
                 <IconWorld size={12} />
