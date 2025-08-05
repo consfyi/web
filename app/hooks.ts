@@ -98,7 +98,7 @@ export function useEvent(id: string): Event {
       seconds: 0,
       milliseconds: 0,
     }),
-    end: setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
+    end: setDate(event.endDate!, {
       hours: 12,
       minutes: 0,
       seconds: 0,
