@@ -148,6 +148,11 @@ export default function EventRow({
             >
               <Stack gap={0}>
                 <Text size="md" ta="center" fw={500}>
+                  {i18n.date(reinterpretAsLocalDate(event.start), {
+                    day: "numeric",
+                  })}
+                </Text>
+                <Text size="xs" ta="center" fw={500}>
                   {showMonthInIcon
                     ? i18n.date(reinterpretAsLocalDate(event.start), {
                         month: "short",
@@ -155,11 +160,6 @@ export default function EventRow({
                     : i18n.date(reinterpretAsLocalDate(event.start), {
                         weekday: "short",
                       })}
-                </Text>
-                <Text size="xs" ta="center" fw={500}>
-                  {i18n.date(reinterpretAsLocalDate(event.start), {
-                    day: "numeric",
-                  })}
                 </Text>
               </Stack>
             </ThemeIcon>
