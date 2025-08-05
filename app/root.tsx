@@ -161,10 +161,11 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
     [setInViewport],
   );
 
-  const [showSearch, setShowSearch] = useState(false);
+  const [mustShowSearch, setMustShowSearch] = useState(false);
   const navigate = useNavigate();
   const { query, setQuery } = use(GlobalSearchContext)!;
   const autocompleteRef = useRef<HTMLInputElement | null>(null);
+  const showSearch = mustShowSearch || query != "";
 
   return (
     <>
@@ -258,7 +259,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                   setQuery(q);
                 }}
                 onBlur={() => {
-                  setShowSearch(false);
+                  setMustShowSearch(false);
                 }}
               />
               <Button
@@ -270,7 +271,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 p="xs"
                 aria-label={t`Search`}
                 onClick={() => {
-                  setShowSearch(true);
+                  setMustShowSearch(true);
 
                   // Horrible iOS Safari hack:
                   // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
