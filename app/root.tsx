@@ -207,9 +207,8 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
               <Group gap={7}>
                 <Image
                   src="/logo.png"
-                  h={34}
-                  w={34}
-                  my={-4}
+                  h={36}
+                  w={36}
                   alt={clientMetadata.client_name}
                   style={{
                     filter:
