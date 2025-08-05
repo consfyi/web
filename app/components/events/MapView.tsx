@@ -108,8 +108,9 @@ function MapInner({
   const now = useNow();
 
   const pred = useFilterPredicate(filter);
-  const filteredEvents = events.filter(
-    (event) => isBefore(now, event.end) && pred(event),
+  const filteredEvents = useMemo(
+    () => events.filter((event) => isBefore(now, event.end) && pred(event)),
+    [events, now, pred],
   );
 
   return (
