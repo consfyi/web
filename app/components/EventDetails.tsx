@@ -22,7 +22,7 @@ import {
   IconMapPin,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, isBefore, subDays } from "date-fns";
+import { differenceInDays, isBefore } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
 import { Fragment, Suspense, useMemo } from "react";
 import { Link } from "react-router";
@@ -43,8 +43,8 @@ import {
   useSelf,
   useSelfFollowsDLE,
 } from "~/hooks";
-import IntlList from "./IntlList";
 import GuessedEventMarker from "./GuessedEventMarker";
+import IntlList from "./IntlList";
 
 function ActorSkeleton() {
   return (
@@ -260,11 +260,11 @@ export function Body({ event }: { event: Event }) {
               <Trans context="[start date]-[end date] ([duration] days)">
                 {dateTimeFormat.formatRange(
                   reinterpretAsLocalDate(event.start),
-                  reinterpretAsLocalDate(subDays(event.end, 1)),
+                  reinterpretAsLocalDate(event.end),
                 )}{" "}
                 (
                 <Plural
-                  value={differenceInDays(event.end, event.start)}
+                  value={differenceInDays(event.end, event.start) + 1}
                   one="# day"
                   other="# days"
                 />

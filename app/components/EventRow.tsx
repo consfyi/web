@@ -16,7 +16,7 @@ import {
   IconUsers,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, getDay, isBefore, subDays } from "date-fns";
+import { differenceInDays, getDay, isBefore } from "date-fns";
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
@@ -275,13 +275,13 @@ export default function EventRow({
                 [
                   dateTimeFormat.formatRange(
                     reinterpretAsLocalDate(event.start),
-                    reinterpretAsLocalDate(subDays(event.end, 1)),
+                    reinterpretAsLocalDate(event.end),
                   ),
                 ][0]
               }{" "}
               (
               <Plural
-                value={differenceInDays(event.end, event.start)}
+                value={differenceInDays(event.end, event.start) + 1}
                 one="# day"
                 other="# days"
               />

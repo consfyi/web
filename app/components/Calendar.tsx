@@ -68,7 +68,7 @@ function segment(event: Event, weekStartsOn: Day): Segment[] {
   const segments: Segment[] = [];
 
   let segmentStart = startOfDay(new Date(event.start));
-  const eventEnd = startOfDay(new Date(event.end));
+  const eventEnd = addDays(startOfDay(new Date(event.end)), 1);
 
   while (isBefore(segmentStart, eventEnd)) {
     const weekStart = startOfWeek(segmentStart, { weekStartsOn });
@@ -330,7 +330,7 @@ export default function Calendar({
     () =>
       Math.floor(
         differenceInCalendarDays(
-          max(map(events, (event) => addDays(event.end, 6)))!,
+          max(map(events, (event) => addDays(event.end, 7)))!,
           calendarStartDate,
         ) / 7,
       ),
