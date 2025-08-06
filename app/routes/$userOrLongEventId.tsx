@@ -39,9 +39,6 @@ function EventPage({ id }: { id: string }) {
       return;
     }
     document.title = event != null ? event.name : "";
-    if (id != event.id) {
-      window.history.replaceState(null, "", `/${event.id}`);
-    }
   }, [event, id]);
 
   if (event == null) {
