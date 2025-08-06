@@ -32,7 +32,6 @@ import { differenceInDays } from "date-fns";
 import { compareDesc, comparing, map, Range, sorted, toArray } from "iter-fns";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
-import regexpEscape from "regexp.escape";
 import {
   type Continent,
   CONTINENTS,
@@ -43,10 +42,9 @@ import {
   eventHasPost,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
-  useNow,
 } from "~/hooks";
 import * as qp from "~/qp";
-import removeDiacritics from "~/removeDiacritics";
+import { makeMatcher } from "~/search";
 import EmptyIcon from "./EmptyIcon";
 
 const LAYOUTS: Record<
@@ -681,19 +679,10 @@ export function useFilterPredicate(filter: FilterOptions) {
   const { i18n, t } = useLingui();
   const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
-  const now = useNow();
-
-  const queryRe = useMemo(
-    () =>
-      new RegExp(
-        `^${Array.prototype.map
-          .call(
-            removeDiacritics(filter.q.toLocaleLowerCase(i18n.locale)),
-            (c) => `${regexpEscape(c)}.*`,
-          )
-          .join("")}`,
-      ),
-    [t, filter],
+  const matches = useMemo(
+    () => makeMatcher(filter.q, i18n.locale),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [t, filter.q],
   );
 
   return useCallback(
@@ -702,9 +691,7 @@ export function useFilterPredicate(filter: FilterOptions) {
 
       return (
         // Query
-        removeDiacritics(event.name.toLocaleLowerCase(i18n.locale)).match(
-          queryRe,
-        ) != null &&
+        matches(event.name) &&
         // Attending filter
         (!filter.going ||
           (eventHasPost(event) && event.post.viewer?.like != null)) &&
@@ -722,6 +709,6 @@ export function useFilterPredicate(filter: FilterOptions) {
           (followedEventAttendees[event.id] ?? []).length > 0)
       );
     },
-    [t, now, filter, followedEventAttendees, queryRe],
+    [t, filter, followedEventAttendees, matches],
   );
 }

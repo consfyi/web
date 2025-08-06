@@ -1,3 +1,5 @@
+import regexpEscape from "regexp.escape";
+
 // From lodash.
 const REPLACEMENTS: Record<string, string> = {
   // Latin-1 Supplement block.
@@ -194,11 +196,24 @@ const REPLACEMENTS: Record<string, string> = {
   "\u017f": "s",
 };
 
-export default function removeDiacritics(s: string): string {
+function removeDiacritics(s: string): string {
   return s
     .replace(
       /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g,
-      (x) => REPLACEMENTS[x]
+      (x) => REPLACEMENTS[x],
     )
     .replace(/[\u0300-\u036f\ufe20-\ufe2f\u20d0-\u20ff]/g, "");
+}
+
+export function makeMatcher(query: string, locale: string) {
+  const re = new RegExp(
+    `^${Array.prototype.map
+      .call(
+        removeDiacritics(query.toLocaleLowerCase(locale)),
+        (c) => `${regexpEscape(c)}.*`,
+      )
+      .join("")}`,
+  );
+  return (s: string) =>
+    removeDiacritics(s.toLocaleLowerCase(locale)).match(re) != null;
 }
