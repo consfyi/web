@@ -33,3 +33,10 @@ export function GlobalSearchProvider({ children }: { children: ReactNode }) {
 export function useGlobalQuery() {
   return useContext(GlobalSearchContext)!.query;
 }
+
+export function useClearGlobalQuery() {
+  const { setQuery } = useContext(GlobalSearchContext)!;
+  return () => {
+    setQuery("");
+  };
+}
