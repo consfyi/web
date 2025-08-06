@@ -1,8 +1,9 @@
 import { Trans } from "@lingui/react/macro";
 import { Box, Button, Stack, Text } from "@mantine/core";
+import { use } from "react";
 import * as qp from "~/qp";
 import { DEFAULT_FILTER_OPTIONS, FilterOptions } from "./FilterBar";
-import { useClearGlobalQuery } from "./GlobalSearchContext";
+import { GlobalSearchContext } from "./GlobalSearchContext";
 
 export default function EmptyState({
   filter,
@@ -11,7 +12,7 @@ export default function EmptyState({
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
 }) {
-  const clearGlobalQuery = useClearGlobalQuery();
+  const { setQuery } = use(GlobalSearchContext)!;
 
   return (
     <Box px="sm">
@@ -24,7 +25,7 @@ export default function EmptyState({
           <Box>
             <Button
               onClick={() => {
-                clearGlobalQuery();
+                setQuery("");
                 setFilter(DEFAULT_FILTER_OPTIONS);
               }}
             >
