@@ -153,13 +153,16 @@ export default function EventRow({
                   })}
                 </Text>
                 <Text size="xs" ta="center" fw={500}>
-                  {showMonthInIcon
-                    ? i18n.date(reinterpretAsLocalDate(event.start), {
-                        month: "short",
-                      })
-                    : i18n.date(reinterpretAsLocalDate(event.start), {
-                        weekday: "short",
-                      })}
+                  {i18n.date(
+                    reinterpretAsLocalDate(event.start),
+                    showMonthInIcon
+                      ? {
+                          month: "short",
+                        }
+                      : {
+                          weekday: "short",
+                        },
+                  )}
                 </Text>
               </Stack>
             </ThemeIcon>
