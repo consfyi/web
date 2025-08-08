@@ -35,9 +35,6 @@ function EventPage({ id }: { id: string }) {
   const event = useEventWithMaybePost(id);
 
   useEffect(() => {
-    if (event == null) {
-      return;
-    }
     document.title = event != null ? event.name : "";
   }, [event, id]);
 
