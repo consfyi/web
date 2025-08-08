@@ -1,6 +1,5 @@
 import type { ActorIdentifier } from "@atcute/lexicons";
 import { Container } from "@mantine/core";
-import { useEffect } from "react";
 import EventDetails from "~/components/EventDetails";
 import UserDetails from "~/components/UserDetails";
 import { useEventWithMaybePost, useProfile } from "~/hooks";
@@ -9,15 +8,6 @@ import type { Route } from "./+types/$userOrLongEventId";
 function UserPage({ actor }: { actor: string }) {
   const profile = useProfile(actor as ActorIdentifier);
 
-  useEffect(() => {
-    document.title =
-      profile != null
-        ? profile.displayName != null
-          ? `${profile.displayName} (@${profile.handle})`
-          : `@${profile.handle}`
-        : "";
-  }, [profile]);
-
   if (profile == null) {
     throw new Response(null, {
       status: 404,
@@ -25,18 +15,21 @@ function UserPage({ actor }: { actor: string }) {
   }
 
   return (
-    <Container size="lg" px="sm" pb="sm">
-      <UserDetails profile={profile} />
-    </Container>
+    <>
+      <title>
+        {profile.displayName != null
+          ? `${profile.displayName} (@${profile.handle})`
+          : `@${profile.handle}`}
+      </title>
+      <Container size="lg" px="sm" pb="sm">
+        <UserDetails profile={profile} />
+      </Container>
+    </>
   );
 }
 
 function EventPage({ id }: { id: string }) {
   const event = useEventWithMaybePost(id);
-
-  useEffect(() => {
-    document.title = event != null ? event.name : "";
-  }, [event, id]);
 
   if (event == null) {
     throw new Response(null, {
@@ -45,9 +38,12 @@ function EventPage({ id }: { id: string }) {
   }
 
   return (
-    <Container size="lg" px="sm" pb="sm">
-      <EventDetails event={event} />
-    </Container>
+    <>
+      <title>{event.name}</title>
+      <Container size="lg" px="sm" pb="sm">
+        <EventDetails event={event} />
+      </Container>
+    </>
   );
 }
 

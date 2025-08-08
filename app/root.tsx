@@ -578,7 +578,6 @@ function Footer() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  const { t } = useLingui();
 
   if (!(error instanceof Response)) {
     throw error;
@@ -588,21 +587,22 @@ export function ErrorBoundary() {
     throw error;
   }
 
-  useEffect(() => {
-    document.title = t`Not found`;
-  }, [t]);
-
   return (
-    <Container size="lg" p={0}>
-      <Box p={56} ta="center">
-        <Text size="xl" fw={500} mb="sm">
-          <Trans>Not found</Trans>
-        </Text>
-        <Text>
-          <Trans>The page you requested could not be found.</Trans>
-        </Text>
-      </Box>
-    </Container>
+    <>
+      <title>
+        <Trans>Not found</Trans>
+      </title>
+      <Container size="lg" p={0}>
+        <Box p={56} ta="center">
+          <Text size="xl" fw={500} mb="sm">
+            <Trans>Not found</Trans>
+          </Text>
+          <Text>
+            <Trans>The page you requested could not be found.</Trans>
+          </Text>
+        </Box>
+      </Container>
+    </>
   );
 }
 
