@@ -8,13 +8,12 @@ import {
 } from "@atcute/lexicons";
 import { Endpoint, Entity, schema } from "@data-client/endpoint";
 import { useController } from "@data-client/react";
-import { type TZDate, TZDateMini } from "@date-fns/tz";
-import { parse as parseDate } from "date-fns";
-import { useClient } from "./hooks";
+import { type TZDate } from "@date-fns/tz";
 import {
-  getEvents as dataGetEvents,
   getEvent as dataGetEvent,
+  getEvents as dataGetEvents,
 } from "./dataconsfyi";
+import { useClient } from "./hooks";
 
 export class ProfileLabels extends Entity {
   static key = "ProfileLabels";

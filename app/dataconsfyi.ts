@@ -21,6 +21,10 @@ interface RawEvent {
 
 const ENDPOINT = "https://data.cons.fyi";
 
+interface RequestOptions {
+  signal?: AbortSignal;
+}
+
 function convertRawEvent(event: RawEvent) {
   const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
   return {
@@ -30,7 +34,7 @@ function convertRawEvent(event: RawEvent) {
   };
 }
 
-export async function getEvents({ signal }: { signal?: AbortSignal }) {
+export async function getEvents({ signal }: RequestOptions) {
   const resp = await fetch(`${ENDPOINT}/current.json?${+new Date()}`, {
     signal,
   });
@@ -42,10 +46,7 @@ export async function getEvents({ signal }: { signal?: AbortSignal }) {
   );
 }
 
-export async function getEvent(
-  id: string,
-  { signal }: { signal?: AbortSignal },
-) {
+export async function getEvent(id: string, { signal }: RequestOptions) {
   const resp = await fetch(`${ENDPOINT}/events/${id}.json?${+new Date()}`, {
     signal,
   });
