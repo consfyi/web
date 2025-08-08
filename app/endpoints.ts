@@ -11,6 +11,10 @@ import { useController } from "@data-client/react";
 import { type TZDate, TZDateMini } from "@date-fns/tz";
 import { parse as parseDate } from "date-fns";
 import { useClient } from "./hooks";
+import {
+  getEvents as dataGetEvents,
+  getEvent as dataGetEvent,
+} from "./dataconsfyi";
 
 export class ProfileLabels extends Entity {
   static key = "ProfileLabels";
@@ -195,28 +199,9 @@ export function useGetLikes() {
 export const getEvents = new Endpoint(
   // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
   async function ({}: {}) {
-    const resp = await fetch(
-      `https://data.cons.fyi/current.json?${+new Date()}`,
-      {
-        signal: this.signal,
-      },
+    return (await dataGetEvents({ signal: this.signal })).map((e) =>
+      Event.fromJS(e),
     );
-    if (!resp.ok) {
-      throw resp;
-    }
-
-    const events = [];
-    for (const event of await resp.json()) {
-      const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
-      events.push(
-        Event.fromJS({
-          ...event,
-          startDate: parseDate(event.startDate, "yyyy-MM-dd", refDate),
-          endDate: parseDate(event.endDate, "yyyy-MM-dd", refDate),
-        }),
-      );
-    }
-    return events;
   },
   {
     name: "getEvents",
@@ -227,23 +212,7 @@ export const getEvents = new Endpoint(
 
 export const getEvent = new Endpoint(
   async function ({ id }: { id: string }) {
-    const resp = await fetch(
-      `https://data.cons.fyi/events/${id}.json?${+new Date()}`,
-      {
-        signal: this.signal,
-      },
-    );
-    if (!resp.ok) {
-      throw resp;
-    }
-
-    const event = await resp.json();
-    const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
-    return Event.fromJS({
-      ...event,
-      startDate: parseDate(event.startDate, "yyyy-MM-dd", refDate),
-      endDate: parseDate(event.endDate, "yyyy-MM-dd", refDate),
-    });
+    return Event.fromJS(await dataGetEvent(id, { signal: this.signal }));
   },
   {
     name: "getEvent",
