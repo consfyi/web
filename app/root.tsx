@@ -87,7 +87,7 @@ import LinguiProvider, { INITIAL_LOCALE } from "./components/LinguiProvider";
 import LocaleSelector from "./components/LocaleSelector";
 import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
-import { useClient, useHydrated, useIsLoggedIn, useSelf } from "./hooks";
+import { useClient, useIsLoggedIn, useSelf } from "./hooks";
 
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
@@ -753,8 +753,6 @@ function Alerts() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const hydrated = useHydrated();
-
   useEffect(() => {
     if (navigator.userAgent.indexOf("iPhone") > -1) {
       document
@@ -784,49 +782,47 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <GlobalMemoProvider>
           <MantineProvider theme={theme} defaultColorScheme="auto">
             <LoadingIndicator />
-            {hydrated ? (
-              <DirectionProvider
-                initialDirection={
-                  new IntlLocale(INITIAL_LOCALE).textInfo
-                    .direction as DirectionProviderProps["initialDirection"]
-                }
-              >
-                <DataProvider>
-                  <Suspense
-                    fallback={
-                      <Center p="lg">
-                        <Loader />
-                      </Center>
-                    }
-                  >
-                    <LinguiProvider>
-                      <DatesProvider>
-                        <GlobalSearchProvider>
-                          <Header />
-                          <HeaderHeightProvider value={61}>
-                            {showAlerts ? (
-                              <Container size="lg" px={0}>
-                                <Alerts />
-                              </Container>
-                            ) : null}
-                            <Suspense
-                              fallback={
-                                <Center p="lg">
-                                  <Loader />
-                                </Center>
-                              }
-                            >
-                              {children}
-                            </Suspense>
-                          </HeaderHeightProvider>
-                          <Footer />
-                        </GlobalSearchProvider>
-                      </DatesProvider>
-                    </LinguiProvider>
-                  </Suspense>
-                </DataProvider>
-              </DirectionProvider>
-            ) : null}
+            <DirectionProvider
+              initialDirection={
+                new IntlLocale(INITIAL_LOCALE).textInfo
+                  .direction as DirectionProviderProps["initialDirection"]
+              }
+            >
+              <DataProvider>
+                <Suspense
+                  fallback={
+                    <Center p="lg">
+                      <Loader />
+                    </Center>
+                  }
+                >
+                  <LinguiProvider>
+                    <DatesProvider>
+                      <GlobalSearchProvider>
+                        <Header />
+                        <HeaderHeightProvider value={61}>
+                          {showAlerts ? (
+                            <Container size="lg" px={0}>
+                              <Alerts />
+                            </Container>
+                          ) : null}
+                          <Suspense
+                            fallback={
+                              <Center p="lg">
+                                <Loader />
+                              </Center>
+                            }
+                          >
+                            {children}
+                          </Suspense>
+                        </HeaderHeightProvider>
+                        <Footer />
+                      </GlobalSearchProvider>
+                    </DatesProvider>
+                  </LinguiProvider>
+                </Suspense>
+              </DataProvider>
+            </DirectionProvider>
           </MantineProvider>
         </GlobalMemoProvider>
 

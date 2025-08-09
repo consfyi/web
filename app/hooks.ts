@@ -7,7 +7,7 @@ import { useDLE, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
 import { set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
-import { use, useEffect, useState, useSyncExternalStore } from "react";
+import { use, useEffect, useState } from "react";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
@@ -24,16 +24,6 @@ import {
   useGetPost,
   useGetProfile,
 } from "./endpoints";
-
-export const useHydrated = (() => {
-  const subscribe = () => () => {};
-  return () =>
-    useSyncExternalStore(
-      subscribe,
-      () => true,
-      () => false,
-    );
-})();
 
 export const useClient = (() => {
   let clientPromise: Promise<Client> | null = null;
