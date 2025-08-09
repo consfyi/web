@@ -167,6 +167,8 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
   const autocompleteRef = useRef<HTMLInputElement | null>(null);
   const showSearch = mustShowSearch || query != "";
 
+  const isLoginPage = location.pathname == "/login";
+
   return (
     <>
       <div
@@ -229,172 +231,82 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                 </Text>
               </Group>
             </Anchor>
-            <Box
-              component={"form"}
-              style={{ flexGrow: 1 }}
-              action="/"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const searchParams = new URLSearchParams();
-                searchParams.set("q", query);
-                navigate({
-                  pathname: "/",
-                  search: searchParams.toString(),
-                });
-              }}
-            >
-              <Autocomplete
-                ref={autocompleteRef}
-                visibleFrom={showSearch ? undefined : "xs"}
-                name="q"
-                filter={({ options }) => options}
-                leftSection={
-                  <IconSearch size={16} style={{ marginLeft: "2px" }} />
-                }
-                clearable
-                placeholder={t`Search`}
-                value={query}
-                onChange={(q) => {
-                  setQuery(q);
-                }}
-                onBlur={() => {
-                  setMustShowSearch(false);
-                }}
-              />
-              <Button
-                display={showSearch ? "none" : undefined}
-                variant="default"
-                color="var(--mantine-color-dimmed)"
-                c="dimmed"
-                hiddenFrom="xs"
-                p="xs"
-                aria-label={t`Search`}
-                onClick={() => {
-                  setMustShowSearch(true);
-
-                  // Horrible iOS Safari hack:
-                  // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
-                  // - We can't focus the element immediately because its display is still hidden.
-                  // - Safari will not close the keyboard if focus is transferred from one element to the other.
-                  // - We create a temporary element to focus on immediately to open the keyboard, then on requestAnimationFrame focus our actual element.
-                  const tempInput = document.createElement("input");
-                  tempInput.type = "text";
-                  tempInput.style.position = "absolute";
-                  tempInput.style.left = "0";
-                  tempInput.style.top = "0";
-                  // Safari will zoom the page if font-size <16px (this is disabled by maximum-scale=1 but just in case)...
-                  tempInput.style.fontSize = "16px";
-                  tempInput.style.opacity = "0";
-                  tempInput.style.pointerEvents = "none";
-                  tempInput.setAttribute("readonly", "true");
-                  document.body.appendChild(tempInput);
-                  tempInput.focus();
-
-                  requestAnimationFrame(() => {
-                    if (autocompleteRef.current != null) {
-                      autocompleteRef.current.focus();
-                    }
-                    tempInput.remove();
-                  });
-                }}
-              >
-                <IconSearch size={16} />
-              </Button>
-            </Box>
-            <Group gap="md" visibleFrom={showSearch ? "xs" : undefined}>
-              {self != null ? (
-                <Menu
-                  position="bottom-end"
-                  withArrow
-                  opened={menuOpen}
-                  onChange={(value) => {
-                    if (!value && pending) {
-                      return;
-                    }
-                    setMenuOpen(value);
+            {!isLoginPage ? (
+              <>
+                <Box
+                  component={"form"}
+                  style={{ flexGrow: 1 }}
+                  action="/"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const searchParams = new URLSearchParams();
+                    searchParams.set("q", query);
+                    navigate({
+                      pathname: "/",
+                      search: searchParams.toString(),
+                    });
                   }}
                 >
-                  <Menu.Target>
-                    <Button
-                      variant="default"
-                      color="var(--mantine-color-dimmed)"
-                      c="var(--mantine-color-text)"
-                      leftSection={
-                        <Avatar
-                          src={self.avatar}
-                          alt={`@${self.handle}`}
-                          size="sm"
-                        />
-                      }
-                      px="xs"
-                      rightSection={<IconChevronDown size={14} />}
-                    >
-                      <Text span size="sm" fw={500} visibleFrom="sm">
-                        @{self.handle}
-                      </Text>
-                    </Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
-                    <Button
-                      fullWidth
-                      loading={pending}
-                      color="red"
-                      variant="subtle"
-                      leftSection={<IconLogout2 size={18} />}
-                      onClick={() => {
-                        setIsPending(true);
-                        setMenuOpen(true);
+                  <Autocomplete
+                    ref={autocompleteRef}
+                    visibleFrom={showSearch ? undefined : "xs"}
+                    name="q"
+                    filter={({ options }) => options}
+                    leftSection={
+                      <IconSearch size={16} style={{ marginLeft: "2px" }} />
+                    }
+                    clearable
+                    placeholder={t`Search`}
+                    value={query}
+                    onChange={(q) => {
+                      setQuery(q);
+                    }}
+                    onBlur={() => {
+                      setMustShowSearch(false);
+                    }}
+                  />
+                  <Button
+                    display={showSearch ? "none" : undefined}
+                    variant="default"
+                    color="var(--mantine-color-dimmed)"
+                    c="dimmed"
+                    hiddenFrom="xs"
+                    p="xs"
+                    aria-label={t`Search`}
+                    onClick={() => {
+                      setMustShowSearch(true);
 
-                        (async () => {
-                          await client.logout();
-                          window.location.replace(window.location.toString());
-                        })();
-                      }}
-                    >
-                      <Trans>Log out</Trans>
-                    </Button>
-                  </Menu.Dropdown>
-                </Menu>
-              ) : (
-                <form
-                  onSubmit={(evt) => {
-                    evt.preventDefault();
-                    setIsPending(true);
-                    (async () => {
-                      try {
-                        await startLogin(realPdsHost);
-                      } catch (e) {
-                        if (!usingDefaultPdsHost) {
-                          setMenuOpen(true);
-                          setLoginError(e);
+                      // Horrible iOS Safari hack:
+                      // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
+                      // - We can't focus the element immediately because its display is still hidden.
+                      // - Safari will not close the keyboard if focus is transferred from one element to the other.
+                      // - We create a temporary element to focus on immediately to open the keyboard, then on requestAnimationFrame focus our actual element.
+                      const tempInput = document.createElement("input");
+                      tempInput.type = "text";
+                      tempInput.style.position = "absolute";
+                      tempInput.style.left = "0";
+                      tempInput.style.top = "0";
+                      // Safari will zoom the page if font-size <16px (this is disabled by maximum-scale=1 but just in case)...
+                      tempInput.style.fontSize = "16px";
+                      tempInput.style.opacity = "0";
+                      tempInput.style.pointerEvents = "none";
+                      tempInput.setAttribute("readonly", "true");
+                      document.body.appendChild(tempInput);
+                      tempInput.focus();
+
+                      requestAnimationFrame(() => {
+                        if (autocompleteRef.current != null) {
+                          autocompleteRef.current.focus();
                         }
-                      } finally {
-                        setIsPending(false);
-                      }
-                    })();
-                  }}
-                >
-                  <Button.Group>
-                    <Button
-                      loading={pending}
-                      type="submit"
-                      size="sm"
-                      style={{
-                        paddingInlineStart: "var(--mantine-spacing-xs)",
-                        paddingInlineEnd: "calc(var(--mantine-spacing-xs) / 2)",
-                      }}
-                      leftSection={<IconBrandBluesky size={18} />}
-                      color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
-                    >
-                      {!usingDefaultPdsHost ? (
-                        <Trans>
-                          Log in via {realPdsHost.replace(/^https?:\/\//, "")}
-                        </Trans>
-                      ) : (
-                        <Trans>Log in</Trans>
-                      )}
-                    </Button>
+                        tempInput.remove();
+                      });
+                    }}
+                  >
+                    <IconSearch size={16} />
+                  </Button>
+                </Box>
+                <Group gap="md" visibleFrom={showSearch ? "xs" : undefined}>
+                  {self != null ? (
                     <Menu
                       position="bottom-end"
                       withArrow
@@ -408,115 +320,215 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                     >
                       <Menu.Target>
                         <Button
-                          size="sm"
-                          style={{
-                            paddingInlineStart:
-                              "calc(var(--mantine-spacing-xs) / 2)",
-                            paddingInlineEnd: "var(--mantine-spacing-xs)",
-                          }}
-                          title={t`Log in via custom PDS`}
-                          color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
+                          variant="default"
+                          color="var(--mantine-color-dimmed)"
+                          c="var(--mantine-color-text)"
+                          leftSection={
+                            <Avatar
+                              src={self.avatar}
+                              alt={`@${self.handle}`}
+                              size="sm"
+                            />
+                          }
+                          px="xs"
+                          rightSection={<IconChevronDown size={14} />}
                         >
-                          <IconChevronDown size={14} />
+                          <Text span size="sm" fw={500} visibleFrom="sm">
+                            @{self.handle}
+                          </Text>
                         </Button>
                       </Menu.Target>
                       <Menu.Dropdown>
-                        <TextInput
-                          label={<Trans>Custom PDS</Trans>}
-                          name="pds"
-                          m={4}
-                          w={300}
-                          disabled={pending}
-                          error={
-                            loginError != null ? (
-                              <Trans>
-                                Couldn’t log in with this PDS. Is the URL
-                                correct?
-                              </Trans>
-                            ) : null
-                          }
-                          placeholder={t`https://your.pds.com`}
-                          value={pdsHost}
-                          onChange={(e) => {
-                            setPdsHost(e.target.value);
-                            setLoginError(null);
+                        <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
+                        <Button
+                          fullWidth
+                          loading={pending}
+                          color="red"
+                          variant="subtle"
+                          leftSection={<IconLogout2 size={18} />}
+                          onClick={() => {
+                            setIsPending(true);
+                            setMenuOpen(true);
+
+                            (async () => {
+                              await client.logout();
+                              window.location.replace(
+                                window.location.toString(),
+                              );
+                            })();
                           }}
-                        />
+                        >
+                          <Trans>Log out</Trans>
+                        </Button>
                       </Menu.Dropdown>
                     </Menu>
-                  </Button.Group>
-                </form>
-              )}
-              <Menu position="bottom-end" withArrow>
-                <Menu.Target>
-                  <Button
-                    px="xs"
-                    variant="default"
-                    color="var(--mantine-color-dimmed)"
-                    c="dimmed"
-                    rightSection={<IconChevronDown size={14} />}
-                  >
-                    <IconSettings size={18} />
-                  </Button>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>
-                    <Trans>Color scheme</Trans>
-                  </Menu.Label>
-                  <Menu.Item
-                    onClick={() => {
-                      setColorScheme("auto");
-                    }}
-                    leftSection={
-                      <Group gap={6}>
-                        {colorScheme == "auto" ? (
-                          <IconCheck size={14} />
-                        ) : (
-                          <EmptyIcon size={14} />
-                        )}
-                        <IconSunMoon size={14} />
-                      </Group>
-                    }
-                  >
-                    <Trans>Auto</Trans>
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() => {
-                      setColorScheme("light");
-                    }}
-                    leftSection={
-                      <Group gap={6}>
-                        {colorScheme == "light" ? (
-                          <IconCheck size={14} />
-                        ) : (
-                          <EmptyIcon size={14} />
-                        )}
-                        <IconSun size={14} />
-                      </Group>
-                    }
-                  >
-                    <Trans>Light</Trans>
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={() => {
-                      setColorScheme("dark");
-                    }}
-                    leftSection={
-                      <Group gap={6}>
-                        {colorScheme == "dark" ? (
-                          <IconCheck size={14} />
-                        ) : (
-                          <EmptyIcon size={14} />
-                        )}
-                        <IconMoon size={14} />
-                      </Group>
-                    }
-                  >
-                    <Trans>Dark</Trans>
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Group>
+                  ) : (
+                    <form
+                      onSubmit={(evt) => {
+                        evt.preventDefault();
+                        setIsPending(true);
+                        (async () => {
+                          try {
+                            await startLogin(realPdsHost);
+                          } catch (e) {
+                            if (!usingDefaultPdsHost) {
+                              setMenuOpen(true);
+                              setLoginError(e);
+                            }
+                          } finally {
+                            setIsPending(false);
+                          }
+                        })();
+                      }}
+                    >
+                      <Button.Group>
+                        <Button
+                          loading={pending}
+                          type="submit"
+                          size="sm"
+                          style={{
+                            paddingInlineStart: "var(--mantine-spacing-xs)",
+                            paddingInlineEnd:
+                              "calc(var(--mantine-spacing-xs) / 2)",
+                          }}
+                          leftSection={<IconBrandBluesky size={18} />}
+                          color={!usingDefaultPdsHost ? "#8338ec" : "#3c81f6"}
+                        >
+                          {!usingDefaultPdsHost ? (
+                            <Trans>
+                              Log in via{" "}
+                              {realPdsHost.replace(/^https?:\/\//, "")}
+                            </Trans>
+                          ) : (
+                            <Trans>Log in</Trans>
+                          )}
+                        </Button>
+                        <Menu
+                          position="bottom-end"
+                          withArrow
+                          opened={menuOpen}
+                          onChange={(value) => {
+                            if (!value && pending) {
+                              return;
+                            }
+                            setMenuOpen(value);
+                          }}
+                        >
+                          <Menu.Target>
+                            <Button
+                              size="sm"
+                              style={{
+                                paddingInlineStart:
+                                  "calc(var(--mantine-spacing-xs) / 2)",
+                                paddingInlineEnd: "var(--mantine-spacing-xs)",
+                              }}
+                              title={t`Log in via custom PDS`}
+                              color={
+                                !usingDefaultPdsHost ? "#8338ec" : "#3c81f6"
+                              }
+                            >
+                              <IconChevronDown size={14} />
+                            </Button>
+                          </Menu.Target>
+                          <Menu.Dropdown>
+                            <TextInput
+                              label={<Trans>Custom PDS</Trans>}
+                              name="pds"
+                              m={4}
+                              w={300}
+                              disabled={pending}
+                              error={
+                                loginError != null ? (
+                                  <Trans>
+                                    Couldn’t log in with this PDS. Is the URL
+                                    correct?
+                                  </Trans>
+                                ) : null
+                              }
+                              placeholder={t`https://your.pds.com`}
+                              value={pdsHost}
+                              onChange={(e) => {
+                                setPdsHost(e.target.value);
+                                setLoginError(null);
+                              }}
+                            />
+                          </Menu.Dropdown>
+                        </Menu>
+                      </Button.Group>
+                    </form>
+                  )}
+                  <Menu position="bottom-end" withArrow>
+                    <Menu.Target>
+                      <Button
+                        px="xs"
+                        variant="default"
+                        color="var(--mantine-color-dimmed)"
+                        c="dimmed"
+                        rightSection={<IconChevronDown size={14} />}
+                      >
+                        <IconSettings size={18} />
+                      </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Menu.Label>
+                        <Trans>Color scheme</Trans>
+                      </Menu.Label>
+                      <Menu.Item
+                        onClick={() => {
+                          setColorScheme("auto");
+                        }}
+                        leftSection={
+                          <Group gap={6}>
+                            {colorScheme == "auto" ? (
+                              <IconCheck size={14} />
+                            ) : (
+                              <EmptyIcon size={14} />
+                            )}
+                            <IconSunMoon size={14} />
+                          </Group>
+                        }
+                      >
+                        <Trans>Auto</Trans>
+                      </Menu.Item>
+                      <Menu.Item
+                        onClick={() => {
+                          setColorScheme("light");
+                        }}
+                        leftSection={
+                          <Group gap={6}>
+                            {colorScheme == "light" ? (
+                              <IconCheck size={14} />
+                            ) : (
+                              <EmptyIcon size={14} />
+                            )}
+                            <IconSun size={14} />
+                          </Group>
+                        }
+                      >
+                        <Trans>Light</Trans>
+                      </Menu.Item>
+                      <Menu.Item
+                        onClick={() => {
+                          setColorScheme("dark");
+                        }}
+                        leftSection={
+                          <Group gap={6}>
+                            {colorScheme == "dark" ? (
+                              <IconCheck size={14} />
+                            ) : (
+                              <EmptyIcon size={14} />
+                            )}
+                            <IconMoon size={14} />
+                          </Group>
+                        }
+                      >
+                        <Trans>Dark</Trans>
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                </Group>
+              </>
+            ) : null}
           </Group>
         </Container>
       </Box>
