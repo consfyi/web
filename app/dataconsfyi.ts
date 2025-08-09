@@ -1,7 +1,7 @@
 import { type TZDate, TZDateMini } from "@date-fns/tz";
 import { parse as parseDate } from "date-fns";
 
-interface Event {
+export interface Event {
   id: string;
   name: string;
   url: string;
@@ -25,12 +25,12 @@ interface RequestOptions {
   signal?: AbortSignal;
 }
 
-function convertRawEvent(
-  event: Omit<Event, "startDate" | "endDate"> & {
-    startDate: string;
-    endDate: string;
-  },
-): Event {
+type RawEvent = Omit<Event, "startDate" | "endDate"> & {
+  startDate: string;
+  endDate: string;
+};
+
+function convertRawEvent(event: RawEvent): Event {
   const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
   return {
     ...event,
