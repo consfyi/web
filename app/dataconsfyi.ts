@@ -39,7 +39,7 @@ function convertRawEvent(event: RawEvent): Event {
   };
 }
 
-export async function getEvents({ signal }: RequestOptions) {
+export async function getEvents({ signal }: RequestOptions = {}) {
   const resp = await fetch(`${ENDPOINT}/current.json?${+new Date()}`, {
     signal,
   });
@@ -51,7 +51,7 @@ export async function getEvents({ signal }: RequestOptions) {
   );
 }
 
-export async function getEvent(id: string, { signal }: RequestOptions) {
+export async function getEvent(id: string, { signal }: RequestOptions = {}) {
   const resp = await fetch(`${ENDPOINT}/events/${id}.json?${+new Date()}`, {
     signal,
   });
