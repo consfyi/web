@@ -1,9 +1,13 @@
 import { finalizeAuthorization } from "@atcute/oauth-browser-client";
-import { Center, Loader } from "@mantine/core";
+import { Trans } from "@lingui/react/macro";
+import { Box, Loader, Text } from "@mantine/core";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { configureOAuth } from "~/bluesky";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       configureOAuth();
@@ -15,13 +19,16 @@ export default function Login() {
         // Do nothing.
       }
 
-      window.location.replace("/");
+      navigate("/", { replace: true });
     })();
   });
 
   return (
-    <Center p="lg">
+    <Box p={56} ta="center">
+      <Text size="md" fw={500} mb="md">
+        <Trans>Logging you in...</Trans>
+      </Text>
       <Loader />
-    </Center>
+    </Box>
   );
 }
