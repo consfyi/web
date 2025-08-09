@@ -135,9 +135,6 @@ importers:
       '@types/deep-equal':
         specifier: ^1.0.4
         version: 1.0.4
-      '@types/google.maps':
-        specifier: ^3.58.1
-        version: 3.58.1
       '@types/node':
         specifier: ^24.1.0
         version: 24.1.0
@@ -1085,9 +1082,6 @@ packages:
 
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
-
-  '@types/google.maps@3.58.1':
-    resolution: {integrity: sha512-X9QTSvGJ0nCfMzYOnaVs/k6/4L+7F5uCS+4iUmkLEls6J9S/Phv+m/i3mDeyc49ZBgwab3EFO1HEoBY7k98EGQ==}
 
   '@types/istanbul-lib-coverage@2.0.6':
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
@@ -4688,8 +4682,6 @@ snapshots:
 
   '@types/geojson@7946.0.16':
     optional: true
-
-  '@types/google.maps@3.58.1': {}
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
