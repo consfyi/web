@@ -2,12 +2,9 @@ import { finalizeAuthorization } from "@atcute/oauth-browser-client";
 import { Trans } from "@lingui/react/macro";
 import { Box, Loader, Text } from "@mantine/core";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
 import { configureOAuth } from "~/bluesky";
 
 export default function Login() {
-  const navigate = useNavigate();
-
   useEffect(() => {
     (async () => {
       configureOAuth();
@@ -19,7 +16,9 @@ export default function Login() {
         // Do nothing.
       }
 
-      navigate("/", { replace: true });
+      // Don't use useNavigate, we need to do an actual refresh to ensure the client is up to date.
+      window.location.replace("/");
+      window.location.reload();
     })();
   });
 
