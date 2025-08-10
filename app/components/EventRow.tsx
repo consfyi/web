@@ -311,10 +311,7 @@ export default function EventRow({
         {showLocation == "break" ? (
           <Text size="sm" truncate>
             <Text span>
-              <IconMapPin title={t`Location`} size={12} /> {event.venue}{" "}
-              <Text span size="xs">
-                {event.address}
-              </Text>
+              <IconMapPin title={t`Location`} size={12} /> {event.venue}
             </Text>
           </Text>
         ) : null}
