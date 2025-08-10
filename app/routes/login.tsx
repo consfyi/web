@@ -18,7 +18,6 @@ export default function Login() {
 
       // Don't use useNavigate, we need to do an actual refresh to ensure the client is up to date.
       window.location.replace("/");
-      window.location.reload();
     })();
   });
 
