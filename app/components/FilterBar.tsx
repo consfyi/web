@@ -161,13 +161,13 @@ function DayText({ minDays, maxDays }: { minDays: number; maxDays: number }) {
 }
 
 function FilterDrawer({
-  events,
+  continentCount,
   opened,
   onClose,
   filter,
   setFilter,
 }: {
-  events: Event[];
+  continentCount: Partial<Record<Continent, number>> | null;
   opened: boolean;
   onClose(): void;
   filter: FilterOptions;
@@ -182,22 +182,14 @@ function FilterDrawer({
     [dirty, filter],
   );
 
-  const continentCount = useMemo(() => {
-    const counts: Partial<Record<Continent, number>> = {};
-    for (const event of events) {
-      const continent =
-        event.country != null ? getContinentForCountry(event.country) : "XX";
-      counts[continent] = (counts[continent] || 0) + 1;
-    }
-    return counts;
-  }, [events]);
-
   const sortedContinents = useMemo(
     () =>
-      sorted(
-        [...DEFAULT_FILTER_OPTIONS.continents],
-        compareDesc(comparing((code) => continentCount[code] ?? 0)),
-      ),
+      continentCount != null
+        ? sorted(
+            DEFAULT_FILTER_OPTIONS.continents,
+            compareDesc(comparing((code) => continentCount[code] ?? 0)),
+          )
+        : DEFAULT_FILTER_OPTIONS.continents,
     [continentCount],
   );
 
@@ -318,10 +310,14 @@ function FilterDrawer({
             }}
             label={
               <>
-                {t(CONTINENT_NAMES[code])}{" "}
-                <Text span size="xs" c="dimmed">
-                  {continentCount[code] ?? 0}
-                </Text>
+                {t(CONTINENT_NAMES[code])}
+                {continentCount != null ? (
+                  <>
+                    <Text span size="xs" c="dimmed">
+                      {continentCount[code] ?? 0}
+                    </Text>
+                  </>
+                ) : null}
               </>
             }
           />
@@ -375,7 +371,7 @@ export default function FilterBar({
   rightSection,
   filledButton,
 }: {
-  events: Event[];
+  events: Event[] | null;
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
   rightSection: ReactNode;
@@ -389,6 +385,10 @@ export default function FilterBar({
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
   const continentCount = useMemo(() => {
+    if (events == null) {
+      return null;
+    }
+
     const counts: Partial<Record<Continent, number>> = {};
     for (const event of events) {
       const continent =
@@ -400,10 +400,12 @@ export default function FilterBar({
 
   const sortedContinents = useMemo(
     () =>
-      sorted(
-        [...DEFAULT_FILTER_OPTIONS.continents],
-        compareDesc(comparing((code) => continentCount[code] ?? 0)),
-      ),
+      continentCount != null
+        ? sorted(
+            DEFAULT_FILTER_OPTIONS.continents,
+            compareDesc(comparing((code) => continentCount[code] ?? 0)),
+          )
+        : DEFAULT_FILTER_OPTIONS.continents,
     [continentCount],
   );
 
@@ -565,10 +567,14 @@ export default function FilterBar({
                       });
                     }}
                   >
-                    {t(CONTINENT_NAMES[code])}{" "}
-                    <Text span size="xs" c="dimmed">
-                      {continentCount[code] ?? 0}
-                    </Text>
+                    {t(CONTINENT_NAMES[code])}
+                    {continentCount != null ? (
+                      <>
+                        <Text span size="xs" c="dimmed">
+                          {continentCount[code] ?? 0}
+                        </Text>
+                      </>
+                    ) : null}
                   </Menu.Item>
                 );
               })}
@@ -667,7 +673,7 @@ export default function FilterBar({
         onClose={() => {
           setFilterDrawerOpen(false);
         }}
-        events={events}
+        continentCount={continentCount}
         filter={filter}
         setFilter={setFilter}
       />
