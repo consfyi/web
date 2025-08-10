@@ -5,6 +5,7 @@ import {
   Box,
   Group,
   Indicator,
+  Skeleton,
   Stack,
   Text,
   ThemeIcon,
@@ -317,6 +318,21 @@ export default function EventRow({
             </Text>
           </Text>
         ) : null}
+      </Box>
+    </Group>
+  );
+}
+
+export function EventRowSkeleton() {
+  return (
+    <Group gap="xs" wrap="nowrap">
+      <Skeleton
+        height="calc(2.75rem * var(--mantine-scale))"
+        width="calc(2.75rem * var(--mantine-scale))"
+      />
+      <Box flex="1 0">
+        <Skeleton height="var(--mantine-font-size-md)" width="25%" mb={4} />
+        <Skeleton height="var(--mantine-font-size-md)" width="60%" />
       </Box>
     </Group>
   );
