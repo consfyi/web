@@ -198,9 +198,11 @@ export function useGetLikes() {
 export const getEvents = new Endpoint(
   // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
   async function ({}: {}) {
-    return (await dataGetEvents({ signal: this.signal })).map((e) =>
-      Event.fromJS(e),
-    );
+    const events = [];
+    for await (const event of dataGetEvents({ signal: this.signal })) {
+      events.push(Event.fromJS(event));
+    }
+    return events;
   },
   {
     name: "getEvents",

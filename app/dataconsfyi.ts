@@ -39,16 +39,41 @@ function convertRawEvent(event: RawEvent): Event {
   };
 }
 
-export async function getEvents({ signal }: RequestOptions = {}) {
-  const resp = await fetch(`${ENDPOINT}/current.json?${+new Date()}`, {
+async function* streamLines(
+  body: ReadableStream<Uint8Array>,
+  encoding = "utf-8",
+) {
+  const reader = body.getReader();
+  const decoder = new TextDecoder(encoding);
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      if (buffer) {
+        yield buffer;
+      }
+      break;
+    }
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split(/\r?\n/);
+    buffer = lines.pop()!;
+    for (const line of lines) {
+      yield line;
+    }
+  }
+}
+
+export async function* getEvents({ signal }: RequestOptions = {}) {
+  const resp = await fetch(`${ENDPOINT}/current.jsonl?${+new Date()}`, {
     signal,
   });
   if (!resp.ok) {
     throw resp;
   }
-  return ((await resp.json()) as RawEvent[]).map((event) =>
-    convertRawEvent(event),
-  );
+  for await (const line of streamLines(resp.body!)) {
+    yield convertRawEvent(JSON.parse(line));
+  }
 }
 
 export async function getEvent(id: string, { signal }: RequestOptions = {}) {
