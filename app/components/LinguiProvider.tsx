@@ -55,6 +55,10 @@ export default function LinguiProvider(props: Omit<I18nProviderProps, "i18n">) {
 
   useEffect(() => {
     (async () => {
+      if (locale == i18n.locale) {
+        return;
+      }
+
       setPending(true);
       const { messages } = await LOCALES[locale].loadMessages();
       i18n.loadAndActivate({ locale, messages });
