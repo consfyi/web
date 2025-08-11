@@ -356,9 +356,8 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                               setMenuOpen(true);
                               setLoginError(e);
                             }
-                          } finally {
-                            setIsPending(false);
                           }
+                          setIsPending(false);
                         })();
                       }}
                     >

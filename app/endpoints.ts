@@ -111,6 +111,8 @@ export class LabelerView extends Entity {
 }
 
 export function useGetPost() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -133,6 +135,8 @@ export function useGetPost() {
   );
 }
 export function useGetAuthorPosts() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -154,6 +158,8 @@ export function useGetAuthorPosts() {
 }
 
 export function useGetProfile() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -177,6 +183,8 @@ export function useGetProfile() {
 }
 
 export function useGetLikes() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -223,6 +231,8 @@ export const getEvent = new Endpoint(
 );
 
 export function useGetFollows() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -244,6 +254,8 @@ export function useGetFollows() {
 }
 
 export function useGetLabelerView() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -261,6 +273,8 @@ export function useGetLabelerView() {
 }
 
 export function useLikePost() {
+  "use no memo";
+
   const client = useClient();
   const ctrl = useController();
 
@@ -293,6 +307,8 @@ export function useLikePost() {
 }
 
 export function useUnlikePost() {
+  "use no memo";
+
   const client = useClient();
   const ctrl = useController();
 
@@ -325,6 +341,8 @@ export function useUnlikePost() {
 }
 
 export function useGetPreferences() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -346,6 +364,8 @@ export function useGetPreferences() {
 }
 
 export function usePutPreferences() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(
@@ -363,6 +383,8 @@ export function usePutPreferences() {
 }
 
 export function useGetLabels() {
+  "use no memo";
+
   const client = useClient();
 
   return new Endpoint(

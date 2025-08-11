@@ -75,7 +75,6 @@ export default function EventRow({
         month: "short",
         year: showYear ? "numeric" : undefined,
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 
@@ -85,7 +84,6 @@ export default function EventRow({
         type: "conjunction",
         style: "long",
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 

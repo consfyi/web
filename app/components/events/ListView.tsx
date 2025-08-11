@@ -178,59 +178,52 @@ function EventsByDate({
 }) {
   const { i18n, t } = useLingui();
 
-  const groups = useMemo(
-    () => {
-      if (events.length == 0) {
-        return [];
+  const groups = useMemo(() => {
+    if (events.length == 0) {
+      return [];
+    }
+
+    const grouped: Record<number, Event[]> = {};
+    for (const g of group(
+      events,
+      equaling((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
+    )) {
+      const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
+      (grouped[k] ??= []).push(...g);
+    }
+
+    const groups = [];
+    for (
+      let d = setDate(reinterpretAsLocalDate(events![0].start), 1),
+        endDate = addMonths(
+          setDate(reinterpretAsLocalDate(events![events!.length - 1].start), 1),
+          1,
+        );
+      d < endDate;
+      d = addMonths(d, 1)
+    ) {
+      const key = yearMonthKey(d);
+      const events = grouped[key] ?? [];
+
+      if (hideEmptyGroups && events.length == 0) {
+        continue;
       }
 
-      const grouped: Record<number, Event[]> = {};
-      for (const g of group(
+      groups.push({
+        key: key.toString(),
         events,
-        equaling((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
-      )) {
-        const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
-        (grouped[k] ??= []).push(...g);
-      }
-
-      const groups = [];
-      for (
-        let d = setDate(reinterpretAsLocalDate(events![0].start), 1),
-          endDate = addMonths(
-            setDate(
-              reinterpretAsLocalDate(events![events!.length - 1].start),
-              1,
-            ),
-            1,
-          );
-        d < endDate;
-        d = addMonths(d, 1)
-      ) {
-        const key = yearMonthKey(d);
-        const events = grouped[key] ?? [];
-
-        if (hideEmptyGroups && events.length == 0) {
-          continue;
-        }
-
-        groups.push({
-          key: key.toString(),
-          events,
-          title: (
-            <Text span fw={500}>
-              {i18n.date(d, {
-                month: "long",
-                year: "numeric",
-              })}
-            </Text>
-          ),
-        });
-      }
-      return groups;
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [events, t],
-  );
+        title: (
+          <Text span fw={500}>
+            {i18n.date(d, {
+              month: "long",
+              year: "numeric",
+            })}
+          </Text>
+        ),
+      });
+    }
+    return groups;
+  }, [events, t]);
 
   return (
     <GroupedList
@@ -323,14 +316,10 @@ function EventsByName({
 }) {
   const { i18n, t } = useLingui();
 
-  const sortedEvents = useMemo(
-    () => {
-      const collator = new Intl.Collator(i18n.locale);
-      return sorted(events, (x, y) => collator.compare(x.name, y.name));
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [events, t],
-  );
+  const sortedEvents = useMemo(() => {
+    const collator = new Intl.Collator(i18n.locale);
+    return sorted(events, (x, y) => collator.compare(x.name, y.name));
+  }, [events, t]);
 
   return (
     <FlatList

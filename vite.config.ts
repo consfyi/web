@@ -5,6 +5,8 @@ import babel from "vite-plugin-babel";
 import macrosPlugin from "vite-plugin-babel-macros";
 import tsconfigPaths from "vite-tsconfig-paths";
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 export default defineConfig({
   plugins: [
     reactRouter(),
@@ -15,7 +17,15 @@ export default defineConfig({
       filter: /\.[jt]sx?$/,
       babelConfig: {
         presets: ["@babel/preset-typescript"],
-        plugins: [["babel-plugin-react-compiler", { target: "18" }]],
+        plugins: [
+          [
+            "babel-plugin-react-compiler",
+            {
+              target: "19",
+              panicThreshold: isDevelopment ? "critical_errors" : "none",
+            },
+          ],
+        ],
       },
     }),
   ],

@@ -690,7 +690,6 @@ export function useFilterPredicate(filter: FilterOptions) {
 
   const matches = useMemo(
     () => makeMatcher(filter.q, i18n.locale),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t, filter.q],
   );
 

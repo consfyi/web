@@ -2,7 +2,7 @@ import {
   createContext,
   type DependencyList,
   type RefObject,
-  useContext,
+  use,
   useEffect,
   useRef,
 } from "react";
@@ -36,7 +36,9 @@ export function useGlobalMemo<T>(
   factory: () => T,
   deps: DependencyList,
 ): T {
-  const cache = useContext(GlobalMemoContext)!.current;
+  "use no memo";
+
+  const cache = use(GlobalMemoContext)!.current;
 
   if (!Object.prototype.hasOwnProperty.call(cache, key)) {
     cache[key] = {
