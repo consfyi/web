@@ -53,33 +53,18 @@ export default function LinguiProvider(props: Omit<I18nProviderProps, "i18n">) {
 
   const { setDirection } = useDirection();
 
-  const loadAndActivate = useCallback(
-    (locale: string) => {
-      return (async () => {
-        const { messages } = await LOCALES[locale].loadMessages();
-        i18n.loadAndActivate({ locale, messages });
-        setDayjsLocale(await LOCALES[locale].loadDayjsLocale());
-        setDirection(new IntlLocale(locale).textInfo.direction as Direction);
-        window.localStorage.setItem(LOCALE_KEY, locale);
-      })();
-    },
-    [setDirection],
-  );
-
-  useEffect(() => {
-    (async () => {
-      await loadAndActivate(INITIAL_LOCALE);
-    })();
-  }, [loadAndActivate]);
-
   useEffect(() => {
     (async () => {
       setPending(true);
-      await loadAndActivate(locale);
+      const { messages } = await LOCALES[locale].loadMessages();
+      i18n.loadAndActivate({ locale, messages });
+      setDayjsLocale(await LOCALES[locale].loadDayjsLocale());
+      setDirection(new IntlLocale(locale).textInfo.direction as Direction);
+      window.localStorage.setItem(LOCALE_KEY, locale);
       document.documentElement.lang = locale;
       setPending(false);
     })();
-  }, [locale, loadAndActivate, setPending]);
+  }, [locale, setDirection, setDayjsLocale, setPending]);
 
   return (
     <LinguiContext.Provider value={{ locale, pending, setLocale, dayjsLocale }}>
