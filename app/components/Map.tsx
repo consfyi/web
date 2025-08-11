@@ -171,6 +171,27 @@ function MarkerWithPopup({
       />
       {showPopup && pin.popup != null ? (
         <Popup
+          ref={(popup) => {
+            if (popup == null) {
+              return;
+            }
+            // Popup element will be displayed on the next frame, annoyingly.
+            requestAnimationFrame(() => {
+              const el = popup.getElement();
+              el.addEventListener(
+                "wheel",
+                (e) => {
+                  e.preventDefault();
+                  if (mapRef.current != null) {
+                    mapRef.current
+                      .getCanvasContainer()
+                      .dispatchEvent(new WheelEvent(e.type, e));
+                  }
+                },
+                { passive: false },
+              );
+            });
+          }}
           anchor="bottom"
           closeButton={false}
           closeOnClick={false}

@@ -47,6 +47,7 @@
 
 .map :global(.maplibregl-popup-content) {
     border: 1px solid var(--popover-border-color);
+    touch-action: none;
 }
 
 .map :global(.maplibregl-popup-tip) {
