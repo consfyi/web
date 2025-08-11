@@ -21,7 +21,6 @@ import { differenceInDays, getDay, isBefore } from "date-fns";
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
-
 import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
