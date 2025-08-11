@@ -53,7 +53,6 @@ import {
   forwardRef,
   type Ref,
   Suspense,
-  use,
   useCallback,
   useEffect,
   useRef,
@@ -78,8 +77,8 @@ import DatesProvider from "./components/DatesProvider";
 import EmptyIcon from "./components/EmptyIcon";
 import { GlobalMemoProvider } from "./components/GlobalMemoContext";
 import {
-  GlobalSearchContext,
   GlobalSearchProvider,
+  useGlobalSearch,
 } from "./components/GlobalSearchContext";
 import LinguiProvider, { INITIAL_LOCALE } from "./components/LinguiProvider";
 import LocaleSelector from "./components/LocaleSelector";
@@ -153,7 +152,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
 
   const [mustShowSearch, setMustShowSearch] = useState(false);
   const navigate = useNavigate();
-  const { query, setQuery } = use(GlobalSearchContext)!;
+  const { query, setQuery } = useGlobalSearch();
   const autocompleteRef = useRef<HTMLInputElement | null>(null);
   const showSearch = mustShowSearch || query != "";
 
@@ -195,6 +194,9 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
               component={Link}
               to="/"
               aria-label={clientMetadata.client_name}
+              onClick={() => {
+                setQuery("");
+              }}
             >
               <Group gap={7}>
                 <Image
