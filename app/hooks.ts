@@ -3,14 +3,14 @@ import {
   type Did,
   type ResourceUri,
 } from "@atcute/lexicons";
-import { useDLE, useSuspense } from "@data-client/react";
+import { schema } from "@data-client/endpoint";
+import { useDLE, useQuery, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
 import { set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { use, useEffect, useState } from "react";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
-import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
   getEvent,
   getEvents,
@@ -36,12 +36,12 @@ export const useClient = (() => {
 })();
 
 function useEventPosts() {
-  const resp = useSuspense(useGetAuthorPosts(), { actor: LABELER_DID });
-  const posts = useGlobalMemo(
-    "eventPosts",
-    () => {
+  const getAuthorPosts = useGetAuthorPosts();
+  useSuspense(getAuthorPosts, { actor: LABELER_DID });
+  return useQuery(
+    new schema.Query(getAuthorPosts.schema, (posts) => {
       const postsMap: Record<string, Post> = {};
-      for (const post of resp) {
+      for (const post of posts) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_did, _collection, rkey] = post
           .uri!.replace(/^at:\/\//, "")
@@ -49,10 +49,9 @@ function useEventPosts() {
         postsMap[rkey] = post;
       }
       return postsMap;
-    },
-    [resp],
-  );
-  return posts;
+    }),
+    { actor: LABELER_DID },
+  )!;
 }
 
 export interface Event {
@@ -109,11 +108,10 @@ export function useEvent(id: string): Event {
 }
 
 export function useLabelsById() {
-  const labelerView = useSuspense(useGetLabelerView(), { did: LABELER_DID });
-
-  const labelsById = useGlobalMemo(
-    "labelsById",
-    () => {
+  const getLabelerView = useGetLabelerView();
+  useSuspense(getLabelerView, { did: LABELER_DID });
+  return useQuery(
+    new schema.Query(getLabelerView.schema, (labelerView) => {
       const labelsById: Record<string, { labelId: string; postRkey: string }> =
         {};
 
@@ -130,19 +128,19 @@ export function useLabelsById() {
       }
 
       return labelsById;
+    }),
+    {
+      uri: `at://${LABELER_DID}/app.bsky.labeler.service/self`,
     },
-    [labelerView],
-  );
-  return labelsById;
+  )!;
 }
 
 export function useEvents() {
-  const details = useSuspense(getEvents, {});
+  useSuspense(getEvents, {});
   const labelsById = useLabelsById();
-  const events = useGlobalMemo(
-    "events",
-    () => {
-      return details.flatMap((event) => {
+  return useQuery(
+    new schema.Query(getEvents.schema, (details) =>
+      details.flatMap((event) => {
         const label = labelsById[event.id!];
         if (label == undefined) {
           return [];
@@ -177,11 +175,10 @@ export function useEvents() {
             postRkey: label.postRkey,
           } satisfies Event,
         ];
-      });
-    },
-    [labelsById],
-  );
-  return events;
+      }),
+    ),
+    {},
+  )!;
 }
 
 export function useEventWithMaybePost(id: string): Event | EventWithPost {
@@ -236,37 +233,33 @@ export function useProfileLabels(did: Did | undefined) {
 
 export function useSelfFollowsDLE() {
   const client = useClient();
-  const { data, loading, error } = useDLE(
-    useGetFollows(),
+  const getFollows = useGetFollows();
+  const { loading, error } = useDLE(
+    getFollows,
     client.did != null ? { actor: client.did } : null,
   );
 
-  const follows = useGlobalMemo(
-    "selfFollows",
-    () => {
-      if (data == null) {
-        return null;
+  const followsSet = useQuery(
+    new schema.Query(getFollows.schema, (follows) => {
+      const followsSet = new Set<string>();
+      for (const follow of follows) {
+        followsSet.add(follow.did!);
       }
-      const follows = new Set<string>();
-      for (const follow of data) {
-        follows.add(follow.did!);
-      }
-      return follows;
-    },
-    [data],
+      return followsSet;
+    }),
+    {},
   );
 
-  return { data: follows, loading, error };
+  return { data: followsSet, loading, error };
 }
 
-function useFollowedEventAttendeesGlobalMemo(data: Profile[] | undefined) {
-  const { data: labelerView } = useDLE(useGetLabelerView(), {
+function useFollowedEventAttendeesPostprocess(data: Profile[] | undefined) {
+  const getLabelerView = useGetLabelerView();
+  useDLE(useGetLabelerView(), {
     did: LABELER_DID,
   });
-
-  return useGlobalMemo(
-    "followedEventAttendees",
-    () => {
+  return useQuery(
+    new schema.Query(getLabelerView.schema, (labelerView) => {
       if (data == null || labelerView == null) {
         return null;
       }
@@ -295,8 +288,8 @@ function useFollowedEventAttendeesGlobalMemo(data: Profile[] | undefined) {
         );
       }
       return followedEvents;
-    },
-    [labelerView, data],
+    }),
+    {},
   );
 }
 
@@ -306,7 +299,7 @@ export function useFollowedEventAttendees() {
     useGetFollows(),
     client.did != null ? { actor: client.did } : null,
   );
-  return useFollowedEventAttendeesGlobalMemo(data);
+  return useFollowedEventAttendeesPostprocess(data);
 }
 
 export function useFollowedEventAttendeesDLE() {
@@ -315,7 +308,7 @@ export function useFollowedEventAttendeesDLE() {
     useGetFollows(),
     client.did != null ? { actor: client.did } : null,
   );
-  return { data: useFollowedEventAttendeesGlobalMemo(data), loading, error };
+  return { data: useFollowedEventAttendeesPostprocess(data), loading, error };
 }
 
 export function useIsLoggedIn() {
