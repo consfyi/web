@@ -64,7 +64,6 @@ import {
   Links,
   type LinksFunction,
   Meta,
-  type MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -106,14 +105,6 @@ export const links: LinksFunction = () => {
     },
   ];
 };
-
-export const meta: MetaFunction = ({ matches }) => [
-  ...matches.flatMap((match) => match.meta ?? []),
-  {
-    name: "description",
-    content: "Which furry conventions are you going to?",
-  },
-];
 
 // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
 const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
@@ -795,6 +786,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Which furry conventions are you going to?"
+        />
+        <title>{clientMetadata.client_name}</title>
         <Meta />
         <Links />
         <ColorSchemeScript defaultColorScheme="auto" />
