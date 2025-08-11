@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { useLocation } from "react-router";
 import * as qp from "~/qp";
 
-export const GlobalSearchContext = createContext<{
+const GlobalSearchContext = createContext<{
   query: string;
   setQuery(query: string): void;
 } | null>(null);
