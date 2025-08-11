@@ -316,7 +316,7 @@ function FilterDrawer({
                 {t(CONTINENT_NAMES[code])}
                 {continentCount != null ? (
                   <>
-                    <Text span size="xs" c="dimmed">
+                    {" "}<Text span size="xs" c="dimmed">
                       {continentCount[code] ?? 0}
                     </Text>
                   </>
@@ -573,7 +573,7 @@ export default function FilterBar({
                     {t(CONTINENT_NAMES[code])}
                     {continentCount != null ? (
                       <>
-                        <Text span size="xs" c="dimmed">
+                        {" "}<Text span size="xs" c="dimmed">
                           {continentCount[code] ?? 0}
                         </Text>
                       </>
