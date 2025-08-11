@@ -49,12 +49,14 @@ function FlatList({
   sortDesc,
   density,
   showMonthInIcon,
+  showYear,
 }: {
   title: ReactNode | null;
   events: Event[];
   sortDesc: boolean;
   density: Density;
   showMonthInIcon: boolean;
+  showYear: boolean;
 }) {
   const headerHeight = useHeaderHeight();
 
@@ -106,10 +108,10 @@ function FlatList({
               <EventRow
                 event={event}
                 showMonthInIcon={showMonthInIcon}
+                showYear={showYear}
                 showLocation="inline"
                 showFollowed
                 showLikeButton
-                showYear={false}
                 density={density}
                 withId
               />
@@ -126,11 +128,13 @@ function GroupedList({
   sortDesc,
   density,
   showMonthInIcon,
+  showYear,
 }: {
   groups: { key: string; title: ReactNode; events: Event[] }[];
   sortDesc: boolean;
   density: Density;
   showMonthInIcon: boolean;
+  showYear: boolean;
 }) {
   const sortedGroups = useMemo(() => {
     const sortedGroups = groups.slice();
@@ -150,6 +154,7 @@ function GroupedList({
           sortDesc={sortDesc}
           density={density}
           showMonthInIcon={showMonthInIcon}
+          showYear={showYear}
         />
       ))}
     </>
@@ -233,6 +238,7 @@ function EventsByDate({
       sortDesc={sortDesc}
       density={density}
       showMonthInIcon={false}
+      showYear={false}
     />
   );
 }
@@ -262,6 +268,7 @@ function EventsByAttendees({
       density={density}
       sortDesc={sortDesc}
       showMonthInIcon={true}
+      showYear={true}
     />
   );
 }
@@ -300,6 +307,7 @@ function EventsByFollowed({
       density={density}
       sortDesc={sortDesc}
       showMonthInIcon={true}
+      showYear={true}
     />
   );
 }
@@ -331,6 +339,7 @@ function EventsByName({
       density={density}
       sortDesc={sortDesc}
       showMonthInIcon={true}
+      showYear={true}
     />
   );
 }
