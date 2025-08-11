@@ -594,6 +594,7 @@ export function ErrorBoundary() {
       <title>
         <Trans>Not found</Trans>
       </title>
+      <meta name="robots" content="noindex" />
       <Container size="lg" p={0}>
         <Box p={56} ta="center">
           <Text size="xl" fw={500} mb="sm">
