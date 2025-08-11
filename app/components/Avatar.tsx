@@ -17,7 +17,14 @@ function DefaultAvatar() {
 
 export default function Avatar({ children, src, ...props }: AvatarProps) {
   return (
-    <OriginalAvatar src={src} {...props}>
+    <OriginalAvatar
+      src={
+        src != null
+          ? src.replace("/img/avatar/plain/", "/img/avatar_thumbnail/plain/")
+          : null
+      }
+      {...props}
+    >
       {children != null ? children : src == null ? <DefaultAvatar /> : null}
     </OriginalAvatar>
   );
