@@ -74,6 +74,7 @@ import Avatar from "~/components/Avatar";
 import { DEFAULT_PDS_HOST, startLogin } from "./bluesky";
 import DatesProvider from "./components/DatesProvider";
 import EmptyIcon from "./components/EmptyIcon";
+import { GlobalMemoProvider } from "./components/GlobalMemoContext";
 import {
   GlobalSearchProvider,
   useGlobalSearch,
@@ -787,42 +788,44 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
-          <LoadingIndicator />
-          <DirectionProvider
-            initialDirection={
-              new IntlLocale(INITIAL_LOCALE).textInfo
-                .direction as DirectionProviderProps["initialDirection"]
-            }
-          >
-            <DataProvider>
-              <Suspense
-                fallback={
-                  <Center p="lg">
-                    <Loader />
-                  </Center>
-                }
-              >
-                <LinguiProvider>
-                  <DatesProvider>
-                    <GlobalSearchProvider>
-                      <Header />
-                      <HeaderHeightProvider value={61}>
-                        {showAlerts ? (
-                          <Container size="lg" px={0}>
-                            <Alerts />
-                          </Container>
-                        ) : null}
-                        {children}
-                      </HeaderHeightProvider>
-                      <Footer />
-                    </GlobalSearchProvider>
-                  </DatesProvider>
-                </LinguiProvider>
-              </Suspense>
-            </DataProvider>
-          </DirectionProvider>
-        </MantineProvider>
+        <GlobalMemoProvider>
+          <MantineProvider theme={theme} defaultColorScheme="auto">
+            <LoadingIndicator />
+            <DirectionProvider
+              initialDirection={
+                new IntlLocale(INITIAL_LOCALE).textInfo
+                  .direction as DirectionProviderProps["initialDirection"]
+              }
+            >
+              <DataProvider>
+                <Suspense
+                  fallback={
+                    <Center p="lg">
+                      <Loader />
+                    </Center>
+                  }
+                >
+                  <LinguiProvider>
+                    <DatesProvider>
+                      <GlobalSearchProvider>
+                        <Header />
+                        <HeaderHeightProvider value={61}>
+                          {showAlerts ? (
+                            <Container size="lg" px={0}>
+                              <Alerts />
+                            </Container>
+                          ) : null}
+                          {children}
+                        </HeaderHeightProvider>
+                        <Footer />
+                      </GlobalSearchProvider>
+                    </DatesProvider>
+                  </LinguiProvider>
+                </Suspense>
+              </DataProvider>
+            </DirectionProvider>
+          </MantineProvider>
+        </GlobalMemoProvider>
 
         <ScrollRestoration />
         <Scripts />
