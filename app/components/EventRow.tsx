@@ -207,7 +207,12 @@ export default function EventRow({
             </Anchor>{" "}
             {guessed ? <GuessedEventMarker /> : null}{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
-              <Anchor href={event.url} target="_blank" opacity={0.4}>
+              <Anchor
+                href={event.url}
+                target="_blank"
+                opacity={0.4}
+                title={t`Website`}
+              >
                 <IconWorld size={12} />
               </Anchor>
             </Tooltip>

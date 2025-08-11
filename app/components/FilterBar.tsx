@@ -51,23 +51,23 @@ const LAYOUTS: Record<
   string,
   {
     Icon: Icon;
-    label: ReactNode;
+    title: MessageDescriptor;
     pathname: string;
   }
 > = {
   list: {
     Icon: IconList,
-    label: <Trans>List</Trans>,
+    title: msg`List`,
     pathname: "/",
   },
   calendar: {
     Icon: IconCalendarWeek,
-    label: <Trans>Calendar</Trans>,
+    title: msg`Calendar`,
     pathname: "/calendar",
   },
   map: {
     Icon: IconMap,
-    label: <Trans>Map</Trans>,
+    title: msg`Map`,
     pathname: "/map",
   },
 };
@@ -79,11 +79,13 @@ export function LayoutSwitcher({
   layoutType: keyof typeof LAYOUTS;
   filter: FilterOptions;
 }) {
+  const { t } = useLingui();
+
   return (
     <SegmentedControl
       size="xs"
       value={layoutType}
-      data={Object.entries(LAYOUTS).map(([value, { label, Icon }]) => {
+      data={Object.entries(LAYOUTS).map(([value, { title, Icon }]) => {
         const to = new URL(LAYOUTS[value].pathname, window.location.toString());
         qp.serialize(FilterOptions, filter, to.searchParams);
 
@@ -93,12 +95,13 @@ export function LayoutSwitcher({
             <Anchor
               style={{ color: "var(--mantine-color-text)" }}
               component={Link}
+              title={t(title)}
               to={to.toString()}
             >
               <Center style={{ gap: 6 }}>
                 <Icon size={14} />
                 <Text span size="xs" visibleFrom="sm">
-                  {label}
+                  {t(title)}
                 </Text>
               </Center>
             </Anchor>

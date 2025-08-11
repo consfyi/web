@@ -446,6 +446,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
                         color="var(--mantine-color-dimmed)"
                         c="dimmed"
                         rightSection={<IconChevronDown size={14} />}
+                        title={t`Settings`}
                       >
                         <IconSettings size={18} />
                       </Button>
