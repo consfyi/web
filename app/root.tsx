@@ -764,6 +764,14 @@ function Alerts() {
   );
 }
 
+export function HydrateFallback() {
+  return (
+    <Center p="lg">
+      <Loader />
+    </Center>
+  );
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (navigator.userAgent.indexOf("iPhone") > -1) {
@@ -777,6 +785,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   const location = useLocation();
+
   const showAlerts = !["/map", "/login"].includes(location.pathname);
 
   return (
