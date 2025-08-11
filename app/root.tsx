@@ -63,7 +63,6 @@ import {
   Link,
   Links,
   type LinksFunction,
-  Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -791,7 +790,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
           content="Which furry conventions are you going to?"
         />
         <title>{clientMetadata.client_name}</title>
-        <Meta />
         <Links />
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
