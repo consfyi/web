@@ -60,6 +60,7 @@ import {
 } from "react";
 import {
   Link,
+  Links,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -782,6 +783,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
         <title>{clientMetadata.client_name}</title>
         <link rel="icon" href="/logo.png" type="image/png" />
+        <Links />
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
