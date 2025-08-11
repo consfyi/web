@@ -60,9 +60,13 @@ export default function LinguiProvider(props: Omit<I18nProviderProps, "i18n">) {
       }
 
       setPending(true);
-      const { messages } = await LOCALES[locale].loadMessages();
+      const localeDef = LOCALES[locale];
+      const [{ messages }, dayjsLocale] = await Promise.all([
+        localeDef.loadMessages(),
+        localeDef.loadDayjsLocale(),
+      ]);
       i18n.loadAndActivate({ locale, messages });
-      setDayjsLocale(await LOCALES[locale].loadDayjsLocale());
+      setDayjsLocale(dayjsLocale);
       setDirection(new IntlLocale(locale).textInfo.direction as Direction);
       window.localStorage.setItem(LOCALE_KEY, locale);
       document.documentElement.lang = locale;
