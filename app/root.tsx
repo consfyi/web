@@ -818,15 +818,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                               <Alerts />
                             </Container>
                           ) : null}
-                          <Suspense
-                            fallback={
-                              <Center p="lg">
-                                <Loader />
-                              </Center>
-                            }
-                          >
-                            {children}
-                          </Suspense>
+                          {children}
                         </HeaderHeightProvider>
                         <Footer />
                       </GlobalSearchProvider>
