@@ -60,8 +60,6 @@ import {
 } from "react";
 import {
   Link,
-  Links,
-  type LinksFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -93,16 +91,6 @@ import { HeaderHeightProvider } from "./components/HeaderHeightProvider";
 import "./styles.css";
 
 const theme = createTheme({});
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: "icon",
-      href: "/logo.png",
-      type: "image/png",
-    },
-  ];
-};
 
 // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
 const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
@@ -793,7 +781,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           content="Which furry conventions are you going to?"
         />
         <title>{clientMetadata.client_name}</title>
-        <Links />
+        <link rel="icon" href="/logo.png" type="image/png" />
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
