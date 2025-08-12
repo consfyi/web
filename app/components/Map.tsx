@@ -30,7 +30,9 @@ import {
   type ComponentProps,
   type CSSProperties,
   type ReactNode,
+  useCallback,
   useMemo,
+  useRef,
 } from "react";
 import absurd from "~/absurd";
 import classes from "./Map.module.css";
@@ -149,6 +151,18 @@ function MarkerWithPopup({
 }) {
   const mapRef = useMap();
 
+  const onWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      if (mapRef.current != null) {
+        mapRef.current
+          .getCanvasContainer()
+          .dispatchEvent(new WheelEvent(e.type, e));
+      }
+    },
+    [mapRef],
+  );
+
   return (
     <>
       <BasicMarker
@@ -177,18 +191,7 @@ function MarkerWithPopup({
             // Popup element will be displayed on the next frame, annoyingly.
             requestAnimationFrame(() => {
               const el = popup.getElement();
-              el.addEventListener(
-                "wheel",
-                (e) => {
-                  e.preventDefault();
-                  if (mapRef.current != null) {
-                    mapRef.current
-                      .getCanvasContainer()
-                      .dispatchEvent(new WheelEvent(e.type, e));
-                  }
-                },
-                { passive: false },
-              );
+              el.addEventListener("wheel", onWheel, { passive: false });
             });
           }}
           anchor="bottom"
