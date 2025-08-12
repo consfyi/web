@@ -17,7 +17,7 @@ lc_cn = LanguageConverter.from_language(zh_cn)
 with open("app/locales/zh-Hant/messages.po", "r") as f:
     po = polib.pofile(f.read())
 
-TERMS = {
+TW_TO_CN = {
     "搜尋": "搜索",
     "使用者": "用户",
     "載入": "加载",
@@ -27,11 +27,11 @@ TERMS = {
     "活動": "大会",
 }
 
-TERMS_RE = re.compile("|".join(re.escape(term) for term in TERMS))
+TW_TO_CN_RE = re.compile("|".join(re.escape(term) for term in TW_TO_CN))
 
 
 def convert(s):
-    return lc_cn.convert(TERMS_RE.sub(lambda x: TERMS[x.group(0)], entry.msgstr))
+    return lc_cn.convert(TW_TO_CN_RE.sub(lambda x: TW_TO_CN[x.group(0)], entry.msgstr))
 
 
 po.metadata["Language"] = "zh-Hans"
