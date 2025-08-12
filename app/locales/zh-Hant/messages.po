@@ -19,14 +19,14 @@ msgstr "沒有大會可顯示。"
 
 #: app/components/EmptyState.tsx:31
 msgid "Clear all filters"
-msgstr "篩選器"
+msgstr "清除所有篩選器"
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:147
 #: app/components/EventDetails.tsx:413
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
-msgstr "您未關注的有{0}位用戶"
+msgstr "您未關注的有{0}位使用者"
 
 #: app/components/EventDetails.tsx:167
 msgid "Nobody known to be going yet."
@@ -35,7 +35,7 @@ msgstr "目前還沒有已知的參加者。"
 #: app/components/EventDetails.tsx:194
 #: app/components/EventDetails.tsx:200
 msgid "View Bluesky Post"
-msgstr "檢視Bluesky貼文"
+msgstr "查看Bluesky貼文"
 
 #: app/components/EventDetails.tsx:257
 #: app/components/EventRow.tsx:278
@@ -107,7 +107,7 @@ msgstr "{0}位"
 
 #: app/components/EventDetails.tsx:392
 msgid "Loading people you follow"
-msgstr "加載您關注的用戶"
+msgstr "載入您關注的使用者"
 
 #: app/components/EventRow.tsx:222
 #: app/components/events/ListView.tsx:357
@@ -190,7 +190,7 @@ msgstr "篩選器"
 
 #: app/components/FilterBar.tsx:237
 msgid "Apply"
-msgstr "應用"
+msgstr "套用"
 
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
@@ -246,7 +246,7 @@ msgstr "錯誤"
 
 #: app/components/SimpleErrorBoundary.tsx:22
 msgid "An error occurred while attempting to load this data."
-msgstr "加載資料時發生錯誤。"
+msgstr "載入資料時發生錯誤。"
 
 #: app/components/UserDetails.tsx:49
 msgctxt "user attending events"
@@ -275,13 +275,13 @@ msgstr "訂閱"
 
 #: app/components/events/CalendarView.tsx:108
 msgid "Calendar URL"
-msgstr "日曆網址"
+msgstr "日曆連結"
 
 #: app/components/events/CalendarView.tsx:129
 #: app/components/events/ListView.tsx:430
 #: app/root.tsx:448
 msgid "Settings"
-msgstr "設置"
+msgstr "設定"
 
 #: app/components/events/CalendarView.tsx:143
 msgid "Week starts on"
@@ -357,15 +357,15 @@ msgstr "登出"
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
 #: app/root.tsx:378
 msgid "Log in via {0}"
-msgstr "透過{0}登錄"
+msgstr "透過{0}登入"
 
 #: app/root.tsx:383
 msgid "Log in"
-msgstr "登錄"
+msgstr "登入"
 
 #: app/root.tsx:405
 msgid "Log in via custom PDS"
-msgstr "透過自訂PDS登錄"
+msgstr "透過自訂PDS登入"
 
 #: app/root.tsx:415
 msgid "Custom PDS"
@@ -373,7 +373,7 @@ msgstr "自訂PDS"
 
 #: app/root.tsx:422
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
-msgstr "無法使用此 DS登錄。網址是否正確？"
+msgstr "無法使用此PDS登入。連結是否正確？"
 
 #: app/root.tsx:428
 msgid "https://your.pds.com"
@@ -414,7 +414,7 @@ msgstr "歡迎！"
 
 #: app/root.tsx:634
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
-msgstr "<0>這裡是 <1><2/> @cons.fyi</1> 服務的網站。要獲得完整體驗，請登錄。登錄後您可以：</0><3><4>告訴其他人您要參加哪些大會（您也可以在 Bluesky 上對大會貼文按讚來達成）。</4><5>查看您關注的人要參加哪些大會。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登錄按鈕旁的下拉選單來指定。</6><8>特別感謝 <9>FurryCons.com</9> 提供所有大會資料！</8>"
+msgstr "<0>這裡是<1><2/>@cons.fyi</1>服務的網站。要獲得完整體驗，請登入。登入後您可以：</0><3><4>告訴其他人您要參加哪些大會（您也可以在 Bluesky 上對大會貼文按讚來達成）。</4><5>查看您關注的人要參加哪些大會。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登入按鈕旁的下拉選單來指定。</6><8>特別感謝 <9>FurryCons.com</9> 提供所有大會資料！</8>"
 
 #: app/root.tsx:714
 msgid "Not subscribed to labeler"
@@ -430,4 +430,4 @@ msgstr "為我修正"
 
 #: app/routes/login.tsx:27
 msgid "Logging you in..."
-msgstr "登錄中…"
+msgstr "登入中…"
