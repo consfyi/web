@@ -4,13 +4,7 @@ import { I18nProvider, type I18nProviderProps } from "@lingui/react";
 import { type Direction, useDirection } from "@mantine/core";
 import DEFAULT_DAYJS_LOCALE from "dayjs/locale/en";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import LOCALES from "~/locales";
 
 const LOCALE_KEY = "fbl:locale";

@@ -76,11 +76,11 @@ function makeStyle({
 
 export function useMapStyle() {
   const colorScheme = useComputedColorScheme();
-  const { i18n, t } = useLingui();
+  const lingui = useLingui();
 
   return useMemo(
-    () => makeStyle({ colorScheme, locale: i18n.locale }),
-    [colorScheme, t],
+    () => makeStyle({ colorScheme, locale: lingui.i18n.locale }),
+    [colorScheme, lingui],
   );
 }
 

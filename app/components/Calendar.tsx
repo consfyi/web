@@ -232,7 +232,8 @@ export default function Calendar({
 }) {
   "use no memo";
 
-  const { t, i18n } = useLingui();
+  const lingui = useLingui();
+  const { i18n, t } = lingui;
 
   const headerHeight = useHeaderHeight();
 
@@ -298,9 +299,8 @@ export default function Calendar({
   const datesContext = useDatesContext();
 
   const dayFormat = useMemo(
-    () => new Intl.DateTimeFormat(i18n.locale, { day: "numeric" }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t],
+    () => new Intl.DateTimeFormat(lingui.i18n.locale, { day: "numeric" }),
+    [lingui],
   );
 
   const dayMonthFormat = useMemo(

@@ -176,7 +176,7 @@ function EventsByDate({
   sortDesc: boolean;
   density: Density;
 }) {
-  const { i18n, t } = useLingui();
+  const lingui = useLingui();
 
   const groups = useMemo(() => {
     if (events.length == 0) {
@@ -214,7 +214,7 @@ function EventsByDate({
         events,
         title: (
           <Text span fw={500}>
-            {i18n.date(d, {
+            {lingui.i18n.date(d, {
               month: "long",
               year: "numeric",
             })}
@@ -223,7 +223,7 @@ function EventsByDate({
       });
     }
     return groups;
-  }, [events, t]);
+  }, [events, lingui, hideEmptyGroups]);
 
   return (
     <GroupedList
@@ -314,12 +314,12 @@ function EventsByName({
   sortDesc: boolean;
   density: Density;
 }) {
-  const { i18n, t } = useLingui();
+  const lingui = useLingui();
 
   const sortedEvents = useMemo(() => {
-    const collator = new Intl.Collator(i18n.locale);
+    const collator = new Intl.Collator(lingui.i18n.locale);
     return sorted(events, (x, y) => collator.compare(x.name, y.name));
-  }, [events, t]);
+  }, [events, lingui]);
 
   return (
     <FlatList
