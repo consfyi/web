@@ -687,12 +687,12 @@ export default function FilterBar({
 }
 
 export function useFilterPredicate(filter: FilterOptions) {
-  const lingui = useLingui();
+  const { t, i18n } = useLingui();
   const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
   const matches = useMemo(
-    () => makeMatcher(filter.q, lingui.i18n.locale),
-    [lingui, filter.q],
+    () => makeMatcher(filter.q, i18n.locale),
+    [t, filter.q],
   );
 
   return useCallback(

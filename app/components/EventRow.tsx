@@ -64,27 +64,26 @@ export default function EventRow({
 
   const likeCount = likeCountWithoutSelf + (isAttending ? 1 : 0);
 
-  const lingui = useLingui();
-  const { i18n, t } = lingui;
+  const { i18n, t } = useLingui();
 
   const dateTimeFormat = useMemo(
     () =>
-      new Intl.DateTimeFormat(lingui.i18n.locale, {
+      new Intl.DateTimeFormat(i18n.locale, {
         weekday: "short",
         day: "numeric",
         month: "short",
         year: showYear ? "numeric" : undefined,
       }),
-    [lingui, showYear],
+    [t, showYear],
   );
 
   const listFormat = useMemo(
     () =>
-      new Intl.ListFormat(lingui.i18n.locale, {
+      new Intl.ListFormat(i18n.locale, {
         type: "conjunction",
         style: "long",
       }),
-    [lingui],
+    [t],
   );
 
   const follows = useMemo(
