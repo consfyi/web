@@ -17,21 +17,27 @@ export default function Flag({
 
   const emoji = useMemo(
     () =>
-      Array.prototype.map
-        .call(country, (c) =>
-          String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - "A".charCodeAt(0)),
-        )
-        .join(""),
+      country != null
+        ? Array.prototype.map
+            .call(country, (c) =>
+              String.fromCodePoint(
+                0x1f1e6 + c.charCodeAt(0) - "A".charCodeAt(0),
+              ),
+            )
+            .join("")
+        : "🏴",
     [country],
   );
 
-  let countryName;
-  if (country != undefined) {
-    const cacheKey = `${i18n.locale}:${country}`;
-    countryName = cache[cacheKey] ??= new Intl.DisplayNames(i18n.locale, {
-      type: "region",
-    }).of(country);
-  }
+  const countryName =
+    country != null
+      ? (cache[`${i18n.locale}:${country}`] ??= new Intl.DisplayNames(
+          i18n.locale,
+          {
+            type: "region",
+          },
+        ).of(country))
+      : t`Unknown`;
 
   return (
     <Tooltip label={countryName}>
