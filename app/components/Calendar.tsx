@@ -230,6 +230,8 @@ export default function Calendar({
   inYourTimeZone: boolean;
   includeToday: boolean;
 }) {
+  "use no memo";
+
   const { t, i18n } = useLingui();
 
   const headerHeight = useHeaderHeight();

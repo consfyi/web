@@ -79,7 +79,6 @@ export function useMapStyle() {
 
   return useMemo(
     () => makeStyle({ colorScheme, locale: i18n.locale }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [colorScheme, t],
   );
 }
