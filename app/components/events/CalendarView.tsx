@@ -230,7 +230,6 @@ export default function CalendarView({
                     <>
                       <Flag
                         country={event.country ?? undefined}
-                        size={8}
                         me={6}
                         style={{
                           filter: over ? "grayscale(1)" : undefined,
