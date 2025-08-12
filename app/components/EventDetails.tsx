@@ -189,7 +189,7 @@ export function Title({ event }: { event: Event }) {
         </Box>
       ) : null}
       <MantineTitle size="h4" fw={500}>
-        <Flag country={event.country ?? undefined} size={14} me={6} />
+        <Flag country={event.country ?? undefined} me={6} />
         {event.name} {guessed ? <GuessedEventMarker /> : null}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor

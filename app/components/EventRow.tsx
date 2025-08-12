@@ -184,7 +184,7 @@ export default function EventRow({
 
           <Text size="sm" truncate>
             <Anchor component={Link} to={`/${event.id}`}>
-              <Flag country={event.country ?? undefined} size={10} me={6} />
+              <Flag country={event.country ?? undefined} me={6} />
               {active && density == "compact" ? (
                 <Indicator
                   inline

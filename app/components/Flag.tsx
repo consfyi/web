@@ -1,24 +1,29 @@
 import { useLingui } from "@lingui/react/macro";
 import { Box, type BoxProps, Image, Tooltip } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import classes from "./Flag.module.css";
 
 let cache: Record<string, string | undefined> = {};
 
 export default function Flag({
   country,
-  size,
-  circular = false,
   ...props
-}: { country?: string; size: number; circular?: boolean } & Omit<
-  BoxProps,
-  "w" | "h"
->) {
+}: { country?: string } & Omit<BoxProps, "w" | "h">) {
   const { i18n, t } = useLingui();
 
   useEffect(() => {
     cache = {};
   }, [t]);
+
+  const emoji = useMemo(
+    () =>
+      Array.prototype.map
+        .call(country, (c) =>
+          String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - "A".charCodeAt(0)),
+        )
+        .join(""),
+    [country],
+  );
 
   let countryName;
   if (country != undefined) {
@@ -30,17 +35,8 @@ export default function Flag({
 
   return (
     <Tooltip label={countryName}>
-      <Box
-        component="span"
-        className={`${classes.flag} ${circular ? classes.circular : ""}`}
-        h={size}
-        w={circular ? size : (size / 3) * 4}
-        {...props}
-      >
-        <Image
-          src={`https://cdn.jsdelivr.net/npm/flagpack@latest/flags/4x3/${country != null ? country.toLowerCase() : "lgbt"}.svg`}
-          alt={countryName}
-        />
+      <Box component="span" {...props} className={classes.flag}>
+        {emoji}
       </Box>
     </Tooltip>
   );
