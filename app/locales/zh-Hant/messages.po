@@ -275,7 +275,7 @@ msgstr "訂閱"
 
 #: app/components/events/CalendarView.tsx:108
 msgid "Calendar URL"
-msgstr "日曆連結"
+msgstr "日曆網址"
 
 #: app/components/events/CalendarView.tsx:129
 #: app/components/events/ListView.tsx:430
@@ -373,7 +373,7 @@ msgstr "自訂PDS"
 
 #: app/root.tsx:422
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
-msgstr "無法使用此PDS登入。連結是否正確？"
+msgstr "無法使用此PDS登入。網址是否正確？"
 
 #: app/root.tsx:428
 msgid "https://your.pds.com"
