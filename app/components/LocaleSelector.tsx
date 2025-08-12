@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { Select, Text } from "@mantine/core";
+import { Select } from "@mantine/core";
 import { IconLanguage } from "@tabler/icons-react";
 import { useMemo } from "react";
 import LOCALES from "~/locales";
