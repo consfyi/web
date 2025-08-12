@@ -32,7 +32,6 @@ import {
   type ReactNode,
   useCallback,
   useMemo,
-  useRef,
 } from "react";
 import absurd from "~/absurd";
 import classes from "./Map.module.css";
