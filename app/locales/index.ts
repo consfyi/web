@@ -20,4 +20,8 @@ export default {
     loadMessages: () => import("./zh-Hant/messages.po"),
     loadDayjsLocale: () => import("dayjs/locale/zh-tw"),
   },
+  "zh-Hans": {
+    loadMessages: () => import("./zh-Hans/messages.po"),
+    loadDayjsLocale: () => import("dayjs/locale/zh-cn"),
+  },
 } as Record<string, Locale>;
