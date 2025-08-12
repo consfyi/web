@@ -16,4 +16,8 @@ export default {
     loadMessages: () => import("./ja/messages.po"),
     loadDayjsLocale: () => import("dayjs/locale/ja"),
   },
+  "zh-Hant": {
+    loadMessages: () => import("./zh-Hant/messages.po"),
+    loadDayjsLocale: () => import("dayjs/locale/zh-tw"),
+  },
 } as Record<string, Locale>;

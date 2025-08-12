@@ -219,7 +219,6 @@ export function Body({ event }: { event: Event }) {
         month: "short",
         year: "numeric",
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 

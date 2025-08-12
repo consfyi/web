@@ -5,7 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: ja\n"
+"Language: zh-Hant\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -15,32 +15,32 @@ msgstr ""
 
 #: app/components/EmptyState.tsx:20
 msgid "No cons to display."
-msgstr "表示するコンベンションがありません。"
+msgstr "沒有大會可顯示。"
 
 #: app/components/EmptyState.tsx:31
 msgid "Clear all filters"
-msgstr "全ての絞り込みを解除"
+msgstr "篩選器"
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:147
 #: app/components/EventDetails.tsx:413
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
-msgstr "フォローしていないユーザー{0}人"
+msgstr "您未關注的有{0}位用戶"
 
 #: app/components/EventDetails.tsx:167
 msgid "Nobody known to be going yet."
-msgstr "まだ把握されている参加者はいません。"
+msgstr "目前還沒有已知的參加者。"
 
 #: app/components/EventDetails.tsx:194
 #: app/components/EventDetails.tsx:200
 msgid "View Bluesky Post"
-msgstr "Blueskyの投稿を見る"
+msgstr "檢視Bluesky貼文"
 
 #: app/components/EventDetails.tsx:257
 #: app/components/EventRow.tsx:278
 msgid "Dates"
-msgstr "日付"
+msgstr "日期"
 
 #. placeholder {0}: [ dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(event.end), ), ][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(event.end), )
@@ -49,116 +49,116 @@ msgstr "日付"
 #: app/components/EventRow.tsx:279
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
-msgstr "{0}（{1}日間）"
+msgstr "{0}（{1}天）"
 
 #: app/components/EventDetails.tsx:278
 #: app/components/EventRow.tsx:211
 msgid "Website"
-msgstr "ウェブサイト"
+msgstr "網站"
 
 #: app/components/EventDetails.tsx:293
 #: app/components/EventRow.tsx:299
 #: app/components/EventRow.tsx:316
 msgid "Location"
-msgstr "開催地"
+msgstr "地點"
 
 #. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.flatMap((source) => { if (source == "guessed") { return []; } const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
 #: app/components/EventDetails.tsx:311
 msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
-msgstr "この情報は編集または削除する必要がありますか？<0>ここで問題を報告してください。</0>{0}"
+msgstr "此資訊需要編輯或移除嗎？<0>請在此回報問題。</0>{0}"
 
 #: app/components/EventDetails.tsx:320
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
-msgstr "上記の情報は元々<0/>から提供されたものです。利用制限が適用される場合があります。"
+msgstr "此資訊原始來源為 <0/>。可能適用使用限制。"
 
 #: app/components/EventDetails.tsx:353
 msgid "This convention was canceled."
-msgstr "このコンベンションはキャンセルされました。"
+msgstr "此大會已取消。"
 
 #: app/components/EventDetails.tsx:357
 msgid "This convention is currently in progress."
-msgstr "このコンベンションは現在開催中です。"
+msgstr "此大會目前正在進行中。"
 
 #: app/components/EventDetails.tsx:362
 msgid "This convention has already ended."
-msgstr "このコンベンションはすでに終了しています。"
+msgstr "此大會已結束。"
 
 #: app/components/EventDetails.tsx:364
 msgid "This convention has already ended. Information on who is going is no longer available."
-msgstr "このコンベンションはすでに終了しています。参加者に関する情報はもう利用できません。"
+msgstr "此大會已結束。參加者資訊不再提供。"
 
 #: app/components/EventDetails.tsx:375
 #: app/components/LikeButton.tsx:31
 msgid "Going"
-msgstr "参加者"
+msgstr "參加"
 
 #. placeholder {0}: [likeCount][0]
 #: app/components/EventDetails.tsx:378
 msgctxt "attendee count, including you"
 msgid "{0} including you"
-msgstr "{0}人（自分込み）"
+msgstr "{0}位（包含您）"
 
 #. placeholder {0}: [likeCount][0]
 #: app/components/EventDetails.tsx:382
 #: app/components/EventRow.tsx:228
 msgctxt "attendee count"
 msgid "{0}"
-msgstr "{0}人"
+msgstr "{0}位"
 
 #: app/components/EventDetails.tsx:392
 msgid "Loading people you follow"
-msgstr "フォロー中のユーザーを読み込み中"
+msgstr "加載您關注的用戶"
 
 #: app/components/EventRow.tsx:222
 #: app/components/events/ListView.tsx:357
 msgctxt "number of people going"
 msgid "People going"
-msgstr "参加者数"
+msgstr "參加人數"
 
 #. placeholder {0}: follows.length - MAX_AVATARS_IN_STACK
 #: app/components/EventRow.tsx:241
 msgid "{0, plural, one {# other you follow} other {# others you follow}}"
-msgstr "フォロー中の他の{0}人"
+msgstr "您關注的其他{0}位"
 
 #: app/components/FilterBar.tsx:60
 msgid "List"
-msgstr "リスト"
+msgstr "清單"
 
 #: app/components/FilterBar.tsx:65
 msgid "Calendar"
-msgstr "カレンダー"
+msgstr "日曆"
 
 #: app/components/FilterBar.tsx:70
 msgid "Map"
-msgstr "地図"
+msgstr "地圖"
 
 #: app/components/FilterBar.tsx:129
 msgid "North America"
-msgstr "北アメリカ"
+msgstr "北美洲"
 
 #: app/components/FilterBar.tsx:130
 msgid "Europe"
-msgstr "ヨーロッパ"
+msgstr "歐洲"
 
 #: app/components/FilterBar.tsx:131
 msgid "Asia"
-msgstr "アジア"
+msgstr "亞洲"
 
 #: app/components/FilterBar.tsx:132
 msgid "South America"
-msgstr "南アメリカ"
+msgstr "南美洲"
 
 #: app/components/FilterBar.tsx:133
 msgid "Oceania"
-msgstr "オセアニア"
+msgstr "大洋洲"
 
 #: app/components/FilterBar.tsx:134
 msgid "Africa"
-msgstr "アフリカ"
+msgstr "非洲"
 
 #: app/components/FilterBar.tsx:135
 msgid "Unknown"
-msgstr "不明"
+msgstr "未知"
 
 #. placeholder {0}: DEFAULT_FILTER_OPTIONS.maxDays
 #. placeholder {0}: [minDays][0]
@@ -167,7 +167,7 @@ msgstr "不明"
 #: app/components/FilterBar.tsx:348
 #: app/components/FilterBar.tsx:631
 msgid "{0, plural, one {# day or more} other {# days or more}}"
-msgstr "{0}日以上"
+msgstr "{0}天以上"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {0}: [value][0]
@@ -175,58 +175,58 @@ msgstr "{0}日以上"
 #: app/components/FilterBar.tsx:346
 #: app/components/FilterBar.tsx:629
 msgid "{0, plural, one {# day} other {# days}}"
-msgstr "{0}日間"
+msgstr "{0}天"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {1}: [maxDays][0]
 #: app/components/FilterBar.tsx:158
 msgid "{0} to {1} days"
-msgstr "{0}〜{1}日間"
+msgstr "{0}到{1}天"
 
 #: app/components/FilterBar.tsx:228
 #: app/components/FilterBar.tsx:447
 msgid "Filters"
-msgstr "絞り込み"
+msgstr "篩選器"
 
 #: app/components/FilterBar.tsx:237
 msgid "Apply"
-msgstr "適用"
+msgstr "應用"
 
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
 msgid "Going only"
-msgstr "参加予定のみ"
+msgstr "僅顯示參加的"
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
 msgid "With followed only"
-msgstr "フォロー中のユーザーのみ"
+msgstr "僅顯示有關注者的"
 
 #: app/components/FilterBar.tsx:277
 #: app/components/FilterBar.tsx:517
 msgid "Regions"
-msgstr "地域"
+msgstr "地區"
 
 #. placeholder {0}: uncommitted.continents.length
 #. placeholder {0}: filter.continents.length
 #: app/components/FilterBar.tsx:293
 #: app/components/FilterBar.tsx:544
 msgid "{0, plural, one {# selected} other {# selected}}"
-msgstr "{0}地域選択中"
+msgstr "已選擇{0}個"
 
 #: app/components/FilterBar.tsx:332
 #: app/components/FilterBar.tsx:608
 msgid "Number of days"
-msgstr "開催日数"
+msgstr "天數"
 
 #. placeholder {0}: filter.continents.length
 #: app/components/FilterBar.tsx:510
 msgid "{0, plural, one {# region} other {# regions}}"
-msgstr "{0}地域"
+msgstr "{0}個地區"
 
 #: app/components/GuessedEventMarker.tsx:8
 msgid "The details of this convention have not yet confirmed."
-msgstr "このコンベンションの詳細はまだ確定していません。"
+msgstr "此大會的詳細資訊尚未確認。"
 
 #: app/components/GuessedEventMarker.tsx:17
 msgid "Unconfirmed"
@@ -234,112 +234,112 @@ msgstr "未確認"
 
 #: app/components/LikeButton.tsx:31
 msgid "Not going"
-msgstr "参加しない"
+msgstr "不參加"
 
 #: app/components/LikeButton.tsx:36
 msgid "Toggle going"
-msgstr "参加状況を切り替え"
+msgstr "切換參加狀態"
 
 #: app/components/SimpleErrorBoundary.tsx:18
 msgid "Error"
-msgstr "エラー"
+msgstr "錯誤"
 
 #: app/components/SimpleErrorBoundary.tsx:22
 msgid "An error occurred while attempting to load this data."
-msgstr "データの読み込み中にエラーが発生しました。"
+msgstr "加載資料時發生錯誤。"
 
 #: app/components/UserDetails.tsx:49
 msgctxt "user attending events"
 msgid "Going"
-msgstr "参加予定"
+msgstr "參加中"
 
 #. placeholder {0}: filteredEvents.length
 #: app/components/UserDetails.tsx:51
 msgctxt "convention count"
 msgid "{0}"
-msgstr "{0}件"
+msgstr "{0}個"
 
 #. placeholder {0}: unknownEvents.length
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
-msgstr "自分が参加予定のないコンベンション{0}件"
+msgstr "您不參加的有{0}個大會"
 
 #: app/components/UserDetails.tsx:138
 msgctxt "user attending cons"
 msgid "Going"
-msgstr "参加予定"
+msgstr "參加中"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"
-msgstr "購読"
+msgstr "訂閱"
 
 #: app/components/events/CalendarView.tsx:108
 msgid "Calendar URL"
-msgstr "カレンダーのURL"
+msgstr "日曆網址"
 
 #: app/components/events/CalendarView.tsx:129
 #: app/components/events/ListView.tsx:430
 #: app/root.tsx:448
 msgid "Settings"
-msgstr "設定"
+msgstr "設置"
 
 #: app/components/events/CalendarView.tsx:143
 msgid "Week starts on"
-msgstr "週の開始日"
+msgstr "週起始日"
 
 #: app/components/events/CalendarView.tsx:165
 msgid "Use time zone"
-msgstr "タイムゾーンで表示"
+msgstr "使用時區"
 
 #: app/components/events/CalendarView.tsx:182
 msgid "Theirs"
-msgstr "相手の"
+msgstr "對方的"
 
 #: app/components/events/CalendarView.tsx:199
 msgid "Yours"
-msgstr "自分の"
+msgstr "自己的"
 
 #: app/components/events/ListView.tsx:341
 msgid "Date"
-msgstr "開催日"
+msgstr "日期"
 
 #: app/components/events/ListView.tsx:342
 msgid "Soonest to latest"
-msgstr "早い順"
+msgstr "最早到最晚"
 
 #: app/components/events/ListView.tsx:344
 msgid "Latest to soonest"
-msgstr "遅い順"
+msgstr "最晚到最早"
 
 #: app/components/events/ListView.tsx:349
 msgid "Name"
-msgstr "名称"
+msgstr "名稱"
 
 #: app/components/events/ListView.tsx:350
 msgid "A to Z"
-msgstr "A-Z順"
+msgstr "A到Z"
 
 #: app/components/events/ListView.tsx:352
 msgid "Z to A"
-msgstr "Z-A順"
+msgstr "Z到A"
 
 #: app/components/events/ListView.tsx:358
 #: app/components/events/ListView.tsx:366
 msgid "Fewest to most"
-msgstr "少ない順"
+msgstr "最少到最多"
 
 #: app/components/events/ListView.tsx:360
 #: app/components/events/ListView.tsx:368
 msgid "Most to fewest"
-msgstr "多い順"
+msgstr "最多到最少"
 
 #: app/components/events/ListView.tsx:365
 msgid "People you follow going"
-msgstr "フォロー中の参加者数"
+msgstr "您關注的參加者"
 
 #: app/components/events/ListView.tsx:458
 msgid "Sort by"
-msgstr "並び順"
+msgstr "排序方式"
 
 #: app/components/events/ListView.tsx:499
 msgid "Order"
@@ -348,40 +348,40 @@ msgstr "順序"
 #: app/root.tsx:240
 #: app/root.tsx:256
 msgid "Search"
-msgstr "検索"
+msgstr "搜索"
 
 #: app/root.tsx:342
 msgid "Log out"
-msgstr "ログアウト"
+msgstr "登出"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
 #: app/root.tsx:378
 msgid "Log in via {0}"
-msgstr "{0}経由でログイン"
+msgstr "透過{0}登錄"
 
 #: app/root.tsx:383
 msgid "Log in"
-msgstr "ログイン"
+msgstr "登錄"
 
 #: app/root.tsx:405
 msgid "Log in via custom PDS"
-msgstr "カスタムPDS経由でログイン"
+msgstr "透過自訂PDS登錄"
 
 #: app/root.tsx:415
 msgid "Custom PDS"
-msgstr "カスタムPDS"
+msgstr "自訂PDS"
 
 #: app/root.tsx:422
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
-msgstr "このPDSでログインできませんでした。URLを確認してください。"
+msgstr "無法使用此 DS登錄。網址是否正確？"
 
 #: app/root.tsx:428
 msgid "https://your.pds.com"
-msgstr "https://jibun-no.pds.com"
+msgstr "https://your.pds.com"
 
 #: app/root.tsx:455
 msgid "Color scheme"
-msgstr "カラースキーム"
+msgstr "主題"
 
 #: app/root.tsx:472
 msgid "Auto"
@@ -389,45 +389,45 @@ msgstr "自動"
 
 #: app/root.tsx:489
 msgid "Light"
-msgstr "ライト"
+msgstr "淺色"
 
 #: app/root.tsx:506
 msgid "Dark"
-msgstr "ダーク"
+msgstr "深色"
 
 #: app/root.tsx:539
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1>"
-msgstr "データは<0>data.cons.fyi</0>から取得しています。コンベンション情報が掲載されていない場合は、<1>こちらで問題を報告してください。</1>"
+msgstr "資料來源為<0>data.cons.fyi</0>。缺少大會資訊？<1>請在此回報問題。</1>"
 
 #: app/root.tsx:586
 #: app/root.tsx:592
 msgid "Not found"
-msgstr "見つかりません"
+msgstr "找不到"
 
 #: app/root.tsx:595
 msgid "The page you requested could not be found."
-msgstr "お探しのページが見つかりませんでした。"
+msgstr "找不到您要求的頁面。"
 
 #: app/root.tsx:628
 msgid "Welcome!"
-msgstr "ようこそ！"
+msgstr "歡迎！"
 
 #: app/root.tsx:634
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
-msgstr "<0>こちらは<1><2/>@cons.fyi</1>サービスのウェブサイトです。全ての機能をご利用いただくには、ログインしてください。ログインすると以下ができるようになります：</0><3><4>どのコンベンションに参加予定かを登録できます（Blueskyでそのコンベンションの投稿に「いいね」することでもできます）。</4><5>フォローしているユーザーがどのコンベンションに参加するかを確認できます。</5></3><6><7>注意：</7>セルフホスト型PDSを使用している場合は、ログインボタンの横にあるドロップダウンで指定する必要があります。</6><8>コンベンションの全データを提供してくださっている<9>FurryCons.com</9>の皆様に心から感謝いたします！</8>"
+msgstr "<0>這裡是 <1><2/> @cons.fyi</1> 服務的網站。要獲得完整體驗，請登錄。登錄後您可以：</0><3><4>告訴其他人您要參加哪些大會（您也可以在 Bluesky 上對大會貼文按讚來達成）。</4><5>查看您關注的人要參加哪些大會。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登錄按鈕旁的下拉選單來指定。</6><8>特別感謝 <9>FurryCons.com</9> 提供所有大會資料！</8>"
 
 #: app/root.tsx:714
 msgid "Not subscribed to labeler"
-msgstr "ラベラーに登録されていません"
+msgstr "未訂閱標籤服務"
 
 #: app/root.tsx:718
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
-msgstr "現在ラベラーに登録されていません。これにより、Bluesky上で他の人のコンベンションラベルを見ることができません。"
+msgstr "您目前未訂閱標籤服務。這表示您無法在Bluesky上看到其他人的活動標籤。"
 
 #: app/root.tsx:731
 msgid "Fix this for me"
-msgstr "修正する"
+msgstr "為我修正"
 
 #: app/routes/login.tsx:27
 msgid "Logging you in..."
-msgstr "ログイン中…"
+msgstr "登錄中…"
