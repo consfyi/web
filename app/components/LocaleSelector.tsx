@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { Select } from "@mantine/core";
+import { Select, Text } from "@mantine/core";
 import { IconLanguage } from "@tabler/icons-react";
 import { useMemo } from "react";
 import LOCALES from "~/locales";
@@ -21,6 +21,9 @@ export default function LocaleSelector() {
 
   return (
     <Select
+      renderOption={({ option: { value, label } }) => (
+        <span lang={value}>{label}</span>
+      )}
       withCheckIcon={false}
       leftSection={<IconLanguage stroke={1.5} size={18} />}
       size="xs"
