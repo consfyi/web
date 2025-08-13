@@ -190,7 +190,7 @@ export function Title({ event }: { event: Event }) {
       ) : null}
       <MantineTitle size="h4" fw={500}>
         <Flag country={event.country ?? undefined} me={6} />
-        {event.name} {guessed ? <GuessedEventMarker /> : null}{" "}
+        {event.name}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}
@@ -202,7 +202,8 @@ export function Title({ event }: { event: Event }) {
               stroke={1.5}
             />
           </Anchor>
-        </Tooltip>
+        </Tooltip>{" "}
+        {guessed ? <GuessedEventMarker /> : null}
       </MantineTitle>
     </Group>
   );

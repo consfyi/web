@@ -202,7 +202,6 @@ export default function EventRow({
                 {event.name}
               </Text>
             </Anchor>{" "}
-            {guessed ? <GuessedEventMarker /> : null}{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
               <Anchor
                 href={event.url}
@@ -212,7 +211,8 @@ export default function EventRow({
               >
                 <IconWorld size={12} />
               </Anchor>
-            </Tooltip>
+            </Tooltip>{" "}
+            {guessed ? <GuessedEventMarker /> : null}
           </Text>
         </Group>
         <Text size="sm" truncate className={classes.itemDetails}>
