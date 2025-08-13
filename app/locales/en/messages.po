@@ -200,8 +200,8 @@ msgstr "Going"
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
-msgid "With followed only"
-msgstr "With followed only"
+msgid "With followed"
+msgstr "With followed"
 
 #: app/components/FilterBar.tsx:277
 #: app/components/FilterBar.tsx:517

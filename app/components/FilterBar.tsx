@@ -259,7 +259,7 @@ function FilterDrawer({
           mb="sm"
           disabled={followedEventAttendees == null}
           checked={uncommitted.followed}
-          label={<Trans>With followed only</Trans>}
+          label={<Trans>With followed</Trans>}
           onChange={(e) => {
             setDirty({
               ...uncommitted,
@@ -666,7 +666,7 @@ export default function FilterBar({
                     variant: "default",
                   })}
             >
-              <Trans>With followed only</Trans>
+              <Trans>With followed</Trans>
             </Button>
           ) : null}
         </Group>

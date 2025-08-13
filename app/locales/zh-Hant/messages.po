@@ -202,8 +202,8 @@ msgstr "參加"
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
-msgid "With followed only"
-msgstr "僅顯示有關注者的"
+msgid "With followed"
+msgstr "和我關注的"
 
 #: app/components/FilterBar.tsx:277
 #: app/components/FilterBar.tsx:517

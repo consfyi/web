@@ -195,15 +195,15 @@ msgstr "適用"
 
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
-#: app/components/UserDetails.tsx:49
-msgctxt "events user attending"
+#: app/components/UserDetails.tsx:138
+msgctxt "user attending events"
 msgid "Going"
-msgstr "参加"
+msgstr ""
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
-msgid "With followed only"
-msgstr "フォロー中のユーザーのみ"
+msgid "With followed"
+msgstr "フォロー中のユーザーと"
 
 #: app/components/FilterBar.tsx:277
 #: app/components/FilterBar.tsx:517
@@ -257,6 +257,11 @@ msgstr "エラー"
 msgid "An error occurred while attempting to load this data."
 msgstr "データの読み込み中にエラーが発生しました。"
 
+#: app/components/UserDetails.tsx:49
+msgctxt "events user attending"
+msgid "Going"
+msgstr "参加"
+
 #. placeholder {0}: filteredEvents.length
 #: app/components/UserDetails.tsx:51
 msgctxt "convention count"
@@ -267,11 +272,6 @@ msgstr "{0}件"
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "自分が参加しないコンベンション{0}件"
-
-#: app/components/UserDetails.tsx:138
-msgctxt "user attending events"
-msgid "Going"
-msgstr "参加"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"
