@@ -183,15 +183,18 @@ function EventSegment({ segment }: { segment: Segment }) {
         pos="relative"
         size="xs"
         c={colors.color}
-        bg={
-          segment.event.variant == "light"
-            ? `color-mix(in srgb, var(--mantine-color-${segment.event.color}-filled), var(--mantine-color-body) 90%)`
-            : colors.background
-        }
         w={`calc(${length} * (100% + 1px) - 1px)`}
         left={0}
         truncate
         style={{
+          backgroundColor:
+            segment.event.variant == "light"
+              ? `color-mix(in srgb, var(--mantine-color-${segment.event.color}-filled), var(--mantine-color-body) 90%)`
+              : colors.background,
+          backgroundSize:
+            "calc(1.25rem * var(--mantine-scale)) calc(1.25rem * var(--mantine-scale))",
+          // backgroundImage:
+          //   "linear-gradient(45deg, hsla(0, 0%, 100%, .5) 25%, transparent 0, transparent 50%, hsla(0, 0%, 100%, .5) 0, hsla(0, 0%, 100%, .5) 75%, transparent 0, transparent)",
           textAlign: "start",
           borderColor:
             segment.event.variant == "light" ? colors.color : colors.background,
