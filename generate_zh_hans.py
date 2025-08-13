@@ -18,12 +18,14 @@ with open("app/locales/zh-Hant/messages.po", "r") as f:
     po = polib.pofile(f.read())
 
 TW_TO_CN = {
+    # Computer words
     "搜尋": "搜索",
     "使用者": "用户",
     "載入": "加载",
     "設定": "设置",
     "登入": "登录",
     "套用": "应用",
+    # "Convention"
     "活動": "大会",
 }
 
