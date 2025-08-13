@@ -245,7 +245,7 @@ function FilterDrawer({
           checked={uncommitted.going}
           color="red"
           icon={(props) => <IconHeartFilled {...props} />}
-          label={<Trans>Going only</Trans>}
+          label={<Trans context="user attending events">Going</Trans>}
           onChange={(e) => {
             setDirty({
               ...uncommitted,
@@ -483,7 +483,7 @@ export default function FilterBar({
                     variant: "default",
                   })}
             >
-              <Trans>Going only</Trans>
+              <Trans context="user attending events">Going</Trans>
             </Button>
           ) : null}
           <Menu position="bottom-start" withArrow closeOnItemClick={false}>

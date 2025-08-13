@@ -86,7 +86,6 @@ msgid "This convention has already ended. Information on who is going is no long
 msgstr "This convention has already ended. Information on who is going is no longer available."
 
 #: app/components/EventDetails.tsx:374
-#: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "Going"
 
@@ -155,6 +154,7 @@ msgid "Africa"
 msgstr "Africa"
 
 #: app/components/FilterBar.tsx:135
+#: app/components/Flag.tsx:40
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -192,8 +192,11 @@ msgstr "Apply"
 
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
-msgid "Going only"
-msgstr "Going only"
+#: app/components/UserDetails.tsx:49
+#: app/components/UserDetails.tsx:138
+msgctxt "user attending events"
+msgid "Going"
+msgstr "Going"
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
@@ -230,11 +233,17 @@ msgstr "The details of this convention have not yet confirmed."
 msgid "Unconfirmed"
 msgstr "Unconfirmed"
 
-#: app/components/LikeButton.tsx:31
+#: app/components/LikeButton.tsx:34
+msgctxt "like button"
+msgid "Going"
+msgstr "Going"
+
+#: app/components/LikeButton.tsx:36
+msgctxt "like button"
 msgid "Not going"
 msgstr "Not going"
 
-#: app/components/LikeButton.tsx:36
+#: app/components/LikeButton.tsx:44
 msgid "Toggle going"
 msgstr "Toggle going"
 
@@ -246,11 +255,6 @@ msgstr "Error"
 msgid "An error occurred while attempting to load this data."
 msgstr "An error occurred while attempting to load this data."
 
-#: app/components/UserDetails.tsx:49
-msgctxt "user attending events"
-msgid "Going"
-msgstr "Going"
-
 #. placeholder {0}: filteredEvents.length
 #: app/components/UserDetails.tsx:51
 msgctxt "convention count"
@@ -261,11 +265,6 @@ msgstr "{0}"
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
-
-#: app/components/UserDetails.tsx:138
-msgctxt "user attending cons"
-msgid "Going"
-msgstr "Going"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"

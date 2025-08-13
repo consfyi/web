@@ -88,7 +88,6 @@ msgid "This convention has already ended. Information on who is going is no long
 msgstr "このコンベンションはすでに終了しています。参加者に関する情報はもう利用できません。"
 
 #: app/components/EventDetails.tsx:374
-#: app/components/LikeButton.tsx:31
 msgid "Going"
 msgstr "参加者"
 
@@ -157,6 +156,7 @@ msgid "Africa"
 msgstr "アフリカ"
 
 #: app/components/FilterBar.tsx:135
+#: app/components/Flag.tsx:40
 msgid "Unknown"
 msgstr "不明"
 
@@ -194,8 +194,11 @@ msgstr "適用"
 
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
-msgid "Going only"
-msgstr "参加予定のみ"
+#: app/components/UserDetails.tsx:49
+#: app/components/UserDetails.tsx:138
+msgctxt "user attending events"
+msgid "Going"
+msgstr "参加予定"
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
@@ -232,11 +235,17 @@ msgstr "このコンベンションの詳細はまだ確定していません。
 msgid "Unconfirmed"
 msgstr "未確認"
 
-#: app/components/LikeButton.tsx:31
+#: app/components/LikeButton.tsx:34
+msgctxt "like button"
+msgid "Going"
+msgstr "参加する"
+
+#: app/components/LikeButton.tsx:36
+msgctxt "like button"
 msgid "Not going"
 msgstr "参加しない"
 
-#: app/components/LikeButton.tsx:36
+#: app/components/LikeButton.tsx:44
 msgid "Toggle going"
 msgstr "参加状況を切り替え"
 
@@ -248,11 +257,6 @@ msgstr "エラー"
 msgid "An error occurred while attempting to load this data."
 msgstr "データの読み込み中にエラーが発生しました。"
 
-#: app/components/UserDetails.tsx:49
-msgctxt "user attending events"
-msgid "Going"
-msgstr "参加予定"
-
 #. placeholder {0}: filteredEvents.length
 #: app/components/UserDetails.tsx:51
 msgctxt "convention count"
@@ -263,11 +267,6 @@ msgstr "{0}件"
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "自分が参加予定のないコンベンション{0}件"
-
-#: app/components/UserDetails.tsx:138
-msgctxt "user attending cons"
-msgid "Going"
-msgstr "参加予定"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"

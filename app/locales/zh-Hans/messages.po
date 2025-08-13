@@ -100,7 +100,7 @@ msgid ""
 "available."
 msgstr "此大会已结束。参加者资讯不再提供。"
 
-#: app/components/EventDetails.tsx:374 app/components/LikeButton.tsx:31
+#: app/components/EventDetails.tsx:374
 msgid "Going"
 msgstr "参加者"
 
@@ -166,7 +166,7 @@ msgstr "大洋洲"
 msgid "Africa"
 msgstr "非洲"
 
-#: app/components/FilterBar.tsx:135
+#: app/components/FilterBar.tsx:135 app/components/Flag.tsx:40
 msgid "Unknown"
 msgstr "未知"
 
@@ -199,8 +199,10 @@ msgid "Apply"
 msgstr "应用"
 
 #: app/components/FilterBar.tsx:248 app/components/FilterBar.tsx:486
-msgid "Going only"
-msgstr "仅显示参加的"
+#: app/components/UserDetails.tsx:49 app/components/UserDetails.tsx:138
+msgctxt "user attending events"
+msgid "Going"
+msgstr "参加中"
 
 #: app/components/FilterBar.tsx:262 app/components/FilterBar.tsx:669
 msgid "With followed only"
@@ -233,11 +235,17 @@ msgstr "此大会的详细资讯尚未确认。"
 msgid "Unconfirmed"
 msgstr "未确认"
 
-#: app/components/LikeButton.tsx:31
+#: app/components/LikeButton.tsx:34
+msgctxt "like button"
+msgid "Going"
+msgstr "参加"
+
+#: app/components/LikeButton.tsx:36
+msgctxt "like button"
 msgid "Not going"
 msgstr "不参加"
 
-#: app/components/LikeButton.tsx:36
+#: app/components/LikeButton.tsx:44
 msgid "Toggle going"
 msgstr "切换参加状态"
 
@@ -248,11 +256,6 @@ msgstr "错误"
 #: app/components/SimpleErrorBoundary.tsx:22
 msgid "An error occurred while attempting to load this data."
 msgstr "加载资料时发生错误。"
-
-#: app/components/UserDetails.tsx:49
-msgctxt "user attending events"
-msgid "Going"
-msgstr "参加中"
 
 #. placeholder {0}: filteredEvents.length
 #: app/components/UserDetails.tsx:51
@@ -266,11 +269,6 @@ msgid ""
 "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going "
 "to}}"
 msgstr "您不参加的有{0}个大会"
-
-#: app/components/UserDetails.tsx:138
-msgctxt "user attending cons"
-msgid "Going"
-msgstr "参加中"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"
