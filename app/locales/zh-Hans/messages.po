@@ -102,7 +102,7 @@ msgstr "此大会已结束。参加者资讯不再提供。"
 
 #: app/components/EventDetails.tsx:374 app/components/LikeButton.tsx:31
 msgid "Going"
-msgstr "参加"
+msgstr "参加者"
 
 #. placeholder {0}: [likeCount][0]
 #: app/components/EventDetails.tsx:377

@@ -90,7 +90,7 @@ msgstr "此活動已結束。參加者資訊不再提供。"
 #: app/components/EventDetails.tsx:374
 #: app/components/LikeButton.tsx:31
 msgid "Going"
-msgstr "參加"
+msgstr "參加者"
 
 #. placeholder {0}: [likeCount][0]
 #: app/components/EventDetails.tsx:377
