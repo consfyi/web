@@ -248,6 +248,12 @@ export function Body({ event }: { event: Event }) {
 
   const over = !isBefore(now, event.end);
 
+  const sources = useMemo(
+    () =>
+      event.sources != null ? event.sources.filter((s) => s != "guessed") : [],
+    [event.sources],
+  );
+
   return (
     <>
       <Box mb="sm">
@@ -316,15 +322,11 @@ export function Body({ event }: { event: Event }) {
                 >
                   File an issue here.
                 </Anchor>{" "}
-                {event.sources != null && event.sources.length > 0 ? (
+                {sources.length > 0 ? (
                   <Trans>
                     This information was originally sourced from{" "}
                     <IntlList
-                      items={event.sources.flatMap((source) => {
-                        if (source == "guessed") {
-                          return [];
-                        }
-
+                      items={sources.flatMap((source) => {
                         const attribution = attributions[source];
                         return attribution != undefined
                           ? [
