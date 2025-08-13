@@ -207,7 +207,7 @@ msgstr "参加"
 
 #: app/components/FilterBar.tsx:262 app/components/FilterBar.tsx:669
 msgid "With followed"
-msgstr "和您关注的"
+msgstr "有和您关注的"
 
 #: app/components/FilterBar.tsx:277 app/components/FilterBar.tsx:517
 msgid "Regions"
