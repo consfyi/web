@@ -7,6 +7,7 @@
 # ]
 # ///
 
+import os
 import re
 import polib
 from langconv.converter import LanguageConverter
@@ -36,6 +37,7 @@ def convert(s):
     return lc_cn.convert(TW_TO_CN_RE.sub(lambda x: TW_TO_CN[x.group(0)], entry.msgstr))
 
 
+po.metadata["X-Generator"] = os.path.basename(__file__)
 po.metadata["Language"] = "zh-Hans"
 
 for entry in po:
