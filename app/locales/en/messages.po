@@ -86,6 +86,7 @@ msgid "This convention has already ended. Information on who is going is no long
 msgstr "This convention has already ended. Information on who is going is no longer available."
 
 #: app/components/EventDetails.tsx:374
+msgctxt "users attending event"
 msgid "Going"
 msgstr "Going"
 
@@ -193,8 +194,7 @@ msgstr "Apply"
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
 #: app/components/UserDetails.tsx:49
-#: app/components/UserDetails.tsx:138
-msgctxt "user attending events"
+msgctxt "events user attending"
 msgid "Going"
 msgstr "Going"
 
@@ -265,6 +265,11 @@ msgstr "{0}"
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
+
+#: app/components/UserDetails.tsx:138
+msgctxt "user attending events"
+msgid "Going"
+msgstr "Going"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"

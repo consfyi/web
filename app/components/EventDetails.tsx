@@ -371,7 +371,7 @@ export function Body({ event }: { event: Event }) {
       {eventHasPost(event) ? (
         <Box mt="sm" mb="calc(var(--mantine-spacing-sm) * -1)">
           <MantineTitle order={2} size="h5" fw={500} mb="sm">
-            <Trans>Going</Trans>{" "}
+            <Trans context="users attending event">Going</Trans>{" "}
             <Text size="sm" span>
               {isAttending ? (
                 <Trans context="attendee count, including you">

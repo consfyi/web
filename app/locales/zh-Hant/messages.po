@@ -88,6 +88,7 @@ msgid "This convention has already ended. Information on who is going is no long
 msgstr "此活動已結束。參加者資訊不再提供。"
 
 #: app/components/EventDetails.tsx:374
+msgctxt "users attending event"
 msgid "Going"
 msgstr "參加者"
 
@@ -195,10 +196,9 @@ msgstr "套用"
 #: app/components/FilterBar.tsx:248
 #: app/components/FilterBar.tsx:486
 #: app/components/UserDetails.tsx:49
-#: app/components/UserDetails.tsx:138
-msgctxt "user attending events"
+msgctxt "events user attending"
 msgid "Going"
-msgstr "參加中"
+msgstr "參加"
 
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
@@ -267,6 +267,11 @@ msgstr "{0}個"
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
 msgstr "您不參加的有{0}個活動"
+
+#: app/components/UserDetails.tsx:138
+msgctxt "user attending events"
+msgid "Going"
+msgstr "參加"
 
 #: app/components/events/CalendarView.tsx:92
 msgid "Subscribe"
