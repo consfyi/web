@@ -229,7 +229,7 @@ msgid "{0, plural, one {# region} other {# regions}}"
 msgstr "{0}个地区"
 
 #: app/components/GuessedEventMarker.tsx:8
-msgid "The details of this convention have not yet confirmed."
+msgid "The details of this convention have not yet been confirmed."
 msgstr "此大会的详细资讯尚未确认。"
 
 #: app/components/GuessedEventMarker.tsx:17

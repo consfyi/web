@@ -5,7 +5,9 @@ export default function GuessedEventMarker() {
   return (
     <Tooltip
       label={
-        <Trans>The details of this convention have not yet confirmed.</Trans>
+        <Trans>
+          The details of this convention have not yet been confirmed.
+        </Trans>
       }
     >
       <Badge
