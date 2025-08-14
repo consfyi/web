@@ -308,7 +308,7 @@ export function Body({ event }: { event: Event }) {
                 <Text span size="xs">
                   {event.address}
                 </Text>
-              </Anchor>{" "}
+              </Anchor>
             </Text>
           </Group>
 
