@@ -26,7 +26,7 @@ msgstr "清除所有篩選器"
 #: app/components/EventDetails.tsx:147
 #: app/components/EventDetails.tsx:412
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
-msgstr "您未關注的有{0}位使用者"
+msgstr "您未關注的有{0}位"
 
 #: app/components/EventDetails.tsx:167
 msgid "Nobody known to be going yet."
@@ -266,7 +266,7 @@ msgstr "{0}個"
 #. placeholder {0}: unknownEvents.length
 #: app/components/UserDetails.tsx:76
 msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
-msgstr "您不參加的有{0}個活動"
+msgstr "您不參加的有{0}個"
 
 #: app/components/UserDetails.tsx:138
 msgctxt "user attending events"
