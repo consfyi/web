@@ -203,7 +203,7 @@ msgstr ""
 #: app/components/FilterBar.tsx:262
 #: app/components/FilterBar.tsx:669
 msgid "With followed"
-msgstr "フォロー中のユーザーと"
+msgstr "フォロー中と"
 
 #: app/components/FilterBar.tsx:277
 #: app/components/FilterBar.tsx:517
