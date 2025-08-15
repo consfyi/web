@@ -24,7 +24,7 @@ msgstr "清除所有篩選器"
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:147
-#: app/components/EventDetails.tsx:412
+#: app/components/EventDetails.tsx:415
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "您未關注的有{0}位"
 
@@ -37,7 +37,7 @@ msgstr "目前還沒有已知的參加者。"
 msgid "View Bluesky Post"
 msgstr "查看Bluesky貼文"
 
-#: app/components/EventDetails.tsx:256
+#: app/components/EventDetails.tsx:263
 #: app/components/EventRow.tsx:278
 msgid "Dates"
 msgstr "日期"
@@ -45,67 +45,67 @@ msgstr "日期"
 #. placeholder {0}: [ dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(event.end), ), ][0]
 #. placeholder {0}: dateTimeFormat.formatRange( reinterpretAsLocalDate(event.start), reinterpretAsLocalDate(event.end), )
 #. placeholder {1}: differenceInDays(event.end, event.start) + 1
-#: app/components/EventDetails.tsx:259
+#: app/components/EventDetails.tsx:266
 #: app/components/EventRow.tsx:279
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
 msgstr "{0}（共{1}天）"
 
-#: app/components/EventDetails.tsx:277
-#: app/components/EventRow.tsx:211
+#: app/components/EventDetails.tsx:284
+#: app/components/EventRow.tsx:210
 msgid "Website"
 msgstr "網站"
 
-#: app/components/EventDetails.tsx:292
+#: app/components/EventDetails.tsx:299
 #: app/components/EventRow.tsx:299
 #: app/components/EventRow.tsx:316
 msgid "Location"
 msgstr "地點"
 
-#. placeholder {0}: event.sources != null && event.sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={event.sources.flatMap((source) => { if (source == "guessed") { return []; } const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:310
+#. placeholder {0}: sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={sources.flatMap((source) => { const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
+#: app/components/EventDetails.tsx:317
 msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
 msgstr "此資訊需要編輯或移除嗎？<0>請在此回報問題。</0>{0}"
 
-#: app/components/EventDetails.tsx:319
+#: app/components/EventDetails.tsx:326
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "此資訊原始來源為 <0/>。可能適用使用限制。"
 
-#: app/components/EventDetails.tsx:352
+#: app/components/EventDetails.tsx:355
 msgid "This convention was canceled."
 msgstr "此活動已取消。"
 
-#: app/components/EventDetails.tsx:356
+#: app/components/EventDetails.tsx:359
 msgid "This convention is currently in progress."
 msgstr "此活動目前正在進行中。"
 
-#: app/components/EventDetails.tsx:361
+#: app/components/EventDetails.tsx:364
 msgid "This convention has already ended."
 msgstr "此活動已結束。"
 
-#: app/components/EventDetails.tsx:363
+#: app/components/EventDetails.tsx:366
 msgid "This convention has already ended. Information on who is going is no longer available."
 msgstr "此活動已結束。參加者資訊不再提供。"
 
-#: app/components/EventDetails.tsx:374
+#: app/components/EventDetails.tsx:377
 msgctxt "users attending event"
 msgid "Going"
 msgstr "參加"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:377
+#: app/components/EventDetails.tsx:380
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0}位（包含您）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:381
+#: app/components/EventDetails.tsx:384
 #: app/components/EventRow.tsx:228
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}位"
 
-#: app/components/EventDetails.tsx:391
+#: app/components/EventDetails.tsx:394
 msgid "Loading people you follow"
 msgstr "載入您關注的使用者"
 
@@ -231,7 +231,7 @@ msgstr "{0}個地區"
 msgid "The details of this convention have not yet been confirmed."
 msgstr "此活動的詳細資訊尚未確認。"
 
-#: app/components/GuessedEventMarker.tsx:17
+#: app/components/GuessedEventMarker.tsx:19
 msgid "Unconfirmed"
 msgstr "未確認"
 
@@ -400,35 +400,35 @@ msgid "Dark"
 msgstr "深色"
 
 #: app/root.tsx:539
-msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1>"
-msgstr "資料來源為<0>data.cons.fyi</0>。缺少活動資訊？<1>請在此回報問題。</1>"
+msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Listed conventions are for reference only and no endorsement is implied."
+msgstr "資料來源為<0>data.cons.fyi</0>。缺少活動資訊？<1>請在此回報問題。</1>所列之活動僅供參考，並不表示任何背書或保證。"
 
-#: app/root.tsx:586
-#: app/root.tsx:592
+#: app/root.tsx:588
+#: app/root.tsx:594
 msgid "Not found"
 msgstr "找不到"
 
-#: app/root.tsx:595
+#: app/root.tsx:597
 msgid "The page you requested could not be found."
 msgstr "找不到您要求的頁面。"
 
-#: app/root.tsx:628
+#: app/root.tsx:630
 msgid "Welcome!"
 msgstr "歡迎！"
 
-#: app/root.tsx:634
+#: app/root.tsx:636
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
 msgstr "<0>這裡是<1><2/>@cons.fyi</1>服務的網站。要獲得完整體驗，請登入。登入後您可以：</0><3><4>告訴其他人您要參加哪些活動（您也可以在 Bluesky 上對活動貼文按讚來達成）。</4><5>查看您關注的人要參加哪些活動。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登入按鈕旁的下拉選單來指定。</6><8>特別感謝 <9>FurryCons.com</9> 提供所有活動資料！</8>"
 
-#: app/root.tsx:714
+#: app/root.tsx:716
 msgid "Not subscribed to labeler"
 msgstr "未訂閱標籤服務"
 
-#: app/root.tsx:718
+#: app/root.tsx:720
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "您目前未訂閱標籤服務。這表示您無法在Bluesky上看到其他人的活動標籤。"
 
-#: app/root.tsx:731
+#: app/root.tsx:733
 msgid "Fix this for me"
 msgstr "為我修正"
 
