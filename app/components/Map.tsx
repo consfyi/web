@@ -68,7 +68,39 @@ function makeStyle({
     sprite: `https://protomaps.github.io/basemaps-assets/sprites/v4/${flavorName}`,
     layers: layers("protomaps", namedFlavor(flavorName), {
       lang: match([locale], SUPPORTED_LANGUAGES, "en"),
-    }),
+    }).map((layer) =>
+      layer.id == "pois"
+        ? {
+            ...layer,
+            filter: [
+              "all",
+              [
+                "in",
+                ["get", "kind"],
+                [
+                  "literal",
+                  [
+                    "beach",
+                    "forest",
+                    "marina",
+                    "park",
+                    "peak",
+                    "zoo",
+                    "aerodrome",
+                    "station",
+                    "ferry_terminal",
+                    "stadium",
+                    "university",
+                    "library",
+                    "school",
+                  ],
+                ],
+              ],
+              [">=", ["zoom"], ["+", ["get", "min_zoom"], 0]],
+            ],
+          }
+        : layer,
+    ),
 
     transition: { duration: 0, delay: 0 },
   };
@@ -228,6 +260,7 @@ export function BasicMap({
 >) {
   const colorScheme = useComputedColorScheme();
   const defaultMapStyle = useMapStyle();
+  console.log(defaultMapStyle);
 
   return (
     <div
