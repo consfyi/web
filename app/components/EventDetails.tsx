@@ -185,7 +185,7 @@ export function Title({ event }: { event: Event }) {
     <Group gap={7} wrap="nowrap" align="top">
       {eventHasPost(event) && event.post.viewer != null ? (
         <Box mt={2} mb={-2}>
-          <LikeButton size="sm" iconSize={24} post={event.post} />
+          <LikeButton size="sm" iconSize={20} post={event.post} />
         </Box>
       ) : null}
       <MantineTitle size="h4" fw={500}>

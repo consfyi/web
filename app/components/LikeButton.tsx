@@ -38,7 +38,7 @@ export default function LikeButton({
       }
     >
       <ActionIcon
-        color={isLiked ? "var(--mantine-color-red-filled)" : "dimmed"}
+        color={isLiked ? "var(--mantine-color-red-filled)" : "gray"}
         aria-pressed={isLiked}
         disabled={loading}
         aria-label={t`Toggle going`}
