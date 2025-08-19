@@ -30,10 +30,10 @@ export default function IntlList({
 
   return parts.map((part, i) => {
     const match = part.match(/^__item(\d+)__$/);
-    return (
-      <Fragment key={i}>
-        {match != null ? items[parseInt(match[1], 10)] : part}
-      </Fragment>
-    );
+    if (match == null) {
+      return <Fragment key={`part:${i}`}>{part}</Fragment>;
+    }
+    const itemIdx = parseInt(match[1], 10);
+    return <Fragment key={`item:${itemIdx}`}>{items[itemIdx]}</Fragment>;
   });
 }
