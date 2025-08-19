@@ -107,7 +107,7 @@ msgstr "{0}位"
 
 #: app/components/EventDetails.tsx:394
 msgid "Loading people you follow"
-msgstr "載入您關注的使用者"
+msgstr "載入您關注的使用者數"
 
 #: app/components/EventRow.tsx:222
 #: app/components/events/ListView.tsx:357

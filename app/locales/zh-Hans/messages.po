@@ -119,7 +119,7 @@ msgstr "{0}位"
 
 #: app/components/EventDetails.tsx:394
 msgid "Loading people you follow"
-msgstr "加载您关注的用户"
+msgstr "加载您关注的用户数"
 
 #: app/components/EventRow.tsx:222 app/components/events/ListView.tsx:357
 msgctxt "number of people going"
