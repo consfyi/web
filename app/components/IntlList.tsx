@@ -31,7 +31,7 @@ export default function IntlList({
       }
       case "element": {
         const itemIdx = parseInt(p.value, 10);
-        return <Fragment key={`item:${itemIdx}`}>{items[itemIdx]}</Fragment>;
+        return <Fragment key={`element:${itemIdx}`}>{items[itemIdx]}</Fragment>;
       }
     }
   });
