@@ -24,16 +24,15 @@ export default function IntlList({
     type,
   }));
 
-  const parts = formatter
-    .format(items.map((_, i) => `__item${i}__`))
-    .split(/(__item\d+__)/g);
-
-  return parts.map((part, i) => {
-    const match = part.match(/^__item(\d+)__$/);
-    if (match == null) {
-      return <Fragment key={`part:${i}`}>{part}</Fragment>;
+  return formatter.formatToParts(items.map((_, i) => `${i}`)).map((p, i) => {
+    switch (p.type) {
+      case "literal": {
+        return <Fragment key={`literal:${i}`}>{p.value}</Fragment>;
+      }
+      case "element": {
+        const itemIdx = parseInt(p.value, 10);
+        return <Fragment key={`item:${itemIdx}`}>{items[itemIdx]}</Fragment>;
+      }
     }
-    const itemIdx = parseInt(match[1], 10);
-    return <Fragment key={`item:${itemIdx}`}>{items[itemIdx]}</Fragment>;
   });
 }
