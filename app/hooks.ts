@@ -71,9 +71,8 @@ export interface Event {
 
   labelId: string | null;
   postRkey: string | null;
+  post: Post | null;
 }
-
-export type EventWithPost = Event & { post: Post };
 
 export function useEvent(id: string): Event {
   const event = useSuspense(getEvent, { id });
@@ -105,7 +104,8 @@ export function useEvent(id: string): Event {
 
     labelId: label != null ? label.labelId : null,
     postRkey: label != null ? label.postRkey : null,
-  } satisfies Event;
+    post: null,
+  };
 }
 
 export function useLabelsById() {
@@ -175,6 +175,7 @@ export function useEvents() {
 
             labelId: label.labelId,
             postRkey: label.postRkey,
+            post: null,
           } satisfies Event,
         ];
       });
@@ -184,7 +185,7 @@ export function useEvents() {
   return events;
 }
 
-export function useEventWithMaybePost(id: string): Event | EventWithPost {
+export function useEventWithMaybePost(id: string): Event {
   const event = useEvent(id);
   const post = usePost(
     event.postRkey != null
@@ -193,7 +194,7 @@ export function useEventWithMaybePost(id: string): Event | EventWithPost {
   );
   return {
     ...event,
-    ...(post != null ? { post } : {}),
+    post: post ?? null,
   };
 }
 export function useEventsWithPosts() {
@@ -202,7 +203,7 @@ export function useEventsWithPosts() {
 
   return events.flatMap((event) =>
     Object.prototype.hasOwnProperty.call(eventPosts, event.postRkey)
-      ? [{ ...event, post: eventPosts[event.postRkey] }]
+      ? [{ ...event, post: eventPosts[event.postRkey] ?? null }]
       : [],
   );
 }
@@ -341,8 +342,4 @@ export function useNow(interval: number = Infinity) {
     };
   }, [interval, setNow]);
   return now;
-}
-
-export function eventHasPost(e: Event): e is EventWithPost {
-  return "post" in e;
 }

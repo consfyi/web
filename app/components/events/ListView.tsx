@@ -26,7 +26,6 @@ import absurd from "~/absurd";
 import { reinterpretAsLocalDate } from "~/date";
 import {
   type Event,
-  type EventWithPost,
   useFollowedEventAttendees,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
@@ -241,7 +240,7 @@ function EventsByAttendees({
   sortDesc,
   density,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   sortDesc: boolean;
   density: Density;
 }) {
@@ -249,7 +248,7 @@ function EventsByAttendees({
     () =>
       sorted(
         events,
-        comparing((event) => event.post.likeCount),
+        comparing((event) => (event.post != null ? event.post.likeCount : 0)),
       ),
     [events],
   );
@@ -271,7 +270,7 @@ function EventsByFollowed({
   sortDesc,
   density,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   sortDesc: boolean;
   density: Density;
 }) {
@@ -284,10 +283,12 @@ function EventsByFollowed({
         compareMany(
           comparing((event) =>
             followedEventAttendees == null
-              ? event.post.likeCount
+              ? event.post != null
+                ? event.post.likeCount
+                : 0
               : (followedEventAttendees[event.id] ?? []).length,
           ),
-          comparing((event) => event.post.likeCount),
+          comparing((event) => (event.post != null ? event.post.likeCount : 0)),
         ),
       ),
     [events, followedEventAttendees],
@@ -389,7 +390,7 @@ export default function ListView({
   filter,
   setFilter,
 }: {
-  events: EventWithPost[];
+  events: Event[];
   layout: LayoutOptions;
   setLayout(layout: LayoutOptions): void;
   filter: FilterOptions;

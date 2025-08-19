@@ -36,7 +36,6 @@ import { reinterpretAsLocalDate } from "~/date";
 import { Profile } from "~/endpoints";
 import {
   type Event,
-  eventHasPost,
   useFollowedEventAttendeesDLE,
   useLikes,
   useNow,
@@ -183,7 +182,7 @@ export function Title({ event }: { event: Event }) {
 
   return (
     <Group gap={7} wrap="nowrap" align="top">
-      {eventHasPost(event) && event.post.viewer != null ? (
+      {event.post?.viewer != null ? (
         <Box mt={2} mb={-2}>
           <LikeButton size="sm" iconSize={20} post={event.post} />
         </Box>
@@ -233,8 +232,8 @@ export function Body({ event }: { event: Event }) {
 
   const self = useSelf();
 
-  const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
-  const likeCount = eventHasPost(event) ? (event.post.likeCount ?? 0) : 0;
+  const isAttending = event.post?.viewer?.like != null;
+  const likeCount = event.post != null ? (event.post.likeCount ?? 0) : 0;
 
   const knownLikeCount =
     self != null
@@ -360,7 +359,7 @@ export function Body({ event }: { event: Event }) {
         </Alert>
       ) : over ? (
         <Alert icon={<IconCalendarCheck />}>
-          {eventHasPost(event) ? (
+          {event.post != null ? (
             <Trans>This convention has already ended.</Trans>
           ) : (
             <Trans>
@@ -371,7 +370,7 @@ export function Body({ event }: { event: Event }) {
         </Alert>
       ) : null}
 
-      {eventHasPost(event) ? (
+      {event.post != null ? (
         <Box mt="sm" mb="calc(var(--mantine-spacing-sm) * -1)">
           <MantineTitle order={2} size="h5" fw={500} mb="sm">
             <Trans context="users attending event">Going</Trans>{" "}

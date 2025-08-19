@@ -2,7 +2,7 @@ import { Box, Center, Container, Loader } from "@mantine/core";
 import { getDay, isBefore } from "date-fns";
 import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { type Event, eventHasPost, useNow } from "~/hooks";
+import { type Event, useNow } from "~/hooks";
 import * as qp from "~/qp";
 import EmptyState from "../EmptyState";
 import EventRow from "../EventRow";
@@ -145,12 +145,7 @@ function MapInner({
             "violet",
           ][getDay(event.start)];
 
-          const variant =
-            eventHasPost(event) &&
-            event.post.viewer != null &&
-            event.post.viewer.like != null
-              ? "filled"
-              : "light";
+          const variant = event.post?.viewer?.like != null ? "filled" : "light";
 
           return [
             {
@@ -161,9 +156,7 @@ function MapInner({
               color,
               variant,
               zIndex:
-                eventHasPost(event) &&
-                event.post.viewer != null &&
-                event.post.viewer.like != null
+                event.post?.viewer?.like != null
                   ? 3
                   : inProgress
                     ? 2

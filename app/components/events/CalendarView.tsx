@@ -20,7 +20,7 @@ import { getDay, isBefore, type Day } from "date-fns";
 import { Suspense, useRef, useState } from "react";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
-import { eventHasPost, useNow, type Event } from "~/hooks";
+import { useNow, type Event } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
 import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";
@@ -263,11 +263,7 @@ export default function CalendarView({
                       ][getDay(event.start)]
                     : "gray",
                   variant:
-                    eventHasPost(event) &&
-                    event.post.viewer != null &&
-                    event.post.viewer.like != null
-                      ? "filled"
-                      : "light",
+                    event.post?.viewer?.like != null ? "filled" : "light",
                   title: event.name,
                   link: `/${event.id}`,
                   start: event.start,

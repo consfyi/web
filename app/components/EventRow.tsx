@@ -25,12 +25,7 @@ import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import { reinterpretAsLocalDate } from "~/date";
-import {
-  type Event,
-  eventHasPost,
-  useFollowedEventAttendeesDLE,
-  useNow,
-} from "~/hooks";
+import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
 import classes from "./EventRow.module.css";
 import GuessedEventMarker from "./GuessedEventMarker";
 
@@ -55,11 +50,11 @@ export default function EventRow({
   density: "comfortable" | "cozy" | "compact";
   withId: boolean;
 }) {
-  const isAttending = eventHasPost(event) && event.post.viewer?.like != null;
+  const isAttending = event.post?.viewer?.like != null;
   const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
   const likeCountWithoutSelf =
-    (eventHasPost(event) ? event.post.likeCount || 0 : 0) -
+    (event.post != null ? event.post.likeCount || 0 : 0) -
     (isAttending ? 1 : 0);
 
   const likeCount = likeCountWithoutSelf + (isAttending ? 1 : 0);
@@ -176,9 +171,7 @@ export default function EventRow({
         className={density == "compact" ? classes.compact : ""}
       >
         <Group gap={7} wrap="nowrap">
-          {showLikeButton &&
-          eventHasPost(event) &&
-          event.post.viewer != null ? (
+          {showLikeButton && event.post?.viewer != null ? (
             <LikeButton size="xs" post={event.post} />
           ) : null}
 
@@ -216,7 +209,7 @@ export default function EventRow({
           </Text>
         </Group>
         <Text size="sm" truncate className={classes.itemDetails}>
-          {eventHasPost(event) ? (
+          {event.post != null ? (
             <Text span>
               <IconUsers
                 title={t({

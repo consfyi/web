@@ -39,7 +39,6 @@ import {
 } from "~/continents";
 import {
   type Event,
-  eventHasPost,
   useFollowedEventAttendeesDLE,
   useIsLoggedIn,
 } from "~/hooks";
@@ -703,8 +702,7 @@ export function useFilterPredicate(filter: FilterOptions) {
         // Query
         matches(event.name) &&
         // Attending filter
-        (!filter.going ||
-          (eventHasPost(event) && event.post.viewer?.like != null)) &&
+        (!filter.going || event.post?.viewer?.like != null) &&
         // Continents filter
         filter.continents.includes(
           event.country != null ? getContinentForCountry(event.country) : "XX",
