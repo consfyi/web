@@ -260,7 +260,6 @@ export function BasicMap({
 >) {
   const colorScheme = useComputedColorScheme();
   const defaultMapStyle = useMapStyle();
-  console.log(defaultMapStyle);
 
   return (
     <div
