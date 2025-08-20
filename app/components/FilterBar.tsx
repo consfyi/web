@@ -395,7 +395,9 @@ export default function FilterBar({
     const counts: Partial<Record<Continent, number>> = {};
     for (const event of events) {
       const continent =
-        event.country != null ? getContinentForCountry(event.country) : "XX";
+        (event.country != null
+          ? getContinentForCountry(event.country)
+          : null) ?? "XX";
       counts[continent] = (counts[continent] || 0) + 1;
     }
     return counts;
@@ -705,7 +707,9 @@ export function useFilterPredicate(filter: FilterOptions) {
         (!filter.going || event.post?.viewer?.like != null) &&
         // Continents filter
         filter.continents.includes(
-          event.country != null ? getContinentForCountry(event.country) : "XX",
+          (event.country != null
+            ? getContinentForCountry(event.country)
+            : null) ?? "XX",
         ) &&
         // Duration filter
         days >= filter.minDays &&

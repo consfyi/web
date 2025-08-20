@@ -252,6 +252,6 @@ const COUNTRIES: Record<string, Continent> = {
   XS: "AS",
 };
 
-export function getContinentForCountry(country: string): Continent {
-  return COUNTRIES[country] ?? "XX";
+export function getContinentForCountry(country: string): Continent | null {
+  return COUNTRIES[country] ?? null;
 }
