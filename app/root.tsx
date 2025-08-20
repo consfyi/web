@@ -548,8 +548,7 @@ function Footer() {
             >
               File an issue here.
             </Anchor>{" "}
-            Listed conventions are for reference only and no endorsement is
-            implied.
+            Information is for reference only and no endorsement is implied.
           </Trans>
         </Text>
         <Group gap={8} justify="flex-end" wrap="nowrap" mb="sm">
