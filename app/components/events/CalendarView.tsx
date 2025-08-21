@@ -222,14 +222,14 @@ export default function CalendarView({
                 const over = !isBefore(now, event.end);
                 const active =
                   !isBefore(now, event.start) && isBefore(now, event.end);
-
+                const country = new Intl.Locale(event.locale).region;
                 return {
                   id: event.id,
                   anchor: event.id,
                   label: (
                     <>
                       <Flag
-                        country={event.country ?? undefined}
+                        country={country ?? undefined}
                         me={6}
                         style={{
                           filter: over ? "grayscale(1)" : undefined,

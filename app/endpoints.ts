@@ -31,12 +31,12 @@ export class Event extends Entity {
 
   public id?: string;
   public name?: string;
+  public locale?: string;
   public url?: string;
   public startDate?: TZDate;
   public endDate?: TZDate;
   public venue?: string;
   public address?: string;
-  public country?: string;
   public latLng?: [number, number];
   public canceled?: boolean;
   public sources?: string[];

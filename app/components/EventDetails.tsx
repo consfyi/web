@@ -180,6 +180,11 @@ export function Title({ event }: { event: Event }) {
     [event],
   );
 
+  const country = useMemo(
+    () => new Intl.Locale(event.locale).region,
+    [event.locale],
+  );
+
   return (
     <Group gap={7} wrap="nowrap" align="top">
       {event.post?.viewer != null ? (
@@ -188,7 +193,7 @@ export function Title({ event }: { event: Event }) {
         </Box>
       ) : null}
       <MantineTitle size="h4" fw={500}>
-        <Flag country={event.country ?? undefined} me={6} />
+        <Flag country={country} me={6} />
         {event.name}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor

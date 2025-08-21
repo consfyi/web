@@ -58,12 +58,12 @@ function useEventPosts() {
 export interface Event {
   id: string;
   name: string;
+  locale: string;
   start: TZDate;
   end: TZDate;
   url: string;
   venue: string;
   address: string | null;
-  country: string | null;
   latLng: [number, number] | null;
   canceled: boolean;
   sources: string[] | null;
@@ -81,6 +81,7 @@ export function useEvent(id: string): Event {
   return {
     id: event.id!,
     name: event.name!,
+    locale: event.locale!,
     start: setDate(event.startDate!, {
       hours: 12,
       minutes: 0,
@@ -96,7 +97,6 @@ export function useEvent(id: string): Event {
     url: event.url!,
     venue: event.venue!,
     address: event.address ?? null,
-    country: event.country!,
     latLng: event.latLng ?? null,
     canceled: event.canceled ?? false,
     timezone: event.timezone ?? null,
@@ -152,6 +152,7 @@ export function useEvents() {
           {
             id: event.id!,
             name: event.name!,
+            locale: event.locale!,
             start: setDate(event.startDate!, {
               hours: 12,
               minutes: 0,
@@ -167,7 +168,6 @@ export function useEvents() {
             url: event.url!,
             venue: event.venue!,
             address: event.address ?? null,
-            country: event.country!,
             latLng: event.latLng ?? null,
             canceled: event.canceled ?? false,
             timezone: event.timezone ?? null,

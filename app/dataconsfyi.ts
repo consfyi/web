@@ -4,12 +4,12 @@ import { parse as parseDate } from "date-fns";
 export interface Event {
   id: string;
   name: string;
+  locale: string;
   url: string;
   startDate: TZDate;
   endDate: TZDate;
   venue: string;
   address?: string;
-  country?: string;
   latLng?: [number, number];
   canceled?: boolean;
   attendance?: number;

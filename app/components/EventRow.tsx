@@ -111,6 +111,11 @@ export default function EventRow({
     [event],
   );
 
+  const country = useMemo(
+    () => new Intl.Locale(event.locale).region,
+    [event.locale],
+  );
+
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
       {density == "comfortable" ? (
@@ -177,7 +182,7 @@ export default function EventRow({
 
           <Text size="sm" truncate>
             <Anchor component={Link} to={`/${event.id}`}>
-              <Flag country={event.country ?? undefined} me={6} />
+              <Flag country={country} me={6} />
               {active && density == "compact" ? (
                 <Indicator
                   inline
