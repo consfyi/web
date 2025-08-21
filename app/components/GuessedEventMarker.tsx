@@ -14,6 +14,7 @@ export default function GuessedEventMarker() {
         variant="light"
         color="yellow"
         size="xs"
+        component="span"
         style={{ verticalAlign: "middle" }}
       >
         <Trans>Unconfirmed</Trans>
