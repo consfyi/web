@@ -119,7 +119,7 @@ export default function EventRow({
 
   const locale = match(
     [i18n.locale],
-    [event.locale, ...Object.keys(event.translations)],
+    [...Object.keys(event.translations), event.locale],
     event.locale,
   );
 

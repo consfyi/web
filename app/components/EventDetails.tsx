@@ -188,7 +188,7 @@ export function Title({ event }: { event: Event }) {
 
   const locale = match(
     [i18n.locale],
-    [event.locale, ...Object.keys(event.translations)],
+    [...Object.keys(event.translations), event.locale],
     event.locale,
   );
 
@@ -269,7 +269,7 @@ export function Body({ event }: { event: Event }) {
 
   const locale = match(
     [i18n.locale],
-    [event.locale, ...Object.keys(event.translations)],
+    [...Object.keys(event.translations), event.locale],
     event.locale,
   );
 

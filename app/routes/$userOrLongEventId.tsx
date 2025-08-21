@@ -43,7 +43,7 @@ function EventPage({ id }: { id: string }) {
 
   const locale = match(
     [i18n.locale],
-    [event.locale, ...Object.keys(event.translations)],
+    [...Object.keys(event.translations), event.locale],
     event.locale,
   );
 
