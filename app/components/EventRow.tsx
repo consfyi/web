@@ -28,6 +28,7 @@ import { reinterpretAsLocalDate } from "~/date";
 import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
 import classes from "./EventRow.module.css";
 import GuessedEventMarker from "./GuessedEventMarker";
+import { match } from "@formatjs/intl-localematcher";
 
 const MAX_AVATARS_IN_STACK = 3;
 
@@ -116,6 +117,12 @@ export default function EventRow({
     [event.locale],
   );
 
+  const locale = match(
+    [i18n.locale],
+    Object.keys(event.translations),
+    event.locale,
+  );
+
   return (
     <Group gap="xs" wrap="nowrap" id={withId ? event.id : undefined}>
       {density == "comfortable" ? (
@@ -197,7 +204,7 @@ export default function EventRow({
                 </Indicator>
               ) : null}
               <Text span fw={500}>
-                {event.name}
+                {event.translations[locale]?.name ?? event.name}
               </Text>
             </Anchor>{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
@@ -300,9 +307,9 @@ export default function EventRow({
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.venue}{" "}
+                {event.translations[locale]?.venue ?? event.venue}{" "}
                 <Text span size="xs">
-                  {event.address}
+                  {event.translations[locale]?.address ?? event.address}
                 </Text>
               </Anchor>
             </Text>

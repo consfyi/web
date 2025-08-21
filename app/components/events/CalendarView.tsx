@@ -31,6 +31,7 @@ import FilterBar, {
   LayoutSwitcher,
   useFilterPredicate,
 } from "../FilterBar";
+import { match } from "@formatjs/intl-localematcher";
 
 export const LayoutOptions = qp.schema({
   timezone: qp.default_(qp.literal(["theirs", "yours"]), "theirs"),
@@ -223,6 +224,11 @@ export default function CalendarView({
                 const active =
                   !isBefore(now, event.start) && isBefore(now, event.end);
                 const country = new Intl.Locale(event.locale).region;
+                const locale = match(
+                  [i18n.locale],
+                  Object.keys(event.translations),
+                  event.locale,
+                );
                 return {
                   id: event.id,
                   anchor: event.id,
@@ -248,7 +254,9 @@ export default function CalendarView({
                           <Text span>&nbsp;</Text>
                         </Indicator>
                       ) : null}
-                      <Text span>{event.name}</Text>
+                      <Text span>
+                        {event.translations[locale]?.name ?? event.name}
+                      </Text>
                     </>
                   ),
                   color: !over
@@ -264,7 +272,7 @@ export default function CalendarView({
                     : "gray",
                   variant:
                     event.post?.viewer?.like != null ? "filled" : "light",
-                  title: event.name,
+                  title: event.translations[locale]?.name ?? event.name,
                   link: `/${event.id}`,
                   start: event.start,
                   end: event.end,

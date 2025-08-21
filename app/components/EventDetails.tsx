@@ -44,6 +44,7 @@ import {
 } from "~/hooks";
 import GuessedEventMarker from "./GuessedEventMarker";
 import IntlList from "./IntlList";
+import { match } from "@formatjs/intl-localematcher";
 
 function ActorSkeleton() {
   return (
@@ -170,7 +171,7 @@ function AttendeesList({
 }
 
 export function Title({ event }: { event: Event }) {
-  const { t } = useLingui();
+  const { i18n, t } = useLingui();
 
   const guessed = useMemo(
     () =>
@@ -185,6 +186,12 @@ export function Title({ event }: { event: Event }) {
     [event.locale],
   );
 
+  const locale = match(
+    [i18n.locale],
+    Object.keys(event.translations),
+    event.locale,
+  );
+
   return (
     <Group gap={7} wrap="nowrap" align="top">
       {event.post?.viewer != null ? (
@@ -194,7 +201,7 @@ export function Title({ event }: { event: Event }) {
       ) : null}
       <MantineTitle size="h4" fw={500}>
         <Flag country={country} me={6} />
-        {event.name}{" "}
+        {event.translations[locale]?.name ?? event.name}{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}
@@ -258,6 +265,12 @@ export function Body({ event }: { event: Event }) {
     [event.sources],
   );
 
+  const locale = match(
+    [i18n.locale],
+    Object.keys(event.translations),
+    event.locale,
+  );
+
   return (
     <>
       <Box mb="sm">
@@ -308,9 +321,9 @@ export function Body({ event }: { event: Event }) {
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.venue}{" "}
+                {event.translations[locale]?.venue || event.venue}{" "}
                 <Text span size="xs">
-                  {event.address}
+                  {event.translations[locale]?.address || event.address}
                 </Text>
               </Anchor>
             </Text>

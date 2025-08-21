@@ -1,4 +1,6 @@
 import type { ActorIdentifier } from "@atcute/lexicons";
+import { match } from "@formatjs/intl-localematcher";
+import { useLingui } from "@lingui/react";
 import { Container } from "@mantine/core";
 import EventDetails from "~/components/EventDetails";
 import UserDetails from "~/components/UserDetails";
@@ -37,9 +39,17 @@ function EventPage({ id }: { id: string }) {
     });
   }
 
+  const { i18n } = useLingui();
+
+  const locale = match(
+    [i18n.locale],
+    Object.keys(event.translations),
+    event.locale,
+  );
+
   return (
     <>
-      <title>{event.name}</title>
+      <title>{event.translations[locale]?.name ?? event.name}</title>
       <Container size="lg" px="sm" pb="sm">
         <EventDetails event={event} />
       </Container>

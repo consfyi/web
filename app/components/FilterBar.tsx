@@ -45,6 +45,7 @@ import {
 import * as qp from "~/qp";
 import { makeMatcher } from "~/search";
 import EmptyIcon from "./EmptyIcon";
+import { match } from "@formatjs/intl-localematcher";
 
 const LAYOUTS: Record<
   string,
@@ -699,10 +700,15 @@ export function useFilterPredicate(filter: FilterOptions) {
     (event: Event) => {
       const days = differenceInDays(event.end, event.start) + 1;
       const country = new Intl.Locale(event.locale).region;
+      const locale = match(
+        [i18n.locale],
+        Object.keys(event.translations),
+        event.locale,
+      );
 
       return (
         // Query
-        matches(event.name) &&
+        matches(event.translations[locale]?.name ?? event.name) &&
         // Attending filter
         (!filter.going || event.post?.viewer?.like != null) &&
         // Continents filter
