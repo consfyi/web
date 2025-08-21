@@ -254,7 +254,7 @@ export default function CalendarView({
                           <Text span>&nbsp;</Text>
                         </Indicator>
                       ) : null}
-                      <Text span>
+                      <Text span lang={locale}>
                         {event.translations[locale]?.name ?? event.name}
                       </Text>
                     </>

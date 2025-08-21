@@ -203,7 +203,7 @@ export default function EventRow({
                   <Text span>&nbsp;</Text>
                 </Indicator>
               ) : null}
-              <Text span fw={500}>
+              <Text span fw={500} lang={locale}>
                 {event.translations[locale]?.name ?? event.name}
               </Text>
             </Anchor>{" "}
@@ -307,8 +307,10 @@ export default function EventRow({
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.translations[locale]?.venue ?? event.venue}{" "}
-                <Text span size="xs">
+                <span lang={locale}>
+                  {event.translations[locale]?.venue ?? event.venue}
+                </span>{" "}
+                <Text span size="xs" lang={locale}>
                   {event.translations[locale]?.address ?? event.address}
                 </Text>
               </Anchor>
@@ -319,7 +321,9 @@ export default function EventRow({
           <Text size="sm" truncate>
             <Text span>
               <IconMapPin title={t`Location`} size={12} />{" "}
-              {event.translations[locale]?.address ?? event.address}
+              <span lang={locale}>
+                {event.translations[locale]?.address ?? event.address}
+              </span>
             </Text>
           </Text>
         ) : null}

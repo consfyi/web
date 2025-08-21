@@ -49,7 +49,9 @@ function EventPage({ id }: { id: string }) {
 
   return (
     <>
-      <title>{event.translations[locale]?.name ?? event.name}</title>
+      <title lang={locale}>
+        {event.translations[locale]?.name ?? event.name}
+      </title>
       <Container size="lg" px="sm" pb="sm">
         <EventDetails event={event} />
       </Container>

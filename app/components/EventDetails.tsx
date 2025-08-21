@@ -201,7 +201,9 @@ export function Title({ event }: { event: Event }) {
       ) : null}
       <MantineTitle size="h4" fw={500}>
         <Flag country={country} me={6} />
-        {event.translations[locale]?.name ?? event.name}{" "}
+        <span lang={locale}>
+          {event.translations[locale]?.name ?? event.name}
+        </span>{" "}
         <Tooltip label={<Trans>View Bluesky Post</Trans>}>
           <Anchor
             href={`https://bsky.app/profile/${LABELER_DID}/post/${event.postRkey}`}
@@ -321,8 +323,10 @@ export function Body({ event }: { event: Event }) {
                 to={`/map#${event.id}`}
                 c="var(--mantine-color-text)"
               >
-                {event.translations[locale]?.venue || event.venue}{" "}
-                <Text span size="xs">
+                <span lang={locale}>
+                  {event.translations[locale]?.venue || event.venue}
+                </span>{" "}
+                <Text span size="xs" lang={locale}>
                   {event.translations[locale]?.address || event.address}
                 </Text>
               </Anchor>
