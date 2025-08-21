@@ -58,6 +58,14 @@ function useEventPosts() {
 export interface Event {
   id: string;
   name: string;
+  translations: Record<
+    string,
+    {
+      name?: string;
+      venue?: string;
+      address?: string;
+    }
+  >;
   locale: string;
   start: TZDate;
   end: TZDate;
@@ -82,6 +90,7 @@ export function useEvent(id: string): Event {
     id: event.id!,
     name: event.name!,
     locale: event.locale!,
+    translations: event.translations ?? {},
     start: setDate(event.startDate!, {
       hours: 12,
       minutes: 0,
@@ -153,6 +162,7 @@ export function useEvents() {
             id: event.id!,
             name: event.name!,
             locale: event.locale!,
+            translations: event.translations ?? {},
             start: setDate(event.startDate!, {
               hours: 12,
               minutes: 0,

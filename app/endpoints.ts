@@ -27,11 +27,19 @@ export class ProfileLabels extends Entity {
 }
 
 export class Event extends Entity {
-  static key = "Con";
+  static key = "Event";
 
   public id?: string;
   public name?: string;
   public locale?: string;
+  public translations?: Record<
+    string,
+    {
+      name?: string;
+      venue?: string;
+      address?: string;
+    }
+  >;
   public url?: string;
   public startDate?: TZDate;
   public endDate?: TZDate;

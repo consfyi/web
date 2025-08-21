@@ -5,6 +5,14 @@ export interface Event {
   id: string;
   name: string;
   locale: string;
+  translations?: Record<
+    string,
+    {
+      name?: string;
+      venue?: string;
+      address?: string;
+    }
+  >;
   url: string;
   startDate: TZDate;
   endDate: TZDate;
