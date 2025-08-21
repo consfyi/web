@@ -226,7 +226,7 @@ export default function CalendarView({
                 const country = new Intl.Locale(event.locale).region;
                 const locale = match(
                   [i18n.locale],
-                  Object.keys(event.translations),
+                  [event.locale, ...Object.keys(event.translations)],
                   event.locale,
                 );
                 return {
