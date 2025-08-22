@@ -9,28 +9,45 @@ import LOCALES from "~/locales";
 
 const LOCALE_KEY = "fbl:locale";
 
-function getRequestedLocales(): Locale[] {
-  const requestedLocales: string[] = [];
+function getInitialLocales(): Locale[] {
+  const locales: string[] = [];
 
   if (typeof window !== "undefined") {
     const searchParams = new URLSearchParams(window.location.search);
-    requestedLocales.push(...searchParams.getAll("lang"));
+    locales.push(...searchParams.getAll("lang"));
 
     const storedLocale = window.localStorage.getItem(LOCALE_KEY);
     if (storedLocale != null) {
-      requestedLocales.push(storedLocale);
+      locales.push(storedLocale);
     }
-    requestedLocales.push(...window.navigator.languages);
+    locales.push(...window.navigator.languages);
   }
 
-  return requestedLocales;
+  return locales;
 }
 
 export const INITIAL_LOCALE = match(
-  getRequestedLocales(),
+  getInitialLocales(),
   Object.keys(LOCALES),
   "en-US",
 );
+
+export function getExtendedRequestedLocales(locale: string) {
+  const l = new Intl.Locale(locale).maximize();
+  return [
+    // The actual locale, if possible.
+    locale,
+
+    // Anything in the same script, e.g. fr -> und-Latn -> en.
+    `und-${l.script}`,
+
+    // If Japanese, show zh-Hant then zh-Hans, in that order.
+    ...(l.script == "Jpan" ? ["zh-Hant", "zh-Hans"] : []),
+
+    // Last resort fallback.
+    "und-Latn",
+  ];
+}
 
 const LinguiContext = createContext<{
   dayjsLocale: ILocale;

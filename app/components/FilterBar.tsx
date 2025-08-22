@@ -46,6 +46,7 @@ import * as qp from "~/qp";
 import { makeMatcher } from "~/search";
 import EmptyIcon from "./EmptyIcon";
 import { match } from "@formatjs/intl-localematcher";
+import { getExtendedRequestedLocales } from "./LinguiProvider";
 
 const LAYOUTS: Record<
   string,
@@ -701,7 +702,7 @@ export function useFilterPredicate(filter: FilterOptions) {
       const days = differenceInDays(event.end, event.start) + 1;
       const country = new Intl.Locale(event.locale).region;
       const locale = match(
-        [i18n.locale],
+        getExtendedRequestedLocales(i18n.locale),
         [...Object.keys(event.translations), event.locale],
         event.locale,
       );

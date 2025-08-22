@@ -6,6 +6,7 @@ import EventDetails from "~/components/EventDetails";
 import UserDetails from "~/components/UserDetails";
 import { useEventWithMaybePost, useProfile } from "~/hooks";
 import type { Route } from "./+types/$userOrLongEventId";
+import { getExtendedRequestedLocales } from "~/components/LinguiProvider";
 
 function UserPage({ actor }: { actor: string }) {
   const profile = useProfile(actor as ActorIdentifier);
@@ -42,7 +43,7 @@ function EventPage({ id }: { id: string }) {
   const { i18n } = useLingui();
 
   const locale = match(
-    [i18n.locale],
+    getExtendedRequestedLocales(i18n.locale),
     [...Object.keys(event.translations), event.locale],
     event.locale,
   );

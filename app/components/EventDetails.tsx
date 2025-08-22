@@ -1,3 +1,4 @@
+import { match } from "@formatjs/intl-localematcher";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
   Alert,
@@ -44,7 +45,7 @@ import {
 } from "~/hooks";
 import GuessedEventMarker from "./GuessedEventMarker";
 import IntlList from "./IntlList";
-import { match } from "@formatjs/intl-localematcher";
+import { getExtendedRequestedLocales } from "./LinguiProvider";
 
 function ActorSkeleton() {
   return (
@@ -187,7 +188,7 @@ export function Title({ event }: { event: Event }) {
   );
 
   const locale = match(
-    [i18n.locale],
+    getExtendedRequestedLocales(i18n.locale),
     [...Object.keys(event.translations), event.locale],
     event.locale,
   );
@@ -268,7 +269,7 @@ export function Body({ event }: { event: Event }) {
   );
 
   const locale = match(
-    [i18n.locale],
+    getExtendedRequestedLocales(i18n.locale),
     [...Object.keys(event.translations), event.locale],
     event.locale,
   );

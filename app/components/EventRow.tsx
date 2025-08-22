@@ -29,6 +29,7 @@ import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
 import classes from "./EventRow.module.css";
 import GuessedEventMarker from "./GuessedEventMarker";
 import { match } from "@formatjs/intl-localematcher";
+import { getExtendedRequestedLocales } from "./LinguiProvider";
 
 const MAX_AVATARS_IN_STACK = 3;
 
@@ -118,7 +119,7 @@ export default function EventRow({
   );
 
   const locale = match(
-    [i18n.locale],
+    getExtendedRequestedLocales(i18n.locale),
     [...Object.keys(event.translations), event.locale],
     event.locale,
   );

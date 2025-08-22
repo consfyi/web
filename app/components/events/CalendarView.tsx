@@ -32,6 +32,7 @@ import FilterBar, {
   useFilterPredicate,
 } from "../FilterBar";
 import { match } from "@formatjs/intl-localematcher";
+import { getExtendedRequestedLocales } from "../LinguiProvider";
 
 export const LayoutOptions = qp.schema({
   timezone: qp.default_(qp.literal(["theirs", "yours"]), "theirs"),
@@ -225,7 +226,7 @@ export default function CalendarView({
                   !isBefore(now, event.start) && isBefore(now, event.end);
                 const country = new Intl.Locale(event.locale).region;
                 const locale = match(
-                  [i18n.locale],
+                  getExtendedRequestedLocales(i18n.locale),
                   [...Object.keys(event.translations), event.locale],
                   event.locale,
                 );
