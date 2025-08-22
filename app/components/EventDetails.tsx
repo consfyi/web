@@ -272,6 +272,12 @@ export function Body({ event }: { event: Event }) {
     [...Object.keys(event.translations), event.locale],
     event.locale,
   );
+  console.log(
+    [i18n.locale],
+    [...Object.keys(event.translations), event.locale],
+    event.locale,
+    locale,
+  );
 
   return (
     <>
