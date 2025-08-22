@@ -41,8 +41,12 @@ export function getExtendedRequestedLocales(locale: string) {
     // Anything in the same script, e.g. fr -> und-Latn -> en.
     `und-${l.script}`,
 
-    // If Japanese, show zh-Hant then zh-Hans, in that order.
-    ...(l.script == "Jpan" ? ["zh-Hant", "zh-Hans"] : []),
+    // Jpan/Hans/Hant are sort of cross-legible (Hans/Hant -> Jpan is a little more questionable).
+    ...({
+      Jpan: ["zh-Hant", "zh-Hans"],
+      Hans: ["Jpan"],
+      Hant: ["Jpan"],
+    }[l.script!] ?? []),
 
     // Last resort fallback.
     "und-Latn",
