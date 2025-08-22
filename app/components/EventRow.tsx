@@ -322,7 +322,7 @@ export default function EventRow({
             <Text span>
               <IconMapPin title={t`Location`} size={12} />{" "}
               <span lang={locale}>
-                {event.translations[locale]?.address ?? event.address}
+                {event.translations[locale]?.venue ?? event.venue}
               </span>
             </Text>
           </Text>
