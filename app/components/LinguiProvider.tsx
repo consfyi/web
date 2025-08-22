@@ -44,8 +44,8 @@ export function getExtendedRequestedLocales(locale: string) {
     // Jpan/Hans/Hant are sort of cross-legible (Hans/Hant -> Jpan is a little more questionable).
     ...({
       Jpan: ["zh-Hant", "zh-Hans"],
-      Hans: ["Jpan"],
-      Hant: ["Jpan"],
+      Hans: ["ja"],
+      Hant: ["ja"],
     }[l.script!] ?? []),
 
     // Last resort fallback.
