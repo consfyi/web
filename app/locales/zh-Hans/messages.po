@@ -51,7 +51,7 @@ msgstr "日期"
 #: app/components/EventRow.tsx:272
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1, plural, one {# day} other {# days}})"
-msgstr "{0}（共{1}天）"
+msgstr "{0} (共{1}天)"
 
 #: app/components/EventDetails.tsx:283
 #: app/components/EventRow.tsx:203
