@@ -38,9 +38,6 @@ export function getExtendedRequestedLocales(locale: string) {
     // The actual locale, if possible.
     locale,
 
-    // Anything in the same script, e.g. fr -> und-Latn -> en.
-    `und-${l.script}`,
-
     // Jpan/Hans/Hant are sort of cross-legible (Hans/Hant -> Jpan is a little more questionable).
     ...({
       Jpan: ["zh-Hant", "zh-Hans"],
@@ -49,7 +46,7 @@ export function getExtendedRequestedLocales(locale: string) {
     }[l.script!] ?? []),
 
     // Last resort fallback.
-    "und-Latn",
+    "en",
   ];
 }
 
