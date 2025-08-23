@@ -20,6 +20,7 @@ import {
   IconCalendarClock,
   IconCalendarWeek,
   IconCalendarX,
+  IconLanguage,
   IconMapPin,
   IconWorld,
 } from "@tabler/icons-react";
@@ -240,6 +241,12 @@ export function Body({ event }: { event: Event }) {
   const now = useNow();
   const active = !isBefore(now, event.start) && isBefore(now, event.end);
 
+  const language = useMemo(
+    () =>
+      new Intl.DisplayNames(i18n.locale, { type: "language" }).of(event.locale),
+    [t],
+  );
+
   const {
     data: followedEventAttendees,
     loading: followedEventAttendeesLoading,
@@ -331,6 +338,15 @@ export function Body({ event }: { event: Event }) {
                   {event.translations[locale]?.address || event.address}
                 </Text>
               </Anchor>
+            </Text>
+          </Group>
+
+          <Group wrap="nowrap" gap="xs" align="top">
+            <Box>
+              <IconLanguage title={t`Language`} size={16} stroke={1.5} />
+            </Box>
+            <Text size="sm" mb={5}>
+              {language}
             </Text>
           </Group>
 
