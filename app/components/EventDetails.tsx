@@ -241,9 +241,8 @@ export function Body({ event }: { event: Event }) {
   const now = useNow();
   const active = !isBefore(now, event.start) && isBefore(now, event.end);
 
-  const language = useMemo(
-    () =>
-      new Intl.DisplayNames(i18n.locale, { type: "language" }).of(event.locale),
+  const languageDisplayNames = useMemo(
+    () => new Intl.DisplayNames(i18n.locale, { type: "language" }),
     [t],
   );
 
@@ -346,7 +345,7 @@ export function Body({ event }: { event: Event }) {
               <IconLanguage title={t`Language`} size={16} stroke={1.5} />
             </Box>
             <Text size="sm" mb={5}>
-              {language}
+              {languageDisplayNames.of(event.locale)}
             </Text>
           </Group>
 
