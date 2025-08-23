@@ -564,7 +564,12 @@ function Footer() {
             <IconBrandBluesky size={18} stroke={1.5} />
           </ActionIcon>
         </Group>
-        <LocaleSelector />
+        <LocaleSelector
+          comboboxProps={{
+            position: "top",
+            middlewares: { flip: false, shift: false },
+          }}
+        />
       </Container>
     </Box>
   );

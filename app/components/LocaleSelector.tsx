@@ -1,11 +1,11 @@
 import { useLingui } from "@lingui/react/macro";
-import { Select } from "@mantine/core";
+import { Select, type SelectProps } from "@mantine/core";
 import { IconLanguage } from "@tabler/icons-react";
 import { useMemo } from "react";
 import LOCALES from "~/locales";
 import { useLinguiContext } from "./LinguiProvider";
 
-export default function LocaleSelector() {
+export default function LocaleSelector({ ...props }: SelectProps) {
   const { i18n } = useLingui();
   const { setLocale, pending } = useLinguiContext();
 
@@ -30,10 +30,6 @@ export default function LocaleSelector() {
       mb="sm"
       value={i18n.locale}
       disabled={pending}
-      comboboxProps={{
-        position: "top",
-        middlewares: { flip: false, shift: false },
-      }}
       onChange={(value) => {
         if (value == null) {
           return;
@@ -41,6 +37,7 @@ export default function LocaleSelector() {
         setLocale(value);
       }}
       data={items}
+      {...props}
     />
   );
 }
