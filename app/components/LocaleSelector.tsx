@@ -30,6 +30,10 @@ export default function LocaleSelector() {
       mb="sm"
       value={i18n.locale}
       disabled={pending}
+      comboboxProps={{
+        position: "top",
+        middlewares: { flip: false, shift: false },
+      }}
       onChange={(value) => {
         if (value == null) {
           return;
