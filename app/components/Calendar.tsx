@@ -13,6 +13,7 @@ import {
   addDays,
   addMonths,
   type Day,
+  differenceInCalendarWeeks,
   differenceInDays,
   getDate,
   getDay,
@@ -21,6 +22,7 @@ import {
   isBefore,
   isSameDay,
   startOfDay,
+  subDays,
 } from "date-fns";
 import { map, max, min, Range, toArray } from "iter-fns";
 import {
@@ -212,28 +214,20 @@ export default function Calendar({
     [events],
   );
 
-  const startDate = useMemo(() => {
-    let d = earliestEventDate;
-    if (includeToday) {
-      d = isBefore(now, d) ? now : d;
-    }
-    return startOfDay(d);
-  }, [includeToday, earliestEventDate, now]);
+  const packStartDate = subDays(
+    earliestEventDate,
+    (getDay(earliestEventDate) - datesContext.firstDayOfWeek + 7) % 7,
+  );
 
-  const firstDayWeekday = getDay(startDate);
-  const daysToPad = (firstDayWeekday - datesContext.firstDayOfWeek + 7) % 7;
-
-  const calendarStartDate = addDays(startDate, -daysToPad);
-
-  const numWeeks = useMemo(
+  const numWeeksToPack = useMemo(
     () =>
       Math.floor(
         differenceInDays(
           max(map(events, (event) => addDays(event.end, 7)))!,
-          calendarStartDate,
+          packStartDate,
         ) / 7,
       ),
-    [events, calendarStartDate],
+    [events, packStartDate],
   );
 
   const grid = useMemo(
@@ -241,14 +235,21 @@ export default function Calendar({
       layout(
         events.map((event, i) => ({
           index: i,
-          offset: differenceInDays(event.start, calendarStartDate),
+          offset: differenceInDays(event.start, packStartDate),
           n: differenceInDays(event.end, event.start) + 1,
           hasStart: true,
           hasEnd: true,
         })),
-        numWeeks,
+        numWeeksToPack,
       ),
-    [calendarStartDate, events, numWeeks],
+    [packStartDate, events, numWeeksToPack],
+  );
+
+  const startDate = includeToday || packStartDate < now ? now : packStartDate;
+
+  const calendarStartDate = subDays(
+    startDate,
+    (getDay(startDate) - datesContext.firstDayOfWeek + 7) % 7,
   );
 
   const highlightedMonthIndex =
@@ -344,110 +345,115 @@ export default function Calendar({
               }}
             ></Table.Tr>
             {toArray(
-              map(Range.to(numWeeks), (week) => {
-                const weekStart = addDays(calendarStartDate, week * 7);
-                const lanes = grid[week];
+              map(
+                Range.from(
+                  differenceInCalendarWeeks(calendarStartDate, packStartDate),
+                ).to(grid.length),
+                (week) => {
+                  const weekStart = addDays(packStartDate, week * 7);
+                  const lanes = grid[week] ?? [];
 
-                return (
-                  <Table.Tr
-                    key={week}
-                    data-month={monthKey(weekStart)}
-                    ref={(el) => {
-                      if (el == null) {
-                        return;
-                      }
+                  return (
+                    <Table.Tr
+                      key={week}
+                      data-month={monthKey(weekStart)}
+                      ref={(el) => {
+                        if (el == null) {
+                          return;
+                        }
 
-                      if (
-                        Math.ceil(
-                          (getDate(weekStart) + getDay(weekStart)) / 7,
-                        ) == 1
-                      ) {
-                        checkpointRefs.current[monthKey(weekStart)] = el;
-                      }
-                    }}
-                  >
-                    {toArray(
-                      map(Range.to(7), (offset) => {
-                        const d = addDays(weekStart, offset);
-                        const segments = lanes[offset];
+                        if (
+                          Math.ceil(
+                            (getDate(weekStart) + getDay(weekStart)) / 7,
+                          ) == 1
+                        ) {
+                          checkpointRefs.current[monthKey(weekStart)] = el;
+                        }
+                      }}
+                    >
+                      {toArray(
+                        map(Range.to(7), (offset) => {
+                          const d = addDays(weekStart, offset);
+                          const segments = lanes[offset] ?? [];
 
-                        return (
-                          <Table.Td
-                            p={0}
-                            h={100}
-                            key={offset}
-                            align="left"
-                            valign="top"
-                            pos="relative"
-                            bg={
-                              datesContext.weekendDays.includes(
-                                getDay(d) as Day,
-                              )
-                                ? "var(--mantine-color-gray-light)"
-                                : ""
-                            }
-                          >
-                            <Text
-                              m="xs"
-                              mb={2}
-                              size="sm"
-                              ta="start"
-                              truncate
-                              c={
-                                isBefore(now, addDays(d, 1)) &&
-                                getYear(d) * 12 + getMonth(d) ==
-                                  highlightedMonthIndex
-                                  ? ""
-                                  : "var(--mantine-color-disabled-color)"
+                          return (
+                            <Table.Td
+                              p={0}
+                              h={100}
+                              key={offset}
+                              align="left"
+                              valign="top"
+                              pos="relative"
+                              bg={
+                                datesContext.weekendDays.includes(
+                                  getDay(d) as Day,
+                                )
+                                  ? "var(--mantine-color-gray-light)"
+                                  : ""
                               }
                             >
-                              {(getDate(d) == 1 ? dayMonthFormat : dayFormat)
-                                .formatToParts(d)
-                                .map(({ type, value }, i) => (
-                                  <Text
-                                    span
+                              <Text
+                                m="xs"
+                                mb={2}
+                                size="sm"
+                                ta="start"
+                                truncate
+                                c={
+                                  isBefore(now, addDays(d, 1)) &&
+                                  getYear(d) * 12 + getMonth(d) ==
+                                    highlightedMonthIndex
+                                    ? ""
+                                    : "var(--mantine-color-disabled-color)"
+                                }
+                              >
+                                {(getDate(d) == 1 ? dayMonthFormat : dayFormat)
+                                  .formatToParts(d)
+                                  .map(({ type, value }, i) => (
+                                    <Text
+                                      span
+                                      key={i}
+                                      {...(type == "day"
+                                        ? {
+                                            fw: 500,
+                                            c: isSameDay(d, now)
+                                              ? "red"
+                                              : undefined,
+                                          }
+                                        : {})}
+                                    >
+                                      {value}
+                                    </Text>
+                                  ))}
+                              </Text>
+                              {segments.map((seg, i) =>
+                                seg != null ? (
+                                  <EventSegment
+                                    segment={seg}
+                                    event={events[seg.index]}
                                     key={i}
-                                    {...(type == "day"
-                                      ? {
-                                          fw: 500,
-                                          c: isSameDay(d, now)
-                                            ? "red"
-                                            : undefined,
-                                        }
-                                      : {})}
+                                  />
+                                ) : (
+                                  <Text
+                                    key={i}
+                                    mb={2}
+                                    py={2}
+                                    px="xs"
+                                    pos="relative"
+                                    size="xs"
+                                    bd="1px solid transparent"
                                   >
-                                    {value}
+                                    &nbsp;
                                   </Text>
-                                ))}
-                            </Text>
-                            {segments.map((seg, i) =>
-                              seg != null ? (
-                                <EventSegment
-                                  segment={seg}
-                                  event={events[seg.index]}
-                                  key={i}
-                                />
-                              ) : (
-                                <Text
-                                  key={i}
-                                  mb={2}
-                                  py={2}
-                                  px="xs"
-                                  pos="relative"
-                                  size="xs"
-                                  bd="1px solid transparent"
-                                >
-                                  &nbsp;
-                                </Text>
-                              ),
-                            )}
-                          </Table.Td>
-                        );
-                      }),
-                    )}
-                  </Table.Tr>
-                );
-              }),
+                                ),
+                              )}
+                            </Table.Td>
+                          );
+                        }),
+                      )}
+                    </Table.Tr>
+                  );
+                },
+              ),
             )}
           </Table.Tbody>
         </Table>
