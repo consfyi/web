@@ -52,10 +52,11 @@ export default function layout(
       segment.n,
       rowLength,
     );
-    for (let i = 0; i < resegmented.length; ++i) {
-      const seg = resegmented[i];
 
-      const cellIndex = seg.offset % rowLength;
+    for (let i = 0; i < resegmented.length; ++i) {
+      const { offset, n } = resegmented[i];
+
+      const cellIndex = offset % rowLength;
 
       if (rowIndex >= numRows) {
         continue;
@@ -68,7 +69,7 @@ export default function layout(
       findLane: while (true) {
         for (
           let offset = 0;
-          offset < seg.n && cellIndex + offset < rowLength;
+          offset < n && cellIndex + offset < rowLength;
           ++offset
         ) {
           if (row[cellIndex + offset][laneIndex] !== undefined) {
@@ -79,8 +80,8 @@ export default function layout(
 
         row[cellIndex][laneIndex] = {
           ...segment,
-          offset: seg.offset,
-          n: seg.n,
+          offset,
+          n,
           hasStart: segment.hasStart && i == 0,
           hasEnd: segment.hasEnd && i == resegmented.length - 1,
         };
@@ -90,7 +91,7 @@ export default function layout(
 
       for (
         let offset = 1;
-        offset < seg.n && cellIndex + offset < rowLength;
+        offset < n && cellIndex + offset < rowLength;
         ++offset
       ) {
         row[cellIndex + offset][laneIndex] = null;
