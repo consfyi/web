@@ -124,8 +124,8 @@ function packLanes(
           ...segment,
           offset: seg.offset,
           n: seg.n,
-          hasStart: i == 0,
-          hasEnd: i == resegmented.length - 1,
+          hasStart: segment.hasStart && i == 0,
+          hasEnd: segment.hasEnd && i == resegmented.length - 1,
         };
 
         break;
