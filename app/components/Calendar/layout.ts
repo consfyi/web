@@ -8,26 +8,28 @@ export interface Segment {
   hasEnd: boolean;
 }
 
-function* resegment(
+function resegment(
   offset: number,
   n: number,
   rowLength: number = 7,
-): Iterable<{ offset: number; n: number }> {
+): { offset: number; n: number }[] {
+  const segments = [];
   if (offset > 0) {
     const first = rowLength - offset;
-    yield { offset, n: first };
+    segments.push({ offset, n: first });
     offset = 0;
     n -= first;
   }
 
   while (n >= rowLength) {
-    yield { offset, n: rowLength };
+    segments.push({ offset, n: rowLength });
     n -= rowLength;
   }
 
   if (n > 0) {
-    yield { offset, n };
+    segments.push({ offset, n });
   }
+  return segments;
 }
 
 export default function layout(
@@ -44,8 +46,11 @@ export default function layout(
     comparing((seg) => seg.offset),
   )) {
     let rowIndex = Math.floor(segment.offset / rowLength);
-    const resegmented = Array.from(
-      resegment(segment.offset % rowLength, segment.n, rowLength),
+
+    const resegmented = resegment(
+      segment.offset % rowLength,
+      segment.n,
+      rowLength,
     );
     for (let i = 0; i < resegmented.length; ++i) {
       const seg = resegmented[i];
