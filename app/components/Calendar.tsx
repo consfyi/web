@@ -12,10 +12,8 @@ import { useDatesContext } from "@mantine/dates";
 import {
   addDays,
   addMonths,
-  addWeeks,
   type Day,
-  differenceInCalendarDays,
-  endOfWeek,
+  differenceInDays,
   getDate,
   getDay,
   getMonth,
@@ -23,7 +21,6 @@ import {
   isBefore,
   isSameDay,
   startOfDay,
-  startOfWeek,
 } from "date-fns";
 import { comparing, map, max, min, Range, sorted, toArray } from "iter-fns";
 import {
@@ -52,129 +49,127 @@ export interface Event {
 }
 
 interface Segment {
-  event: Event;
-  start: Date;
-  end: Date;
+  index: number;
+  offset: number;
+  n: number;
   hasStart: boolean;
   hasEnd: boolean;
 }
 
-function monthKey(date: Date) {
-  const d = addDays(date, 6);
-  return getYear(d) * 12 + getMonth(d);
-}
-
-function segment(event: Event, weekStartsOn: Day): Segment[] {
-  const segments: Segment[] = [];
-
-  let segmentStart = startOfDay(new Date(event.start));
-  const eventEnd = addDays(startOfDay(new Date(event.end)), 1);
-
-  while (isBefore(segmentStart, eventEnd)) {
-    const weekStart = startOfWeek(segmentStart, { weekStartsOn });
-    const weekEnd = startOfDay(
-      addDays(endOfWeek(segmentStart, { weekStartsOn }), 1),
-    );
-
-    const segment: Segment = {
-      event,
-      start: !isBefore(segmentStart, weekStart) ? segmentStart : weekStart,
-      end: isBefore(eventEnd, weekEnd) ? eventEnd : weekEnd,
-      hasStart: false,
-      hasEnd: false,
-    };
-
-    segments.push(segment);
-
-    segmentStart = addWeeks(weekStart, 1);
+function* resegment(
+  offset: number,
+  n: number,
+  chunkSize: number = 7,
+): IterableIterator<{ offset: number; n: number }> {
+  if (offset > 0) {
+    const first = chunkSize - offset;
+    yield { offset, n: first };
+    offset = 0;
+    n -= first;
   }
 
-  segments[0].hasStart = true;
-  segments[segments.length - 1].hasEnd = true;
+  while (n >= chunkSize) {
+    yield { offset, n: chunkSize };
+    n -= chunkSize;
+  }
 
-  return segments;
+  if (n > 0) {
+    yield { offset, n };
+  }
 }
 
 function packLanes(
-  events: Event[],
-  calendarStartDate: Date,
-  numWeeks: number,
-  weekStartsOn: Day,
+  segments: Segment[],
+  numChunks: number,
+  chunkSize: number = 7,
 ): (Segment | null)[][][] {
-  const weeks = Array.from({ length: numWeeks }, () =>
-    Array.from({ length: 7 }, () => [] as (Segment | null)[]),
+  const grid = Array.from({ length: numChunks }, () =>
+    Array.from({ length: chunkSize }, () => [] as (Segment | null)[]),
   );
 
-  for (const event of sorted(
-    events,
-    comparing((event) => startOfDay(new Date(event.start))),
+  for (const segment of sorted(
+    segments,
+    comparing((seg) => seg.offset),
   )) {
-    for (const seg of segment(event, weekStartsOn)) {
-      const weekStart = startOfWeek(seg.start, { weekStartsOn });
+    let chunkIndex = Math.floor(segment.offset / chunkSize);
+    for (const seg of resegment(
+      segment.offset % chunkSize,
+      segment.n,
+      chunkSize,
+    )) {
+      const cellIndex = seg.offset % chunkSize;
 
-      const week =
-        weeks[
-          Math.floor(differenceInCalendarDays(weekStart, calendarStartDate) / 7)
-        ];
+      if (chunkIndex >= numChunks) {
+        continue;
+      }
 
-      const dayIndex = differenceInCalendarDays(seg.start, weekStart);
-      const length = differenceInCalendarDays(seg.end, seg.start);
+      const chunk = grid[chunkIndex];
 
       let laneIndex = 0;
       // eslint-disable-next-line no-constant-condition
       findLane: while (true) {
         for (
           let offset = 0;
-          offset < length && dayIndex + offset < 7;
+          offset < seg.n && cellIndex + offset < chunkSize;
           ++offset
         ) {
-          if (week[dayIndex + offset][laneIndex] !== undefined) {
+          if (chunk[cellIndex + offset][laneIndex] !== undefined) {
             ++laneIndex;
             continue findLane;
           }
         }
-        week[dayIndex][laneIndex] = seg;
+
+        chunk[cellIndex][laneIndex] = {
+          ...segment,
+          offset: seg.offset,
+          n: seg.n,
+        };
+
         break;
       }
 
-      for (let offset = 1; offset < length && dayIndex + offset < 7; ++offset) {
-        week[dayIndex + offset][laneIndex] = null;
+      for (
+        let offset = 1;
+        offset < seg.n && cellIndex + offset < chunkSize;
+        ++offset
+      ) {
+        chunk[cellIndex + offset][laneIndex] = null;
       }
+
+      ++chunkIndex;
     }
   }
 
-  for (const week of weeks) {
-    for (const day of week) {
-      let lastFilled = day.length - 1;
-      while (lastFilled >= 0 && day[lastFilled] == null) {
+  for (const chunk of grid) {
+    for (const cell of chunk) {
+      let lastFilled = cell.length - 1;
+      while (lastFilled >= 0 && cell[lastFilled] == null) {
         --lastFilled;
       }
-      day.length = lastFilled + 1;
+      cell.length = lastFilled + 1;
     }
   }
 
-  return weeks;
+  return grid;
 }
 
-function EventSegment({ segment }: { segment: Segment }) {
+function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
   const theme = useMantineTheme();
-
-  const length = differenceInCalendarDays(segment.end, segment.start);
 
   const colors = theme.variantColorResolver({
     theme,
-    color: segment.event.color,
-    variant: segment.event.variant,
+    color: event.color,
+    variant: event.variant,
   });
 
   return (
     <Anchor
-      id={segment.hasStart ? segment.event.anchor : undefined}
-      title={segment.event.title}
+      id={segment.hasStart ? event.anchor : undefined}
+      title={event.title}
       underline="never"
-      to={segment.event.link}
+      to={event.link}
       component={Link}
-      onClick={segment.event.onClick}
+      onClick={event.onClick}
     >
       <Text
         mb={2}
@@ -183,13 +178,13 @@ function EventSegment({ segment }: { segment: Segment }) {
         pos="relative"
         size="xs"
         c={colors.color}
-        w={`calc(${length} * (100% + 1px) - 1px)`}
+        w={`calc(${segment.n} * (100% + 1px) - 1px)`}
         left={0}
         truncate
         style={{
           backgroundColor:
-            segment.event.variant == "light"
-              ? `color-mix(in srgb, var(--mantine-color-${segment.event.color}-filled), var(--mantine-color-body) 90%)`
+            event.variant == "light"
+              ? `color-mix(in srgb, var(--mantine-color-${event.color}-filled), var(--mantine-color-body) 90%)`
               : colors.background,
           backgroundSize:
             "calc(1.25rem * var(--mantine-scale)) calc(1.25rem * var(--mantine-scale))",
@@ -197,7 +192,7 @@ function EventSegment({ segment }: { segment: Segment }) {
           //   "linear-gradient(45deg, hsla(0, 0%, 100%, .5) 25%, transparent 0, transparent 50%, hsla(0, 0%, 100%, .5) 0, hsla(0, 0%, 100%, .5) 75%, transparent 0, transparent)",
           textAlign: "start",
           borderColor:
-            segment.event.variant == "light" ? colors.color : colors.background,
+            event.variant == "light" ? colors.color : colors.background,
           borderStyle: "solid",
           borderTopWidth: "1px",
           borderBottomWidth: "1px",
@@ -218,10 +213,15 @@ function EventSegment({ segment }: { segment: Segment }) {
           zIndex: 1,
         }}
       >
-        {segment.event.label}
+        {event.label}
       </Text>
     </Anchor>
   );
+}
+
+function monthKey(date: Date) {
+  const d = addDays(date, 6);
+  return getYear(d) * 12 + getMonth(d);
 }
 
 export default function Calendar({
@@ -332,7 +332,7 @@ export default function Calendar({
   const numWeeks = useMemo(
     () =>
       Math.floor(
-        differenceInCalendarDays(
+        differenceInDays(
           max(map(events, (event) => addDays(event.end, 7)))!,
           calendarStartDate,
         ) / 7,
@@ -343,12 +343,16 @@ export default function Calendar({
   const packed = useMemo(
     () =>
       packLanes(
-        events,
-        calendarStartDate,
+        events.map((event, i) => ({
+          index: i,
+          offset: differenceInDays(event.start, calendarStartDate),
+          n: differenceInDays(event.end, event.start) + 1,
+          hasStart: true,
+          hasEnd: true,
+        })),
         numWeeks,
-        datesContext.firstDayOfWeek,
       ),
-    [calendarStartDate, events, datesContext.firstDayOfWeek, numWeeks],
+    [calendarStartDate, events, numWeeks],
   );
 
   const highlightedMonthIndex =
@@ -522,7 +526,11 @@ export default function Calendar({
                             </Text>
                             {segments.map((seg, i) =>
                               seg != null ? (
-                                <EventSegment segment={seg} key={i} />
+                                <EventSegment
+                                  segment={seg}
+                                  event={events[seg.index]}
+                                  key={i}
+                                />
                               ) : (
                                 <Text
                                   key={i}
