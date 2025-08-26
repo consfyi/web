@@ -61,7 +61,7 @@ export default function layout(
         continue;
       }
 
-      const chunk = grid[rowIndex];
+      const row = grid[rowIndex];
 
       let laneIndex = 0;
       // eslint-disable-next-line no-constant-condition
@@ -71,13 +71,13 @@ export default function layout(
           offset < seg.n && cellIndex + offset < rowLength;
           ++offset
         ) {
-          if (chunk[cellIndex + offset][laneIndex] !== undefined) {
+          if (row[cellIndex + offset][laneIndex] !== undefined) {
             ++laneIndex;
             continue findLane;
           }
         }
 
-        chunk[cellIndex][laneIndex] = {
+        row[cellIndex][laneIndex] = {
           ...segment,
           offset: seg.offset,
           n: seg.n,
@@ -93,15 +93,15 @@ export default function layout(
         offset < seg.n && cellIndex + offset < rowLength;
         ++offset
       ) {
-        chunk[cellIndex + offset][laneIndex] = null;
+        row[cellIndex + offset][laneIndex] = null;
       }
 
       ++rowIndex;
     }
   }
 
-  for (const chunk of grid) {
-    for (const cell of chunk) {
+  for (const row of grid) {
+    for (const cell of row) {
       let lastFilled = cell.length - 1;
       while (lastFilled >= 0 && cell[lastFilled] == null) {
         --lastFilled;
