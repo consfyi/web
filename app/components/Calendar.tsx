@@ -34,7 +34,6 @@ import { Link } from "react-router";
 import { reinterpretAsLocalDate } from "~/date";
 import { useNow } from "~/hooks";
 import { useHeaderHeight } from "./HeaderHeightProvider";
-import { IconLockOpen } from "@tabler/icons-react";
 
 export interface Event {
   id: string;
@@ -61,7 +60,7 @@ function* resegment(
   offset: number,
   n: number,
   chunkSize: number = 7,
-): IterableIterator<{ offset: number; n: number }> {
+): Iterable<{ offset: number; n: number }> {
   if (offset > 0) {
     const first = chunkSize - offset;
     yield { offset, n: first };
