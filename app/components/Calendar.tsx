@@ -35,19 +35,6 @@ import { reinterpretAsLocalDate } from "~/date";
 import { useNow } from "~/hooks";
 import { useHeaderHeight } from "./HeaderHeightProvider";
 
-export interface Event {
-  id: string;
-  anchor: string;
-  link: string;
-  title: string;
-  label: React.ReactNode;
-  start: Date;
-  end: Date;
-  variant: string;
-  color: MantineColor;
-  onClick?: MouseEventHandler<HTMLAnchorElement>;
-}
-
 interface Segment {
   index: number;
   offset: number;
@@ -154,6 +141,19 @@ function packLanes(
   }
 
   return grid;
+}
+
+export interface Event {
+  id: string;
+  anchor: string;
+  link: string;
+  title: string;
+  label: React.ReactNode;
+  start: Date;
+  end: Date;
+  variant: string;
+  color: MantineColor;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
 function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
