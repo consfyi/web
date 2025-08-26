@@ -34,6 +34,7 @@ import { Link } from "react-router";
 import { reinterpretAsLocalDate } from "~/date";
 import { useNow } from "~/hooks";
 import { useHeaderHeight } from "./HeaderHeightProvider";
+import { IconLockOpen } from "@tabler/icons-react";
 
 export interface Event {
   id: string;
@@ -92,11 +93,12 @@ function packLanes(
     comparing((seg) => seg.offset),
   )) {
     let chunkIndex = Math.floor(segment.offset / chunkSize);
-    for (const seg of resegment(
-      segment.offset % chunkSize,
-      segment.n,
-      chunkSize,
-    )) {
+    const resegmented = Array.from(
+      resegment(segment.offset % chunkSize, segment.n, chunkSize),
+    );
+    for (let i = 0; i < resegmented.length; ++i) {
+      const seg = resegmented[i];
+
       const cellIndex = seg.offset % chunkSize;
 
       if (chunkIndex >= numChunks) {
@@ -123,6 +125,8 @@ function packLanes(
           ...segment,
           offset: seg.offset,
           n: seg.n,
+          hasStart: i == 0,
+          hasEnd: i == resegmented.length - 1,
         };
 
         break;
