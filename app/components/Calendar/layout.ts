@@ -11,18 +11,18 @@ export interface Segment {
 function* resegment(
   offset: number,
   n: number,
-  chunkSize: number = 7,
+  rowLength: number = 7,
 ): Iterable<{ offset: number; n: number }> {
   if (offset > 0) {
-    const first = chunkSize - offset;
+    const first = rowLength - offset;
     yield { offset, n: first };
     offset = 0;
     n -= first;
   }
 
-  while (n >= chunkSize) {
-    yield { offset, n: chunkSize };
-    n -= chunkSize;
+  while (n >= rowLength) {
+    yield { offset, n: rowLength };
+    n -= rowLength;
   }
 
   if (n > 0) {
@@ -32,38 +32,38 @@ function* resegment(
 
 export default function layout(
   segments: Segment[],
-  numChunks: number,
-  chunkSize: number = 7,
+  numRows: number,
+  rowLength: number = 7,
 ): (Segment | null)[][][] {
-  const grid = Array.from({ length: numChunks }, () =>
-    Array.from({ length: chunkSize }, () => [] as (Segment | null)[]),
+  const grid = Array.from({ length: numRows }, () =>
+    Array.from({ length: rowLength }, () => [] as (Segment | null)[]),
   );
 
   for (const segment of sorted(
     segments,
     comparing((seg) => seg.offset),
   )) {
-    let chunkIndex = Math.floor(segment.offset / chunkSize);
+    let rowIndex = Math.floor(segment.offset / rowLength);
     const resegmented = Array.from(
-      resegment(segment.offset % chunkSize, segment.n, chunkSize),
+      resegment(segment.offset % rowLength, segment.n, rowLength),
     );
     for (let i = 0; i < resegmented.length; ++i) {
       const seg = resegmented[i];
 
-      const cellIndex = seg.offset % chunkSize;
+      const cellIndex = seg.offset % rowLength;
 
-      if (chunkIndex >= numChunks) {
+      if (rowIndex >= numRows) {
         continue;
       }
 
-      const chunk = grid[chunkIndex];
+      const chunk = grid[rowIndex];
 
       let laneIndex = 0;
       // eslint-disable-next-line no-constant-condition
       findLane: while (true) {
         for (
           let offset = 0;
-          offset < seg.n && cellIndex + offset < chunkSize;
+          offset < seg.n && cellIndex + offset < rowLength;
           ++offset
         ) {
           if (chunk[cellIndex + offset][laneIndex] !== undefined) {
@@ -85,13 +85,13 @@ export default function layout(
 
       for (
         let offset = 1;
-        offset < seg.n && cellIndex + offset < chunkSize;
+        offset < seg.n && cellIndex + offset < rowLength;
         ++offset
       ) {
         chunk[cellIndex + offset][laneIndex] = null;
       }
 
-      ++chunkIndex;
+      ++rowIndex;
     }
   }
 
