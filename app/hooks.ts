@@ -5,13 +5,14 @@ import {
 } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
-import { set as setDate } from "date-fns";
+import { addDays, set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { use, useEffect, useState } from "react";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
+  Event as EndpointEvent,
   getEvent,
   getEvents,
   Post,
@@ -82,23 +83,20 @@ export interface Event {
   post: Post | null;
 }
 
-export function useEvent(id: string): Event {
-  const event = useSuspense(getEvent, { id });
-  const labelsById = useLabelsById();
-  const label = labelsById[event.id!];
+function endpointEventToEvent(event: EndpointEvent) {
   return {
     id: event.id!,
     name: event.name!,
     locale: event.locale!,
     translations: event.translations ?? {},
-    start: setDate(event.startDate!, {
+    start: setDate<TZDate, TZDate>(event.startDate! as TZDate, {
       hours: 12,
       minutes: 0,
       seconds: 0,
       milliseconds: 0,
     }),
-    end: setDate(event.endDate!, {
-      hours: 12,
+    end: setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
+      hours: 0,
       minutes: 0,
       seconds: 0,
       milliseconds: 0,
@@ -111,6 +109,18 @@ export function useEvent(id: string): Event {
     timezone: event.timezone ?? null,
     sources: event.sources ?? null,
 
+    labelId: null,
+    postRkey: null,
+    post: null,
+  };
+}
+
+export function useEvent(id: string): Event {
+  const event = useSuspense(getEvent, { id });
+  const labelsById = useLabelsById();
+  const label = labelsById[event.id!];
+  return {
+    ...endpointEventToEvent(event),
     labelId: label != null ? label.labelId : null,
     postRkey: label != null ? label.postRkey : null,
     post: null,
@@ -159,30 +169,7 @@ export function useEvents() {
 
         return [
           {
-            id: event.id!,
-            name: event.name!,
-            locale: event.locale!,
-            translations: event.translations ?? {},
-            start: setDate(event.startDate!, {
-              hours: 12,
-              minutes: 0,
-              seconds: 0,
-              milliseconds: 0,
-            }),
-            end: setDate(event.endDate!, {
-              hours: 12,
-              minutes: 0,
-              seconds: 0,
-              milliseconds: 0,
-            }),
-            url: event.url!,
-            venue: event.venue!,
-            address: event.address ?? null,
-            latLng: event.latLng ?? null,
-            canceled: event.canceled ?? false,
-            timezone: event.timezone ?? null,
-            sources: event.sources ?? null,
-
+            ...endpointEventToEvent(event),
             labelId: label.labelId,
             postRkey: label.postRkey,
             post: null,

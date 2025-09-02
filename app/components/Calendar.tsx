@@ -21,7 +21,6 @@ import {
   getYear,
   isBefore,
   isSameDay,
-  startOfDay,
   subDays,
 } from "date-fns";
 import { map, max, min, Range, toArray } from "iter-fns";
