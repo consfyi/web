@@ -24,7 +24,7 @@ import {
   IconMapPin,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, isBefore } from "date-fns";
+import { differenceInDays, isBefore, subDays } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
 import { Fragment, Suspense, useMemo } from "react";
 import { Link } from "react-router";
@@ -296,7 +296,7 @@ export function Body({ event }: { event: Event }) {
               <Trans context="[start date]-[end date] ([duration] days)">
                 {dateTimeFormat.formatRange(
                   reinterpretAsLocalDate(event.start),
-                  reinterpretAsLocalDate(event.end),
+                  subDays(reinterpretAsLocalDate(event.end), 1),
                 )}{" "}
                 (
                 <Plural

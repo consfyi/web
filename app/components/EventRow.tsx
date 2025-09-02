@@ -1,3 +1,4 @@
+import { match } from "@formatjs/intl-localematcher";
 import { plural } from "@lingui/core/macro";
 import { Plural, Trans, useLingui } from "@lingui/react/macro";
 import {
@@ -17,7 +18,7 @@ import {
   IconUsers,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, getDay, isBefore } from "date-fns";
+import { differenceInDays, getDay, isBefore, subDays } from "date-fns";
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
@@ -28,7 +29,6 @@ import { reinterpretAsLocalDate } from "~/date";
 import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
 import classes from "./EventRow.module.css";
 import GuessedEventMarker from "./GuessedEventMarker";
-import { match } from "@formatjs/intl-localematcher";
 import { getExtendedRequestedLocales } from "./LinguiProvider";
 
 const MAX_AVATARS_IN_STACK = 3;
@@ -287,7 +287,7 @@ export default function EventRow({
                 [
                   dateTimeFormat.formatRange(
                     reinterpretAsLocalDate(event.start),
-                    reinterpretAsLocalDate(event.end),
+                    subDays(reinterpretAsLocalDate(event.end), 1),
                   ),
                 ][0]
               }{" "}
