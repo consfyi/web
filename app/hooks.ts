@@ -5,7 +5,7 @@ import {
 } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
 import { TZDate } from "@date-fns/tz";
-import { addDays, set as setDate } from "date-fns";
+import { set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { use, useEffect, useState } from "react";
 import { LABELER_DID } from "~/config";
@@ -95,11 +95,10 @@ function endpointEventToEvent(event: EndpointEvent) {
       seconds: 0,
       milliseconds: 0,
     }),
-    end: setDate(addDays<TZDate, TZDate>(event.endDate!, 1), {
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      milliseconds: 0,
+    end: setDate<TZDate, TZDate>(event.endDate!, {
+      hours: 23,
+      minutes: 59,
+      seconds: 59,
     }),
     url: event.url!,
     venue: event.venue!,
