@@ -99,6 +99,7 @@ function endpointEventToEvent(event: EndpointEvent) {
       hours: 23,
       minutes: 59,
       seconds: 59,
+      milliseconds: 999,
     }),
     url: event.url!,
     venue: event.venue!,
