@@ -92,7 +92,7 @@ function endpointEventToEvent(event: EndpointEvent) {
     translations: event.translations ?? {},
     startDate: event.startDate!,
     startTime: event.startDate!.toZonedDateTime({
-      plainTime: new Temporal.PlainTime(12, 0, 0),
+      plainTime: new Temporal.PlainTime(9, 0, 0),
       timeZone: event.timezone ?? "Utc",
     }),
     endDate: event.endDate!,
