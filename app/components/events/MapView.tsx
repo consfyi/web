@@ -1,7 +1,7 @@
 import { Box, Center, Container, Loader } from "@mantine/core";
-import { getDay, isBefore } from "date-fns";
 import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { Temporal } from "temporal-polyfill";
 import { type Event, useNow } from "~/hooks";
 import * as qp from "~/qp";
 import EmptyState from "../EmptyState";
@@ -11,8 +11,8 @@ import FilterBar, {
   LayoutSwitcher,
   useFilterPredicate,
 } from "../FilterBar";
-import Map from "../Map";
 import { useHeaderHeight } from "../HeaderHeightProvider";
+import Map from "../Map";
 
 export const LayoutOptions = qp.schema({
   center: qp.tuple({ lat: qp.float, lng: qp.float, zoom: qp.float }, " "),
@@ -109,7 +109,11 @@ function MapInner({
 
   const pred = useFilterPredicate(filter);
   const filteredEvents = useMemo(
-    () => events.filter((event) => isBefore(now, event.end) && pred(event)),
+    () =>
+      events.filter(
+        (event) =>
+          Temporal.ZonedDateTime.compare(now, event.endTime) < 0 && pred(event),
+      ),
     [events, now, pred],
   );
 
@@ -132,18 +136,9 @@ function MapInner({
 
           const [lat, lng] = event.latLng;
 
-          const over = !isBefore(now, event.end);
-          const inProgress = !isBefore(now, event.start) && !over;
-
-          const color = [
-            "red",
-            "orange",
-            "yellow",
-            "green",
-            "blue",
-            "indigo",
-            "violet",
-          ][getDay(event.start)];
+          const over = Temporal.ZonedDateTime.compare(now, event.endTime) > 0;
+          const active =
+            Temporal.ZonedDateTime.compare(now, event.startTime) > 0 && !over;
 
           const variant = event.post?.viewer?.like != null ? "filled" : "light";
 
@@ -152,13 +147,21 @@ function MapInner({
               id: event.id,
               lat,
               lng,
-              active: inProgress,
-              color,
+              active,
+              color: [
+                "red",
+                "orange",
+                "yellow",
+                "green",
+                "blue",
+                "indigo",
+                "violet",
+              ][event.startDate.dayOfWeek % 7],
               variant,
               zIndex:
                 event.post?.viewer?.like != null
                   ? 3
-                  : inProgress
+                  : active
                     ? 2
                     : !over
                       ? 1

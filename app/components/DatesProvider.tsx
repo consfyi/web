@@ -1,6 +1,8 @@
-import { DatesProvider as MantineDatesProvider } from "@mantine/dates";
+import {
+  DatesProvider as MantineDatesProvider,
+  type DayOfWeek,
+} from "@mantine/dates";
 import { useLocalStorage } from "@mantine/hooks";
-import { type Day } from "date-fns";
 import { rotateLeft } from "iter-fns";
 import { useLinguiContext } from "./LinguiProvider";
 
@@ -12,11 +14,11 @@ const WEEK_INFO = (typeof window !== "undefined"
     ).getWeekInfo?.() ?? null)
   : null) ?? { firstDay: 7, weekend: [6, 7] };
 
-const DEFAULT_FIRST_DAY = (WEEK_INFO.firstDay % 7) as Day;
-const WEEKEND = WEEK_INFO.weekend.map((d) => (d % 7) as Day);
+const DEFAULT_FIRST_DAY = (WEEK_INFO.firstDay % 7) as DayOfWeek;
+const WEEKEND = WEEK_INFO.weekend.map((d) => (d % 7) as DayOfWeek);
 
-export const FIRST_DAYS_OF_WEEK: Day[] = (() => {
-  const days = [0, 1, 6] as Day[];
+export const FIRST_DAYS_OF_WEEK: DayOfWeek[] = (() => {
+  const days = [0, 1, 6] as DayOfWeek[];
   const idx = days.indexOf(DEFAULT_FIRST_DAY);
   if (idx == -1) {
     days.unshift(DEFAULT_FIRST_DAY);

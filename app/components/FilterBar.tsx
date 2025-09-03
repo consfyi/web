@@ -28,7 +28,6 @@ import {
   IconMap,
   IconMinus,
 } from "@tabler/icons-react";
-import { differenceInDays } from "date-fns";
 import { compareDesc, comparing, map, Range, sorted, toArray } from "iter-fns";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
@@ -699,7 +698,7 @@ export function useFilterPredicate(filter: FilterOptions) {
 
   return useCallback(
     (event: Event) => {
-      const days = differenceInDays(event.end, event.start) + 1;
+      const days = event.endDate.since(event.startDate).days + 1;
       const country = new Intl.Locale(event.locale).region;
       const locale = match(
         getExtendedRequestedLocales(i18n.locale),

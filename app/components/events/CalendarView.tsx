@@ -1,3 +1,4 @@
+import { match } from "@formatjs/intl-localematcher";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
   Box,
@@ -10,14 +11,15 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import type { DayOfWeek } from "@mantine/dates";
 import {
   IconCheck,
   IconChevronDown,
   IconRss,
   IconSettings,
 } from "@tabler/icons-react";
-import { getDay, isBefore, type Day } from "date-fns";
 import { Suspense, useRef, useState } from "react";
+import { Temporal } from "temporal-polyfill";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
 import { useNow, type Event } from "~/hooks";
@@ -31,11 +33,10 @@ import FilterBar, {
   LayoutSwitcher,
   useFilterPredicate,
 } from "../FilterBar";
-import { match } from "@formatjs/intl-localematcher";
 import { getExtendedRequestedLocales } from "../LinguiProvider";
 
 export const LayoutOptions = qp.schema({
-  timezone: qp.default_(qp.literal(["theirs", "yours"]), "theirs"),
+  inYourTimeZone: qp.flag,
 });
 export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
 
@@ -144,7 +145,7 @@ export default function CalendarView({
                   </Menu.Label>
                   {FIRST_DAYS_OF_WEEK.map((day) => (
                     <Menu.Item
-                      key={day as Day}
+                      key={day as DayOfWeek}
                       leftSection={
                         firstDayOfWeek == day ? (
                           <IconCheck size={14} />
@@ -153,7 +154,7 @@ export default function CalendarView({
                         )
                       }
                       onClick={() => {
-                        setFirstDayOfWeek(day as Day);
+                        setFirstDayOfWeek(day as DayOfWeek);
                       }}
                     >
                       {i18n.date(new Date(2006, 0, (day as number) + 1), {
@@ -166,7 +167,7 @@ export default function CalendarView({
                   </Menu.Label>
                   <Menu.Item
                     leftSection={
-                      layout.timezone == "theirs" ? (
+                      !layout.inYourTimeZone ? (
                         <IconCheck size={14} />
                       ) : (
                         <EmptyIcon size={14} />
@@ -175,7 +176,7 @@ export default function CalendarView({
                     onClick={() => {
                       setLayout({
                         ...layout,
-                        timezone: "theirs",
+                        inYourTimeZone: false,
                       });
                     }}
                   >
@@ -183,7 +184,7 @@ export default function CalendarView({
                   </Menu.Item>
                   <Menu.Item
                     leftSection={
-                      layout.timezone == "yours" ? (
+                      layout.inYourTimeZone ? (
                         <IconCheck size={14} />
                       ) : (
                         <EmptyIcon size={14} />
@@ -192,7 +193,7 @@ export default function CalendarView({
                     onClick={() => {
                       setLayout({
                         ...layout,
-                        timezone: "yours",
+                        inYourTimeZone: true,
                       });
                     }}
                   >
@@ -216,18 +217,36 @@ export default function CalendarView({
         {filteredEvents.length > 0 ? (
           <Container size="lg" px={0}>
             <Calendar
-              inYourTimeZone={layout.timezone == "yours"}
               includeToday={!filter.going && filter.q == ""}
               events={filteredEvents.map((event) => {
-                const over = !isBefore(now, event.end);
+                const over =
+                  Temporal.ZonedDateTime.compare(now, event.endTime) > 0;
                 const active =
-                  !isBefore(now, event.start) && isBefore(now, event.end);
+                  Temporal.ZonedDateTime.compare(now, event.startTime) > 0 &&
+                  !over;
+
                 const country = new Intl.Locale(event.locale).region;
                 const locale = match(
                   getExtendedRequestedLocales(i18n.locale),
                   [...Object.keys(event.translations), event.locale],
                   event.locale,
                 );
+
+                let startDate = event.startDate;
+                let endDate = event.endDate;
+
+                if (layout.inYourTimeZone) {
+                  startDate = event.startTime
+                    .withTimeZone(Temporal.Now.timeZoneId())
+                    .toPlainDateTime()
+                    .toPlainDate();
+                  endDate = event.endTime
+                    .subtract({ hours: 12 })
+                    .withTimeZone(Temporal.Now.timeZoneId())
+                    .toPlainDateTime()
+                    .toPlainDate();
+                }
+
                 return {
                   id: event.id,
                   anchor: event.id,
@@ -267,14 +286,14 @@ export default function CalendarView({
                         "blue",
                         "indigo",
                         "violet",
-                      ][getDay(event.start)]
+                      ][event.startDate.dayOfWeek % 7]
                     : "gray",
                   variant:
                     event.post?.viewer?.like != null ? "filled" : "light",
                   title: event.translations[locale]?.name ?? event.name,
                   link: `/${event.id}`,
-                  start: event.start,
-                  end: event.end,
+                  startDate,
+                  endDate,
                 };
               })}
             />

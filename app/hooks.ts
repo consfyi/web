@@ -4,10 +4,9 @@ import {
   type ResourceUri,
 } from "@atcute/lexicons";
 import { useDLE, useSuspense } from "@data-client/react";
-import { TZDate } from "@date-fns/tz";
-import { addDays, set as setDate } from "date-fns";
 import { comparing, sorted } from "iter-fns";
 import { use, useEffect, useState } from "react";
+import { Temporal } from "temporal-polyfill";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
@@ -68,8 +67,10 @@ export interface Event {
     }
   >;
   locale: string;
-  start: TZDate;
-  end: TZDate;
+  startDate: Temporal.PlainDate;
+  startTime: Temporal.ZonedDateTime;
+  endDate: Temporal.PlainDate;
+  endTime: Temporal.ZonedDateTime;
   url: string;
   venue: string;
   address: string | null;
@@ -89,17 +90,15 @@ function endpointEventToEvent(event: EndpointEvent) {
     name: event.name!,
     locale: event.locale!,
     translations: event.translations ?? {},
-    start: setDate<TZDate, TZDate>(event.startDate!, {
-      hours: 12,
-      minutes: 0,
-      seconds: 0,
-      milliseconds: 0,
+    startDate: event.startDate!,
+    startTime: event.startDate!.toZonedDateTime({
+      plainTime: new Temporal.PlainTime(12, 0, 0),
+      timeZone: event.timezone ?? "Utc",
     }),
-    end: setDate<TZDate, TZDate>(addDays<TZDate, TZDate>(event.endDate!, 1), {
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      milliseconds: 0,
+    endDate: event.endDate!,
+    endTime: event.endDate!.add({ days: 1 }).toZonedDateTime({
+      plainTime: new Temporal.PlainTime(0, 0, 0),
+      timeZone: event.timezone ?? "Utc",
     }),
     url: event.url!,
     venue: event.venue!,
@@ -324,12 +323,12 @@ export function useIsLoggedIn() {
 }
 
 export function useNow(interval: number = Infinity) {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState(() => Temporal.Now.zonedDateTimeISO());
   useEffect(() => {
     const handle =
       interval != Infinity
         ? setInterval(() => {
-            setNow(new Date());
+            setNow(Temporal.Now.zonedDateTimeISO());
           }, interval)
         : null;
     return () => {

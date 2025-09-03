@@ -19,7 +19,6 @@
     "@atcute/oauth-browser-client": "^1.0.19",
     "@data-client/endpoint": "^0.14.26",
     "@data-client/react": "^0.14.25",
-    "@date-fns/tz": "^1.2.0",
     "@formatjs/intl-localematcher": "^0.6.1",
     "@googlemaps/js-api-loader": "^1.16.10",
     "@lingui/core": "^5.3.1",
@@ -37,7 +36,6 @@
     "@react-router/serve": "^7.7.1",
     "@tabler/icons-react": "^3.31.0",
     "@vis.gl/react-maplibre": "^8.0.4",
-    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "intl-locale-textinfo-polyfill": "^2.1.1",
     "isbot": "^5",
@@ -48,7 +46,8 @@
     "react-dom": "^19.1.0",
     "react-error-boundary": "^6.0.0",
     "react-router": "^7.7.1",
-    "regexp.escape": "^2.0.1"
+    "regexp.escape": "^2.0.1",
+    "temporal-polyfill": "^0.3.0"
   },
   "devDependencies": {
     "@lingui/cli": "^5.3.1",

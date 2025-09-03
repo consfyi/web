@@ -18,14 +18,13 @@ import {
   IconUsers,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, getDay, isBefore, subDays } from "date-fns";
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
+import { Temporal } from "temporal-polyfill";
 import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
-import { reinterpretAsLocalDate } from "~/date";
 import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
 import classes from "./EventRow.module.css";
 import GuessedEventMarker from "./GuessedEventMarker";
@@ -93,7 +92,7 @@ export default function EventRow({
 
   const now = useNow();
   const sampledFollows = useMemo(() => {
-    let seed = +now;
+    let seed = now.epochMilliseconds;
     return follows != null
       ? sample(follows, MAX_AVATARS_IN_STACK, () => {
           seed = (seed * 25214903917 + 11) % 2 ** 48;
@@ -102,8 +101,9 @@ export default function EventRow({
       : null;
   }, [follows, now]);
 
-  const over = !isBefore(now, event.end);
-  const active = !isBefore(now, event.start) && !over;
+  const over = Temporal.ZonedDateTime.compare(now, event.endTime) > 0;
+  const active =
+    Temporal.ZonedDateTime.compare(now, event.startTime) > 0 && !over;
 
   const guessed = useMemo(
     () =>
@@ -149,18 +149,29 @@ export default function EventRow({
                   "blue",
                   "indigo",
                   "violet",
-                ][getDay(reinterpretAsLocalDate(event.start))]
+                ][event.startDate.dayOfWeek % 7]
               }
             >
               <Stack gap={0}>
                 <Text size="md" ta="center" fw={500}>
-                  {i18n.date(reinterpretAsLocalDate(event.start), {
-                    day: "numeric",
-                  })}
+                  {i18n.date(
+                    new Date(
+                      event.startDate.toZonedDateTime(
+                        Temporal.Now.timeZoneId(),
+                      ).epochMilliseconds,
+                    ),
+                    {
+                      day: "numeric",
+                    },
+                  )}
                 </Text>
                 <Text size="xs" ta="center" fw={500}>
                   {i18n.date(
-                    reinterpretAsLocalDate(event.start),
+                    new Date(
+                      event.startDate.toZonedDateTime(
+                        Temporal.Now.timeZoneId(),
+                      ).epochMilliseconds,
+                    ),
                     showMonthInIcon
                       ? {
                           month: "short",
@@ -286,14 +297,22 @@ export default function EventRow({
               {
                 [
                   dateTimeFormat.formatRange(
-                    reinterpretAsLocalDate(event.start),
-                    subDays(reinterpretAsLocalDate(event.end), 1),
+                    new Date(
+                      event.startDate.toZonedDateTime(
+                        Temporal.Now.timeZoneId(),
+                      ).epochMilliseconds,
+                    ),
+                    new Date(
+                      event.endDate.toZonedDateTime(
+                        Temporal.Now.timeZoneId(),
+                      ).epochMilliseconds,
+                    ),
                   ),
                 ][0]
               }{" "}
               (
               <Plural
-                value={differenceInDays(event.end, event.start) + 1}
+                value={event.endDate.since(event.startDate).days + 1}
                 one="# day"
                 other="# days"
               />

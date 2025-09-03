@@ -8,21 +8,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-import { useDatesContext } from "@mantine/dates";
-import {
-  addDays,
-  addMonths,
-  type Day,
-  differenceInCalendarWeeks,
-  differenceInDays,
-  getDate,
-  getDay,
-  getMonth,
-  getYear,
-  isBefore,
-  isSameDay,
-  subDays,
-} from "date-fns";
+import { useDatesContext, type DayOfWeek } from "@mantine/dates";
 import { map, max, min, Range, toArray } from "iter-fns";
 import {
   type MouseEventHandler,
@@ -32,7 +18,7 @@ import {
   useState,
 } from "react";
 import { Link } from "react-router";
-import { reinterpretAsLocalDate } from "~/date";
+import { Temporal } from "temporal-polyfill";
 import { useNow } from "~/hooks";
 import layout, { type Segment } from "./Calendar/layout";
 import { useHeaderHeight } from "./HeaderHeightProvider";
@@ -43,8 +29,8 @@ export interface Event {
   link: string;
   title: string;
   label: React.ReactNode;
-  start: Date;
-  end: Date;
+  startDate: Temporal.PlainDate;
+  endDate: Temporal.PlainDate;
   variant: string;
   color: MantineColor;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
@@ -116,18 +102,16 @@ function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
   );
 }
 
-function monthKey(date: Date) {
-  const d = addDays(date, 6);
-  return getYear(d) * 12 + getMonth(d);
+function yearMonthKey(d: Temporal.PlainDate) {
+  d = d.add({ days: 6 });
+  return d.year * 12 + d.month - 1;
 }
 
 export default function Calendar({
-  events: originalEvents,
-  inYourTimeZone,
+  events,
   includeToday,
 }: {
   events: Event[];
-  inYourTimeZone: boolean;
   includeToday: boolean;
 }) {
   "use no memo";
@@ -135,18 +119,6 @@ export default function Calendar({
   const { i18n, t } = useLingui();
 
   const headerHeight = useHeaderHeight();
-
-  const events = useMemo(
-    () =>
-      inYourTimeZone
-        ? originalEvents
-        : originalEvents.map((e) => ({
-            ...e,
-            start: reinterpretAsLocalDate(e.start),
-            end: reinterpretAsLocalDate(e.end),
-          })),
-    [originalEvents, inYourTimeZone],
-  );
 
   const checkpointRefs = useRef<Record<number, HTMLDivElement>>({});
   checkpointRefs.current = {};
@@ -193,7 +165,7 @@ export default function Calendar({
     };
   }, [headerHeight, events]);
 
-  const now = useNow();
+  const now = useNow().toPlainDate();
 
   const datesContext = useDatesContext();
 
@@ -209,22 +181,26 @@ export default function Calendar({
   );
 
   const earliestEventDate = useMemo(
-    () => min(map(events, (event) => new Date(event.start)))!,
+    () =>
+      min(
+        map(events, (event) => event.startDate),
+        Temporal.PlainDate.compare,
+      )!,
     [events],
   );
 
-  const packStartDate = subDays(
-    earliestEventDate,
-    (getDay(earliestEventDate) - datesContext.firstDayOfWeek + 7) % 7,
-  );
+  const packStartDate = earliestEventDate.subtract({
+    days:
+      ((earliestEventDate.dayOfWeek % 7) - datesContext.firstDayOfWeek + 7) % 7,
+  });
 
   const numWeeksToPack = useMemo(
     () =>
       Math.floor(
-        differenceInDays(
-          max(map(events, (event) => addDays(event.end, 7)))!,
-          packStartDate,
-        ) / 7,
+        max(
+          map(events, (event) => event.endDate.add({ days: 7 })),
+          Temporal.PlainDate.compare,
+        )!.since(packStartDate).days / 7,
       ),
     [events, packStartDate],
   );
@@ -234,8 +210,8 @@ export default function Calendar({
       layout(
         events.map((event, i) => ({
           index: i,
-          offset: differenceInDays(event.start, packStartDate),
-          n: differenceInDays(event.end, event.start) + 1,
+          offset: event.startDate.since(packStartDate).days,
+          n: event.endDate.since(event.startDate).days + 1,
           hasStart: true,
           hasEnd: true,
         })),
@@ -244,19 +220,25 @@ export default function Calendar({
     [packStartDate, events, numWeeksToPack],
   );
 
-  const startDate = includeToday || packStartDate < now ? now : packStartDate;
+  const startDate =
+    includeToday ||
+    Temporal.PlainDate.compare(
+      packStartDate,
+      now.toPlainDateTime().toPlainDate(),
+    ) < 0
+      ? now
+      : packStartDate;
 
-  const calendarStartDate = subDays(
-    startDate,
-    (getDay(startDate) - datesContext.firstDayOfWeek + 7) % 7,
-  );
+  const calendarStartDate = startDate.subtract({
+    days: ((startDate.dayOfWeek % 7) - datesContext.firstDayOfWeek + 7) % 7,
+  });
 
   const highlightedMonthIndex =
-    min(visibleMonths) ?? monthKey(calendarStartDate);
+    min(visibleMonths) ?? yearMonthKey(calendarStartDate);
 
-  const titleDate = new Date(
+  const titleDate = new Temporal.PlainDate(
     Math.floor(highlightedMonthIndex / 12),
-    highlightedMonthIndex % 12,
+    (highlightedMonthIndex % 12) + 1,
     1,
   );
 
@@ -284,12 +266,26 @@ export default function Calendar({
           px={{ base: "xs", lg: 0 }}
           pt={{ base: 4, lg: 8 }}
           pb={4}
-          c={!isBefore(now, addMonths(titleDate, 1)) ? "gray" : undefined}
+          c={
+            Temporal.PlainDate.compare(
+              now.toPlainDateTime().toPlainDate(),
+              titleDate.add({ months: 1 }),
+            ) >= 0
+              ? "gray"
+              : undefined
+          }
         >
-          {i18n.date(titleDate, {
-            month: "long",
-            year: "numeric",
-          })}
+          {i18n.date(
+            new Date(
+              titleDate.toZonedDateTime(
+                Temporal.Now.timeZoneId(),
+              ).epochMilliseconds,
+            ),
+            {
+              month: "long",
+              year: "numeric",
+            },
+          )}
         </Text>
         <Table
           layout="fixed"
@@ -307,20 +303,29 @@ export default function Calendar({
             <Table.Tr>
               {toArray(
                 map(Range.to(7), (i) => {
-                  const d = addDays(calendarStartDate, i);
+                  const d = calendarStartDate.add({ days: i });
                   return (
                     <Table.Th
                       key={i}
                       bg={
-                        datesContext.weekendDays.includes(getDay(d) as Day)
+                        datesContext.weekendDays.includes(
+                          (d.dayOfWeek % 7) as DayOfWeek,
+                        )
                           ? "var(--mantine-color-gray-light)"
                           : ""
                       }
                     >
                       <Text size="sm" fw={500}>
-                        {i18n.date(d, {
-                          weekday: "short",
-                        })}
+                        {i18n.date(
+                          new Date(
+                            d.toZonedDateTime(
+                              Temporal.Now.timeZoneId(),
+                            ).epochMilliseconds,
+                          ),
+                          {
+                            weekday: "short",
+                          },
+                        )}
                       </Text>
                     </Table.Th>
                   );
@@ -334,28 +339,30 @@ export default function Calendar({
         <Table layout="fixed" withColumnBorders withRowBorders withTableBorder>
           <Table.Tbody>
             <Table.Tr
-              data-month={monthKey(calendarStartDate)}
+              data-month={yearMonthKey(calendarStartDate)}
               ref={(el) => {
                 if (el == null) {
                   return;
                 }
 
-                checkpointRefs.current[monthKey(calendarStartDate)] = el;
+                checkpointRefs.current[yearMonthKey(calendarStartDate)] = el;
               }}
             ></Table.Tr>
             {toArray(
               map(
-                Range.from(
-                  differenceInCalendarWeeks(calendarStartDate, packStartDate),
-                ).to(grid.length),
+                Range.from(calendarStartDate.since(packStartDate).days / 7).to(
+                  grid.length,
+                ),
                 (week) => {
-                  const weekStart = addDays(packStartDate, week * 7);
+                  const weekStart = packStartDate.add({
+                    days: week * 7,
+                  });
                   const lanes = grid[week] ?? [];
 
                   return (
                     <Table.Tr
                       key={week}
-                      data-month={monthKey(weekStart)}
+                      data-month={yearMonthKey(weekStart)}
                       ref={(el) => {
                         if (el == null) {
                           return;
@@ -363,16 +370,16 @@ export default function Calendar({
 
                         if (
                           Math.ceil(
-                            (getDate(weekStart) + getDay(weekStart)) / 7,
+                            (weekStart.day + (weekStart.dayOfWeek % 7)) / 7,
                           ) == 1
                         ) {
-                          checkpointRefs.current[monthKey(weekStart)] = el;
+                          checkpointRefs.current[yearMonthKey(weekStart)] = el;
                         }
                       }}
                     >
                       {toArray(
                         map(Range.to(7), (offset) => {
-                          const d = addDays(weekStart, offset);
+                          const d = weekStart.add({ days: offset });
                           const segments = lanes[offset] ?? [];
 
                           return (
@@ -385,7 +392,7 @@ export default function Calendar({
                               pos="relative"
                               bg={
                                 datesContext.weekendDays.includes(
-                                  getDay(d) as Day,
+                                  (d.dayOfWeek % 7) as DayOfWeek,
                                 )
                                   ? "var(--mantine-color-gray-light)"
                                   : ""
@@ -398,15 +405,24 @@ export default function Calendar({
                                 ta="start"
                                 truncate
                                 c={
-                                  isBefore(now, addDays(d, 1)) &&
-                                  getYear(d) * 12 + getMonth(d) ==
-                                    highlightedMonthIndex
+                                  Temporal.PlainDate.compare(
+                                    now,
+                                    d.add({ days: 1 }),
+                                  ) < 0 &&
+                                  d.year * 12 + d.month ==
+                                    highlightedMonthIndex + 1
                                     ? ""
                                     : "var(--mantine-color-disabled-color)"
                                 }
                               >
-                                {(getDate(d) == 1 ? dayMonthFormat : dayFormat)
-                                  .formatToParts(d)
+                                {(d.day == 1 ? dayMonthFormat : dayFormat)
+                                  .formatToParts(
+                                    new Date(
+                                      d.toZonedDateTime(
+                                        Temporal.Now.timeZoneId(),
+                                      ).epochMilliseconds,
+                                    ),
+                                  )
                                   .map(({ type, value }, i) => (
                                     <Text
                                       span
@@ -414,9 +430,15 @@ export default function Calendar({
                                       {...(type == "day"
                                         ? {
                                             fw: 500,
-                                            c: isSameDay(d, now)
-                                              ? "red"
-                                              : undefined,
+                                            c:
+                                              Temporal.PlainDate.compare(
+                                                d,
+                                                now
+                                                  .toPlainDateTime()
+                                                  .toPlainDate(),
+                                              ) == 0
+                                                ? "red"
+                                                : undefined,
                                           }
                                         : {})}
                                     >

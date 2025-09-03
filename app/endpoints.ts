@@ -8,7 +8,7 @@ import {
 } from "@atcute/lexicons";
 import { Endpoint, Entity, schema } from "@data-client/endpoint";
 import { useController } from "@data-client/react";
-import { type TZDate } from "@date-fns/tz";
+import { Temporal } from "temporal-polyfill";
 import {
   getEvent as dataGetEvent,
   getEvents as dataGetEvents,
@@ -41,8 +41,8 @@ export class Event extends Entity {
     }
   >;
   public url?: string;
-  public startDate?: TZDate;
-  public endDate?: TZDate;
+  public startDate?: Temporal.PlainDate;
+  public endDate?: Temporal.PlainDate;
   public venue?: string;
   public address?: string;
   public latLng?: [number, number];

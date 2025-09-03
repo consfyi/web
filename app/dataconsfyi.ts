@@ -1,5 +1,4 @@
-import { type TZDate, TZDateMini } from "@date-fns/tz";
-import { parse as parseDate } from "date-fns";
+import { Temporal } from "temporal-polyfill";
 
 export interface Event {
   id: string;
@@ -14,8 +13,8 @@ export interface Event {
     }
   >;
   url: string;
-  startDate: TZDate;
-  endDate: TZDate;
+  startDate: Temporal.PlainDate;
+  endDate: Temporal.PlainDate;
   venue: string;
   address?: string;
   latLng?: [number, number];
@@ -39,11 +38,10 @@ type RawEvent = Omit<Event, "startDate" | "endDate"> & {
 };
 
 function convertRawEvent(event: RawEvent): Event {
-  const refDate = new TZDateMini(new Date(), event.timezone ?? "Utc");
   return {
     ...event,
-    startDate: parseDate(event.startDate, "yyyy-MM-dd", refDate),
-    endDate: parseDate(event.endDate, "yyyy-MM-dd", refDate),
+    startDate: Temporal.PlainDate.from(event.startDate),
+    endDate: Temporal.PlainDate.from(event.endDate),
   };
 }
 

@@ -24,17 +24,16 @@ import {
   IconMapPin,
   IconWorld,
 } from "@tabler/icons-react";
-import { differenceInDays, isBefore, subDays } from "date-fns";
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
 import { Fragment, Suspense, useMemo } from "react";
 import { Link } from "react-router";
+import { Temporal } from "temporal-polyfill";
 import attributions from "~/attributions";
 import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import SimpleErrorBoundary from "~/components/SimpleErrorBoundary";
 import { LABELER_DID } from "~/config";
-import { reinterpretAsLocalDate } from "~/date";
 import { Profile } from "~/endpoints";
 import {
   type Event,
@@ -239,7 +238,9 @@ export function Body({ event }: { event: Event }) {
   );
 
   const now = useNow();
-  const active = !isBefore(now, event.start) && isBefore(now, event.end);
+  const over = Temporal.ZonedDateTime.compare(now, event.endTime) > 0;
+  const active =
+    Temporal.ZonedDateTime.compare(now, event.startTime) > 0 && !over;
 
   const languageDisplayNames = useMemo(
     () =>
@@ -270,8 +271,6 @@ export function Body({ event }: { event: Event }) {
 
   const unknownLikeCount = likeCount - knownLikeCount;
 
-  const over = !isBefore(now, event.end);
-
   const sources = useMemo(
     () =>
       event.sources != null ? event.sources.filter((s) => s != "guessed") : [],
@@ -295,12 +294,20 @@ export function Body({ event }: { event: Event }) {
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days)">
                 {dateTimeFormat.formatRange(
-                  reinterpretAsLocalDate(event.start),
-                  subDays(reinterpretAsLocalDate(event.end), 1),
+                  new Date(
+                    event.startDate.toZonedDateTime(
+                      Temporal.Now.timeZoneId(),
+                    ).epochMilliseconds,
+                  ),
+                  new Date(
+                    event.endDate.toZonedDateTime(
+                      Temporal.Now.timeZoneId(),
+                    ).epochMilliseconds,
+                  ),
                 )}{" "}
                 (
                 <Plural
-                  value={differenceInDays(event.end, event.start) + 1}
+                  value={event.endDate.since(event.startDate).days + 1}
                   one="# day"
                   other="# days"
                 />

@@ -1,3 +1,4 @@
+import { Temporal } from "temporal-polyfill";
 import { msg } from "@lingui/core/macro";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
@@ -19,11 +20,9 @@ import {
   IconSortDescendingLetters,
   IconSortDescendingNumbers,
 } from "@tabler/icons-react";
-import { addMonths, getMonth, getYear, isBefore, setDate } from "date-fns";
 import { compareMany, comparing, equaling, group, sorted } from "iter-fns";
 import { type ReactNode, Suspense, useMemo, useState } from "react";
 import absurd from "~/absurd";
-import { reinterpretAsLocalDate } from "~/date";
 import {
   type Event,
   useFollowedEventAttendees,
@@ -160,8 +159,8 @@ function GroupedList({
   );
 }
 
-function yearMonthKey(d: Date) {
-  return getYear(d) * 12 + getMonth(d);
+function yearMonthKey(d: Temporal.PlainDate) {
+  return d.year * 12 + d.month - 1;
 }
 
 function EventsByDate({
@@ -185,21 +184,20 @@ function EventsByDate({
     const grouped: Record<number, Event[]> = {};
     for (const g of group(
       events,
-      equaling((event) => yearMonthKey(reinterpretAsLocalDate(event.start))),
+      equaling((event) => yearMonthKey(event.startDate)),
     )) {
-      const k = yearMonthKey(reinterpretAsLocalDate(g[0].start));
+      const k = yearMonthKey(g[0].startDate);
       (grouped[k] ??= []).push(...g);
     }
 
     const groups = [];
     for (
-      let d = setDate(reinterpretAsLocalDate(events![0].start), 1),
-        endDate = addMonths(
-          setDate(reinterpretAsLocalDate(events![events!.length - 1].start), 1),
-          1,
-        );
-      d < endDate;
-      d = addMonths(d, 1)
+      let d = events![0].startDate.with({ day: 1 }),
+        endDate = events![events!.length - 1].startDate
+          .with({ day: 1 })
+          .add({ months: 1 });
+      Temporal.PlainDate.compare(d, endDate) < 0;
+      d = d.add({ months: 1 })
     ) {
       const key = yearMonthKey(d);
       const events = grouped[key] ?? [];
@@ -213,10 +211,15 @@ function EventsByDate({
         events,
         title: (
           <Text span fw={500}>
-            {i18n.date(d, {
-              month: "long",
-              year: "numeric",
-            })}
+            {i18n.date(
+              new Date(
+                d.toZonedDateTime(Temporal.Now.timeZoneId()).epochMilliseconds,
+              ),
+              {
+                month: "long",
+                year: "numeric",
+              },
+            )}
           </Text>
         ),
       });
@@ -401,7 +404,11 @@ export default function ListView({
   const now = useNow();
   const pred = useFilterPredicate(filter);
   const filteredEvents = useMemo(
-    () => events.filter((event) => isBefore(now, event.end) && pred(event)),
+    () =>
+      events.filter(
+        (event) =>
+          Temporal.ZonedDateTime.compare(now, event.endTime) < 0 && pred(event),
+      ),
     [events, now, pred],
   );
 
