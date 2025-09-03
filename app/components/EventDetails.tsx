@@ -27,7 +27,7 @@ import {
 import { comparing, map, Range, sorted, toArray } from "iter-fns";
 import { Fragment, Suspense, useMemo } from "react";
 import { Link } from "react-router";
-import { Temporal } from "temporal-polyfill";
+import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import attributions from "~/attributions";
 import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
@@ -228,7 +228,7 @@ export function Body({ event }: { event: Event }) {
 
   const dateTimeFormat = useMemo(
     () =>
-      new Intl.DateTimeFormat(i18n.locale, {
+      new TemporalIntl.DateTimeFormat(i18n.locale, {
         weekday: "short",
         day: "numeric",
         month: "short",
@@ -293,19 +293,7 @@ export function Body({ event }: { event: Event }) {
             </Box>
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days)">
-                {dateTimeFormat.formatRange(
-                  new Date(
-                    event.startDate.toZonedDateTime(
-                      Temporal.Now.timeZoneId(),
-                    ).epochMilliseconds,
-                  ),
-                  new Date(
-                    event.endDate.toZonedDateTime(
-                      Temporal.Now.timeZoneId(),
-                    ).epochMilliseconds,
-                  ),
-                )}{" "}
-                (
+                {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
                 <Plural
                   value={event.endDate.since(event.startDate).days + 1}
                   one="# day"

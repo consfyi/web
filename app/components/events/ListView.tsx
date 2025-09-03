@@ -211,15 +211,10 @@ function EventsByDate({
         events,
         title: (
           <Text span fw={500}>
-            {i18n.date(
-              new Date(
-                d.toZonedDateTime(Temporal.Now.timeZoneId()).epochMilliseconds,
-              ),
-              {
-                month: "long",
-                year: "numeric",
-              },
-            )}
+            {d.toLocaleString(i18n.locale, {
+              month: "long",
+              year: "numeric",
+            })}
           </Text>
         ),
       });

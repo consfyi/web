@@ -18,7 +18,7 @@ import {
   useState,
 } from "react";
 import { Link } from "react-router";
-import { Temporal } from "temporal-polyfill";
+import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import { useNow } from "~/hooks";
 import layout, { type Segment } from "./Calendar/layout";
 import { useHeaderHeight } from "./HeaderHeightProvider";
@@ -170,13 +170,16 @@ export default function Calendar({
   const datesContext = useDatesContext();
 
   const dayFormat = useMemo(
-    () => new Intl.DateTimeFormat(i18n.locale, { day: "numeric" }),
+    () => new TemporalIntl.DateTimeFormat(i18n.locale, { day: "numeric" }),
     [t],
   );
 
   const dayMonthFormat = useMemo(
     () =>
-      new Intl.DateTimeFormat(i18n.locale, { month: "short", day: "numeric" }),
+      new TemporalIntl.DateTimeFormat(i18n.locale, {
+        month: "short",
+        day: "numeric",
+      }),
     [t],
   );
 
@@ -275,17 +278,10 @@ export default function Calendar({
               : undefined
           }
         >
-          {i18n.date(
-            new Date(
-              titleDate.toZonedDateTime(
-                Temporal.Now.timeZoneId(),
-              ).epochMilliseconds,
-            ),
-            {
-              month: "long",
-              year: "numeric",
-            },
-          )}
+          {titleDate.toLocaleString(i18n.locale, {
+            month: "long",
+            year: "numeric",
+          })}
         </Text>
         <Table
           layout="fixed"
@@ -316,16 +312,7 @@ export default function Calendar({
                       }
                     >
                       <Text size="sm" fw={500}>
-                        {i18n.date(
-                          new Date(
-                            d.toZonedDateTime(
-                              Temporal.Now.timeZoneId(),
-                            ).epochMilliseconds,
-                          ),
-                          {
-                            weekday: "short",
-                          },
-                        )}
+                        {d.toLocaleString(i18n.locale, { weekday: "short" })}
                       </Text>
                     </Table.Th>
                   );
@@ -416,13 +403,7 @@ export default function Calendar({
                                 }
                               >
                                 {(d.day == 1 ? dayMonthFormat : dayFormat)
-                                  .formatToParts(
-                                    new Date(
-                                      d.toZonedDateTime(
-                                        Temporal.Now.timeZoneId(),
-                                      ).epochMilliseconds,
-                                    ),
-                                  )
+                                  .formatToParts(d)
                                   .map(({ type, value }, i) => (
                                     <Text
                                       span

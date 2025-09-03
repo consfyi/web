@@ -21,7 +21,7 @@ import {
 import { sample } from "iter-fns";
 import { useMemo } from "react";
 import { Link } from "react-router";
-import { Temporal } from "temporal-polyfill";
+import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
@@ -64,7 +64,7 @@ export default function EventRow({
 
   const dateTimeFormat = useMemo(
     () =>
-      new Intl.DateTimeFormat(i18n.locale, {
+      new TemporalIntl.DateTimeFormat(i18n.locale, {
         weekday: "short",
         day: "numeric",
         month: "short",
@@ -154,24 +154,13 @@ export default function EventRow({
             >
               <Stack gap={0}>
                 <Text size="md" ta="center" fw={500}>
-                  {i18n.date(
-                    new Date(
-                      event.startDate.toZonedDateTime(
-                        Temporal.Now.timeZoneId(),
-                      ).epochMilliseconds,
-                    ),
-                    {
-                      day: "numeric",
-                    },
-                  )}
+                  {event.startDate.toLocaleString(i18n.locale, {
+                    day: "numeric",
+                  })}
                 </Text>
                 <Text size="xs" ta="center" fw={500}>
-                  {i18n.date(
-                    new Date(
-                      event.startDate.toZonedDateTime(
-                        Temporal.Now.timeZoneId(),
-                      ).epochMilliseconds,
-                    ),
+                  {event.startDate.toLocaleString(
+                    i18n.locale,
                     showMonthInIcon
                       ? {
                           month: "short",
@@ -294,22 +283,7 @@ export default function EventRow({
           <Text span>
             <IconCalendarWeek title={t`Dates`} size={12} />{" "}
             <Trans context="[start date]-[end date] ([duration] days)">
-              {
-                [
-                  dateTimeFormat.formatRange(
-                    new Date(
-                      event.startDate.toZonedDateTime(
-                        Temporal.Now.timeZoneId(),
-                      ).epochMilliseconds,
-                    ),
-                    new Date(
-                      event.endDate.toZonedDateTime(
-                        Temporal.Now.timeZoneId(),
-                      ).epochMilliseconds,
-                    ),
-                  ),
-                ][0]
-              }{" "}
+              {[dateTimeFormat.formatRange(event.startDate, event.endDate)][0]}{" "}
               (
               <Plural
                 value={event.endDate.since(event.startDate).days + 1}
