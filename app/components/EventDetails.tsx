@@ -294,11 +294,10 @@ export function Body({ event }: { event: Event }) {
             <Text size="sm" mb={5}>
               <Trans context="[start date]-[end date] ([duration] days)">
                 {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
-                <Plural
-                  value={event.endDate.since(event.startDate).days + 1}
-                  one="# day"
-                  other="# days"
-                />
+                {event.endDate
+                  .since(event.startDate)
+                  .add({ days: 1 })
+                  .toLocaleString(i18n.locale, { day: "numeric" })}
                 )
               </Trans>
             </Text>

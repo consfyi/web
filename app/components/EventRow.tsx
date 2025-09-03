@@ -1,6 +1,6 @@
 import { match } from "@formatjs/intl-localematcher";
 import { plural } from "@lingui/core/macro";
-import { Plural, Trans, useLingui } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import {
   Anchor,
   Box,
@@ -285,11 +285,10 @@ export default function EventRow({
             <Trans context="[start date]-[end date] ([duration] days)">
               {[dateTimeFormat.formatRange(event.startDate, event.endDate)][0]}{" "}
               (
-              <Plural
-                value={event.endDate.since(event.startDate).days + 1}
-                one="# day"
-                other="# days"
-              />
+              {event.endDate
+                .since(event.startDate)
+                .add({ days: 1 })
+                .toLocaleString(i18n.locale, { day: "numeric" })}
               )
             </Trans>
           </Text>
