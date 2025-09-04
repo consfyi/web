@@ -44,7 +44,6 @@ msgstr "查看Bluesky贴文"
 msgid "Dates"
 msgstr "日期"
 
-#. placeholder {0}: [dateTimeFormat.formatRange(event.startDate, event.endDate)][0]
 #. placeholder {0}: dateTimeFormat.formatRange(event.startDate, event.endDate)
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
@@ -60,8 +59,8 @@ msgid "Website"
 msgstr "网站"
 
 #: app/components/EventDetails.tsx:323
-#: app/components/EventRow.tsx:297
-#: app/components/EventRow.tsx:316
+#: app/components/EventRow.tsx:296
+#: app/components/EventRow.tsx:315
 msgid "Location"
 msgstr "地点"
 

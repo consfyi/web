@@ -40,7 +40,6 @@ msgstr "View Bluesky Post"
 msgid "Dates"
 msgstr "Dates"
 
-#. placeholder {0}: [dateTimeFormat.formatRange(event.startDate, event.endDate)][0]
 #. placeholder {0}: dateTimeFormat.formatRange(event.startDate, event.endDate)
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
@@ -56,8 +55,8 @@ msgid "Website"
 msgstr "Website"
 
 #: app/components/EventDetails.tsx:323
-#: app/components/EventRow.tsx:297
-#: app/components/EventRow.tsx:316
+#: app/components/EventRow.tsx:296
+#: app/components/EventRow.tsx:315
 msgid "Location"
 msgstr "Location"
 

@@ -283,8 +283,7 @@ export default function EventRow({
           <Text span>
             <IconCalendarWeek title={t`Dates`} size={12} />{" "}
             <Trans context="[start date]-[end date] ([duration] days)">
-              {[dateTimeFormat.formatRange(event.startDate, event.endDate)][0]}{" "}
-              (
+              {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
               {event.endDate
                 .since(event.startDate)
                 .add({ days: 1 })
