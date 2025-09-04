@@ -8,7 +8,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-import { useDatesContext, type DayOfWeek } from "@mantine/dates";
+import { type DayOfWeek, useDatesContext } from "@mantine/dates";
 import { map, max, min, Range, toArray } from "iter-fns";
 import {
   type MouseEventHandler,
@@ -17,11 +17,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import { useNow } from "~/hooks";
 import layout, { type Segment } from "./Calendar/layout";
 import { useHeaderHeight } from "./HeaderHeightProvider";
+import classes from "./Calendar.module.css";
 
 export interface Event {
   id: string;
@@ -53,6 +54,7 @@ function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
       to={event.link}
       component={Link}
       onClick={event.onClick}
+      className={classes.segment}
     >
       <Text
         component={"div"}
@@ -60,6 +62,7 @@ function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
         px="xs"
         py={2}
         pos="relative"
+        className={classes.inner}
         size="xs"
         c={colors.color}
         w={`calc(${segment.n} * (100% + 1px) - 1px)`}
@@ -116,6 +119,24 @@ export default function Calendar({
   includeToday: boolean;
 }) {
   "use no memo";
+
+  const location = useLocation();
+
+  useLayoutEffect(() => {
+    const hash = location.hash.slice(1);
+
+    if (hash.length == 0) {
+      return;
+    }
+
+    const element = document.getElementById(hash);
+    if (element == null) {
+      return;
+    }
+
+    element.scrollIntoView({ behavior: "smooth" });
+    element.focus();
+  }, [location.hash]);
 
   const { i18n, t } = useLingui();
 
@@ -248,7 +269,7 @@ export default function Calendar({
 
   return (
     <>
-      <style>{`html { scroll-padding-top: ${headerHeight + 73}px; }`}</style>
+      <style>{`html { scroll-padding-top: ${headerHeight + 78}px; }`}</style>
       <Title
         mb={-1}
         mx={{ base: 0, lg: "xs" }}
