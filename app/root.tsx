@@ -88,7 +88,10 @@ import { useClient, useIsLoggedIn, useSelf } from "./hooks";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import { HeaderHeightProvider } from "./components/HeaderHeightProvider";
+import {
+  HeaderHeightProvider,
+  useHeaderHeight,
+} from "./components/HeaderHeightProvider";
 import "./styles.css";
 
 const theme = createTheme({});
@@ -752,6 +755,12 @@ function Alerts() {
   );
 }
 
+function ScrollPaddingTopStyle() {
+  const headerHeight = useHeaderHeight();
+
+  return <style>{`html { scroll-padding-top: ${headerHeight}px; }`}</style>;
+}
+
 export function HydrateFallback() {
   return (
     <Center p="lg">
@@ -816,6 +825,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                       <GlobalSearchProvider>
                         <Header />
                         <HeaderHeightProvider value={61}>
+                          <ScrollPaddingTopStyle />
                           {showAlerts ? (
                             <Container size="lg" px={0}>
                               <Alerts />

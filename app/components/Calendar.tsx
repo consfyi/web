@@ -55,6 +55,7 @@ function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
       onClick={event.onClick}
     >
       <Text
+        component={"div"}
         mb={2}
         px="xs"
         py={2}
@@ -247,6 +248,7 @@ export default function Calendar({
 
   return (
     <>
+      <style>{`html { scroll-padding-top: ${headerHeight + 73}px; }`}</style>
       <Title
         mb={-1}
         mx={{ base: 0, lg: "xs" }}
