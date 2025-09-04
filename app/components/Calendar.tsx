@@ -20,9 +20,9 @@ import {
 import { Link, useLocation } from "react-router";
 import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import { useNow } from "~/hooks";
+import classes from "./Calendar.module.css";
 import layout, { type Segment } from "./Calendar/layout";
 import { useHeaderHeight } from "./HeaderHeightProvider";
-import classes from "./Calendar.module.css";
 
 export interface Event {
   id: string;
@@ -134,8 +134,10 @@ export default function Calendar({
       return;
     }
 
-    element.scrollIntoView({ behavior: "smooth" });
-    element.focus();
+    setTimeout(() => {
+      element.scrollIntoView({ behavior: "smooth" });
+      element.focus();
+    }, 1);
   }, [location.hash]);
 
   const { i18n, t } = useLingui();
