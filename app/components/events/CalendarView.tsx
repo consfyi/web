@@ -18,7 +18,7 @@ import {
   IconRss,
   IconSettings,
 } from "@tabler/icons-react";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Temporal } from "temporal-polyfill";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
@@ -34,6 +34,7 @@ import FilterBar, {
   useFilterPredicate,
 } from "../FilterBar";
 import { getExtendedRequestedLocales } from "../LinguiProvider";
+import { useLocation } from "react-router";
 
 export const LayoutOptions = qp.schema({
   inYourTimeZone: qp.flag,
@@ -53,6 +54,26 @@ export default function CalendarView({
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
 }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash.slice(1);
+
+    if (hash.length == 0) {
+      return;
+    }
+
+    const element = document.getElementById(hash);
+    if (element == null) {
+      return;
+    }
+
+    // Run this on the next frame to make sure the scroll-padding-top is set correctly.
+    requestAnimationFrame(() => {
+      element.scrollIntoView({ behavior: "smooth" });
+    });
+  }, [location.hash]);
+
   const pred = useFilterPredicate(filter);
   const now = useNow();
   const filteredEvents = events.filter((event) => pred(event));

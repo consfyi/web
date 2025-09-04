@@ -282,14 +282,20 @@ export default function EventRow({
           ) : null}
           <Text span>
             <IconCalendarWeek title={t`Dates`} size={12} />{" "}
-            <Trans context="[start date]-[end date] ([duration] days)">
-              {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
-              {event.endDate
-                .since(event.startDate)
-                .add({ days: 1 })
-                .toLocaleString(i18n.locale, { day: "numeric" })}
-              )
-            </Trans>
+            <Anchor
+              component={Link}
+              to={`/calendar#${event.id}`}
+              c="var(--mantine-color-text)"
+            >
+              <Trans context="[start date]-[end date] ([duration] days)">
+                {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
+                {event.endDate
+                  .since(event.startDate)
+                  .add({ days: 1 })
+                  .toLocaleString(i18n.locale, { day: "numeric" })}
+                )
+              </Trans>
+            </Anchor>
           </Text>
           {showLocation == "inline" ? (
             <Text span visibleFrom="xs">

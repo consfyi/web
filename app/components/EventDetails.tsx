@@ -292,14 +292,20 @@ export function Body({ event }: { event: Event }) {
               <IconCalendarWeek title={t`Dates`} size={16} stroke={1.5} />
             </Box>
             <Text size="sm" mb={5}>
-              <Trans context="[start date]-[end date] ([duration] days)">
-                {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
-                {event.endDate
-                  .since(event.startDate)
-                  .add({ days: 1 })
-                  .toLocaleString(i18n.locale, { day: "numeric" })}
-                )
-              </Trans>
+              <Anchor
+                component={Link}
+                to={`/calendar#${event.id}`}
+                c="var(--mantine-color-text)"
+              >
+                <Trans context="[start date]-[end date] ([duration] days)">
+                  {dateTimeFormat.formatRange(event.startDate, event.endDate)} (
+                  {event.endDate
+                    .since(event.startDate)
+                    .add({ days: 1 })
+                    .toLocaleString(i18n.locale, { day: "numeric" })}
+                  )
+                </Trans>
+              </Anchor>
             </Text>
           </Group>
 
