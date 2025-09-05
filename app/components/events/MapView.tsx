@@ -22,7 +22,7 @@ export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
 async function getMyLocation(
   signal?: AbortSignal,
 ): Promise<{ lat: number; lng: number }> {
-  const resp = await fetch("https://free.freeipapi.com/api/json", {
+  const resp = await fetch("https://ipv4-check-perf.radar.cloudflare.com", {
     signal,
   });
   if (!resp.ok) {
