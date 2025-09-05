@@ -21,15 +21,14 @@ export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
 
 async function getMyLocation(
   signal?: AbortSignal,
-): Promise<{ lat: number; lng: number }> {
+): Promise<{ latitude: number; longitude: number }> {
   const resp = await fetch("https://ip-check-perf.radar.cloudflare.com", {
     signal,
   });
   if (!resp.ok) {
     throw resp;
   }
-  const { latitude, longitude } = await resp.json();
-  return { lat: latitude, lng: longitude };
+  return await resp.json();
 }
 
 const myLocationPromise = (async () => {
@@ -100,7 +99,7 @@ function MapInner({
       return { lat, lng, zoom: 17 };
     }
     if (myLatLng != null) {
-      const { lat, lng } = myLatLng;
+      const { latitude: lat, longitude: lng } = myLatLng;
       return { lat, lng, zoom: 3 };
     }
     return { lat: 0, lng: 0, zoom: 0 };
