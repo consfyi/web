@@ -18,7 +18,7 @@ import {
   IconRss,
   IconSettings,
 } from "@tabler/icons-react";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useMemo, useRef, useState } from "react";
 import { Temporal } from "temporal-polyfill";
 import clientMetadata from "~/../public/client-metadata.json";
 import Flag from "~/components/Flag";
@@ -55,7 +55,11 @@ export default function CalendarView({
 }) {
   const pred = useFilterPredicate(filter);
   const now = useNow();
-  const filteredEvents = events.filter((event) => pred(event));
+
+  const filteredEvents = useMemo(
+    () => events.filter((event) => pred(event)),
+    [events, pred],
+  );
 
   const { i18n, t } = useLingui();
 
