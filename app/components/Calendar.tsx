@@ -122,14 +122,20 @@ export default function Calendar({
 
   const location = useLocation();
 
-  useLayoutEffect(() => {
-    const hash = location.hash.slice(1);
+  const selectedEvent = useMemo(() => {
+    if (location.hash == "") {
+      return null;
+    }
+    const slug = decodeURIComponent(location.hash.slice(1));
+    return events.find((event) => event.id == slug) ?? null;
+  }, [events, location.hash]);
 
-    if (hash.length == 0) {
+  useLayoutEffect(() => {
+    if (selectedEvent == null) {
       return;
     }
 
-    const element = document.getElementById(hash);
+    const element = document.getElementById(selectedEvent.id);
     if (element == null) {
       return;
     }
@@ -138,7 +144,7 @@ export default function Calendar({
       element.scrollIntoView({ behavior: "smooth" });
       element.focus({ preventScroll: true });
     }, 1);
-  }, [location.hash]);
+  }, [selectedEvent]);
 
   const { i18n, t } = useLingui();
 

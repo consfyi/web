@@ -63,8 +63,8 @@ function MapInner({
     if (location.hash == "") {
       return null;
     }
-    const slug = decodeURIComponent(location.hash.slice(1));
-    return events.find((event) => event.id == slug) ?? null;
+    const id = decodeURIComponent(location.hash.slice(1));
+    return events.find((event) => event.id == id) ?? null;
   }, [events, location.hash]);
 
   const setSelected = useCallback(
