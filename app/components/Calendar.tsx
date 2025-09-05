@@ -136,7 +136,7 @@ export default function Calendar({
 
     setTimeout(() => {
       element.scrollIntoView({ behavior: "smooth" });
-      element.focus();
+      element.focus({ preventScroll: true });
     }, 1);
   }, [location.hash]);
 

@@ -1,4 +1,4 @@
-.segment:focus {
+.segment:focus-visible {
     position: relative;
     z-index: 2;
 
