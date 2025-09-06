@@ -18,7 +18,7 @@ const DEFAULT_FIRST_DAY = (WEEK_INFO.firstDay % 7) as DayOfWeek;
 const WEEKEND = WEEK_INFO.weekend.map((d) => (d % 7) as DayOfWeek);
 
 export const FIRST_DAYS_OF_WEEK: DayOfWeek[] = (() => {
-  const days = [0, 1, 6] as DayOfWeek[];
+  const days = [0, 1, 2, 3, 4, 5, 6] as DayOfWeek[];
   const idx = days.indexOf(DEFAULT_FIRST_DAY);
   if (idx == -1) {
     days.unshift(DEFAULT_FIRST_DAY);
