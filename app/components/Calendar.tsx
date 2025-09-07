@@ -113,9 +113,11 @@ function yearMonthKey(d: Temporal.PlainDate) {
 
 export default function Calendar({
   events,
+  firstDayOfWeek,
   includeToday,
 }: {
   events: Event[];
+  firstDayOfWeek: DayOfWeek;
   includeToday: boolean;
 }) {
   "use no memo";
@@ -223,8 +225,7 @@ export default function Calendar({
   );
 
   const packStartDate = earliestEventDate.subtract({
-    days:
-      ((earliestEventDate.dayOfWeek % 7) - datesContext.firstDayOfWeek + 7) % 7,
+    days: ((earliestEventDate.dayOfWeek % 7) - firstDayOfWeek + 7) % 7,
   });
 
   const numWeeksToPack = useMemo(
@@ -263,7 +264,7 @@ export default function Calendar({
       : packStartDate;
 
   const calendarStartDate = startDate.subtract({
-    days: ((startDate.dayOfWeek % 7) - datesContext.firstDayOfWeek + 7) % 7,
+    days: ((startDate.dayOfWeek % 7) - firstDayOfWeek + 7) % 7,
   });
 
   const highlightedMonthIndex =

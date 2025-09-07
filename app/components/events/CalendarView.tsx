@@ -25,7 +25,7 @@ import Flag from "~/components/Flag";
 import { useNow, type Event } from "~/hooks";
 import * as qp from "~/qp";
 import Calendar from "../Calendar";
-import { FIRST_DAYS_OF_WEEK, useFirstDayOfWeek } from "../DatesProvider";
+import { FIRST_DAYS_OF_WEEK } from "../DatesProvider";
 import EmptyIcon from "../EmptyIcon";
 import EmptyState from "../EmptyState";
 import FilterBar, {
@@ -36,6 +36,7 @@ import FilterBar, {
 import { getExtendedRequestedLocales } from "../LinguiProvider";
 
 export const LayoutOptions = qp.schema({
+  firstDayOfWeek: qp.default_(qp.int, 3),
   inYourTimeZone: qp.flag,
 });
 export type LayoutOptions = qp.Infer<typeof LayoutOptions>;
@@ -63,7 +64,6 @@ export default function CalendarView({
 
   const { i18n, t } = useLingui();
 
-  const [firstDayOfWeek, setFirstDayOfWeek] = useFirstDayOfWeek();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [icsOpen, setIcsOpen] = useState(false);
 
@@ -151,14 +151,17 @@ export default function CalendarView({
                     <Menu.Item
                       key={day as DayOfWeek}
                       leftSection={
-                        firstDayOfWeek == day ? (
+                        layout.firstDayOfWeek == day ? (
                           <IconCheck size={14} />
                         ) : (
                           <EmptyIcon size={14} />
                         )
                       }
                       onClick={() => {
-                        setFirstDayOfWeek(day as DayOfWeek);
+                        setLayout({
+                          ...layout,
+                          firstDayOfWeek: day,
+                        });
                       }}
                     >
                       {i18n.date(new Date(2006, 0, (day as number) + 1), {
@@ -222,6 +225,7 @@ export default function CalendarView({
           <Container size="lg" px={0}>
             <Calendar
               includeToday={!filter.going && filter.q == ""}
+              firstDayOfWeek={layout.firstDayOfWeek as DayOfWeek}
               events={filteredEvents.map((event) => {
                 const over =
                   Temporal.ZonedDateTime.compare(now, event.endTime) > 0;
