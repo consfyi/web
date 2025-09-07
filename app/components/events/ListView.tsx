@@ -39,7 +39,6 @@ import FilterBar, {
   LayoutSwitcher,
   useFilterPredicate,
 } from "../FilterBar";
-import { useHeaderHeight } from "../HeaderHeightProvider";
 
 function FlatList({
   title,
@@ -56,8 +55,6 @@ function FlatList({
   showMonthInIcon: boolean;
   showYear: boolean;
 }) {
-  const headerHeight = useHeaderHeight();
-
   const sortedEvents = useMemo(() => {
     const sortedEvents = events.slice();
     if (sortDesc) {
@@ -77,7 +74,7 @@ function FlatList({
           size="h5"
           fw={500}
           pos="sticky"
-          top={headerHeight}
+          top={0}
           style={{
             zIndex: 3,
             background:

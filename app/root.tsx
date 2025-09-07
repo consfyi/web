@@ -29,7 +29,7 @@ import {
   TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useHeadroom, useLocalStorage } from "@mantine/hooks";
 import {
   completeNavigationProgress,
   NavigationProgress,
@@ -49,15 +49,7 @@ import {
   IconSunMoon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import {
-  forwardRef,
-  type Ref,
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import {
   Link,
   Links,
@@ -88,16 +80,12 @@ import { useClient, useIsLoggedIn, useSelf } from "./hooks";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import {
-  HeaderHeightProvider,
-  useHeaderHeight,
-} from "./components/HeaderHeightProvider";
 import "./styles.css";
 
 const theme = createTheme({});
 
 // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
-const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
+function Header({ pinned }: { pinned: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [pdsHost, setPdsHost] = useLocalStorage({
     key: "fbl:pdsHost",
@@ -157,26 +145,23 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
         style={{ position: "absolute", top: "0px", left: "0px" }}
       />
       <Box
-        ref={ref}
         style={{
-          transitionProperty:
-            "border-bottom-color, background, backdrop-filter",
-          transitionDuration: "0.1s",
-          transitionTimingFunction: "ease-out",
+          transition: "transform 400ms ease, border-bottom-color 0.1s ease",
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
           position: "sticky",
-          top: "0px",
+          top: "0",
+          transform: `translate3d(0, ${pinned ? 0 : "-61px"}, 0)`,
+          backdropFilter: "blur(5px)",
+          background:
+            "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
           zIndex: "var(--mantine-z-index-app)",
           ...(inViewport
             ? {
                 borderBottomColor: "transparent",
               }
             : {
-                backdropFilter: "blur(5px)",
                 borderBottomColor: "var(--mantine-color-default-border)",
-                background:
-                  "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
               }),
         }}
       >
@@ -518,7 +503,7 @@ const Header = forwardRef(function Header({}: {}, ref: Ref<HTMLDivElement>) {
       </Box>
     </>
   );
-});
+}
 
 function Footer() {
   return (
@@ -755,12 +740,6 @@ function Alerts() {
   );
 }
 
-function ScrollPaddingTopStyle() {
-  const headerHeight = useHeaderHeight();
-
-  return <style>{`html { scroll-padding-top: ${headerHeight}px; }`}</style>;
-}
-
 export function HydrateFallback() {
   return (
     <Center p="lg">
@@ -782,6 +761,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   const location = useLocation();
+  const pinHeader = useHeadroom({ fixedAt: 61 });
 
   const showAlerts = !["/map", "/login"].includes(location.pathname);
 
@@ -823,16 +803,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <LinguiProvider>
                     <DatesProvider>
                       <GlobalSearchProvider>
-                        <Header />
-                        <HeaderHeightProvider value={61}>
-                          <ScrollPaddingTopStyle />
-                          {showAlerts ? (
-                            <Container size="lg" px={0}>
-                              <Alerts />
-                            </Container>
-                          ) : null}
-                          {children}
-                        </HeaderHeightProvider>
+                        <Header pinned={pinHeader} />
+                        {showAlerts ? (
+                          <Container size="lg" px={0}>
+                            <Alerts />
+                          </Container>
+                        ) : null}
+                        {children}
                         <Footer />
                       </GlobalSearchProvider>
                     </DatesProvider>

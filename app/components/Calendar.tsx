@@ -22,7 +22,6 @@ import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import { useNow } from "~/hooks";
 import classes from "./Calendar.module.css";
 import layout, { type Segment } from "./Calendar/layout";
-import { useHeaderHeight } from "./HeaderHeightProvider";
 
 export interface Event {
   id: string;
@@ -150,8 +149,6 @@ export default function Calendar({
 
   const { i18n, t } = useLingui();
 
-  const headerHeight = useHeaderHeight();
-
   const checkpointRefs = useRef<Record<number, HTMLDivElement>>({});
   checkpointRefs.current = {};
 
@@ -183,7 +180,7 @@ export default function Calendar({
           return toArray(set);
         });
       },
-      { rootMargin: `-${headerHeight}px 0px 0px 0px` },
+      { rootMargin: `0px 0px 0px 0px` },
     );
 
     for (const el of Object.values(checkpointRefs.current)) {
@@ -195,7 +192,7 @@ export default function Calendar({
         observerRef.current.disconnect();
       }
     };
-  }, [headerHeight, events]);
+  }, [events]);
 
   const now = useNow().toPlainDate();
 
@@ -278,7 +275,7 @@ export default function Calendar({
 
   return (
     <>
-      <style>{`html { scroll-padding-top: ${headerHeight + 78}px; }`}</style>
+      <style>{`html { scroll-padding-top: 77px; }`}</style>
       <Title
         mb={-1}
         mx={{ base: 0, lg: "xs" }}
@@ -288,7 +285,7 @@ export default function Calendar({
         size="h5"
         fw={500}
         pos="sticky"
-        top={headerHeight}
+        top={0}
         style={{
           zIndex: 3,
           background:

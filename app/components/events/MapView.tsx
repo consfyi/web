@@ -11,7 +11,6 @@ import FilterBar, {
   LayoutSwitcher,
   useFilterPredicate,
 } from "../FilterBar";
-import { useHeaderHeight } from "../HeaderHeightProvider";
 import Map from "../Map";
 
 export const LayoutOptions = qp.schema({
@@ -215,8 +214,6 @@ export default function MapView({
   filter: FilterOptions;
   setFilter(filter: FilterOptions): void;
 }) {
-  const headerHeight = useHeaderHeight();
-
   return (
     <Box style={{ position: "relative" }}>
       <Container
@@ -225,7 +222,7 @@ export default function MapView({
         style={{
           left: 0,
           right: 0,
-          top: headerHeight,
+          top: 0,
           position: "absolute",
           zIndex: 1,
         }}
@@ -243,7 +240,7 @@ export default function MapView({
         />
       </Container>
 
-      <Box h="100dvh" mt={-headerHeight}>
+      <Box h="100dvh" mt={-61}>
         <Suspense
           fallback={
             <Center p="lg" h="100%">
