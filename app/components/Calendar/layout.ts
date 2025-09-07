@@ -15,7 +15,7 @@ function resegment(
 ): { offset: number; n: number }[] {
   const segments = [];
   if (offset > 0) {
-    const first = rowLength - offset;
+    const first = Math.min(rowLength - offset, n);
     segments.push({ offset, n: first });
     offset = 0;
     n -= first;
