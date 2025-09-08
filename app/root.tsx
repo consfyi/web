@@ -146,15 +146,12 @@ function Header({ pinned }: { pinned: boolean }) {
       />
       <Box
         style={{
-          transition: "transform 400ms ease, border-bottom-color 0.1s ease",
+          transition: "transform 400ms ease",
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
           position: "sticky",
           top: "0",
-          transform: `translate3d(0, ${pinned ? 0 : "-61px"}, 0)`,
-          backdropFilter: "blur(5px)",
-          background:
-            "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
+          transform: `translate(0, ${pinned ? 0 : "-61px"})`,
           zIndex: "var(--mantine-z-index-app)",
           ...(inViewport
             ? {
@@ -162,6 +159,9 @@ function Header({ pinned }: { pinned: boolean }) {
               }
             : {
                 borderBottomColor: "var(--mantine-color-default-border)",
+                backdropFilter: "blur(5px)",
+                background:
+                  "color-mix(in srgb, var(--mantine-color-body), transparent 15%)",
               }),
         }}
       >
