@@ -8,27 +8,43 @@ export interface Segment {
   hasEnd: boolean;
 }
 
-function resegment(
-  offset: number,
-  n: number,
-  rowLength: number,
-): { offset: number; n: number }[] {
-  const segments = [];
+function resegment(segment: Segment, rowLength: number): Segment[] {
+  const segments: Segment[] = [];
+  let { offset, n } = segment;
+
   if (offset > 0) {
     const first = Math.min(rowLength - offset, n);
-    segments.push({ offset, n: first });
+    segments.push({
+      ...segment,
+      offset,
+      n: first,
+      hasStart: false,
+      hasEnd: false,
+    });
     offset = 0;
     n -= first;
   }
 
   while (n >= rowLength) {
-    segments.push({ offset, n: rowLength });
+    segments.push({
+      ...segment,
+      offset,
+      n: rowLength,
+      hasStart: false,
+      hasEnd: false,
+    });
     n -= rowLength;
   }
 
   if (n > 0) {
-    segments.push({ offset, n });
+    segments.push({ ...segment, offset, n, hasStart: false, hasEnd: false });
   }
+
+  if (segments.length > 0) {
+    segments[0].hasStart = segment.hasStart;
+    segments[segments.length - 1].hasEnd = segment.hasEnd;
+  }
+
   return segments;
 }
 
@@ -47,16 +63,11 @@ export default function layout(
   )) {
     let rowIndex = Math.floor(segment.offset / rowLength);
 
-    const resegmented = resegment(
-      segment.offset % rowLength,
-      segment.n,
+    for (const subsegment of resegment(
+      { ...segment, offset: segment.offset % rowLength },
       rowLength,
-    );
-
-    for (let i = 0; i < resegmented.length; ++i) {
-      const { offset, n } = resegmented[i];
-
-      const cellIndex = offset % rowLength;
+    )) {
+      const cellIndex = subsegment.offset % rowLength;
 
       if (rowIndex >= numRows) {
         continue;
@@ -69,7 +80,7 @@ export default function layout(
       findLane: while (true) {
         for (
           let offset = 0;
-          offset < n && cellIndex + offset < rowLength;
+          offset < subsegment.n && cellIndex + offset < rowLength;
           ++offset
         ) {
           if (row[cellIndex + offset][laneIndex] !== undefined) {
@@ -78,20 +89,14 @@ export default function layout(
           }
         }
 
-        row[cellIndex][laneIndex] = {
-          ...segment,
-          offset,
-          n,
-          hasStart: segment.hasStart && i == 0,
-          hasEnd: segment.hasEnd && i == resegmented.length - 1,
-        };
+        row[cellIndex][laneIndex] = subsegment;
 
         break;
       }
 
       for (
         let offset = 1;
-        offset < n && cellIndex + offset < rowLength;
+        offset < subsegment.n && cellIndex + offset < rowLength;
         ++offset
       ) {
         row[cellIndex + offset][laneIndex] = null;
