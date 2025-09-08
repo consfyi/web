@@ -11,7 +11,7 @@ export interface Segment {
 function resegment(
   offset: number,
   n: number,
-  rowLength: number = 7,
+  rowLength: number,
 ): { offset: number; n: number }[] {
   const segments = [];
   if (offset > 0) {
