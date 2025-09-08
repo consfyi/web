@@ -105,8 +105,8 @@ function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
   );
 }
 
-function yearMonthKey(d: Temporal.PlainDate) {
-  d = d.add({ days: 6 });
+function yearMonthKey(d: Temporal.PlainDate, firstDayOfWeek: number) {
+  d = d.add({ days: (firstDayOfWeek - 1 + 7) % 7 });
   return d.year * 12 + d.month - 1;
 }
 
@@ -265,7 +265,7 @@ export default function Calendar({
   });
 
   const highlightedMonthIndex =
-    min(visibleMonths) ?? yearMonthKey(calendarStartDate);
+    min(visibleMonths) ?? yearMonthKey(calendarStartDate, firstDayOfWeek);
 
   const titleDate = new Temporal.PlainDate(
     Math.floor(highlightedMonthIndex / 12),
@@ -355,15 +355,17 @@ export default function Calendar({
         <Table layout="fixed" withColumnBorders withRowBorders withTableBorder>
           <Table.Tbody>
             <Table.Tr
-              data-month={yearMonthKey(calendarStartDate)}
+              data-month={yearMonthKey(calendarStartDate, firstDayOfWeek)}
               ref={(el) => {
                 if (el == null) {
                   return;
                 }
 
-                checkpointRefs.current[yearMonthKey(calendarStartDate)] = el;
+                checkpointRefs.current[
+                  yearMonthKey(calendarStartDate, firstDayOfWeek)
+                ] = el;
               }}
-            ></Table.Tr>
+            />
             {toArray(
               map(
                 Range.from(calendarStartDate.since(packStartDate).days / 7).to(
@@ -378,7 +380,7 @@ export default function Calendar({
                   return (
                     <Table.Tr
                       key={week}
-                      data-month={yearMonthKey(weekStart)}
+                      data-month={yearMonthKey(weekStart, firstDayOfWeek)}
                       ref={(el) => {
                         if (el == null) {
                           return;
@@ -389,7 +391,9 @@ export default function Calendar({
                             (weekStart.day + (weekStart.dayOfWeek % 7)) / 7,
                           ) == 1
                         ) {
-                          checkpointRefs.current[yearMonthKey(weekStart)] = el;
+                          checkpointRefs.current[
+                            yearMonthKey(weekStart, firstDayOfWeek)
+                          ] = el;
                         }
                       }}
                     >
