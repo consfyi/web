@@ -13,19 +13,19 @@ function resegment(segment: Segment, rowLength: number): Segment[] {
 
   let { offset, n } = segment;
 
-  const leading = segment.offset % rowLength;
-  if (leading > 0) {
-    const first = Math.min(rowLength - leading, n);
+  const firstOffset = segment.offset % rowLength;
+  if (firstOffset > 0) {
+    const firstLength = Math.min(rowLength - firstOffset, n);
     segments.push({
       ...segment,
       offset,
-      n: first,
+      n: firstLength,
       hasStart: false,
       hasEnd: false,
     });
 
-    offset += first;
-    n -= first;
+    offset += firstLength;
+    n -= firstLength;
   }
 
   while (n >= rowLength) {
