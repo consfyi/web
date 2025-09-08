@@ -154,7 +154,7 @@ export function useLabelsById() {
   return labelsById;
 }
 
-export function useEvents() {
+export function useEvents(): Event[] {
   const details = useSuspense(getEvents, {});
   const labelsById = useLabelsById();
   const events = useGlobalMemo(
@@ -172,7 +172,7 @@ export function useEvents() {
             labelId: label.labelId,
             postRkey: label.postRkey,
             post: null,
-          } satisfies Event,
+          },
         ];
       });
     },
@@ -198,6 +198,7 @@ export function useEventsWithPosts() {
   const eventPosts = useEventPosts();
 
   return events.flatMap((event) =>
+    event.postRkey != null &&
     Object.prototype.hasOwnProperty.call(eventPosts, event.postRkey)
       ? [{ ...event, post: eventPosts[event.postRkey] ?? null }]
       : [],
