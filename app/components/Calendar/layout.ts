@@ -10,35 +10,41 @@ export interface Segment {
 
 function resegment(segment: Segment, rowLength: number): Segment[] {
   const segments: Segment[] = [];
-  let n = segment.n;
 
-  if (segment.offset > 0) {
-    const first = Math.min(rowLength - (segment.offset % rowLength), n);
+  let { offset, n } = segment;
+
+  const leading = segment.offset % rowLength;
+  if (leading > 0) {
+    const first = Math.min(rowLength - leading, n);
     segments.push({
       ...segment,
-      offset: segment.offset,
+      offset,
       n: first,
       hasStart: false,
       hasEnd: false,
     });
+
+    offset += first;
     n -= first;
   }
 
   while (n >= rowLength) {
     segments.push({
       ...segment,
-      offset: 0,
+      offset,
       n: rowLength,
       hasStart: false,
       hasEnd: false,
     });
+
+    offset += rowLength;
     n -= rowLength;
   }
 
   if (n > 0) {
     segments.push({
       ...segment,
-      offset: 0,
+      offset,
       n,
       hasStart: false,
       hasEnd: false,
