@@ -22,6 +22,7 @@ import {
   Group,
   Image,
   Loader,
+  type MantineColorScheme,
   mantineHtmlProps,
   MantineProvider,
   Menu,
@@ -47,9 +48,17 @@ import {
   IconSettings,
   IconSun,
   IconSunMoon,
+  type Icon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
-import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   Link,
   Links,
@@ -445,57 +454,48 @@ function Header({ pinned }: { pinned: boolean }) {
                       <Menu.Label>
                         <Trans>Color scheme</Trans>
                       </Menu.Label>
-                      <Menu.Item
-                        onClick={() => {
-                          setColorScheme("auto");
-                        }}
-                        leftSection={
-                          <Group gap={6}>
-                            {colorScheme == "auto" ? (
-                              <IconCheck size={14} />
-                            ) : (
-                              <EmptyIcon size={14} />
-                            )}
-                            <IconSunMoon size={14} />
-                          </Group>
-                        }
-                      >
-                        <Trans>Auto</Trans>
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={() => {
-                          setColorScheme("light");
-                        }}
-                        leftSection={
-                          <Group gap={6}>
-                            {colorScheme == "light" ? (
-                              <IconCheck size={14} />
-                            ) : (
-                              <EmptyIcon size={14} />
-                            )}
-                            <IconSun size={14} />
-                          </Group>
-                        }
-                      >
-                        <Trans>Light</Trans>
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={() => {
-                          setColorScheme("dark");
-                        }}
-                        leftSection={
-                          <Group gap={6}>
-                            {colorScheme == "dark" ? (
-                              <IconCheck size={14} />
-                            ) : (
-                              <EmptyIcon size={14} />
-                            )}
-                            <IconMoon size={14} />
-                          </Group>
-                        }
-                      >
-                        <Trans>Dark</Trans>
-                      </Menu.Item>
+                      {(
+                        [
+                          {
+                            value: "auto",
+                            Icon: IconSunMoon,
+                            label: <Trans>Auto</Trans>,
+                          },
+                          {
+                            value: "light",
+                            Icon: IconSun,
+                            label: <Trans>Light</Trans>,
+                          },
+                          {
+                            value: "dark",
+                            Icon: IconMoon,
+                            label: <Trans>Dark</Trans>,
+                          },
+                        ] as {
+                          value: MantineColorScheme;
+                          Icon: Icon;
+                          label: ReactNode;
+                        }[]
+                      ).map(({ value, Icon, label }) => (
+                        <Menu.Item
+                          key={value}
+                          onClick={() => {
+                            setColorScheme(value);
+                          }}
+                          leftSection={
+                            <Group gap={6}>
+                              {colorScheme == value ? (
+                                <IconCheck size={14} />
+                              ) : (
+                                <EmptyIcon size={14} />
+                              )}
+                              <Icon size={14} />
+                            </Group>
+                          }
+                        >
+                          {label}
+                        </Menu.Item>
+                      ))}
                     </Menu.Dropdown>
                   </Menu>
                 </Group>
