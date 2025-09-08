@@ -159,8 +159,8 @@ export function useEvents(): Event[] {
   const labelsById = useLabelsById();
   const events = useGlobalMemo(
     "events",
-    () => {
-      return details.flatMap((event) => {
+    () =>
+      details.flatMap((event) => {
         const label = labelsById[event.id!];
         if (label == undefined) {
           return [];
@@ -174,8 +174,7 @@ export function useEvents(): Event[] {
             post: null,
           },
         ];
-      });
-    },
+      }),
     [labelsById],
   );
   return events;
