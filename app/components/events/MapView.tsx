@@ -222,7 +222,7 @@ export default function MapView({
         style={{
           left: 0,
           right: 0,
-          top: 0,
+          top: "61px",
           position: "absolute",
           zIndex: 1,
         }}
