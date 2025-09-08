@@ -21,8 +21,6 @@ TW_TO_CN = {
     "登入": "登录",
     "套用": "应用",
     "資訊": "信息",
-    # "Convention"
-    "活動": "大会",
 }
 
 for k, v in TW_TO_CN.items():

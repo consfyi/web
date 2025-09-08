@@ -17,7 +17,7 @@ msgstr ""
 
 #: app/components/EmptyState.tsx:20
 msgid "No cons to display."
-msgstr "没有大会可显示。"
+msgstr "没有聚会可显示。"
 
 #: app/components/EmptyState.tsx:31
 msgid "Clear all filters"
@@ -25,41 +25,39 @@ msgstr "清除所有筛选器"
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
-#: app/components/EventDetails.tsx:148
-#: app/components/EventDetails.tsx:450
-msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
+#: app/components/EventDetails.tsx:148 app/components/EventDetails.tsx:450
+msgid ""
+"{0, plural, one {# person you don’t follow} other {# people you don’t "
+"follow}}"
 msgstr "您未关注的有{0}位"
 
 #: app/components/EventDetails.tsx:168
 msgid "Nobody known to be going yet."
 msgstr "目前还没有已知的参加者。"
 
-#: app/components/EventDetails.tsx:208
-#: app/components/EventDetails.tsx:214
+#: app/components/EventDetails.tsx:208 app/components/EventDetails.tsx:214
 msgid "View Bluesky Post"
 msgstr "查看Bluesky贴文"
 
-#: app/components/EventDetails.tsx:292
-#: app/components/EventRow.tsx:284
+#: app/components/EventDetails.tsx:292 app/components/EventRow.tsx:284
 msgid "Dates"
 msgstr "日期"
 
 #. placeholder {0}: dateTimeFormat.formatRange(event.startDate, event.endDate)
-#. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
-#. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
-#: app/components/EventDetails.tsx:295
-#: app/components/EventRow.tsx:285
+#. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 })
+#. .toLocaleString(i18n.locale, { day: "numeric" })
+#. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 })
+#. .toLocaleString(i18n.locale, { day: "numeric" })
+#: app/components/EventDetails.tsx:295 app/components/EventRow.tsx:285
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: app/components/EventDetails.tsx:308
-#: app/components/EventRow.tsx:216
+#: app/components/EventDetails.tsx:308 app/components/EventRow.tsx:216
 msgid "Website"
 msgstr "网站"
 
-#: app/components/EventDetails.tsx:323
-#: app/components/EventRow.tsx:296
+#: app/components/EventDetails.tsx:323 app/components/EventRow.tsx:296
 #: app/components/EventRow.tsx:315
 msgid "Location"
 msgstr "地点"
@@ -68,30 +66,42 @@ msgstr "地点"
 msgid "Language"
 msgstr "语言"
 
-#. placeholder {0}: sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={sources.flatMap((source) => { const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
+#. placeholder {0}: sources.length > 0 ? ( <Trans> This information was
+#. originally sourced from{" "} <IntlList items={sources.flatMap((source) => {
+#. const attribution = attributions[source]; return attribution != undefined ?
+#. [ <Anchor href={attribution.url} target="_blank" key={source} >
+#. {attribution.name} </Anchor>, ] : [<Fragment
+#. key={source}>source</Fragment>]; })} /> . Usage restrictions may apply.
+#. </Trans> ) : null
 #: app/components/EventDetails.tsx:352
-msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
+msgid ""
+"Does this information need to be edited or delisted? <0>File an issue "
+"here.</0> {0}"
 msgstr "此信息需要编辑或移除吗？<0>请在此回报问题。</0>{0}"
 
 #: app/components/EventDetails.tsx:361
-msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
+msgid ""
+"This information was originally sourced from <0/>. Usage restrictions may "
+"apply."
 msgstr "此信息原始来源为 <0/>。可能适用使用限制。"
 
 #: app/components/EventDetails.tsx:390
 msgid "This convention was canceled."
-msgstr "此大会已取消。"
+msgstr "此聚会已取消。"
 
 #: app/components/EventDetails.tsx:394
 msgid "This convention is currently in progress."
-msgstr "此大会目前正在进行中。"
+msgstr "此聚会目前正在进行中。"
 
 #: app/components/EventDetails.tsx:399
 msgid "This convention has already ended."
-msgstr "此大会已结束。"
+msgstr "此聚会已结束。"
 
 #: app/components/EventDetails.tsx:401
-msgid "This convention has already ended. Information on who is going is no longer available."
-msgstr "此大会已结束。参加者信息不再提供。"
+msgid ""
+"This convention has already ended. Information on who is going is no longer "
+"available."
+msgstr "此聚会已结束。参加者信息不再提供。"
 
 #: app/components/EventDetails.tsx:412
 msgctxt "users attending event"
@@ -105,8 +115,7 @@ msgid "{0} including you"
 msgstr "{0}位（包含您）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:419
-#: app/components/EventRow.tsx:234
+#: app/components/EventDetails.tsx:419 app/components/EventRow.tsx:234
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}位"
@@ -115,8 +124,7 @@ msgstr "{0}位"
 msgid "Loading people you follow"
 msgstr "加载您关注的用户数"
 
-#: app/components/EventRow.tsx:228
-#: app/components/events/ListView.tsx:356
+#: app/components/EventRow.tsx:228 app/components/events/ListView.tsx:356
 msgctxt "number of people going"
 msgid "People going"
 msgstr "参加人数"
@@ -162,24 +170,20 @@ msgstr "大洋洲"
 msgid "Africa"
 msgstr "非洲"
 
-#: app/components/FilterBar.tsx:135
-#: app/components/Flag.tsx:40
+#: app/components/FilterBar.tsx:135 app/components/Flag.tsx:40
 msgid "Unknown"
 msgstr "未知"
 
 #. placeholder {0}: DEFAULT_FILTER_OPTIONS.maxDays
 #. placeholder {0}: [minDays][0]
-#: app/components/FilterBar.tsx:143
-#: app/components/FilterBar.tsx:152
-#: app/components/FilterBar.tsx:348
-#: app/components/FilterBar.tsx:632
+#: app/components/FilterBar.tsx:143 app/components/FilterBar.tsx:152
+#: app/components/FilterBar.tsx:348 app/components/FilterBar.tsx:632
 msgid "{0, plural, one {# day or more} other {# days or more}}"
 msgstr "{0}天以上"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {0}: [value][0]
-#: app/components/FilterBar.tsx:149
-#: app/components/FilterBar.tsx:346
+#: app/components/FilterBar.tsx:149 app/components/FilterBar.tsx:346
 #: app/components/FilterBar.tsx:630
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0}天"
@@ -190,8 +194,7 @@ msgstr "{0}天"
 msgid "{0} to {1} days"
 msgstr "{0}到{1}天"
 
-#: app/components/FilterBar.tsx:228
-#: app/components/FilterBar.tsx:448
+#: app/components/FilterBar.tsx:228 app/components/FilterBar.tsx:448
 msgid "Filters"
 msgstr "筛选器"
 
@@ -199,32 +202,27 @@ msgstr "筛选器"
 msgid "Apply"
 msgstr "应用"
 
-#: app/components/FilterBar.tsx:248
-#: app/components/FilterBar.tsx:487
+#: app/components/FilterBar.tsx:248 app/components/FilterBar.tsx:487
 #: app/components/UserDetails.tsx:49
 msgctxt "events user attending"
 msgid "Going"
 msgstr "参加"
 
-#: app/components/FilterBar.tsx:262
-#: app/components/FilterBar.tsx:670
+#: app/components/FilterBar.tsx:262 app/components/FilterBar.tsx:670
 msgid "With followed"
 msgstr "有与您关注的"
 
-#: app/components/FilterBar.tsx:277
-#: app/components/FilterBar.tsx:518
+#: app/components/FilterBar.tsx:277 app/components/FilterBar.tsx:518
 msgid "Regions"
 msgstr "地区"
 
 #. placeholder {0}: uncommitted.continents.length
 #. placeholder {0}: filter.continents.length
-#: app/components/FilterBar.tsx:293
-#: app/components/FilterBar.tsx:545
+#: app/components/FilterBar.tsx:293 app/components/FilterBar.tsx:545
 msgid "{0, plural, one {# selected} other {# selected}}"
 msgstr "已选择{0}个"
 
-#: app/components/FilterBar.tsx:332
-#: app/components/FilterBar.tsx:609
+#: app/components/FilterBar.tsx:332 app/components/FilterBar.tsx:609
 msgid "Number of days"
 msgstr "天数"
 
@@ -235,7 +233,7 @@ msgstr "{0}个地区"
 
 #: app/components/GuessedEventMarker.tsx:8
 msgid "The details of this convention have not yet been confirmed."
-msgstr "此大会的详细信息尚未确认。"
+msgstr "此聚会的详细信息尚未确认。"
 
 #: app/components/GuessedEventMarker.tsx:20
 msgid "Unconfirmed"
@@ -271,7 +269,9 @@ msgstr "{0}个"
 
 #. placeholder {0}: unknownEvents.length
 #: app/components/UserDetails.tsx:76
-msgid "{0, plural, one {# con you aren’t going to} other {# cons you aren’t going to}}"
+msgid ""
+"{0, plural, one {# con you aren’t going to} other {# cons you aren’t going "
+"to}}"
 msgstr "您不参加的有{0}个"
 
 #: app/components/UserDetails.tsx:138
@@ -288,8 +288,7 @@ msgid "Calendar URL"
 msgstr "日历网址"
 
 #: app/components/events/CalendarView.tsx:130
-#: app/components/events/ListView.tsx:433
-#: app/root.tsx:448
+#: app/components/events/ListView.tsx:433 app/root.tsx:448
 msgid "Settings"
 msgstr "设置"
 
@@ -355,8 +354,7 @@ msgstr "排序方式"
 msgid "Order"
 msgstr "顺序"
 
-#: app/root.tsx:240
-#: app/root.tsx:256
+#: app/root.tsx:240 app/root.tsx:256
 msgid "Search"
 msgstr "搜索"
 
@@ -406,11 +404,12 @@ msgid "Dark"
 msgstr "深色"
 
 #: app/root.tsx:539
-msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Information is for reference only and no endorsement is implied."
-msgstr "资料来源为<0>data.cons.fyi</0>。缺少大会信息？<1>请在此回报问题。</1>信息仅供参考，并不表示任何背书或保证。"
+msgid ""
+"Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue"
+" here.</1> Information is for reference only and no endorsement is implied."
+msgstr "资料来源为<0>data.cons.fyi</0>。缺少聚会信息？<1>请在此回报问题。</1>信息仅供参考，并不表示任何背书或保证。"
 
-#: app/root.tsx:592
-#: app/root.tsx:598
+#: app/root.tsx:592 app/root.tsx:598
 msgid "Not found"
 msgstr "找不到"
 
@@ -423,16 +422,28 @@ msgid "Welcome!"
 msgstr "欢迎！"
 
 #: app/root.tsx:640
-msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
-msgstr "<0>这里是<1><2/>@cons.fyi</1>服务的网站。要获得完整体验，请登录。登录后您可以：</0><3><4>告诉其他人您要参加哪些大会（您也可以在 Bluesky 上对大会贴文按赞来达成）。</4><5>查看您关注的人要参加哪些大会。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登录按钮旁的下拉选单来指定。</6><8>特别感谢 <9>FurryCons.com</9> 提供所有大会资料！</8>"
+msgid ""
+"<0>This the website for the <1><2/> @cons.fyi</1> service. For the full "
+"experience, please log in. You’ll be able to:</0><3><4>Tell people which "
+"cons you’re going to (you can also do this by liking the con post on "
+"Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7>"
+" If you’re using a self-hosted PDS, you’ll need to use the dropdown next to "
+"the Log in button to specify it.</6><8>A huge thank you to "
+"<9>FurryCons.com</9> who provides all the data on conventions!</8>"
+msgstr ""
+"<0>这里是<1><2/>@cons.fyi</1>服务的网站。要获得完整体验，请登录。登录后您可以：</0><3><4>告诉其他人您要参加哪些聚会（您也可以在"
+" Bluesky 上对聚会贴文按赞来达成）。</4><5>查看您关注的人要参加哪些聚会。</5></3><6><7>注意：</7>如果您使用的是自架 "
+"PDS，需要使用登录按钮旁的下拉选单来指定。</6><8>特别感谢 <9>FurryCons.com</9> 提供所有聚会资料！</8>"
 
 #: app/root.tsx:720
 msgid "Not subscribed to labeler"
 msgstr "未订阅标签服务"
 
 #: app/root.tsx:724
-msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
-msgstr "您目前未订阅标签服务。这表示您无法在Bluesky上看到其他人的大会标签。"
+msgid ""
+"You are currently not subscribed to the labeler. That means you won’t be "
+"able to see other people’s con labels on Bluesky."
+msgstr "您目前未订阅标签服务。这表示您无法在Bluesky上看到其他人的聚会标签。"
 
 #: app/root.tsx:737
 msgid "Fix this for me"

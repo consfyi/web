@@ -15,7 +15,7 @@ msgstr ""
 
 #: app/components/EmptyState.tsx:20
 msgid "No cons to display."
-msgstr "沒有活動可顯示。"
+msgstr "沒有聚會可顯示。"
 
 #: app/components/EmptyState.tsx:31
 msgid "Clear all filters"
@@ -77,19 +77,19 @@ msgstr "此資訊原始來源為 <0/>。可能適用使用限制。"
 
 #: app/components/EventDetails.tsx:390
 msgid "This convention was canceled."
-msgstr "此活動已取消。"
+msgstr "此聚會已取消。"
 
 #: app/components/EventDetails.tsx:394
 msgid "This convention is currently in progress."
-msgstr "此活動目前正在進行中。"
+msgstr "此聚會目前正在進行中。"
 
 #: app/components/EventDetails.tsx:399
 msgid "This convention has already ended."
-msgstr "此活動已結束。"
+msgstr "此聚會已結束。"
 
 #: app/components/EventDetails.tsx:401
 msgid "This convention has already ended. Information on who is going is no longer available."
-msgstr "此活動已結束。參加者資訊不再提供。"
+msgstr "此聚會已結束。參加者資訊不再提供。"
 
 #: app/components/EventDetails.tsx:412
 msgctxt "users attending event"
@@ -233,7 +233,7 @@ msgstr "{0}個地區"
 
 #: app/components/GuessedEventMarker.tsx:8
 msgid "The details of this convention have not yet been confirmed."
-msgstr "此活動的詳細資訊尚未確認。"
+msgstr "此聚會的詳細資訊尚未確認。"
 
 #: app/components/GuessedEventMarker.tsx:20
 msgid "Unconfirmed"
@@ -405,7 +405,7 @@ msgstr "深色"
 
 #: app/root.tsx:539
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Information is for reference only and no endorsement is implied."
-msgstr "資料來源為<0>data.cons.fyi</0>。缺少活動資訊？<1>請在此回報問題。</1>資訊僅供參考，並不表示任何背書或保證。"
+msgstr "資料來源為<0>data.cons.fyi</0>。缺少聚會資訊？<1>請在此回報問題。</1>資訊僅供參考，並不表示任何背書或保證。"
 
 #: app/root.tsx:592
 #: app/root.tsx:598
@@ -422,7 +422,7 @@ msgstr "歡迎！"
 
 #: app/root.tsx:640
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6><8>A huge thank you to <9>FurryCons.com</9> who provides all the data on conventions!</8>"
-msgstr "<0>這裡是<1><2/>@cons.fyi</1>服務的網站。要獲得完整體驗，請登入。登入後您可以：</0><3><4>告訴其他人您要參加哪些活動（您也可以在 Bluesky 上對活動貼文按讚來達成）。</4><5>查看您關注的人要參加哪些活動。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登入按鈕旁的下拉選單來指定。</6><8>特別感謝 <9>FurryCons.com</9> 提供所有活動資料！</8>"
+msgstr "<0>這裡是<1><2/>@cons.fyi</1>服務的網站。要獲得完整體驗，請登入。登入後您可以：</0><3><4>告訴其他人您要參加哪些聚會（您也可以在 Bluesky 上對聚會貼文按讚來達成）。</4><5>查看您關注的人要參加哪些聚會。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登入按鈕旁的下拉選單來指定。</6><8>特別感謝 <9>FurryCons.com</9> 提供所有聚會資料！</8>"
 
 #: app/root.tsx:720
 msgid "Not subscribed to labeler"
@@ -430,7 +430,7 @@ msgstr "未訂閱標籤服務"
 
 #: app/root.tsx:724
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
-msgstr "您目前未訂閱標籤服務。這表示您無法在Bluesky上看到其他人的活動標籤。"
+msgstr "您目前未訂閱標籤服務。這表示您無法在Bluesky上看到其他人的聚會標籤。"
 
 #: app/root.tsx:737
 msgid "Fix this for me"
