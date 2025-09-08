@@ -75,15 +75,10 @@ export default function layout(
     ),
     (seg) => resegment(seg, rowLength),
   )) {
-    const rowIndex = Math.floor(segment.offset / rowLength);
+    const row = grid[Math.floor(segment.offset / rowLength)];
     const cellIndex = segment.offset % rowLength;
 
-    if (rowIndex >= numRows) {
-      continue;
-    }
-
-    const row = grid[rowIndex];
-
+    // Find the first lane that is unoccupied by any other segments for its whole length.
     let laneIndex = 0;
     // eslint-disable-next-line no-constant-condition
     findLane: while (true) {
@@ -103,6 +98,7 @@ export default function layout(
       break;
     }
 
+    // Insert placeholders that extend the length of the segment to avoid filling them.
     for (
       let offset = 1;
       offset < segment.n && cellIndex + offset < rowLength;
@@ -112,6 +108,7 @@ export default function layout(
     }
   }
 
+  // Compact rows to remove trailing placeholders.
   for (const row of grid) {
     for (const cell of row) {
       let lastFilled = cell.length - 1;
