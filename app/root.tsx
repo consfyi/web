@@ -84,6 +84,31 @@ import "./styles.css";
 
 const theme = createTheme({});
 
+function focusWithKeyboard(element: HTMLElement) {
+  // Horrible iOS Safari hack:
+  // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
+  // - We can't focus the element immediately because its display is still hidden.
+  // - Safari will not close the keyboard if focus is transferred from one element to the other.
+  // - We create a temporary element to focus on immediately to open the keyboard, then on requestAnimationFrame focus our actual element.
+  const tempInput = document.createElement("input");
+  tempInput.type = "text";
+  tempInput.style.position = "absolute";
+  tempInput.style.left = "0";
+  tempInput.style.top = "0";
+  tempInput.style.opacity = "0";
+  tempInput.style.pointerEvents = "none";
+  // Safari will zoom the page if font-size <16px (this is disabled by maximum-scale=1 but just in case)...
+  tempInput.style.fontSize = "16px";
+  tempInput.readOnly = true;
+  document.body.appendChild(tempInput);
+  tempInput.focus();
+
+  requestAnimationFrame(() => {
+    element.focus();
+    tempInput.remove();
+  });
+}
+
 // eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
 function Header({ pinned }: { pinned: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -244,31 +269,9 @@ function Header({ pinned }: { pinned: boolean }) {
                     aria-label={t`Search`}
                     onClick={() => {
                       setMustShowSearch(true);
-
-                      // Horrible iOS Safari hack:
-                      // - Safari will only open the keyboard if focus() is called directly in a user-initiated action handler.
-                      // - We can't focus the element immediately because its display is still hidden.
-                      // - Safari will not close the keyboard if focus is transferred from one element to the other.
-                      // - We create a temporary element to focus on immediately to open the keyboard, then on requestAnimationFrame focus our actual element.
-                      const tempInput = document.createElement("input");
-                      tempInput.type = "text";
-                      tempInput.style.position = "absolute";
-                      tempInput.style.left = "0";
-                      tempInput.style.top = "0";
-                      // Safari will zoom the page if font-size <16px (this is disabled by maximum-scale=1 but just in case)...
-                      tempInput.style.fontSize = "16px";
-                      tempInput.style.opacity = "0";
-                      tempInput.style.pointerEvents = "none";
-                      tempInput.setAttribute("readonly", "true");
-                      document.body.appendChild(tempInput);
-                      tempInput.focus();
-
-                      requestAnimationFrame(() => {
-                        if (autocompleteRef.current != null) {
-                          autocompleteRef.current.focus();
-                        }
-                        tempInput.remove();
-                      });
+                      if (autocompleteRef.current != null) {
+                        focusWithKeyboard(autocompleteRef.current);
+                      }
                     }}
                   >
                     <IconSearch size={16} />
