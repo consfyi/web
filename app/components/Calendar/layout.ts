@@ -1,4 +1,4 @@
-import { comparing, sorted } from "iter-fns";
+import { comparing, sorted, flatMap } from "iter-fns";
 
 export interface Segment {
   index: number;
@@ -10,25 +10,24 @@ export interface Segment {
 
 function resegment(segment: Segment, rowLength: number): Segment[] {
   const segments: Segment[] = [];
-  let { offset, n } = segment;
+  let n = segment.n;
 
-  if (offset > 0) {
-    const first = Math.min(rowLength - offset, n);
+  if (segment.offset > 0) {
+    const first = Math.min(rowLength - (segment.offset % rowLength), n);
     segments.push({
       ...segment,
-      offset,
+      offset: segment.offset,
       n: first,
       hasStart: false,
       hasEnd: false,
     });
-    offset = 0;
     n -= first;
   }
 
   while (n >= rowLength) {
     segments.push({
       ...segment,
-      offset,
+      offset: 0,
       n: rowLength,
       hasStart: false,
       hasEnd: false,
@@ -37,7 +36,13 @@ function resegment(segment: Segment, rowLength: number): Segment[] {
   }
 
   if (n > 0) {
-    segments.push({ ...segment, offset, n, hasStart: false, hasEnd: false });
+    segments.push({
+      ...segment,
+      offset: 0,
+      n,
+      hasStart: false,
+      hasEnd: false,
+    });
   }
 
   if (segments.length > 0) {
@@ -57,52 +62,47 @@ export default function layout(
     Array.from({ length: rowLength }, () => [] as (Segment | null)[]),
   );
 
-  for (const segment of sorted(
-    segments,
-    comparing((seg) => seg.offset),
+  for (const segment of flatMap(
+    sorted(
+      segments,
+      comparing((seg) => seg.offset),
+    ),
+    (seg) => resegment(seg, rowLength),
   )) {
-    let rowIndex = Math.floor(segment.offset / rowLength);
+    const rowIndex = Math.floor(segment.offset / rowLength);
+    const cellIndex = segment.offset % rowLength;
 
-    for (const subsegment of resegment(
-      { ...segment, offset: segment.offset % rowLength },
-      rowLength,
-    )) {
-      const cellIndex = subsegment.offset % rowLength;
+    if (rowIndex >= numRows) {
+      continue;
+    }
 
-      if (rowIndex >= numRows) {
-        continue;
-      }
+    const row = grid[rowIndex];
 
-      const row = grid[rowIndex];
-
-      let laneIndex = 0;
-      // eslint-disable-next-line no-constant-condition
-      findLane: while (true) {
-        for (
-          let offset = 0;
-          offset < subsegment.n && cellIndex + offset < rowLength;
-          ++offset
-        ) {
-          if (row[cellIndex + offset][laneIndex] !== undefined) {
-            ++laneIndex;
-            continue findLane;
-          }
-        }
-
-        row[cellIndex][laneIndex] = subsegment;
-
-        break;
-      }
-
+    let laneIndex = 0;
+    // eslint-disable-next-line no-constant-condition
+    findLane: while (true) {
       for (
-        let offset = 1;
-        offset < subsegment.n && cellIndex + offset < rowLength;
+        let offset = 0;
+        offset < segment.n && cellIndex + offset < rowLength;
         ++offset
       ) {
-        row[cellIndex + offset][laneIndex] = null;
+        if (row[cellIndex + offset][laneIndex] !== undefined) {
+          ++laneIndex;
+          continue findLane;
+        }
       }
 
-      ++rowIndex;
+      row[cellIndex][laneIndex] = segment;
+
+      break;
+    }
+
+    for (
+      let offset = 1;
+      offset < segment.n && cellIndex + offset < rowLength;
+      ++offset
+    ) {
+      row[cellIndex + offset][laneIndex] = null;
     }
   }
 
