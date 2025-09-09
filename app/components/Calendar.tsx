@@ -9,13 +9,13 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { type DayOfWeek, useDatesContext } from "@mantine/dates";
+import { useWindowScroll } from "@mantine/hooks";
 import { map, max, min, Range, toArray } from "iter-fns";
 import {
   type MouseEventHandler,
   useLayoutEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
 import { Link, useLocation } from "react-router";
 import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
@@ -105,8 +105,7 @@ function EventSegment({ segment, event }: { segment: Segment; event: Event }) {
   );
 }
 
-function yearMonthKey(d: Temporal.PlainDate, firstDayOfWeek: number) {
-  d = d.add({ days: (firstDayOfWeek - 1 + 7) % 7 });
+function yearMonthKey(d: Temporal.PlainDate) {
   return d.year * 12 + d.month - 1;
 }
 
@@ -149,50 +148,7 @@ export default function Calendar({
 
   const { i18n, t } = useLingui();
 
-  const checkpointRefs = useRef<Record<number, HTMLDivElement>>({});
-  checkpointRefs.current = {};
-
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  const [visibleMonths, setVisibleMonths] = useState<number[]>([]);
-
-  useLayoutEffect(() => {
-    if (observerRef.current != null) {
-      observerRef.current.disconnect();
-      observerRef.current = null;
-    }
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        setVisibleMonths((visibleMonths) => {
-          const set = new Set<number>(visibleMonths);
-          for (const entry of entries) {
-            const k = parseInt(
-              (entry.target as HTMLElement).dataset.month!,
-              10,
-            );
-            if (entry.isIntersecting) {
-              set.add(k);
-            } else {
-              set.delete(k);
-            }
-          }
-          return toArray(set);
-        });
-      },
-      { rootMargin: `0px 0px 0px 0px` },
-    );
-
-    for (const el of Object.values(checkpointRefs.current)) {
-      observerRef.current.observe(el);
-    }
-
-    return () => {
-      if (observerRef.current != null) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [events]);
+  const tableRef = useRef<HTMLTableElement>(null);
 
   const now = useNow().toPlainDate();
 
@@ -264,8 +220,25 @@ export default function Calendar({
     days: ((startDate.dayOfWeek % 7) - firstDayOfWeek + 7) % 7,
   });
 
-  const highlightedMonthIndex =
-    min(visibleMonths) ?? yearMonthKey(calendarStartDate, firstDayOfWeek);
+  const [scrollPos] = useWindowScroll();
+
+  const OFFSET = 77;
+
+  const highlightedMonthIndex = useMemo(() => {
+    // We need to take a dependency on scrollPos.y for this to work.
+    void scrollPos.y;
+
+    if (tableRef.current != null) {
+      for (const el of tableRef.current.querySelectorAll("[data-month]")) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < OFFSET && rect.bottom >= OFFSET) {
+          return parseInt((el as HTMLElement).dataset.month!, 10);
+        }
+      }
+    }
+
+    return yearMonthKey(calendarStartDate);
+  }, [scrollPos.y, calendarStartDate]);
 
   const titleDate = new Temporal.PlainDate(
     Math.floor(highlightedMonthIndex / 12),
@@ -275,7 +248,7 @@ export default function Calendar({
 
   return (
     <>
-      <style>{`html { scroll-padding-top: 77px; }`}</style>
+      <style>{`html { scroll-padding-top: ${OFFSET}px; }`}</style>
       <Title
         mb={-1}
         mx={{ base: 0, lg: "xs" }}
@@ -352,20 +325,15 @@ export default function Calendar({
         </Table>
       </Title>
       <Box mx={{ base: 0, lg: "xs" }} mb={{ base: -1, lg: "xs" }}>
-        <Table layout="fixed" withColumnBorders withRowBorders withTableBorder>
+        <Table
+          layout="fixed"
+          withColumnBorders
+          withRowBorders
+          withTableBorder
+          ref={tableRef}
+        >
           <Table.Tbody>
-            <Table.Tr
-              data-month={yearMonthKey(calendarStartDate, firstDayOfWeek)}
-              ref={(el) => {
-                if (el == null) {
-                  return;
-                }
-
-                checkpointRefs.current[
-                  yearMonthKey(calendarStartDate, firstDayOfWeek)
-                ] = el;
-              }}
-            />
+            <Table.Tr data-month={yearMonthKey(calendarStartDate)} />
             {toArray(
               map(
                 Range.from(calendarStartDate.since(packStartDate).days / 7).to(
@@ -380,22 +348,7 @@ export default function Calendar({
                   return (
                     <Table.Tr
                       key={week}
-                      data-month={yearMonthKey(weekStart, firstDayOfWeek)}
-                      ref={(el) => {
-                        if (el == null) {
-                          return;
-                        }
-
-                        if (
-                          Math.ceil(
-                            (weekStart.day + (weekStart.dayOfWeek % 7)) / 7,
-                          ) == 1
-                        ) {
-                          checkpointRefs.current[
-                            yearMonthKey(weekStart, firstDayOfWeek)
-                          ] = el;
-                        }
-                      }}
+                      data-month={yearMonthKey(weekStart.add({ days: 6 }))}
                     >
                       {toArray(
                         map(Range.to(7), (offset) => {
