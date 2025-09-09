@@ -31,16 +31,22 @@ function Attending({ profile }: { profile: Profile }) {
   const labelsSet = new Set(labels!.map((label) => label.val));
 
   const events = useEventsWithPosts();
-  const filteredEvents = events.filter((con) => labelsSet.has(con.labelId));
+  const filteredEvents = events.filter(
+    (con) => con.labelId != null && labelsSet.has(con.labelId),
+  );
 
   const knownEvents =
     selfLabelsSet != null
-      ? filteredEvents.filter((con) => selfLabelsSet.has(con.labelId))
+      ? filteredEvents.filter(
+          (con) => con.labelId != null && selfLabelsSet.has(con.labelId),
+        )
       : filteredEvents;
 
   const unknownEvents =
     selfLabelsSet != null
-      ? filteredEvents.filter((con) => !selfLabelsSet.has(con.labelId))
+      ? filteredEvents.filter(
+          (con) => con.labelId == null || !selfLabelsSet.has(con.labelId),
+        )
       : [];
 
   return (

@@ -118,61 +118,10 @@ function focusWithKeyboard(element: HTMLElement) {
   });
 }
 
-// eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
-function Header({ pinned }: { pinned: boolean }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [pdsHost, setPdsHost] = useLocalStorage({
-    key: "fbl:pdsHost",
-    defaultValue: "",
-    getInitialValueInEffect: false,
-  });
-
-  const realPdsHost =
-    pdsHost != ""
-      ? pdsHost.replace(/^(?!https:\/\/)/, "https://")
-      : DEFAULT_PDS_HOST;
-
-  const usingDefaultPdsHost = realPdsHost == DEFAULT_PDS_HOST;
-
-  const [loginError, setLoginError] = useState<unknown | null>(null);
-  const [pending, setIsPending] = useState(false);
-
-  const { t } = useLingui();
-  const client = useClient();
-  const self = useSelf();
+function SharedMenuItems() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
-  const [inViewport, setInViewport] = useState(true);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const observedRef = useCallback(
-    (el: HTMLElement | null) => {
-      if (el == null) {
-        if (observer.current != null) {
-          observer.current.disconnect();
-        }
-        setInViewport(true);
-        return;
-      }
-
-      if (observer.current == null) {
-        observer.current = new IntersectionObserver((entries) =>
-          setInViewport(entries.some((entry) => entry.isIntersecting)),
-        );
-      }
-      observer.current.observe(el);
-    },
-    [setInViewport],
-  );
-
-  const [mustShowSearch, setMustShowSearch] = useState(false);
-  const navigate = useNavigate();
-  const { query, setQuery } = useGlobalSearch();
-  const autocompleteRef = useRef<HTMLInputElement | null>(null);
-  const showSearch = mustShowSearch || query != "";
-
-  const isLoginPage = location.pathname == "/login";
-
-  const sharedMenuItems = (
+  return (
     <>
       <Menu.Label>
         <Trans>Color scheme</Trans>
@@ -221,6 +170,60 @@ function Header({ pinned }: { pinned: boolean }) {
       ))}
     </>
   );
+}
+
+// eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
+function Header({ pinned }: { pinned: boolean }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [pdsHost, setPdsHost] = useLocalStorage({
+    key: "fbl:pdsHost",
+    defaultValue: "",
+    getInitialValueInEffect: false,
+  });
+
+  const realPdsHost =
+    pdsHost != ""
+      ? pdsHost.replace(/^(?!https:\/\/)/, "https://")
+      : DEFAULT_PDS_HOST;
+
+  const usingDefaultPdsHost = realPdsHost == DEFAULT_PDS_HOST;
+
+  const [loginError, setLoginError] = useState<unknown | null>(null);
+  const [pending, setIsPending] = useState(false);
+
+  const { t } = useLingui();
+  const client = useClient();
+  const self = useSelf();
+
+  const [inViewport, setInViewport] = useState(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const observedRef = useCallback(
+    (el: HTMLElement | null) => {
+      if (el == null) {
+        if (observer.current != null) {
+          observer.current.disconnect();
+        }
+        setInViewport(true);
+        return;
+      }
+
+      if (observer.current == null) {
+        observer.current = new IntersectionObserver((entries) =>
+          setInViewport(entries.some((entry) => entry.isIntersecting)),
+        );
+      }
+      observer.current.observe(el);
+    },
+    [setInViewport],
+  );
+
+  const [mustShowSearch, setMustShowSearch] = useState(false);
+  const navigate = useNavigate();
+  const { query, setQuery } = useGlobalSearch();
+  const autocompleteRef = useRef<HTMLInputElement | null>(null);
+  const showSearch = mustShowSearch || query != "";
+
+  const isLoginPage = location.pathname == "/login";
 
   return (
     <>
@@ -373,7 +376,7 @@ function Header({ pinned }: { pinned: boolean }) {
                       <Menu.Dropdown>
                         <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
                         <Menu.Divider hiddenFrom="sm" />
-                        {sharedMenuItems}
+                        <SharedMenuItems />
                         <Menu.Divider />
                         <Button
                           fullWidth
@@ -503,7 +506,9 @@ function Header({ pinned }: { pinned: boolean }) {
                             <IconDotsVertical size={18} />
                           </Button>
                         </Menu.Target>
-                        <Menu.Dropdown>{sharedMenuItems}</Menu.Dropdown>
+                        <Menu.Dropdown>
+                          <SharedMenuItems />
+                        </Menu.Dropdown>
                       </Menu>
                     </>
                   )}
