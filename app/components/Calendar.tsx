@@ -13,9 +13,11 @@ import { useWindowScroll } from "@mantine/hooks";
 import { map, min, Range, toArray } from "iter-fns";
 import {
   type MouseEventHandler,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { Link, useLocation } from "react-router";
 import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
@@ -118,8 +120,6 @@ export default function Calendar({
   firstDayOfWeek: DayOfWeek;
   includeToday: boolean;
 }) {
-  "use no memo";
-
   const location = useLocation();
 
   const selectedEvent = useMemo(() => {
@@ -211,7 +211,11 @@ export default function Calendar({
 
   const OFFSET = 77;
 
-  const highlightedMonthIndex = useMemo(() => {
+  const [highlightedMonthIndex, setHighlightedMonthIndex] = useState(() =>
+    yearMonthKey(calendarStartDate),
+  );
+
+  useEffect(() => {
     // We need to take a dependency on scrollPos.y for this to work.
     void scrollPos.y;
 
@@ -219,13 +223,14 @@ export default function Calendar({
       for (const el of tableRef.current.querySelectorAll("[data-month]")) {
         const rect = el.getBoundingClientRect();
         if (rect.top < OFFSET && rect.bottom >= OFFSET) {
-          return parseInt((el as HTMLElement).dataset.month!, 10);
+          setHighlightedMonthIndex(
+            parseInt((el as HTMLElement).dataset.month!, 10),
+          );
+          return;
         }
       }
     }
-
-    return yearMonthKey(calendarStartDate);
-  }, [scrollPos.y, calendarStartDate]);
+  }, [scrollPos.y]);
 
   const titleDate = new Temporal.PlainDate(
     Math.floor(highlightedMonthIndex / 12),
