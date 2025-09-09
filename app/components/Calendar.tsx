@@ -117,7 +117,7 @@ export default function Calendar({
   includeToday,
 }: {
   events: Event[];
-  firstDayOfWeek: DayOfWeek;
+  firstDayOfWeek?: DayOfWeek;
   includeToday: boolean;
 }) {
   const location = useLocation();
@@ -153,6 +153,8 @@ export default function Calendar({
   const now = useNow().toPlainDate();
 
   const datesContext = useDatesContext();
+
+  firstDayOfWeek ??= datesContext.firstDayOfWeek;
 
   const dayFormat = useMemo(() => {
     void t;
