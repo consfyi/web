@@ -219,15 +219,17 @@ export default function Calendar({
     // We need to take a dependency on scrollPos.y for this to work.
     void scrollPos.y;
 
-    if (tableRef.current != null) {
-      for (const el of tableRef.current.querySelectorAll("[data-month]")) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < OFFSET && rect.bottom >= OFFSET) {
-          setHighlightedMonthIndex(
-            parseInt((el as HTMLElement).dataset.month!, 10),
-          );
-          return;
-        }
+    if (tableRef.current == null) {
+      return;
+    }
+
+    for (const el of tableRef.current.querySelectorAll("[data-month]")) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < OFFSET && rect.bottom >= OFFSET) {
+        setHighlightedMonthIndex(
+          parseInt((el as HTMLElement).dataset.month!, 10),
+        );
+        return;
       }
     }
   }, [scrollPos.y]);
