@@ -399,20 +399,6 @@ function Header({ pinned }: { pinned: boolean }) {
                     </Menu>
                   ) : (
                     <>
-                      <Menu position="bottom-end" withArrow>
-                        <Menu.Target>
-                          <Button
-                            px="xs"
-                            variant="subtle"
-                            color="var(--mantine-color-dimmed)"
-                            c="dimmed"
-                            title={t`Settings`}
-                          >
-                            <IconDotsVertical size={18} />
-                          </Button>
-                        </Menu.Target>
-                        <Menu.Dropdown>{sharedMenuItems}</Menu.Dropdown>
-                      </Menu>
                       <form
                         onSubmit={(evt) => {
                           evt.preventDefault();
@@ -505,6 +491,20 @@ function Header({ pinned }: { pinned: boolean }) {
                           </Menu>
                         </Button.Group>
                       </form>
+                      <Menu position="bottom-end" withArrow>
+                        <Menu.Target>
+                          <Button
+                            px="xs"
+                            variant="subtle"
+                            color="var(--mantine-color-dimmed)"
+                            c="dimmed"
+                            title={t`Settings`}
+                          >
+                            <IconDotsVertical size={18} />
+                          </Button>
+                        </Menu.Target>
+                        <Menu.Dropdown>{sharedMenuItems}</Menu.Dropdown>
+                      </Menu>
                     </>
                   )}
                 </Group>
