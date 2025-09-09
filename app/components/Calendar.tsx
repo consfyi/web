@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { type DayOfWeek, useDatesContext } from "@mantine/dates";
 import { useWindowScroll } from "@mantine/hooks";
-import { map, max, min, Range, toArray } from "iter-fns";
+import { map, min, Range, toArray } from "iter-fns";
 import {
   type MouseEventHandler,
   useLayoutEffect,
