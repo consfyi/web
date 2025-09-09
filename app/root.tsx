@@ -172,7 +172,6 @@ function SharedMenuItems() {
   );
 }
 
-// eslint-disable-next-line no-empty-pattern, @typescript-eslint/ban-types
 function Header({ pinned }: { pinned: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [pdsHost, setPdsHost] = useLocalStorage({

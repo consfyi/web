@@ -1,6 +1,7 @@
 import { useLingui } from "@lingui/react/macro";
 import { Select, type SelectProps } from "@mantine/core";
 import { IconLanguage } from "@tabler/icons-react";
+import { comparing, sorted } from "iter-fns";
 import { useMemo } from "react";
 import LOCALES from "~/locales";
 import { useLinguiContext } from "./LinguiProvider";
@@ -9,15 +10,21 @@ export default function LocaleSelector({ ...props }: SelectProps) {
   const { i18n } = useLingui();
   const { setLocale, pending } = useLinguiContext();
 
-  const items = useMemo(() => {
-    return Object.keys(LOCALES).map((locale) => ({
-      value: locale,
-      label:
-        new Intl.DisplayNames(locale, {
-          type: "language",
-        }).of(locale) ?? locale,
-    }));
-  }, []);
+  const items = useMemo(
+    () =>
+      sorted(
+        Object.keys(LOCALES).map((locale) => ({
+          value: locale,
+          label:
+            new Intl.DisplayNames(locale, {
+              type: "language",
+              languageDisplay: "standard",
+            }).of(locale) ?? locale,
+        })),
+        comparing(({ label }) => label),
+      ),
+    [],
+  );
 
   return (
     <Select
