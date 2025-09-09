@@ -59,6 +59,37 @@ function resegment(segment: Segment, rowLength: number): Segment[] {
   return segments;
 }
 
+function findEmptyLane(
+  row: (Segment | null)[][],
+  cellIndex: number,
+  n: number,
+  rowLength: number,
+) {
+  // Find the first lane that is unoccupied by any other segments for its whole length.
+  let laneIndex = 0;
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    let found = true;
+
+    for (
+      let offset = 0;
+      offset < n && cellIndex + offset < rowLength;
+      ++offset
+    ) {
+      if (row[cellIndex + offset][laneIndex] !== undefined) {
+        ++laneIndex;
+        found = false;
+        break;
+      }
+    }
+
+    if (found) {
+      return laneIndex;
+    }
+  }
+}
+
 export default function layout(
   segments: Segment[],
   numRows: number,
@@ -77,26 +108,9 @@ export default function layout(
   )) {
     const row = grid[Math.floor(segment.offset / rowLength)];
     const cellIndex = segment.offset % rowLength;
+    const laneIndex = findEmptyLane(row, cellIndex, segment.n, rowLength);
 
-    // Find the first lane that is unoccupied by any other segments for its whole length.
-    let laneIndex = 0;
-    // eslint-disable-next-line no-constant-condition
-    findLane: while (true) {
-      for (
-        let offset = 0;
-        offset < segment.n && cellIndex + offset < rowLength;
-        ++offset
-      ) {
-        if (row[cellIndex + offset][laneIndex] !== undefined) {
-          ++laneIndex;
-          continue findLane;
-        }
-      }
-
-      row[cellIndex][laneIndex] = segment;
-
-      break;
-    }
+    row[cellIndex][laneIndex] = segment;
 
     // Insert placeholders that extend the length of the segment to avoid filling them.
     for (
