@@ -181,17 +181,6 @@ export default function Calendar({
     days: ((earliestEventDate.dayOfWeek % 7) - firstDayOfWeek + 7) % 7,
   });
 
-  const numWeeksToPack = useMemo(
-    () =>
-      Math.floor(
-        max(
-          map(events, (event) => event.endDate.add({ days: 7 })),
-          Temporal.PlainDate.compare,
-        )!.since(packStartDate).days / 7,
-      ),
-    [events, packStartDate],
-  );
-
   const grid = useMemo(
     () =>
       layout(
@@ -202,9 +191,8 @@ export default function Calendar({
           hasStart: true,
           hasEnd: true,
         })),
-        numWeeksToPack,
       ),
-    [packStartDate, events, numWeeksToPack],
+    [packStartDate, events],
   );
 
   const startDate =

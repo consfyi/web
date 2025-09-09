@@ -1,4 +1,4 @@
-import { comparing, sorted, flatMap } from "iter-fns";
+import { comparing, sorted, flatMap, max, map, compareMany } from "iter-fns";
 
 export interface Segment {
   index: number;
@@ -92,17 +92,25 @@ function findEmptyLane(
 
 export default function layout(
   segments: Segment[],
-  numRows: number,
   rowLength: number = 7,
 ): (Segment | null)[][][] {
-  const grid = Array.from({ length: numRows }, () =>
-    Array.from({ length: rowLength }, () => [] as (Segment | null)[]),
+  const grid = Array.from(
+    {
+      length: Math.floor(
+        ((max(map(segments, ({ offset, n }) => offset + n)) ?? 0) + rowLength) /
+          rowLength,
+      ),
+    },
+    () => Array.from({ length: rowLength }, () => [] as (Segment | null)[]),
   );
 
   for (const segment of flatMap(
     sorted(
       segments,
-      comparing((seg) => seg.offset),
+      compareMany(
+        comparing((seg) => seg.offset),
+        comparing((seg) => seg.n),
+      ),
     ),
     (seg) => resegment(seg, rowLength),
   )) {
