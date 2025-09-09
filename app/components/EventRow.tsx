@@ -62,25 +62,23 @@ export default function EventRow({
 
   const { i18n, t } = useLingui();
 
-  const dateTimeFormat = useMemo(
-    () =>
-      new TemporalIntl.DateTimeFormat(i18n.locale, {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-        year: showYear ? "numeric" : undefined,
-      }),
-    [t, showYear],
-  );
+  const dateTimeFormat = useMemo(() => {
+    void t;
+    return new TemporalIntl.DateTimeFormat(i18n.locale, {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: showYear ? "numeric" : undefined,
+    });
+  }, [showYear, t, i18n.locale]);
 
-  const listFormat = useMemo(
-    () =>
-      new Intl.ListFormat(i18n.locale, {
-        type: "conjunction",
-        style: "long",
-      }),
-    [t],
-  );
+  const listFormat = useMemo(() => {
+    void t;
+    return new Intl.ListFormat(i18n.locale, {
+      type: "conjunction",
+      style: "long",
+    });
+  }, [t, i18n.locale]);
 
   const follows = useMemo(
     () =>

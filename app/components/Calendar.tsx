@@ -154,19 +154,18 @@ export default function Calendar({
 
   const datesContext = useDatesContext();
 
-  const dayFormat = useMemo(
-    () => new TemporalIntl.DateTimeFormat(i18n.locale, { day: "numeric" }),
-    [t],
-  );
+  const dayFormat = useMemo(() => {
+    void t;
+    return new TemporalIntl.DateTimeFormat(i18n.locale, { day: "numeric" });
+  }, [t, i18n.locale]);
 
-  const dayMonthFormat = useMemo(
-    () =>
-      new TemporalIntl.DateTimeFormat(i18n.locale, {
-        month: "short",
-        day: "numeric",
-      }),
-    [t],
-  );
+  const dayMonthFormat = useMemo(() => {
+    void t;
+    return new TemporalIntl.DateTimeFormat(i18n.locale, {
+      month: "short",
+      day: "numeric",
+    });
+  }, [t, i18n.locale]);
 
   const earliestEventDate = useMemo(
     () =>

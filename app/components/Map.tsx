@@ -110,10 +110,10 @@ export function useMapStyle() {
   const colorScheme = useComputedColorScheme();
   const { i18n, t } = useLingui();
 
-  return useMemo(
-    () => makeStyle({ colorScheme, locale: i18n.locale }),
-    [colorScheme, t],
-  );
+  return useMemo(() => {
+    void t;
+    return makeStyle({ colorScheme, locale: i18n.locale });
+  }, [colorScheme, t, i18n.locale]);
 }
 
 export interface Pin {

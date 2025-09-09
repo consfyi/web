@@ -226,30 +226,28 @@ export function Title({ event }: { event: Event }) {
 export function Body({ event }: { event: Event }) {
   const { i18n, t } = useLingui();
 
-  const dateTimeFormat = useMemo(
-    () =>
-      new TemporalIntl.DateTimeFormat(i18n.locale, {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
-    [t],
-  );
+  const dateTimeFormat = useMemo(() => {
+    void t;
+    return new TemporalIntl.DateTimeFormat(i18n.locale, {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }, [t, i18n.locale]);
 
   const now = useNow();
   const over = Temporal.ZonedDateTime.compare(now, event.endTime) > 0;
   const active =
     Temporal.ZonedDateTime.compare(now, event.startTime) > 0 && !over;
 
-  const languageDisplayNames = useMemo(
-    () =>
-      new Intl.DisplayNames(i18n.locale, {
-        type: "language",
-        languageDisplay: "standard",
-      }),
-    [t],
-  );
+  const languageDisplayNames = useMemo(() => {
+    void t;
+    return new Intl.DisplayNames(i18n.locale, {
+      type: "language",
+      languageDisplay: "standard",
+    });
+  }, [t, i18n.locale]);
 
   const {
     data: followedEventAttendees,

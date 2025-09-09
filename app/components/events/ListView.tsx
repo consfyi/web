@@ -174,6 +174,8 @@ function EventsByDate({
   const { i18n, t } = useLingui();
 
   const groups = useMemo(() => {
+    void t;
+
     if (events.length == 0) {
       return [];
     }
@@ -217,7 +219,7 @@ function EventsByDate({
       });
     }
     return groups;
-  }, [events, t, hideEmptyGroups]);
+  }, [events, t, i18n.locale, hideEmptyGroups]);
 
   return (
     <GroupedList
@@ -313,9 +315,10 @@ function EventsByName({
   const { i18n, t } = useLingui();
 
   const sortedEvents = useMemo(() => {
+    void t;
     const collator = new Intl.Collator(i18n.locale);
     return sorted(events, (x, y) => collator.compare(x.name, y.name));
-  }, [events, t]);
+  }, [events, t, i18n.locale]);
 
   return (
     <FlatList

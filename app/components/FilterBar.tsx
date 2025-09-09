@@ -691,13 +691,15 @@ export function useFilterPredicate(filter: FilterOptions) {
   const { t, i18n } = useLingui();
   const { data: followedEventAttendees } = useFollowedEventAttendeesDLE();
 
-  const matches = useMemo(
-    () => makeMatcher(filter.q, i18n.locale),
-    [t, filter.q],
-  );
+  const matches = useMemo(() => {
+    void t;
+    return makeMatcher(filter.q, i18n.locale);
+  }, [filter.q, t, i18n.locale]);
 
   return useCallback(
     (event: Event) => {
+      void t;
+
       const days = event.endDate.since(event.startDate).days + 1;
       const country = new Intl.Locale(event.locale).region;
       const locale = match(
@@ -725,6 +727,6 @@ export function useFilterPredicate(filter: FilterOptions) {
           (followedEventAttendees[event.id] ?? []).length > 0)
       );
     },
-    [filter, followedEventAttendees, matches],
+    [filter, followedEventAttendees, matches, t, i18n.locale],
   );
 }
