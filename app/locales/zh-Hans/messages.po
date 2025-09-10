@@ -25,7 +25,8 @@ msgstr "清除所有筛选器"
 
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
-#: app/components/EventDetails.tsx:148 app/components/EventDetails.tsx:454
+#: app/components/EventDetails.tsx:148
+#: app/components/EventDetails.tsx:454
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "您未关注的有{0}位"
 
@@ -33,27 +34,33 @@ msgstr "您未关注的有{0}位"
 msgid "Nobody known to be going yet."
 msgstr "目前还没有已知的参加者。"
 
-#: app/components/EventDetails.tsx:208 app/components/EventDetails.tsx:214
+#: app/components/EventDetails.tsx:208
+#: app/components/EventDetails.tsx:214
 msgid "View Bluesky Post"
 msgstr "查看Bluesky贴文"
 
-#: app/components/EventDetails.tsx:290 app/components/EventRow.tsx:282
+#: app/components/EventDetails.tsx:290
+#: app/components/EventRow.tsx:282
 msgid "Dates"
 msgstr "日期"
 
 #. placeholder {0}: dateTimeFormat.formatRange(event.startDate, event.endDate)
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
-#: app/components/EventDetails.tsx:298 app/components/EventRow.tsx:288
+#: app/components/EventDetails.tsx:298
+#: app/components/EventRow.tsx:288
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: app/components/EventDetails.tsx:312 app/components/EventRow.tsx:214
+#: app/components/EventDetails.tsx:312
+#: app/components/EventRow.tsx:214
 msgid "Website"
 msgstr "网站"
 
-#: app/components/EventDetails.tsx:327 app/components/EventRow.tsx:300 app/components/EventRow.tsx:319
+#: app/components/EventDetails.tsx:327
+#: app/components/EventRow.tsx:300
+#: app/components/EventRow.tsx:319
 msgid "Location"
 msgstr "地点"
 
@@ -98,7 +105,8 @@ msgid "{0} including you"
 msgstr "{0}位（包含您）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:423 app/components/EventRow.tsx:232
+#: app/components/EventDetails.tsx:423
+#: app/components/EventRow.tsx:232
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}位"
@@ -107,7 +115,8 @@ msgstr "{0}位"
 msgid "Loading people you follow"
 msgstr "加载您关注的用户数"
 
-#: app/components/EventRow.tsx:226 app/components/events/ListView.tsx:356
+#: app/components/EventRow.tsx:226
+#: app/components/events/ListView.tsx:356
 msgctxt "number of people going"
 msgid "People going"
 msgstr "参加人数"
@@ -153,19 +162,25 @@ msgstr "大洋洲"
 msgid "Africa"
 msgstr "非洲"
 
-#: app/components/FilterBar.tsx:135 app/components/Flag.tsx:40
+#: app/components/FilterBar.tsx:135
+#: app/components/Flag.tsx:40
 msgid "Unknown"
 msgstr "未知"
 
 #. placeholder {0}: DEFAULT_FILTER_OPTIONS.maxDays
 #. placeholder {0}: [minDays][0]
-#: app/components/FilterBar.tsx:143 app/components/FilterBar.tsx:152 app/components/FilterBar.tsx:348 app/components/FilterBar.tsx:632
+#: app/components/FilterBar.tsx:143
+#: app/components/FilterBar.tsx:152
+#: app/components/FilterBar.tsx:348
+#: app/components/FilterBar.tsx:632
 msgid "{0, plural, one {# day or more} other {# days or more}}"
 msgstr "{0}天以上"
 
 #. placeholder {0}: [minDays][0]
 #. placeholder {0}: [value][0]
-#: app/components/FilterBar.tsx:149 app/components/FilterBar.tsx:346 app/components/FilterBar.tsx:630
+#: app/components/FilterBar.tsx:149
+#: app/components/FilterBar.tsx:346
+#: app/components/FilterBar.tsx:630
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0}天"
 
@@ -175,7 +190,8 @@ msgstr "{0}天"
 msgid "{0} to {1} days"
 msgstr "{0}到{1}天"
 
-#: app/components/FilterBar.tsx:228 app/components/FilterBar.tsx:448
+#: app/components/FilterBar.tsx:228
+#: app/components/FilterBar.tsx:448
 msgid "Filters"
 msgstr "筛选器"
 
@@ -183,26 +199,32 @@ msgstr "筛选器"
 msgid "Apply"
 msgstr "应用"
 
-#: app/components/FilterBar.tsx:248 app/components/FilterBar.tsx:487 app/components/UserDetails.tsx:55
+#: app/components/FilterBar.tsx:248
+#: app/components/FilterBar.tsx:487
+#: app/components/UserDetails.tsx:55
 msgctxt "events user attending"
 msgid "Going"
 msgstr "参加"
 
-#: app/components/FilterBar.tsx:262 app/components/FilterBar.tsx:670
+#: app/components/FilterBar.tsx:262
+#: app/components/FilterBar.tsx:670
 msgid "With followed"
 msgstr "有与您关注的"
 
-#: app/components/FilterBar.tsx:277 app/components/FilterBar.tsx:518
+#: app/components/FilterBar.tsx:277
+#: app/components/FilterBar.tsx:518
 msgid "Regions"
 msgstr "地区"
 
 #. placeholder {0}: uncommitted.continents.length
 #. placeholder {0}: filter.continents.length
-#: app/components/FilterBar.tsx:293 app/components/FilterBar.tsx:545
+#: app/components/FilterBar.tsx:293
+#: app/components/FilterBar.tsx:545
 msgid "{0, plural, one {# selected} other {# selected}}"
 msgstr "已选择{0}个"
 
-#: app/components/FilterBar.tsx:332 app/components/FilterBar.tsx:609
+#: app/components/FilterBar.tsx:332
+#: app/components/FilterBar.tsx:609
 msgid "Number of days"
 msgstr "天数"
 
@@ -265,7 +287,9 @@ msgstr "订阅"
 msgid "Calendar URL"
 msgstr "日历网址"
 
-#: app/components/events/CalendarView.tsx:134 app/components/events/ListView.tsx:433 app/root.tsx:503
+#: app/components/events/CalendarView.tsx:134
+#: app/components/events/ListView.tsx:433
+#: app/root.tsx:503
 msgid "Settings"
 msgstr "设置"
 
@@ -309,11 +333,13 @@ msgstr "A到Z"
 msgid "Z to A"
 msgstr "Z到A"
 
-#: app/components/events/ListView.tsx:357 app/components/events/ListView.tsx:365
+#: app/components/events/ListView.tsx:357
+#: app/components/events/ListView.tsx:365
 msgid "Fewest to most"
 msgstr "最少到最多"
 
-#: app/components/events/ListView.tsx:359 app/components/events/ListView.tsx:367
+#: app/components/events/ListView.tsx:359
+#: app/components/events/ListView.tsx:367
 msgid "Most to fewest"
 msgstr "最多到最少"
 
@@ -345,7 +371,8 @@ msgstr "浅色"
 msgid "Dark"
 msgstr "深色"
 
-#: app/root.tsx:315 app/root.tsx:331
+#: app/root.tsx:315
+#: app/root.tsx:331
 msgid "Search"
 msgstr "搜索"
 
@@ -382,7 +409,8 @@ msgstr "https://your.pds.com"
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Information is for reference only and no endorsement is implied."
 msgstr "资料来源为<0>data.cons.fyi</0>。缺少聚会信息？<1>请在此回报问题。</1>信息仅供参考，并不表示任何背书或保证。"
 
-#: app/root.tsx:596 app/root.tsx:602
+#: app/root.tsx:596
+#: app/root.tsx:602
 msgid "Not found"
 msgstr "找不到"
 

@@ -663,7 +663,7 @@ function Welcome() {
             </li>
             <li>See who you follow is going to a con.</li>
           </ul>
-          <Text size="sm" mb="xs">
+          <Text size="sm">
             <strong>Note:</strong> If you’re using a self-hosted PDS, you’ll
             need to use the dropdown next to the Log in button to specify it.
           </Text>
