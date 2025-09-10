@@ -667,13 +667,6 @@ function Welcome() {
             <strong>Note:</strong> If you’re using a self-hosted PDS, you’ll
             need to use the dropdown next to the Log in button to specify it.
           </Text>
-          <Text size="sm">
-            A huge thank you to{" "}
-            <Anchor href="https://furrycons.com" target="_blank">
-              FurryCons.com
-            </Anchor>{" "}
-            who provides all the data on conventions!
-          </Text>
         </Trans>
       </Alert>
     </Collapse>

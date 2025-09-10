@@ -29,7 +29,7 @@ for k, v in TW_TO_CN.items():
 lc_cn = LanguageConverter.from_language(zh_cn)
 
 with open("app/locales/zh-Hant/messages.po", "r") as f:
-    po = polib.pofile(f.read())
+    po = polib.pofile(f.read(), wrapwidth=0)
 
 
 GENERATOR = os.path.basename(__file__)
