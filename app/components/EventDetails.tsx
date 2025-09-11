@@ -327,18 +327,24 @@ export function Body({ event }: { event: Event }) {
               <IconMapPin title={t`Location`} size={16} stroke={1.5} />
             </Box>
             <Text size="sm" mb={5}>
-              <Anchor
-                component={Link}
-                to={`/map#${event.id}`}
-                c="var(--mantine-color-text)"
-              >
+              {event.address != null ? (
+                <Anchor
+                  component={Link}
+                  to={`/map#${event.id}`}
+                  c="var(--mantine-color-text)"
+                >
+                  <span lang={locale}>
+                    {event.translations[locale]?.venue || event.venue}
+                  </span>{" "}
+                  <Text span size="xs" lang={locale}>
+                    {event.translations[locale]?.address || event.address}
+                  </Text>
+                </Anchor>
+              ) : (
                 <span lang={locale}>
                   {event.translations[locale]?.venue || event.venue}
-                </span>{" "}
-                <Text span size="xs" lang={locale}>
-                  {event.translations[locale]?.address || event.address}
-                </Text>
-              </Anchor>
+                </span>
+              )}
             </Text>
           </Group>
 

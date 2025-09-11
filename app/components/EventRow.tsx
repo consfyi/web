@@ -298,18 +298,24 @@ export default function EventRow({
           {showLocation == "inline" ? (
             <Text span visibleFrom="xs">
               <IconMapPin title={t`Location`} size={12} />{" "}
-              <Anchor
-                component={Link}
-                to={`/map#${event.id}`}
-                c="var(--mantine-color-text)"
-              >
+              {event.address != null ? (
+                <Anchor
+                  component={Link}
+                  to={`/map#${event.id}`}
+                  c="var(--mantine-color-text)"
+                >
+                  <span lang={locale}>
+                    {event.translations[locale]?.venue ?? event.venue}
+                  </span>{" "}
+                  <Text span size="xs" lang={locale}>
+                    {event.translations[locale]?.address ?? event.address}
+                  </Text>
+                </Anchor>
+              ) : (
                 <span lang={locale}>
                   {event.translations[locale]?.venue ?? event.venue}
-                </span>{" "}
-                <Text span size="xs" lang={locale}>
-                  {event.translations[locale]?.address ?? event.address}
-                </Text>
-              </Anchor>
+                </span>
+              )}
             </Text>
           ) : null}
         </Text>
