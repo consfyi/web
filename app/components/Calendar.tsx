@@ -150,7 +150,7 @@ export default function Calendar({
 
   const tableRef = useRef<HTMLTableElement>(null);
 
-  const now = useNow().toPlainDate();
+  const now = useNow();
 
   const datesContext = useDatesContext();
 
@@ -198,11 +198,8 @@ export default function Calendar({
 
   const startDate =
     includeToday ||
-    Temporal.PlainDate.compare(
-      packStartDate,
-      now.toPlainDateTime().toPlainDate(),
-    ) < 0
-      ? now
+    Temporal.PlainDate.compare(packStartDate, now.toPlainDate()) < 0
+      ? now.toPlainDate()
       : packStartDate;
 
   const calendarStartDate = startDate.subtract({

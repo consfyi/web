@@ -9,7 +9,7 @@ const REGIONAL_INDICATOR_A_CODEPOINT = "🇦".codePointAt(0)!;
 
 function letterToRegionalIndicator(c: string): string {
   return String.fromCodePoint(
-    REGIONAL_INDICATOR_A_CODEPOINT + c.charCodeAt(0) - "A".charCodeAt(0),
+    REGIONAL_INDICATOR_A_CODEPOINT + c.codePointAt(0)! - "A".codePointAt(0)!,
   );
 }
 
