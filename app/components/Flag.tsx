@@ -5,6 +5,14 @@ import classes from "./Flag.module.css";
 
 let cache: Record<string, string | undefined> = {};
 
+const REGIONAL_INDICATOR_A_CODEPOINT = "🇦".codePointAt(0)!;
+
+function letterToRegionalIndicator(c: string): string {
+  return String.fromCodePoint(
+    REGIONAL_INDICATOR_A_CODEPOINT + c.charCodeAt(0) - "A".charCodeAt(0),
+  );
+}
+
 export default function Flag({
   country,
   ...props
@@ -18,13 +26,7 @@ export default function Flag({
   const emoji = useMemo(
     () =>
       country != null
-        ? Array.prototype.map
-            .call(country, (c) =>
-              String.fromCodePoint(
-                0x1f1e6 + c.charCodeAt(0) - "A".charCodeAt(0),
-              ),
-            )
-            .join("")
+        ? Array.prototype.map.call(country, letterToRegionalIndicator).join("")
         : "🏴",
     [country],
   );
