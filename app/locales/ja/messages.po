@@ -24,7 +24,7 @@ msgstr "全ての絞り込みを解除"
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:148
-#: app/components/EventDetails.tsx:454
+#: app/components/EventDetails.tsx:460
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "フォローしていないユーザー{0}人"
 
@@ -58,58 +58,59 @@ msgstr "ウェブサイト"
 
 #: app/components/EventDetails.tsx:327
 #: app/components/EventRow.tsx:300
-#: app/components/EventRow.tsx:319
+#: app/components/EventRow.tsx:325
 msgid "Location"
 msgstr "開催地"
 
-#: app/components/EventDetails.tsx:347
+#: app/components/EventDetails.tsx:353
+#: app/root.tsx:215
 msgid "Language"
 msgstr "言語"
 
 #. placeholder {0}: sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={sources.flatMap((source) => { const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:356
+#: app/components/EventDetails.tsx:362
 msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
 msgstr "この情報は編集または削除する必要がありますか？<0>ここで問題を報告してください。</0>{0}"
 
-#: app/components/EventDetails.tsx:365
+#: app/components/EventDetails.tsx:371
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "上記の情報は元々<0/>から提供されたものです。利用制限が適用される場合があります。"
 
-#: app/components/EventDetails.tsx:394
+#: app/components/EventDetails.tsx:400
 msgid "This convention was canceled."
 msgstr "このコンベンションはキャンセルされました。"
 
-#: app/components/EventDetails.tsx:398
+#: app/components/EventDetails.tsx:404
 msgid "This convention is currently in progress."
 msgstr "このコンベンションは現在開催中です。"
 
-#: app/components/EventDetails.tsx:403
+#: app/components/EventDetails.tsx:409
 msgid "This convention has already ended."
 msgstr "このコンベンションはすでに終了しています。"
 
-#: app/components/EventDetails.tsx:405
+#: app/components/EventDetails.tsx:411
 msgid "This convention has already ended. Information on who is going is no longer available."
 msgstr "このコンベンションはすでに終了しています。参加者に関する情報はもう利用できません。"
 
-#: app/components/EventDetails.tsx:416
+#: app/components/EventDetails.tsx:422
 msgctxt "users attending event"
 msgid "Going"
 msgstr "参加"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:419
+#: app/components/EventDetails.tsx:425
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0}人（自分込み）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:423
+#: app/components/EventDetails.tsx:429
 #: app/components/EventRow.tsx:232
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}人"
 
-#: app/components/EventDetails.tsx:433
+#: app/components/EventDetails.tsx:439
 msgid "Loading people you follow"
 msgstr "フォロー中のユーザーを読み込み中"
 
@@ -161,7 +162,7 @@ msgid "Africa"
 msgstr "アフリカ"
 
 #: app/components/FilterBar.tsx:135
-#: app/components/Flag.tsx:40
+#: app/components/Flag.tsx:42
 msgid "Unknown"
 msgstr "不明"
 
@@ -287,7 +288,7 @@ msgstr "カレンダーのURL"
 
 #: app/components/events/CalendarView.tsx:134
 #: app/components/events/ListView.tsx:433
-#: app/root.tsx:503
+#: app/root.tsx:620
 msgid "Settings"
 msgstr "設定"
 
@@ -353,86 +354,96 @@ msgstr "並び順"
 msgid "Order"
 msgstr "順序"
 
-#: app/root.tsx:127
-msgid "Color scheme"
-msgstr "カラースキーム"
-
-#: app/root.tsx:134
+#: app/root.tsx:139
 msgid "Auto"
 msgstr "自動"
 
-#: app/root.tsx:139
+#: app/root.tsx:143
 msgid "Light"
 msgstr "ライト"
 
-#: app/root.tsx:144
+#: app/root.tsx:147
 msgid "Dark"
 msgstr "ダーク"
 
-#: app/root.tsx:315
-#: app/root.tsx:331
+#: app/root.tsx:162
+msgid "Color scheme"
+msgstr "カラースキーム"
+
+#. placeholder {0}: t(colorSchemeInfo.label)
+#: app/root.tsx:276
+msgid "Color scheme: {0}"
+msgstr "カラースキーム：{0}"
+
+#. placeholder {0}: [language][0]
+#: app/root.tsx:284
+msgid "Language: {0}"
+msgstr "言語：{0}"
+
+#: app/root.tsx:432
+#: app/root.tsx:448
 msgid "Search"
 msgstr "検索"
 
-#: app/root.tsx:398
+#: app/root.tsx:515
 msgid "Log out"
 msgstr "ログアウト"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
-#: app/root.tsx:435
+#: app/root.tsx:552
 msgid "Log in via {0}"
 msgstr "{0}経由でログイン"
 
-#: app/root.tsx:440
+#: app/root.tsx:557
 msgid "Log in"
 msgstr "ログイン"
 
-#: app/root.tsx:462
+#: app/root.tsx:579
 msgid "Log in via custom PDS"
 msgstr "カスタムPDS経由でログイン"
 
-#: app/root.tsx:472
+#: app/root.tsx:589
 msgid "Custom PDS"
 msgstr "カスタムPDS"
 
-#: app/root.tsx:479
+#: app/root.tsx:596
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
 msgstr "このPDSでログインできませんでした。URLを確認してください。"
 
-#: app/root.tsx:485
+#: app/root.tsx:602
 msgid "https://your.pds.com"
 msgstr "https://jibun-no.pds.com"
 
-#: app/root.tsx:543
+#: app/root.tsx:660
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Information is for reference only and no endorsement is implied."
 msgstr "データは<0>data.cons.fyi</0>から取得しています。コンベンション情報が掲載されていない場合は、<1>こちらで問題を報告してください。</1>本情報は参考であり、推奨・支持を意図するものではありません。"
 
-#: app/root.tsx:596
-#: app/root.tsx:602
+#: app/root.tsx:707
+#: app/root.tsx:713
 msgid "Not found"
 msgstr "見つかりません"
 
-#: app/root.tsx:605
+#: app/root.tsx:716
 msgid "The page you requested could not be found."
 msgstr "お探しのページが見つかりませんでした。"
 
-#: app/root.tsx:638
+#: app/root.tsx:749
 msgid "Welcome!"
 msgstr "ようこそ！"
 
-#: app/root.tsx:644
+#: app/root.tsx:755
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6>"
 msgstr "<0>こちらは<1><2/>@cons.fyi</1>サービスのウェブサイトです。全ての機能をご利用いただくには、ログインしてください。ログインすると以下ができるようになります：</0><3><4>どのコンベンションに参加予定かを登録できます（Blueskyでそのコンベンションの投稿に「いいね」することでもできます）。</4><5>フォローしているユーザーがどのコンベンションに参加するかを確認できます。</5></3><6><7>注意：</7>セルフホスト型PDSを使用している場合は、ログインボタンの横にあるドロップダウンで指定する必要があります。</6>"
 
-#: app/root.tsx:717
+#: app/root.tsx:828
 msgid "Not subscribed to labeler"
 msgstr "ラベラーに登録されていません"
 
-#: app/root.tsx:721
+#: app/root.tsx:832
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "現在ラベラーに登録されていません。これにより、Bluesky上で他の人のコンベンションラベルを見ることができません。"
 
-#: app/root.tsx:734
+#: app/root.tsx:845
 msgid "Fix this for me"
 msgstr "修正する"
 

@@ -24,7 +24,7 @@ msgstr "清除所有篩選器"
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:148
-#: app/components/EventDetails.tsx:454
+#: app/components/EventDetails.tsx:460
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "您未關注的有{0}位"
 
@@ -58,58 +58,59 @@ msgstr "網站"
 
 #: app/components/EventDetails.tsx:327
 #: app/components/EventRow.tsx:300
-#: app/components/EventRow.tsx:319
+#: app/components/EventRow.tsx:325
 msgid "Location"
 msgstr "地點"
 
-#: app/components/EventDetails.tsx:347
+#: app/components/EventDetails.tsx:353
+#: app/root.tsx:215
 msgid "Language"
 msgstr "語言"
 
 #. placeholder {0}: sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={sources.flatMap((source) => { const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:356
+#: app/components/EventDetails.tsx:362
 msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
 msgstr "此資訊需要編輯或移除嗎？<0>請在此回報問題。</0>{0}"
 
-#: app/components/EventDetails.tsx:365
+#: app/components/EventDetails.tsx:371
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "此資訊原始來源為 <0/>。可能適用使用限制。"
 
-#: app/components/EventDetails.tsx:394
+#: app/components/EventDetails.tsx:400
 msgid "This convention was canceled."
 msgstr "此聚會已取消。"
 
-#: app/components/EventDetails.tsx:398
+#: app/components/EventDetails.tsx:404
 msgid "This convention is currently in progress."
 msgstr "此聚會目前正在進行中。"
 
-#: app/components/EventDetails.tsx:403
+#: app/components/EventDetails.tsx:409
 msgid "This convention has already ended."
 msgstr "此聚會已結束。"
 
-#: app/components/EventDetails.tsx:405
+#: app/components/EventDetails.tsx:411
 msgid "This convention has already ended. Information on who is going is no longer available."
 msgstr "此聚會已結束。參加者資訊不再提供。"
 
-#: app/components/EventDetails.tsx:416
+#: app/components/EventDetails.tsx:422
 msgctxt "users attending event"
 msgid "Going"
 msgstr "參加"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:419
+#: app/components/EventDetails.tsx:425
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0}位（包含您）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:423
+#: app/components/EventDetails.tsx:429
 #: app/components/EventRow.tsx:232
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}位"
 
-#: app/components/EventDetails.tsx:433
+#: app/components/EventDetails.tsx:439
 msgid "Loading people you follow"
 msgstr "載入您關注的使用者數"
 
@@ -161,7 +162,7 @@ msgid "Africa"
 msgstr "非洲"
 
 #: app/components/FilterBar.tsx:135
-#: app/components/Flag.tsx:40
+#: app/components/Flag.tsx:42
 msgid "Unknown"
 msgstr "未知"
 
@@ -287,7 +288,7 @@ msgstr "日曆網址"
 
 #: app/components/events/CalendarView.tsx:134
 #: app/components/events/ListView.tsx:433
-#: app/root.tsx:503
+#: app/root.tsx:620
 msgid "Settings"
 msgstr "設定"
 
@@ -353,86 +354,96 @@ msgstr "排序方式"
 msgid "Order"
 msgstr "順序"
 
-#: app/root.tsx:127
-msgid "Color scheme"
-msgstr "主題"
-
-#: app/root.tsx:134
+#: app/root.tsx:139
 msgid "Auto"
 msgstr "自動"
 
-#: app/root.tsx:139
+#: app/root.tsx:143
 msgid "Light"
 msgstr "淺色"
 
-#: app/root.tsx:144
+#: app/root.tsx:147
 msgid "Dark"
 msgstr "深色"
 
-#: app/root.tsx:315
-#: app/root.tsx:331
+#: app/root.tsx:162
+msgid "Color scheme"
+msgstr "主題"
+
+#. placeholder {0}: t(colorSchemeInfo.label)
+#: app/root.tsx:276
+msgid "Color scheme: {0}"
+msgstr "主題：{0}"
+
+#. placeholder {0}: [language][0]
+#: app/root.tsx:284
+msgid "Language: {0}"
+msgstr "語言：{0}"
+
+#: app/root.tsx:432
+#: app/root.tsx:448
 msgid "Search"
 msgstr "搜尋"
 
-#: app/root.tsx:398
+#: app/root.tsx:515
 msgid "Log out"
 msgstr "登出"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
-#: app/root.tsx:435
+#: app/root.tsx:552
 msgid "Log in via {0}"
 msgstr "透過{0}登入"
 
-#: app/root.tsx:440
+#: app/root.tsx:557
 msgid "Log in"
 msgstr "登入"
 
-#: app/root.tsx:462
+#: app/root.tsx:579
 msgid "Log in via custom PDS"
 msgstr "透過自訂PDS登入"
 
-#: app/root.tsx:472
+#: app/root.tsx:589
 msgid "Custom PDS"
 msgstr "自訂PDS"
 
-#: app/root.tsx:479
+#: app/root.tsx:596
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
 msgstr "無法使用此PDS登入。網址是否正確？"
 
-#: app/root.tsx:485
+#: app/root.tsx:602
 msgid "https://your.pds.com"
 msgstr "https://your.pds.com"
 
-#: app/root.tsx:543
+#: app/root.tsx:660
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Information is for reference only and no endorsement is implied."
 msgstr "資料來源為<0>data.cons.fyi</0>。缺少聚會資訊？<1>請在此回報問題。</1>資訊僅供參考，並不表示任何背書或保證。"
 
-#: app/root.tsx:596
-#: app/root.tsx:602
+#: app/root.tsx:707
+#: app/root.tsx:713
 msgid "Not found"
 msgstr "找不到"
 
-#: app/root.tsx:605
+#: app/root.tsx:716
 msgid "The page you requested could not be found."
 msgstr "找不到您要求的頁面。"
 
-#: app/root.tsx:638
+#: app/root.tsx:749
 msgid "Welcome!"
 msgstr "歡迎！"
 
-#: app/root.tsx:644
+#: app/root.tsx:755
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6>"
 msgstr "<0>這裡是<1><2/>@cons.fyi</1>服務的網站。要獲得完整體驗，請登入。登入後您可以：</0><3><4>告訴其他人您要參加哪些聚會（您也可以在 Bluesky 上對聚會貼文按讚來達成）。</4><5>查看您關注的人要參加哪些聚會。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登入按鈕旁的下拉選單來指定。</6>"
 
-#: app/root.tsx:717
+#: app/root.tsx:828
 msgid "Not subscribed to labeler"
 msgstr "未訂閱標籤服務"
 
-#: app/root.tsx:721
+#: app/root.tsx:832
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "您目前未訂閱標籤服務。這表示您無法在Bluesky上看到其他人的聚會標籤。"
 
-#: app/root.tsx:734
+#: app/root.tsx:845
 msgid "Fix this for me"
 msgstr "為我修正"
 

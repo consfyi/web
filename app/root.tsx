@@ -41,7 +41,10 @@ import {
   IconBrandBluesky,
   IconCheck,
   IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
   IconDotsVertical,
+  IconLanguage,
   IconLogout2,
   IconMoon,
   IconPaw,
@@ -55,9 +58,9 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
 import {
   Link,
@@ -72,6 +75,7 @@ import {
 } from "react-router";
 import clientMetadata from "~/../public/client-metadata.json";
 import Avatar from "~/components/Avatar";
+import LOCALES from "~/locales";
 import { DEFAULT_PDS_HOST, startLogin } from "./bluesky";
 import DatesProvider from "./components/DatesProvider";
 import EmptyIcon from "./components/EmptyIcon";
@@ -80,15 +84,20 @@ import {
   GlobalSearchProvider,
   useGlobalSearch,
 } from "./components/GlobalSearchContext";
-import LinguiProvider, { INITIAL_LOCALE } from "./components/LinguiProvider";
-import LocaleSelector from "./components/LocaleSelector";
+import LinguiProvider, {
+  INITIAL_LOCALE,
+  useLinguiContext,
+} from "./components/LinguiProvider";
 import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
 import { useClient, useIsLoggedIn, useSelf } from "./hooks";
 
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
+import { comparing, sorted } from "iter-fns";
 import "./styles.css";
 
 const theme = createTheme({});
@@ -118,45 +127,50 @@ function focusWithKeyboard(element: HTMLElement) {
   });
 }
 
-function SharedMenuItems() {
+const COLOR_SCHEMES: Record<
+  MantineColorScheme,
+  {
+    Icon: Icon;
+    label: MessageDescriptor;
+  }
+> = {
+  auto: {
+    Icon: IconSunMoon,
+    label: msg`Auto`,
+  },
+  light: {
+    Icon: IconSun,
+    label: msg`Light`,
+  },
+  dark: {
+    Icon: IconMoon,
+    label: msg`Dark`,
+  },
+};
+
+function ColorSchemeMenu({ onReturn }: { onReturn: () => void }) {
+  const { t } = useLingui();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
     <>
-      <Menu.Label>
+      <Menu.Item
+        leftSection={<IconChevronLeft size={16} />}
+        onClick={onReturn}
+        closeMenuOnClick={false}
+      >
         <Trans>Color scheme</Trans>
-      </Menu.Label>
-      {(
-        [
-          {
-            value: "auto",
-            Icon: IconSunMoon,
-            label: <Trans>Auto</Trans>,
-          },
-          {
-            value: "light",
-            Icon: IconSun,
-            label: <Trans>Light</Trans>,
-          },
-          {
-            value: "dark",
-            Icon: IconMoon,
-            label: <Trans>Dark</Trans>,
-          },
-        ] as {
-          value: MantineColorScheme;
-          Icon: Icon;
-          label: ReactNode;
-        }[]
-      ).map(({ value, Icon, label }) => (
+      </Menu.Item>
+      <Menu.Divider />
+      {Object.entries(COLOR_SCHEMES).map(([key, { Icon, label }]) => (
         <Menu.Item
-          key={value}
+          key={key}
           onClick={() => {
-            setColorScheme(value);
+            setColorScheme(key as MantineColorScheme);
           }}
           leftSection={
             <Group gap={6}>
-              {colorScheme == value ? (
+              {colorScheme == key ? (
                 <IconCheck size={14} />
               ) : (
                 <EmptyIcon size={14} />
@@ -165,9 +179,112 @@ function SharedMenuItems() {
             </Group>
           }
         >
+          {t(label)}
+        </Menu.Item>
+      ))}
+    </>
+  );
+}
+
+function LanguageMenu({ onReturn }: { onReturn: () => void }) {
+  const { locale, setLocale, pending } = useLinguiContext();
+
+  const items = useMemo(
+    () =>
+      sorted(
+        Object.keys(LOCALES).map((locale) => ({
+          value: locale,
+          label:
+            new Intl.DisplayNames(locale, {
+              type: "language",
+              languageDisplay: "standard",
+            }).of(locale) ?? locale,
+        })),
+        comparing(({ label }) => label),
+      ),
+    [],
+  );
+
+  return (
+    <>
+      <Menu.Item
+        leftSection={<IconChevronLeft size={16} />}
+        onClick={onReturn}
+        closeMenuOnClick={false}
+      >
+        <Trans>Language</Trans>
+      </Menu.Item>
+      <Menu.Divider />
+      {items.map(({ value, label }) => (
+        <Menu.Item
+          key={value}
+          disabled={pending}
+          lang="value"
+          leftSection={
+            locale == value ? <IconCheck size={14} /> : <EmptyIcon size={14} />
+          }
+          onClick={() => {
+            setLocale(value);
+          }}
+        >
           {label}
         </Menu.Item>
       ))}
+    </>
+  );
+}
+
+function SharedMenuItems() {
+  const { t, i18n } = useLingui();
+
+  const [submenu, setSubmenu] = useState<"colorScheme" | "language" | null>(
+    null,
+  );
+
+  const onReturn = useCallback(() => setSubmenu(null), [setSubmenu]);
+
+  const { colorScheme } = useMantineColorScheme();
+
+  const language = useMemo(() => {
+    void t;
+    return (
+      new Intl.DisplayNames(i18n.locale, {
+        type: "language",
+        languageDisplay: "standard",
+      }).of(i18n.locale) ?? i18n.locale
+    );
+  }, [t, i18n.locale]);
+  const colorSchemeInfo = useMemo(
+    () => COLOR_SCHEMES[colorScheme],
+    [colorScheme],
+  );
+
+  return (
+    <>
+      {submenu == "colorScheme" ? (
+        <ColorSchemeMenu onReturn={onReturn} />
+      ) : submenu == "language" ? (
+        <LanguageMenu onReturn={onReturn} />
+      ) : (
+        <>
+          <Menu.Item
+            onClick={() => setSubmenu("colorScheme")}
+            closeMenuOnClick={false}
+            leftSection={<colorSchemeInfo.Icon size={14} />}
+            rightSection={<IconChevronRight size={16} />}
+          >
+            <Trans>Color scheme: {t(colorSchemeInfo.label)}</Trans>
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => setSubmenu("language")}
+            closeMenuOnClick={false}
+            leftSection={<IconLanguage size={14} />}
+            rightSection={<IconChevronRight size={16} />}
+          >
+            <Trans>Language: {[language][0]}</Trans>
+          </Menu.Item>
+        </>
+      )}
     </>
   );
 }
@@ -493,7 +610,7 @@ function Header({ pinned }: { pinned: boolean }) {
                           </Menu>
                         </Button.Group>
                       </form>
-                      <Menu position="bottom-end" withArrow>
+                      <Menu position="bottom-end" withArrow arrowOffset={16}>
                         <Menu.Target>
                           <Button
                             px="xs"
@@ -568,12 +685,6 @@ function Footer() {
             <IconBrandBluesky size={18} stroke={1.5} />
           </ActionIcon>
         </Group>
-        <LocaleSelector
-          comboboxProps={{
-            position: "top",
-            middlewares: { flip: false, shift: false },
-          }}
-        />
       </Container>
     </Box>
   );
