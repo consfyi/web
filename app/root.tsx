@@ -285,7 +285,8 @@ function SharedMenuItems() {
             leftSection={<colorSchemeInfo.Icon size={14} />}
             rightSection={<IconChevronRight size={16} />}
           >
-            <Trans>Color scheme: {t(colorSchemeInfo.label)}</Trans>
+            <Trans>Color scheme</Trans>{" "}
+            <small>{t(colorSchemeInfo.label)}</small>
           </Menu.Item>
           <Menu.Item
             onClick={() => setSubmenu("language")}
@@ -293,7 +294,7 @@ function SharedMenuItems() {
             leftSection={<IconLanguage size={14} />}
             rightSection={<IconChevronRight size={16} />}
           >
-            <Trans>Language: {[language][0]}</Trans>
+            <Trans>Language</Trans> <small>{[language][0]}</small>
           </Menu.Item>
 
           {self != null ? (
