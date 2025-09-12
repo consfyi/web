@@ -237,6 +237,9 @@ function LanguageMenu({ onReturn }: { onReturn: () => void }) {
 function SharedMenuItems() {
   const { t, i18n } = useLingui();
 
+  const self = useSelf();
+  const client = useClient();
+
   const [submenu, setSubmenu] = useState<"colorScheme" | "language" | null>(
     null,
   );
@@ -259,8 +262,17 @@ function SharedMenuItems() {
     [colorScheme],
   );
 
+  const [pending, setIsPending] = useState(false);
+
   return (
     <>
+      {self != null ? (
+        <>
+          <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
+          <Menu.Divider hiddenFrom="sm" />
+        </>
+      ) : null}
+
       {submenu == "colorScheme" ? (
         <ColorSchemeMenu onReturn={onReturn} />
       ) : submenu == "language" ? (
@@ -285,6 +297,29 @@ function SharedMenuItems() {
           </Menu.Item>
         </>
       )}
+
+      {self != null ? (
+        <>
+          <Menu.Divider />
+          <Button
+            fullWidth
+            loading={pending}
+            color="red"
+            variant="subtle"
+            leftSection={<IconLogout2 size={18} />}
+            onClick={() => {
+              setIsPending(true);
+
+              (async () => {
+                await client.logout();
+                window.location.replace(window.location.toString());
+              })();
+            }}
+          >
+            <Trans>Log out</Trans>
+          </Button>
+        </>
+      ) : null}
     </>
   );
 }
@@ -308,7 +343,6 @@ function Header({ pinned }: { pinned: boolean }) {
   const [pending, setIsPending] = useState(false);
 
   const { t } = useLingui();
-  const client = useClient();
   const self = useSelf();
 
   const [inViewport, setInViewport] = useState(true);
@@ -490,30 +524,7 @@ function Header({ pinned }: { pinned: boolean }) {
                         </Button>
                       </Menu.Target>
                       <Menu.Dropdown>
-                        <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
-                        <Menu.Divider hiddenFrom="sm" />
                         <SharedMenuItems />
-                        <Menu.Divider />
-                        <Button
-                          fullWidth
-                          loading={pending}
-                          color="red"
-                          variant="subtle"
-                          leftSection={<IconLogout2 size={18} />}
-                          onClick={() => {
-                            setIsPending(true);
-                            setMenuOpen(true);
-
-                            (async () => {
-                              await client.logout();
-                              window.location.replace(
-                                window.location.toString(),
-                              );
-                            })();
-                          }}
-                        >
-                          <Trans>Log out</Trans>
-                        </Button>
                       </Menu.Dropdown>
                     </Menu>
                   ) : (
