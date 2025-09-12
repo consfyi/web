@@ -266,19 +266,19 @@ function SharedMenuItems() {
 
   return (
     <>
-      {self != null ? (
-        <>
-          <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
-          <Menu.Divider hiddenFrom="sm" />
-        </>
-      ) : null}
-
       {submenu == "colorScheme" ? (
         <ColorSchemeMenu onReturn={onReturn} />
       ) : submenu == "language" ? (
         <LanguageMenu onReturn={onReturn} />
       ) : (
         <>
+          {self != null ? (
+            <>
+              <Menu.Label hiddenFrom="sm">@{self.handle}</Menu.Label>
+              <Menu.Divider hiddenFrom="sm" />
+            </>
+          ) : null}
+
           <Menu.Item
             onClick={() => setSubmenu("colorScheme")}
             closeMenuOnClick={false}
@@ -295,31 +295,31 @@ function SharedMenuItems() {
           >
             <Trans>Language: {[language][0]}</Trans>
           </Menu.Item>
+
+          {self != null ? (
+            <>
+              <Menu.Divider />
+              <Button
+                fullWidth
+                loading={pending}
+                color="red"
+                variant="subtle"
+                leftSection={<IconLogout2 size={18} />}
+                onClick={() => {
+                  setIsPending(true);
+
+                  (async () => {
+                    await client.logout();
+                    window.location.replace(window.location.toString());
+                  })();
+                }}
+              >
+                <Trans>Log out</Trans>
+              </Button>
+            </>
+          ) : null}
         </>
       )}
-
-      {self != null ? (
-        <>
-          <Menu.Divider />
-          <Button
-            fullWidth
-            loading={pending}
-            color="red"
-            variant="subtle"
-            leftSection={<IconLogout2 size={18} />}
-            onClick={() => {
-              setIsPending(true);
-
-              (async () => {
-                await client.logout();
-                window.location.replace(window.location.toString());
-              })();
-            }}
-          >
-            <Trans>Log out</Trans>
-          </Button>
-        </>
-      ) : null}
     </>
   );
 }
