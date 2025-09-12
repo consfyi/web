@@ -11,7 +11,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import type { DayOfWeek } from "@mantine/dates";
+import { type DayOfWeek } from "@mantine/dates";
 import {
   IconCheck,
   IconChevronDown,

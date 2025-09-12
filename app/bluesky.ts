@@ -1,28 +1,28 @@
 import type {} from "@atcute/atproto";
 import { type Label } from "@atcute/atproto/types/label/defs";
-import type { AppBskyFeedLike } from "@atcute/bluesky";
-import type {
-  Preferences,
-  ProfileView,
-  ProfileViewDetailed,
+import { type AppBskyFeedLike } from "@atcute/bluesky";
+import {
+  type Preferences,
+  type ProfileView,
+  type ProfileViewDetailed,
 } from "@atcute/bluesky/types/app/actor/defs";
-import type {
-  PostView,
-  ThreadViewPost,
+import {
+  type PostView,
+  type ThreadViewPost,
 } from "@atcute/bluesky/types/app/feed/defs";
-import type { Like } from "@atcute/bluesky/types/app/feed/getLikes";
-import type { LabelerViewDetailed } from "@atcute/bluesky/types/app/labeler/defs";
+import { type Like } from "@atcute/bluesky/types/app/feed/getLikes";
+import { type LabelerViewDetailed } from "@atcute/bluesky/types/app/labeler/defs";
 import {
   Client as AtcuteClient,
   buildFetchHandler,
   simpleFetchHandler,
 } from "@atcute/client";
-import type {
-  ActorIdentifier,
-  Cid,
-  Did,
-  Nsid,
-  ResourceUri,
+import {
+  type ActorIdentifier,
+  type Cid,
+  type Did,
+  type Nsid,
+  type ResourceUri,
 } from "@atcute/lexicons";
 import {
   configureOAuth as configureOAuthInternal,

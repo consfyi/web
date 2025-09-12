@@ -1,4 +1,4 @@
-import type { ActorIdentifier } from "@atcute/lexicons";
+import { type ActorIdentifier } from "@atcute/lexicons";
 import { match } from "@formatjs/intl-localematcher";
 import { useLingui } from "@lingui/react";
 import { Container } from "@mantine/core";
