@@ -97,7 +97,7 @@ import { msg } from "@lingui/core/macro";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import { comparing, sorted } from "iter-fns";
+import { comparing, partition, sorted } from "iter-fns";
 import "./styles.css";
 
 const theme = createTheme({});
@@ -189,21 +189,26 @@ function ColorSchemeMenu({ onReturn }: { onReturn: () => void }) {
 function LanguageMenu({ onReturn }: { onReturn: () => void }) {
   const { locale, setLocale, pending } = useLinguiContext();
 
-  const items = useMemo(
-    () =>
-      sorted(
-        Object.keys(LOCALES).map((locale) => ({
-          value: locale,
-          label:
-            new Intl.DisplayNames(locale, {
-              type: "language",
-              languageDisplay: "standard",
-            }).of(locale) ?? locale,
-        })),
-        comparing(({ label }) => label),
-      ),
-    [],
-  );
+  const items = useMemo(() => {
+    const items = sorted(
+      Object.keys(LOCALES).map((locale) => ({
+        value: locale,
+        label:
+          new Intl.DisplayNames(locale, {
+            type: "language",
+            languageDisplay: "standard",
+          }).of(locale) ?? locale,
+      })),
+      comparing(({ label }) => label),
+    );
+
+    const [[first], rest] = partition(
+      items,
+      ({ value }) => value == INITIAL_LOCALE,
+    );
+
+    return [first, ...rest];
+  }, []);
 
   return (
     <>
