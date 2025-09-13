@@ -916,6 +916,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const pinHeader = useHeadroom({ fixedAt: 61 });
 
   const showAlerts = !["/map", "/login"].includes(location.pathname);
+  const showFooter = !["/map"].includes(location.pathname);
 
   return (
     // lang is set by LinguiProvider.
@@ -962,7 +963,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                           </Container>
                         ) : null}
                         {children}
-                        <Footer />
+                        {showFooter ? <Footer /> : null}
                       </GlobalSearchProvider>
                     </DatesProvider>
                   </LinguiProvider>
