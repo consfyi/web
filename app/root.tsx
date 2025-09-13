@@ -42,7 +42,6 @@ import {
   IconBrandBluesky,
   IconCheck,
   IconChevronDown,
-  IconChevronLeft,
   IconChevronRight,
   IconDotsVertical,
   IconLanguage,
