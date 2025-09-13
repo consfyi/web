@@ -63,8 +63,8 @@ msgid "Location"
 msgstr "地點"
 
 #: app/components/EventDetails.tsx:353
-#: app/root.tsx:215
-#: app/root.tsx:297
+#: app/root.tsx:235
+#: app/root.tsx:318
 msgid "Language"
 msgstr "語言"
 
@@ -289,7 +289,7 @@ msgstr "日曆網址"
 
 #: app/components/events/CalendarView.tsx:134
 #: app/components/events/ListView.tsx:433
-#: app/root.tsx:632
+#: app/root.tsx:653
 msgid "Settings"
 msgstr "設定"
 
@@ -355,87 +355,92 @@ msgstr "排序方式"
 msgid "Order"
 msgstr "順序"
 
-#: app/root.tsx:139
+#: app/root.tsx:140
 msgid "Auto"
 msgstr "自動"
 
-#: app/root.tsx:143
+#: app/root.tsx:144
 msgid "Light"
 msgstr "淺色"
 
-#: app/root.tsx:147
+#: app/root.tsx:148
 msgid "Dark"
 msgstr "深色"
 
-#: app/root.tsx:162
-#: app/root.tsx:288
+#: app/root.tsx:160
+#: app/root.tsx:226
+msgid "Back"
+msgstr "返回"
+
+#: app/root.tsx:169
+#: app/root.tsx:309
 msgid "Color scheme"
 msgstr "主題"
 
-#: app/root.tsx:318
+#: app/root.tsx:339
 msgid "Log out"
 msgstr "登出"
 
-#: app/root.tsx:467
-#: app/root.tsx:483
+#: app/root.tsx:488
+#: app/root.tsx:504
 msgid "Search"
 msgstr "搜尋"
 
 #. placeholder {0}: realPdsHost.replace(/^https?:\/\//, "")
-#: app/root.tsx:564
+#: app/root.tsx:585
 msgid "Log in via {0}"
 msgstr "透過{0}登入"
 
-#: app/root.tsx:569
+#: app/root.tsx:590
 msgid "Log in"
 msgstr "登入"
 
-#: app/root.tsx:591
+#: app/root.tsx:612
 msgid "Log in via custom PDS"
 msgstr "透過自訂PDS登入"
 
-#: app/root.tsx:601
+#: app/root.tsx:622
 msgid "Custom PDS"
 msgstr "自訂PDS"
 
-#: app/root.tsx:608
+#: app/root.tsx:629
 msgid "Couldn’t log in with this PDS. Is the URL correct?"
 msgstr "無法使用此PDS登入。網址是否正確？"
 
-#: app/root.tsx:614
+#: app/root.tsx:635
 msgid "https://your.pds.com"
 msgstr "https://your.pds.com"
 
-#: app/root.tsx:672
+#: app/root.tsx:693
 msgid "Data sourced from <0>data.cons.fyi</0>. Convention missing? <1>File an issue here.</1> Information is for reference only and no endorsement is implied."
 msgstr "資料來源為<0>data.cons.fyi</0>。缺少聚會資訊？<1>請在此回報問題。</1>資訊僅供參考，並不表示任何背書或保證。"
 
-#: app/root.tsx:719
-#: app/root.tsx:725
+#: app/root.tsx:740
+#: app/root.tsx:746
 msgid "Not found"
 msgstr "找不到"
 
-#: app/root.tsx:728
+#: app/root.tsx:749
 msgid "The page you requested could not be found."
 msgstr "找不到您要求的頁面。"
 
-#: app/root.tsx:761
+#: app/root.tsx:782
 msgid "Welcome!"
 msgstr "歡迎！"
 
-#: app/root.tsx:767
+#: app/root.tsx:788
 msgid "<0>This the website for the <1><2/> @cons.fyi</1> service. For the full experience, please log in. You’ll be able to:</0><3><4>Tell people which cons you’re going to (you can also do this by liking the con post on Bluesky).</4><5>See who you follow is going to a con.</5></3><6><7>Note:</7> If you’re using a self-hosted PDS, you’ll need to use the dropdown next to the Log in button to specify it.</6>"
 msgstr "<0>這裡是<1><2/>@cons.fyi</1>服務的網站。要獲得完整體驗，請登入。登入後您可以：</0><3><4>告訴其他人您要參加哪些聚會（您也可以在 Bluesky 上對聚會貼文按讚來達成）。</4><5>查看您關注的人要參加哪些聚會。</5></3><6><7>注意：</7>如果您使用的是自架 PDS，需要使用登入按鈕旁的下拉選單來指定。</6>"
 
-#: app/root.tsx:840
+#: app/root.tsx:861
 msgid "Not subscribed to labeler"
 msgstr "未訂閱標籤服務"
 
-#: app/root.tsx:844
+#: app/root.tsx:865
 msgid "You are currently not subscribed to the labeler. That means you won’t be able to see other people’s con labels on Bluesky."
 msgstr "您目前未訂閱標籤服務。這表示您無法在Bluesky上看到其他人的聚會標籤。"
 
-#: app/root.tsx:857
+#: app/root.tsx:878
 msgid "Fix this for me"
 msgstr "為我修正"
 

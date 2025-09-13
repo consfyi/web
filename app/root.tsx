@@ -38,6 +38,7 @@ import {
 } from "@mantine/nprogress";
 import {
   IconAlertTriangle,
+  IconArrowLeft,
   IconBrandBluesky,
   IconCheck,
   IconChevronDown,
@@ -154,13 +155,20 @@ function ColorSchemeMenu({ onReturn }: { onReturn: () => void }) {
 
   return (
     <>
-      <Menu.Item
-        leftSection={<IconChevronLeft size={16} />}
-        onClick={onReturn}
-        closeMenuOnClick={false}
-      >
-        <Trans>Color scheme</Trans>
-      </Menu.Item>
+      <Group py="xs" px="sm" gap="xs">
+        <ActionIcon
+          title={t`Back`}
+          onClick={onReturn}
+          variant="subtle"
+          color="dimmed"
+          m="calc((-1 * var(--ai-size) + 16px) / 2)"
+        >
+          <IconArrowLeft size={16} />
+        </ActionIcon>
+        <Text size="sm">
+          <Trans>Color scheme</Trans>
+        </Text>
+      </Group>
       <Menu.Divider />
       {Object.entries(COLOR_SCHEMES).map(([key, { Icon, label }]) => (
         <Menu.Item
@@ -187,6 +195,7 @@ function ColorSchemeMenu({ onReturn }: { onReturn: () => void }) {
 }
 
 function LanguageMenu({ onReturn }: { onReturn: () => void }) {
+  const { t } = useLingui();
   const { locale, setLocale, pending } = useLinguiContext();
 
   const items = useMemo(() => {
@@ -212,13 +221,20 @@ function LanguageMenu({ onReturn }: { onReturn: () => void }) {
 
   return (
     <>
-      <Menu.Item
-        leftSection={<IconChevronLeft size={16} />}
-        onClick={onReturn}
-        closeMenuOnClick={false}
-      >
-        <Trans>Language</Trans>
-      </Menu.Item>
+      <Group py="xs" px="sm" gap="xs">
+        <ActionIcon
+          title={t`Back`}
+          onClick={onReturn}
+          variant="subtle"
+          color="dimmed"
+          m="calc((-1 * var(--ai-size) + 16px) / 2)"
+        >
+          <IconArrowLeft size={16} />
+        </ActionIcon>
+        <Text size="sm">
+          <Trans>Language</Trans>
+        </Text>
+      </Group>
       <Menu.Divider />
       {items.map(({ value, label }) => (
         <Menu.Item
