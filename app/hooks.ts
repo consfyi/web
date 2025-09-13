@@ -257,8 +257,6 @@ export function useSelfFollowsDLE() {
 }
 
 function useFollowedEventAttendeesGlobalMemo(data: Profile[] | undefined) {
-  "use no memo";
-
   const { data: labelerView } = useDLE(useGetLabelerView(), {
     did: LABELER_DID,
   });
