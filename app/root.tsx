@@ -92,12 +92,13 @@ import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
 import { useClient, useIsLoggedIn, useSelf } from "./hooks";
 
+import { match } from "@formatjs/intl-localematcher";
 import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import { comparing, partition, sorted } from "iter-fns";
+import { comparing, filter, map, sorted, toArray } from "iter-fns";
 import "./styles.css";
 
 const theme = createTheme({});
@@ -193,29 +194,47 @@ function ColorSchemeMenu({ onReturn }: { onReturn: () => void }) {
   );
 }
 
+function getLabelForLocale(locale: string): string {
+  return (
+    new Intl.DisplayNames(locale, {
+      type: "language",
+      languageDisplay: "standard",
+    }).of(locale) ?? locale
+  );
+}
+
 function LanguageMenu({ onReturn }: { onReturn: () => void }) {
   const { t } = useLingui();
   const { locale, setLocale, pending } = useLinguiContext();
 
   const items = useMemo(() => {
-    const items = sorted(
-      Object.keys(LOCALES).map((locale) => ({
+    const supportedLocales = new Set(
+      window.navigator.languages.map((locale) =>
+        match([locale], Object.keys(LOCALES), "und"),
+      ),
+    );
+
+    return [
+      ...map(supportedLocales, (locale) => ({
         value: locale,
-        label:
-          new Intl.DisplayNames(locale, {
-            type: "language",
-            languageDisplay: "standard",
-          }).of(locale) ?? locale,
+        label: getLabelForLocale(locale),
       })),
-      comparing(({ label }) => label),
-    );
-
-    const [[first], rest] = partition(
-      items,
-      ({ value }) => value == INITIAL_LOCALE,
-    );
-
-    return [first, ...rest];
+      ...sorted(
+        toArray(
+          map(
+            filter(
+              Object.keys(LOCALES),
+              (locale) => !supportedLocales.has(locale),
+            ),
+            (locale) => ({
+              value: locale,
+              label: getLabelForLocale(locale),
+            }),
+          ),
+        ),
+        comparing(({ label }) => label),
+      ),
+    ];
   }, []);
 
   return (
