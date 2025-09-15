@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { Fragment, type ReactNode, useEffect } from "react";
+import { Fragment, type ReactNode, useEffect, useMemo } from "react";
 
 let cache: Record<string, Intl.ListFormat | undefined> = {};
 
@@ -18,11 +18,14 @@ export default function IntlList({
     cache = {};
   }, [t]);
 
-  const cacheKey = `${i18n.locale}:${type}:${style}`;
-  const formatter = (cache[cacheKey] ??= new Intl.ListFormat(i18n.locale, {
-    style,
-    type,
-  }));
+  const formatter = useMemo(() => {
+    void t;
+    const cacheKey = `${i18n.locale}:${type}:${style}`;
+    return (cache[cacheKey] ??= new Intl.ListFormat(i18n.locale, {
+      style,
+      type,
+    }));
+  }, [style, type, t, i18n.locale]);
 
   return formatter
     .formatToParts(items.map((_, i) => `${i}`))
