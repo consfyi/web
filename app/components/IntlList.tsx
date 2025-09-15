@@ -20,12 +20,14 @@ export default function IntlList({
 
   const formatter = useMemo(() => {
     void t;
-    const cacheKey = `${i18n.locale}:${type}:${style}`;
-    return (cache[cacheKey] ??= new Intl.ListFormat(i18n.locale, {
-      style,
-      type,
-    }));
-  }, [style, type, t, i18n.locale]);
+    return (cache[`${i18n.locale}:${type}:${style}`] ??= new Intl.ListFormat(
+      i18n.locale,
+      {
+        type,
+        style,
+      },
+    ));
+  }, [type, style, t, i18n.locale]);
 
   return formatter
     .formatToParts(items.map((_, i) => `${i}`))
