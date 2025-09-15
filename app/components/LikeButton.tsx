@@ -7,14 +7,12 @@ import { Post, useLikePost, useUnlikePost } from "~/endpoints";
 export default function LikeButton({
   post,
   size,
-  iconSize,
+  iconSize = 16,
 }: {
   post: Post;
   size?: ActionIconProps["size"];
   iconSize?: number;
 }) {
-  iconSize = iconSize ?? 16;
-
   const ctrl = useController();
   const likePost = useLikePost();
   const unlikePost = useUnlikePost();
