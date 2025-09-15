@@ -22,7 +22,6 @@ import {
 } from "@tabler/icons-react";
 import { compareMany, comparing, equaling, group, sorted } from "iter-fns";
 import { type ReactNode, Suspense, useMemo, useState } from "react";
-import absurd from "~/absurd";
 import {
   type Event,
   useFollowedEventAttendees,
@@ -591,9 +590,7 @@ export default function ListView({
                 density={layout.density}
                 hideEmptyGroups={filter.going || filter.q != ""}
               />
-            ) : (
-              absurd(layout.sort)
-            )}
+            ) : null}
           </Container>
         ) : (
           <EmptyState filter={filter} setFilter={setFilter} />

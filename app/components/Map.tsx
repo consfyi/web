@@ -33,7 +33,6 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import absurd from "~/absurd";
 import classes from "./Map.module.css";
 
 const API_KEY = "a4d6fb59d9d6e179";
@@ -47,12 +46,11 @@ function makeStyle({
   colorScheme: "light" | "dark";
   locale: string;
 }): StyleSpecification {
-  const flavorName =
-    colorScheme == "light"
-      ? "light"
-      : colorScheme == "dark"
-        ? "dark"
-        : absurd<string>(colorScheme);
+  const flavorName = {
+    light: "light",
+    dark: "dark",
+  }[colorScheme];
+
   return {
     version: 8,
     sources: {
