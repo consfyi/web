@@ -5,11 +5,14 @@ import classes from "./Flag.module.css";
 
 let cache: Record<string, string | undefined> = {};
 
-const REGIONAL_INDICATOR_A_CODEPOINT = "🇦".codePointAt(0)!;
+const REGIONAL_INDICATOR_SYMBOL_LETTER_A_CODEPOINT = "🇦".codePointAt(0)!;
+const CAPITAL_LETTER_A_CODEPOINT = "A".codePointAt(0)!;
 
 function letterToRegionalIndicator(c: string): string {
   return String.fromCodePoint(
-    REGIONAL_INDICATOR_A_CODEPOINT + c.codePointAt(0)! - "A".codePointAt(0)!,
+    REGIONAL_INDICATOR_SYMBOL_LETTER_A_CODEPOINT +
+      c.codePointAt(0)! -
+      CAPITAL_LETTER_A_CODEPOINT,
   );
 }
 
