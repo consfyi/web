@@ -27,9 +27,7 @@ import {
 
 export const useClient = (() => {
   let clientPromise: Promise<Client> | null = null;
-  return () => {
-    return use((clientPromise ??= createClient()));
-  };
+  return () => use((clientPromise ??= createClient()));
 })();
 
 function useEventPosts() {
