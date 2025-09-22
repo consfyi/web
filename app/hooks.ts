@@ -28,10 +28,7 @@ import {
 export const useClient = (() => {
   let clientPromise: Promise<Client> | null = null;
   return () => {
-    if (clientPromise == null) {
-      clientPromise = createClient();
-    }
-    return use(clientPromise);
+    return use((clientPromise ??= createClient()));
   };
 })();
 
