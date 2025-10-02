@@ -65,7 +65,7 @@ export const boolean: ScalarField<boolean> = {
 
 export function tuple<T>(
   types: { [K in keyof T]: ScalarField<T[K]> },
-  sep: string
+  sep: string,
 ): ScalarField<T> {
   return {
     parse(v) {
@@ -121,7 +121,7 @@ export function array<T>(type: ScalarField<T>, sep: string): ScalarField<T[]> {
 }
 
 export function literal<const T extends string | number>(
-  values: readonly T[]
+  values: readonly T[],
 ): ScalarField<T> {
   const type = (
     typeof values[0] === "number" ? float : string
@@ -158,7 +158,7 @@ export type Field<T> = ScalarField<T> | DefaultField<T> | MultipleField<T>;
 
 export function default_<T>(
   type: ScalarField<T>,
-  defaultValue: T
+  defaultValue: T,
 ): DefaultField<T> {
   return {
     kind: "default",
@@ -187,7 +187,7 @@ export const flag: DefaultField<boolean> = default_(
       return x === y;
     },
   },
-  false
+  false,
 );
 
 export type Schema = Record<string, Field<unknown>>;
@@ -196,13 +196,14 @@ export function schema<const T extends Schema>(schema: T): T {
   return schema;
 }
 
-type InferField<F extends Field<unknown>> = F extends MultipleField<infer T>
-  ? T[]
-  : F extends DefaultField<infer T>
-  ? T
-  : F extends ScalarField<infer T>
-  ? T | undefined
-  : never;
+type InferField<F extends Field<unknown>> =
+  F extends MultipleField<infer T>
+    ? T[]
+    : F extends DefaultField<infer T>
+      ? T
+      : F extends ScalarField<infer T>
+        ? T | undefined
+        : never;
 
 export type Infer<T extends Schema> = {
   [K in keyof T]: InferField<T[K]>;
@@ -230,8 +231,8 @@ export function defaults<T extends Schema>(schema: T): Infer<T> {
       isMultipleField(field)
         ? []
         : isDefaultField(field)
-        ? field.default
-        : undefined
+          ? field.default
+          : undefined
     ) as InferField<typeof field>;
   }
 
@@ -240,7 +241,7 @@ export function defaults<T extends Schema>(schema: T): Infer<T> {
 
 export function parse<T extends Schema>(
   schema: T,
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ): Infer<T> {
   const result = {} as Infer<T>;
 
@@ -259,7 +260,7 @@ export function parse<T extends Schema>(
 
       const param = searchParams.get(key);
       result[key] = (
-        param != null ? type.parse(param) ?? defaultValue : defaultValue
+        param != null ? (type.parse(param) ?? defaultValue) : defaultValue
       ) as InferField<typeof field>;
     }
   }
@@ -270,7 +271,7 @@ export function parse<T extends Schema>(
 export function serialize<T extends Schema>(
   schema: T,
   record: Infer<T>,
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ) {
   for (const key in schema) {
     const field = schema[key];
@@ -297,7 +298,7 @@ export function serialize<T extends Schema>(
 export function equals<T extends Schema>(
   schema: T,
   x: Infer<T>,
-  y: Infer<T>
+  y: Infer<T>,
 ): boolean {
   for (const key in schema) {
     const field = schema[key];
