@@ -22,7 +22,7 @@ import {
 import { Link, useLocation } from "react-router";
 import { Temporal, Intl as TemporalIntl } from "temporal-polyfill";
 import { useNow } from "~/hooks";
-import classes from "./Calendar.module.css";
+import * as classes from "./Calendar.css";
 import layout, { type Segment } from "./Calendar/layout";
 
 export interface Event {

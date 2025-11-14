@@ -33,7 +33,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import classes from "./Map.module.css";
+import * as classes from "./Map.css";
 
 const API_KEY = "a4d6fb59d9d6e179";
 

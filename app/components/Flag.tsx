@@ -1,7 +1,7 @@
 import { useLingui } from "@lingui/react/macro";
 import { Box, type BoxProps, Tooltip } from "@mantine/core";
 import { useEffect, useMemo } from "react";
-import classes from "./Flag.module.css";
+import * as classes from "./Flag.css";
 
 let cache: Record<string, string | undefined> = {};
 

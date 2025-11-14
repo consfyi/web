@@ -26,7 +26,7 @@ import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
-import classes from "./EventRow.module.css";
+import * as classes from "./EventRow.css";
 import GuessedEventMarker from "./GuessedEventMarker";
 import { getExtendedRequestedLocales } from "./LinguiProvider";
 

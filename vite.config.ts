@@ -1,6 +1,7 @@
 import { lingui } from "@lingui/vite-plugin";
 import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
+import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import babel from "vite-plugin-babel";
 import macrosPlugin from "vite-plugin-babel-macros";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -9,6 +10,7 @@ const isDevelopment = process.env.NODE_ENV === "development";
 
 export default defineConfig({
   plugins: [
+    vanillaExtractPlugin(),
     reactRouter(),
     macrosPlugin(),
     lingui(),

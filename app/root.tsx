@@ -16,7 +16,6 @@ import {
   Collapse,
   ColorSchemeScript,
   Container,
-  createTheme,
   DirectionProvider,
   Group,
   Image,
@@ -99,9 +98,8 @@ import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
 import { comparing, filter, map, sorted, toArray } from "iter-fns";
+import theme from "./theme";
 import "./styles.css";
-
-const theme = createTheme({});
 
 function focusWithKeyboard(element: HTMLElement) {
   // Horrible iOS Safari hack:
