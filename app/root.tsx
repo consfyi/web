@@ -4,6 +4,9 @@ import {
   useDLE,
   useLoading,
 } from "@data-client/react";
+import { match } from "@formatjs/intl-localematcher";
+import type { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
   ActionIcon,
@@ -53,6 +56,7 @@ import {
   type Icon,
 } from "@tabler/icons-react";
 import IntlLocale from "intl-locale-textinfo-polyfill";
+import { comparing, filter, map, sorted, toArray } from "iter-fns";
 import {
   Suspense,
   useCallback,
@@ -90,15 +94,11 @@ import LinguiProvider, {
 import { LABELER_DID } from "./config";
 import { useGetPreferences, usePutPreferences } from "./endpoints";
 import { useClient, useIsLoggedIn, useSelf } from "./hooks";
+import theme from "./theme";
 
-import { match } from "@formatjs/intl-localematcher";
-import type { MessageDescriptor } from "@lingui/core";
-import { msg } from "@lingui/core/macro";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import { comparing, filter, map, sorted, toArray } from "iter-fns";
-import theme from "./theme";
 import "./styles.css";
 
 function focusWithKeyboard(element: HTMLElement) {
