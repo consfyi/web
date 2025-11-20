@@ -4,7 +4,7 @@
   "client_uri": "https://cons.fyi",
   "logo_uri": "https://cons.fyi/logo.png",
   "redirect_uris": ["https://cons.fyi/login"],
-  "scope": "atproto transition:generic",
+  "scope": "atproto rpc:app.bsky.actor.getPreferences?aud=did:web:api.bsky.app%23bsky_appview rpc:app.bsky.feed.getAuthorFeed?aud=did:web:api.bsky.app%23bsky_appview rpc:app.bsky.actor.getProfile?aud=did:web:api.bsky.app%23bsky_appview rpc:app.bsky.feed.getPostThread?aud=did:web:api.bsky.app%23bsky_appview rpc:app.bsky.labeler.getServices?aud=did:web:api.bsky.app%23bsky_appview rpc:app.bsky.graph.getFollows?aud=did:web:api.bsky.app%23bsky_appview rpc:app.bsky.feed.getLikes?aud=did:web:api.bsky.app%23bsky_appview rpc:com.atproto.label.queryLabels?aud=did:web:api.bsky.app%23bsky_appview repo:app.bsky.feed.like?action=create repo:app.bsky.feed.like?action=delete",
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],
   "token_endpoint_auth_method": "none",
