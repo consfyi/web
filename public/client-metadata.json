@@ -4,7 +4,7 @@
   "client_uri": "https://cons.fyi",
   "logo_uri": "https://cons.fyi/logo.png",
   "redirect_uris": ["https://cons.fyi/login"],
-  "scope": "atproto transition:generic",
+  "scope": "atproto repo:app.bsky.feed.like?action=create repo:app.bsky.feed.like?action=delete",
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],
   "token_endpoint_auth_method": "none",

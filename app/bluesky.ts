@@ -44,7 +44,7 @@ export async function startLogin(pdsHost: string = DEFAULT_PDS_HOST) {
 
   const authUrl = await createAuthorizationUrl({
     metadata,
-    scope: "atproto transition:generic",
+    scope: clientMetadata.scope,
   });
   window.location.assign(authUrl);
 }
