@@ -99,7 +99,7 @@ import theme from "./theme";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/nprogress/styles.css";
-import "./styles.css";
+import "./root.css";
 
 function focusWithKeyboard(element: HTMLElement) {
   // Horrible iOS Safari hack:
