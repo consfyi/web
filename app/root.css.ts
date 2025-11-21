@@ -1,5 +1,7 @@
-import { createGlobalTheme } from "@vanilla-extract/css";
+import { globalStyle } from "@vanilla-extract/css";
 
-createGlobalTheme(':root[data-mantine-color-scheme="dark"]', {
-  "--mantine-color-body": "#141414",
+globalStyle(':root[data-mantine-color-scheme="dark"]', {
+  vars: {
+    "--mantine-color-body": "#141414",
+  },
 });
