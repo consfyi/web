@@ -73,6 +73,7 @@ export interface Event {
   canceled: boolean;
   sources: string[] | null;
   timezone: string | null;
+  bluesky: { did: string; handle?: string } | null;
 
   labelId: string | null;
   postRkey: string | null;
@@ -102,6 +103,7 @@ function endpointEventToEvent(event: EndpointEvent) {
     canceled: event.canceled ?? false,
     timezone: event.timezone ?? null,
     sources: event.sources ?? null,
+    bluesky: event.bluesky ?? null,
 
     labelId: null,
     postRkey: null,

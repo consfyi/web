@@ -24,6 +24,10 @@ export interface Event {
   seriesId: string;
   timezone?: string;
   previousAttendance?: number;
+  bluesky?: {
+    did: string;
+    handle?: string;
+  };
 }
 
 const ENDPOINT = "https://data.cons.fyi";

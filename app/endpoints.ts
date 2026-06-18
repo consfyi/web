@@ -49,6 +49,10 @@ export class Event extends Entity {
   public canceled?: boolean;
   public sources?: string[];
   public timezone?: string;
+  public bluesky?: {
+    did: string;
+    handle?: string;
+  };
 
   pk() {
     return this.id;
