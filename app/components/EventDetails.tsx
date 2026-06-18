@@ -322,6 +322,23 @@ export function Body({ event }: { event: Event }) {
             </Text>
           </Group>
 
+          {event.bluesky != null ? (
+            <Group wrap="nowrap" gap="xs" align="top">
+              <Box>
+                <IconBrandBluesky title={t`Bluesky`} size={16} stroke={1.5} />
+              </Box>
+              <Text size="sm" mb={5}>
+                <Anchor
+                  href={`https://bsky.app/profile/${event.bluesky.did}`}
+                  target="_blank"
+                  style={{ wordBreak: "break-all" }}
+                >
+                  @{event.bluesky.handle ?? event.bluesky.did}
+                </Anchor>
+              </Text>
+            </Group>
+          ) : null}
+
           <Group wrap="nowrap" gap="xs" align="top">
             <Box>
               <IconMapPin title={t`Location`} size={16} stroke={1.5} />
@@ -391,6 +408,19 @@ export function Body({ event }: { event: Event }) {
                 ) : null}
               </Trans>
             </Text>
+            {event.bluesky == null ? (
+              <Text size="xs" mt={4}>
+                <Trans>
+                  Know this convention’s Bluesky account?{" "}
+                  <Anchor
+                    href={`https://github.com/consfyi/data/issues/new?template=add-bluesky.yml&title=${encodeURIComponent(`Add Bluesky account: ${event.name}`)}&name=${encodeURIComponent(event.name)}`}
+                    target="_blank"
+                  >
+                    Let us know.
+                  </Anchor>
+                </Trans>
+              </Text>
+            ) : null}
           </Box>
         </Box>
       </Box>
