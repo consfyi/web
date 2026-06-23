@@ -223,6 +223,170 @@ export function Title({ event }: { event: Event }) {
   );
 }
 
+const KEY_DATE_CATEGORIES = [
+  "registration",
+  "hotel",
+  "dealers",
+  "panels",
+  "volunteers",
+] as const;
+
+// Freshness as a relative duration ("3 days ago", "10 hours ago") so it doesn't
+// read like a second calendar date next to the key date itself.
+function formatAsOf(iso: string, nowMs: number, locale: string): string {
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  const diffSec = Math.round((new Date(iso).getTime() - nowMs) / 1000);
+  const abs = Math.abs(diffSec);
+  const units: [Intl.RelativeTimeFormatUnit, number][] = [
+    ["year", 31536000],
+    ["month", 2592000],
+    ["day", 86400],
+    ["hour", 3600],
+    ["minute", 60],
+  ];
+  for (const [unit, secs] of units) {
+    if (abs >= secs) {
+      return rtf.format(Math.round(diffSec / secs), unit);
+    }
+  }
+  return rtf.format(0, "minute");
+}
+
+function KeyDatesSection({ event }: { event: Event }) {
+  const { i18n, t } = useLingui();
+
+  const fmt = useMemo(
+    () =>
+      new TemporalIntl.DateTimeFormat(i18n.locale, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+    [i18n.locale],
+  );
+
+  // source-post timestamp shown with time + timezone, so freshness is unambiguous
+  const asOfFmt = useMemo(
+    () =>
+      new Intl.DateTimeFormat(i18n.locale, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      }),
+    [i18n.locale],
+  );
+
+  const labels: Record<(typeof KEY_DATE_CATEGORIES)[number], string> = {
+    registration: t`Registration`,
+    hotel: t`Hotel`,
+    dealers: t`Dealers`,
+    panels: t`Programming`,
+    volunteers: t`Volunteers`,
+  };
+
+  const now = useNow();
+  const nowMs = now.epochMilliseconds;
+
+  const kd = event.keyDates;
+  const rows = useMemo(() => {
+    if (kd == null) {
+      return [];
+    }
+    return KEY_DATE_CATEGORIES.flatMap((cat) => {
+      const entry = kd[cat];
+      if (entry == null) {
+        return [];
+      }
+      const kinds = (["opens", "closes"] as const).flatMap((kind) => {
+        const k = entry[kind];
+        if (k == null) {
+          return [];
+        }
+        return [
+          {
+            kind,
+            text: `${kind === "opens" ? t`Opens` : t`Closes`} ${fmt.format(
+              Temporal.PlainDate.from(k.date),
+            )}`,
+            source: k.source,
+            asOfRel:
+              k.asOf != null ? formatAsOf(k.asOf, nowMs, i18n.locale) : null,
+            asOfExact: k.asOf != null ? asOfFmt.format(new Date(k.asOf)) : null,
+          },
+        ];
+      });
+      return kinds.length > 0 ? [{ cat, kinds }] : [];
+    });
+  }, [kd, fmt, asOfFmt, nowMs, i18n.locale, t]);
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return (
+    <Box mt="sm">
+      <MantineTitle order={2} size="h5" fw={500} mb="xs">
+        <Trans>Key dates</Trans>
+      </MantineTitle>
+      <Stack gap={8}>
+        {rows.map((row) => (
+          <Group key={row.cat} wrap="nowrap" gap="xs" align="top">
+            <Text size="sm" fw={500} miw={92}>
+              {labels[row.cat]}
+            </Text>
+            <Stack gap={2} miw={0}>
+              {row.kinds.map((k) => (
+                <Text key={k.kind} size="sm" c="dimmed">
+                  {k.text}
+                  {k.source != null ? (
+                    <>
+                      {" "}
+                      <Tooltip label={<Trans>Source post</Trans>}>
+                        <Anchor href={k.source} target="_blank">
+                          <IconBrandBluesky
+                            size={13}
+                            stroke={1.5}
+                            style={{ verticalAlign: "-1px" }}
+                          />
+                        </Anchor>
+                      </Tooltip>
+                    </>
+                  ) : null}
+                  {k.asOfRel != null ? (
+                    <Tooltip label={k.asOfExact}>
+                      <Text
+                        span
+                        size="xs"
+                        c="dimmed"
+                        style={{ cursor: "default" }}
+                      >
+                        {" · "}
+                        {t`as of`} {k.asOfRel}
+                      </Text>
+                    </Tooltip>
+                  ) : null}
+                </Text>
+              ))}
+            </Stack>
+          </Group>
+        ))}
+      </Stack>
+      <Text size="xs" c="dimmed" mt={6}>
+        <Trans>
+          Dates are pulled from the convention’s Bluesky. Always confirm on the{" "}
+          <Anchor href={event.url} target="_blank">
+            official site
+          </Anchor>
+          .
+        </Trans>
+      </Text>
+    </Box>
+  );
+}
+
 export function Body({ event }: { event: Event }) {
   const { i18n, t } = useLingui();
 
@@ -424,6 +588,8 @@ export function Body({ event }: { event: Event }) {
           </Box>
         </Box>
       </Box>
+
+      <KeyDatesSection event={event} />
 
       {event.canceled ? (
         <Alert color="red" icon={<IconCalendarX />}>

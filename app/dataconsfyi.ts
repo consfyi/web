@@ -1,5 +1,25 @@
 import { Temporal } from "temporal-polyfill";
 
+export interface KeyDate {
+  date: string;
+  source?: string;
+  asOf?: string;
+  confidence?: number;
+}
+
+export interface KeyDateEntry {
+  opens?: KeyDate;
+  closes?: KeyDate;
+}
+
+export interface KeyDates {
+  registration?: KeyDateEntry;
+  hotel?: KeyDateEntry;
+  dealers?: KeyDateEntry;
+  panels?: KeyDateEntry;
+  volunteers?: KeyDateEntry;
+}
+
 export interface Event {
   id: string;
   name: string;
@@ -28,6 +48,7 @@ export interface Event {
     did: string;
     handle?: string;
   };
+  keyDates?: KeyDates;
 }
 
 const ENDPOINT = "https://data.cons.fyi";
