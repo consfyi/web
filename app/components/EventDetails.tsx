@@ -289,6 +289,7 @@ function KeyDatesSection({ event }: { event: Event }) {
 
   const now = useNow();
   const nowMs = now.epochMilliseconds;
+  const todayStr = now.toPlainDate().toString();
 
   const kd = event.keyDates;
   const rows = useMemo(() => {
@@ -302,7 +303,8 @@ function KeyDatesSection({ event }: { event: Event }) {
       }
       const kinds = (["opens", "closes"] as const).flatMap((kind) => {
         const k = entry[kind];
-        if (k == null) {
+        // only show dates that haven't passed — keep the section forward-looking
+        if (k == null || k.date < todayStr) {
           return [];
         }
         return [
@@ -320,7 +322,7 @@ function KeyDatesSection({ event }: { event: Event }) {
       });
       return kinds.length > 0 ? [{ cat, kinds }] : [];
     });
-  }, [kd, fmt, asOfFmt, nowMs, i18n.locale, t]);
+  }, [kd, fmt, asOfFmt, nowMs, todayStr, i18n.locale, t]);
 
   if (rows.length === 0) {
     return null;
