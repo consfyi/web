@@ -292,6 +292,9 @@ function KeyDatesSection({ event }: { event: Event }) {
   const todayStr = now.toPlainDate().toString();
 
   const kd = event.keyDates;
+  // Once the event itself is over, drop passed dates so historical pages stay
+  // clean; during the lead-up and the con, keep them for context.
+  const eventOver = event.endDate.toString() < todayStr;
   const rows = useMemo(() => {
     if (kd == null) {
       return [];
@@ -303,16 +306,25 @@ function KeyDatesSection({ event }: { event: Event }) {
       }
       const kinds = (["opens", "closes"] as const).flatMap((kind) => {
         const k = entry[kind];
-        // only show dates that haven't passed — keep the section forward-looking
-        if (k == null || k.date < todayStr) {
+        if (k == null) {
           return [];
         }
+        const passed = k.date < todayStr;
+        if (passed && eventOver) {
+          return [];
+        }
+        const label = passed
+          ? kind === "opens"
+            ? t`Opened`
+            : t`Closed`
+          : kind === "opens"
+            ? t`Opens`
+            : t`Closes`;
         return [
           {
             kind,
-            text: `${kind === "opens" ? t`Opens` : t`Closes`} ${fmt.format(
-              Temporal.PlainDate.from(k.date),
-            )}`,
+            passed,
+            text: `${label} ${fmt.format(Temporal.PlainDate.from(k.date))}`,
             source: k.source,
             asOfRel:
               k.asOf != null ? formatAsOf(k.asOf, nowMs, i18n.locale) : null,
@@ -322,7 +334,7 @@ function KeyDatesSection({ event }: { event: Event }) {
       });
       return kinds.length > 0 ? [{ cat, kinds }] : [];
     });
-  }, [kd, fmt, asOfFmt, nowMs, todayStr, i18n.locale, t]);
+  }, [kd, eventOver, fmt, asOfFmt, nowMs, todayStr, i18n.locale, t]);
 
   if (rows.length === 0) {
     return null;
@@ -341,7 +353,7 @@ function KeyDatesSection({ event }: { event: Event }) {
             </Text>
             <Stack gap={2} miw={0}>
               {row.kinds.map((k) => (
-                <Text key={k.kind} size="sm" c="dimmed">
+                <Text key={k.kind} size="sm" c={k.passed ? "dimmed" : undefined}>
                   {k.text}
                   {k.source != null ? (
                     <>
