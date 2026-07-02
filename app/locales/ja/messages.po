@@ -59,19 +59,19 @@ msgstr ""
 
 #: app/components/EventDetails.tsx:318
 msgid "Opened"
-msgstr ""
+msgstr "開始済み"
 
 #: app/components/EventDetails.tsx:319
 msgid "Closed"
-msgstr ""
+msgstr "締切済み"
 
 #: app/components/EventDetails.tsx:321
 msgid "Opens"
-msgstr ""
+msgstr "開始"
 
 #: app/components/EventDetails.tsx:322
 msgid "Closes"
-msgstr ""
+msgstr "締切"
 
 #: app/components/EventDetails.tsx:346
 msgid "Key dates"
