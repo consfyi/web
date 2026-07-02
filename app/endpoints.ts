@@ -12,6 +12,7 @@ import { Temporal } from "temporal-polyfill";
 import {
   getEvent as dataGetEvent,
   getEvents as dataGetEvents,
+  type KeyDates,
 } from "./dataconsfyi";
 import { useClient } from "./hooks";
 
@@ -53,6 +54,7 @@ export class Event extends Entity {
     did: string;
     handle?: string;
   };
+  public keyDates?: KeyDates;
 
   pk() {
     return this.id;

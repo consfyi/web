@@ -9,6 +9,7 @@ import { use, useEffect, useState } from "react";
 import { Temporal } from "temporal-polyfill";
 import { LABELER_DID } from "~/config";
 import { Client, createClient } from "./bluesky";
+import { type KeyDates } from "./dataconsfyi";
 import { useGlobalMemo } from "./components/GlobalMemoContext";
 import {
   Event as EndpointEvent,
@@ -74,6 +75,7 @@ export interface Event {
   sources: string[] | null;
   timezone: string | null;
   bluesky: { did: string; handle?: string } | null;
+  keyDates: KeyDates | null;
 
   labelId: string | null;
   postRkey: string | null;
@@ -104,6 +106,7 @@ function endpointEventToEvent(event: EndpointEvent) {
     timezone: event.timezone ?? null,
     sources: event.sources ?? null,
     bluesky: event.bluesky ?? null,
+    keyDates: event.keyDates ?? null,
 
     labelId: null,
     postRkey: null,

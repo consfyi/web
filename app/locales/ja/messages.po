@@ -24,7 +24,7 @@ msgstr "全ての絞り込みを解除"
 #. placeholder {0}: unknownLikes.length
 #. placeholder {0}: [unknownLikeCount][0]
 #: app/components/EventDetails.tsx:148
-#: app/components/EventDetails.tsx:490
+#: app/components/EventDetails.tsx:656
 msgid "{0, plural, one {# person you don’t follow} other {# people you don’t follow}}"
 msgstr "フォローしていないユーザー{0}人"
 
@@ -37,7 +37,51 @@ msgstr "まだ把握されている参加者はいません。"
 msgid "View Bluesky Post"
 msgstr "Blueskyの投稿を見る"
 
-#: app/components/EventDetails.tsx:290
+#: app/components/EventDetails.tsx:283
+msgid "Registration"
+msgstr ""
+
+#: app/components/EventDetails.tsx:284
+msgid "Hotel"
+msgstr ""
+
+#: app/components/EventDetails.tsx:285
+msgid "Dealers"
+msgstr ""
+
+#: app/components/EventDetails.tsx:286
+msgid "Programming"
+msgstr ""
+
+#: app/components/EventDetails.tsx:287
+msgid "Volunteers"
+msgstr ""
+
+#: app/components/EventDetails.tsx:311
+msgid "Opens"
+msgstr ""
+
+#: app/components/EventDetails.tsx:311
+msgid "Closes"
+msgstr ""
+
+#: app/components/EventDetails.tsx:332
+msgid "Key dates"
+msgstr ""
+
+#: app/components/EventDetails.tsx:347
+msgid "Source post"
+msgstr ""
+
+#: app/components/EventDetails.tsx:367
+msgid "as of"
+msgstr ""
+
+#: app/components/EventDetails.tsx:378
+msgid "Dates are pulled from the convention’s Bluesky. Always confirm on the <0>official site</0>."
+msgstr ""
+
+#: app/components/EventDetails.tsx:454
 #: app/components/EventRow.tsx:282
 msgid "Dates"
 msgstr "日付"
@@ -45,81 +89,81 @@ msgstr "日付"
 #. placeholder {0}: dateTimeFormat.formatRange(event.startDate, event.endDate)
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
 #. placeholder {1}: event.endDate .since(event.startDate) .add({ days: 1 }) .toLocaleString(i18n.locale, { day: "numeric" })
-#: app/components/EventDetails.tsx:298
+#: app/components/EventDetails.tsx:462
 #: app/components/EventRow.tsx:288
 msgctxt "[start date]-[end date] ([duration] days)"
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: app/components/EventDetails.tsx:312
+#: app/components/EventDetails.tsx:476
 #: app/components/EventRow.tsx:214
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: app/components/EventDetails.tsx:328
+#: app/components/EventDetails.tsx:492
 msgid "Bluesky"
 msgstr ""
 
-#: app/components/EventDetails.tsx:344
+#: app/components/EventDetails.tsx:508
 #: app/components/EventRow.tsx:300
 #: app/components/EventRow.tsx:325
 msgid "Location"
 msgstr "開催地"
 
-#: app/components/EventDetails.tsx:370
+#: app/components/EventDetails.tsx:534
 #: app/root.tsx:251
 #: app/root.tsx:334
 msgid "Language"
 msgstr "言語"
 
 #. placeholder {0}: sources.length > 0 ? ( <Trans> This information was originally sourced from{" "} <IntlList items={sources.flatMap((source) => { const attribution = attributions[source]; return attribution != undefined ? [ <Anchor href={attribution.url} target="_blank" key={source} > {attribution.name} </Anchor>, ] : [<Fragment key={source}>source</Fragment>]; })} /> . Usage restrictions may apply. </Trans> ) : null
-#: app/components/EventDetails.tsx:379
+#: app/components/EventDetails.tsx:543
 msgid "Does this information need to be edited or delisted? <0>File an issue here.</0> {0}"
 msgstr "この情報は編集または削除する必要がありますか？<0>ここで問題を報告してください。</0>{0}"
 
-#: app/components/EventDetails.tsx:388
+#: app/components/EventDetails.tsx:552
 msgid "This information was originally sourced from <0/>. Usage restrictions may apply."
 msgstr "上記の情報は元々<0/>から提供されたものです。利用制限が適用される場合があります。"
 
-#: app/components/EventDetails.tsx:413
+#: app/components/EventDetails.tsx:577
 msgid "Know this convention’s Bluesky account? <0>Let us know.</0>"
 msgstr ""
 
-#: app/components/EventDetails.tsx:430
+#: app/components/EventDetails.tsx:596
 msgid "This convention was canceled."
 msgstr "このコンベンションはキャンセルされました。"
 
-#: app/components/EventDetails.tsx:434
+#: app/components/EventDetails.tsx:600
 msgid "This convention is currently in progress."
 msgstr "このコンベンションは現在開催中です。"
 
-#: app/components/EventDetails.tsx:439
+#: app/components/EventDetails.tsx:605
 msgid "This convention has already ended."
 msgstr "このコンベンションはすでに終了しています。"
 
-#: app/components/EventDetails.tsx:441
+#: app/components/EventDetails.tsx:607
 msgid "This convention has already ended. Information on who is going is no longer available."
 msgstr "このコンベンションはすでに終了しています。参加者に関する情報はもう利用できません。"
 
-#: app/components/EventDetails.tsx:452
+#: app/components/EventDetails.tsx:618
 msgctxt "users attending event"
 msgid "Going"
 msgstr "参加"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:455
+#: app/components/EventDetails.tsx:621
 msgctxt "attendee count, including you"
 msgid "{0} including you"
 msgstr "{0}人（自分込み）"
 
 #. placeholder {0}: [likeCount][0]
-#: app/components/EventDetails.tsx:459
+#: app/components/EventDetails.tsx:625
 #: app/components/EventRow.tsx:232
 msgctxt "attendee count"
 msgid "{0}"
 msgstr "{0}人"
 
-#: app/components/EventDetails.tsx:469
+#: app/components/EventDetails.tsx:635
 msgid "Loading people you follow"
 msgstr "フォロー中のユーザーを読み込み中"
 
