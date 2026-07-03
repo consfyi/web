@@ -17,6 +17,8 @@ export interface KeyDates {
   hotel?: KeyDateEntry;
   dealers?: KeyDateEntry;
   panels?: KeyDateEntry;
+  performances?: KeyDateEntry;
+  djs?: KeyDateEntry;
   volunteers?: KeyDateEntry;
 }
 

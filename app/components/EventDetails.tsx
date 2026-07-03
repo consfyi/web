@@ -228,6 +228,8 @@ const KEY_DATE_CATEGORIES = [
   "hotel",
   "dealers",
   "panels",
+  "performances",
+  "djs",
   "volunteers",
 ] as const;
 
@@ -284,6 +286,8 @@ function KeyDatesSection({ event }: { event: Event }) {
     hotel: t`Hotel`,
     dealers: t`Dealers`,
     panels: t`Programming`,
+    performances: t`Performances`,
+    djs: t`DJs`,
     volunteers: t`Volunteers`,
   };
 
