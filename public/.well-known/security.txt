@@ -1,0 +1,3 @@
+Contact: mailto:security@cons.fyi
+Expires: 2027-07-01T00:00:00.000Z
+Canonical: https://cons.fyi/.well-known/security.txt
