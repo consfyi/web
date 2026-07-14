@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
+    "postbuild": "node scripts/inject-csp.mjs",
     "dev": "react-router dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "react-router-serve ./build/server/index.js",

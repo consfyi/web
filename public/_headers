@@ -1,32 +1,18 @@
 # Cloudflare Pages security headers. https://developers.cloudflare.com/pages/configuration/headers/
 #
-# Two tiers. The active block below is behaviour-neutral: none of these
-# directives govern how scripts/styles/images/connections load, so they cannot
-# break the app. They deliver clickjacking protection and base-uri/object
-# hardening today.
+# The Content-Security-Policy below is the safe, behaviour-neutral tier: it does
+# not govern how scripts/styles/images/connections load, so it cannot break the
+# app, and it delivers clickjacking + base-uri/object hardening on its own.
 #
-# The resource-directive CSP (script-src/style-src/connect-src/img-src/...) that
-# would additionally backstop XSS is drafted at the bottom and left disabled: a
-# too-tight script-src breaks Mantine's inline ColorSchemeScript and the React
-# Router bootstrap, so it must be finalised against a real build and reviewed in
-# the running app before enabling.
+# At build time scripts/inject-csp.mjs (run via the `postbuild` npm hook)
+# rewrites the Content-Security-Policy line in the built build/client/_headers
+# with the full policy — including a script-src pinned to the sha256 of each
+# inline bootstrap script, the actual XSS backstop. If that step is ever skipped,
+# the deployed site falls back to this safe tier (still valid, app still works),
+# never a broken CSP.
 
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'
-
-# --- DRAFT: full CSP pending build-hash finalisation + in-app review ---------
-# Replace the Content-Security-Policy line above with a single line built from:
-#   default-src 'self';
-#   base-uri 'self';
-#   object-src 'none';
-#   frame-ancestors 'none';
-#   script-src 'self' <sha256-... hashes for the inline ColorSchemeScript / RR bootstrap>;
-#   style-src 'self' 'unsafe-inline';        # Mantine/emotion inline style attrs + vanilla-extract
-#   img-src 'self' data: blob: https:;       # bsky avatars, flag data URIs, map tiles
-#   font-src 'self' data: https://protomaps.github.io;
-#   connect-src 'self' https:;               # data.cons.fyi, bsky appview, and arbitrary OAuth PDS host
-#   worker-src 'self' blob:;                 # maplibre web workers
-#   frame-src 'none';
