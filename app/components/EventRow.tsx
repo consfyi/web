@@ -26,6 +26,7 @@ import Avatar from "~/components/Avatar";
 import Flag from "~/components/Flag";
 import LikeButton from "~/components/LikeButton";
 import { type Event, useFollowedEventAttendeesDLE, useNow } from "~/hooks";
+import { safeExternalUrl } from "~/url";
 import * as classes from "./EventRow.css";
 import GuessedEventMarker from "./GuessedEventMarker";
 import { getExtendedRequestedLocales } from "./LinguiProvider";
@@ -208,7 +209,7 @@ export default function EventRow({
             </Anchor>{" "}
             <Tooltip label={event.url.replace(/https:\/\//, "")}>
               <Anchor
-                href={event.url}
+                href={safeExternalUrl(event.url)}
                 target="_blank"
                 opacity={0.4}
                 title={t`Website`}
