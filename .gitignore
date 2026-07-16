@@ -5,3 +5,7 @@ node_modules
 .env
 /app/locales/*/*.json
 /.react-router
+
+# local tooling artifacts (review screenshots, wrangler dev state)
+/.ship
+/.wrangler
