@@ -7,9 +7,14 @@
 // URL matches neither 'self' nor any hash, so it stays blocked — the XSS
 // backstop for the anchor sinks safeExternalUrl already guards.
 //
-// This rewrites only the built artifact (build/client/_headers). The committed
-// public/_headers keeps the safe, behaviour-neutral tier, so if this step is
-// ever skipped the deploy falls back to a valid CSP rather than a broken one.
+// ROLLOUT: the full strict policy ships as Content-Security-Policy-REPORT-ONLY,
+// so it only reports violations and cannot break the app. The committed
+// public/_headers keeps a small ENFORCED Content-Security-Policy (frame-ancestors
+// etc.) so clickjacking protection is live now. Once report-only has run clean
+// against real traffic (incl. the OAuth login + authed actions), promote the
+// strict policy to the enforced header. This rewrites only the built artifact
+// (build/client/_headers); if the step is skipped the deploy still serves the
+// valid enforced safe tier from public/_headers.
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -49,11 +54,17 @@ const csp = [
 
 const headersPath = `${OUT}/_headers`;
 const headers = readFileSync(headersPath, "utf8");
-if (!/^\s*Content-Security-Policy:.*$/m.test(headers)) {
+const cspLine = /^(\s*)Content-Security-Policy:.*$/m;
+if (!cspLine.test(headers)) {
   throw new Error("inject-csp: no Content-Security-Policy line found in _headers");
 }
+// Leave the committed enforced safe-tier CSP in place; add the full strict
+// policy as report-only right below it (same indentation). Report-only can't
+// block anything, so this is safe to ship to production untested routes.
 writeFileSync(
   headersPath,
-  headers.replace(/^(\s*)Content-Security-Policy:.*$/m, `$1Content-Security-Policy: ${csp}`),
+  headers.replace(cspLine, `$&\n$1Content-Security-Policy-Report-Only: ${csp}`),
 );
-console.log(`inject-csp: pinned script-src to ${hashes.length} inline-script hashes`);
+console.log(
+  `inject-csp: added report-only strict CSP (script-src pinned to ${hashes.length} inline-script hashes)`,
+);

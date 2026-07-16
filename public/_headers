@@ -4,12 +4,14 @@
 # not govern how scripts/styles/images/connections load, so it cannot break the
 # app, and it delivers clickjacking + base-uri/object hardening on its own.
 #
-# At build time scripts/inject-csp.mjs (run via the `postbuild` npm hook)
-# rewrites the Content-Security-Policy line in the built build/client/_headers
-# with the full policy — including a script-src pinned to the sha256 of each
-# inline bootstrap script, the actual XSS backstop. If that step is ever skipped,
-# the deployed site falls back to this safe tier (still valid, app still works),
-# never a broken CSP.
+# At build time scripts/inject-csp.mjs (run via the `postbuild` npm hook) ADDS a
+# second header to the built build/client/_headers:
+# Content-Security-Policy-Report-Only carrying the full policy — a script-src
+# pinned to the sha256 of each inline bootstrap script (the XSS backstop) plus
+# scoped resource directives. Report-only only reports violations, so it cannot
+# break the app; once it runs clean against real traffic (incl. the OAuth login),
+# promote it to the enforced header below. If the build step is skipped, only
+# this enforced safe tier ships — still valid, never a broken CSP.
 
 /*
   X-Frame-Options: DENY
