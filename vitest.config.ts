@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 // vanilla-extract build plugins from vite.config.ts.
 export default defineConfig({
   test: {
-    include: ["app/**/*.test.ts"],
+    include: ["app/**/*.test.ts", "scripts/**/*.test.ts"],
     environment: "node",
   },
 });

@@ -7,24 +7,26 @@
 // URL matches neither 'self' nor any hash, so it stays blocked — the XSS
 // backstop for the anchor sinks safeExternalUrl already guards.
 //
-// ROLLOUT: the full strict policy ships as Content-Security-Policy-REPORT-ONLY,
-// so it only reports violations and cannot break the app. The committed
-// public/_headers keeps a small ENFORCED Content-Security-Policy (frame-ancestors
-// etc.) so clickjacking protection is live now. Once report-only has run clean
-// against real traffic (incl. the OAuth login + authed actions), promote the
-// strict policy to the enforced header. This rewrites only the built artifact
-// (build/client/_headers); if the step is skipped the deploy still serves the
-// valid enforced safe tier from public/_headers.
+// This rewrites the enforced Content-Security-Policy in the built artifact
+// (build/client/_headers) with the full strict policy. The committed
+// public/_headers keeps a small safe tier (frame-ancestors etc.), so if this
+// step is ever skipped the deploy still serves a valid CSP, never a broken one.
+// Validated report-only against real traffic (a public-route sweep + an authed
+// Bluesky login) before enforcing; the only external script was Cloudflare's
+// Web Analytics beacon, allowlisted in script-src below.
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 
 const OUT = "build/client";
 const html = readFileSync(`${OUT}/index.html`, "utf8");
 
-// Every inline <script> (no src= attribute). External /assets bundles carry a
-// src and are covered by 'self'.
+// Every inline <script> (no src attribute). External /assets bundles carry a
+// src and are covered by 'self'. The lookahead requires whitespace before
+// `src=`, so a data-src (or any other *-src) attribute isn't mistaken for a
+// real src and wrongly skipped — under the enforced CSP a skipped inline
+// script has no hash and would be blocked.
 const hashes = [];
-const re = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+const re = /<script(?![^>]*\ssrc=)[^>]*>([\s\S]*?)<\/script>/gi;
 for (let m; (m = re.exec(html)); ) {
   const digest = createHash("sha256").update(m[1], "utf8").digest("base64");
   hashes.push(`'sha256-${digest}'`);
@@ -39,7 +41,10 @@ const csp = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "frame-src 'none'",
-  `script-src 'self' ${hashes.join(" ")}`,
+  // static.cloudflareinsights.com = the Cloudflare Web Analytics beacon that
+  // Pages auto-injects (Cloudflare's documented CSP value). Its data POST to
+  // cloudflareinsights.com is covered by connect-src https: below.
+  `script-src 'self' https://static.cloudflareinsights.com ${hashes.join(" ")}`,
   // Mantine/emotion apply inline style attributes; vanilla-extract emits static CSS.
   "style-src 'self' 'unsafe-inline'",
   // bsky avatars, flag data URIs, maplibre tiles (canvas/blob).
@@ -58,13 +63,13 @@ const cspLine = /^(\s*)Content-Security-Policy:.*$/m;
 if (!cspLine.test(headers)) {
   throw new Error("inject-csp: no Content-Security-Policy line found in _headers");
 }
-// Leave the committed enforced safe-tier CSP in place; add the full strict
-// policy as report-only right below it (same indentation). Report-only can't
-// block anything, so this is safe to ship to production untested routes.
+// Replace the committed safe-tier Content-Security-Policy with the full strict
+// enforced policy. A function replacement inserts the policy literally, so any
+// `$` in it can't be read as a String.replace token ($&, $1, $`, …).
 writeFileSync(
   headersPath,
-  headers.replace(cspLine, `$&\n$1Content-Security-Policy-Report-Only: ${csp}`),
+  headers.replace(cspLine, (_line, indent) => `${indent}Content-Security-Policy: ${csp}`),
 );
 console.log(
-  `inject-csp: added report-only strict CSP (script-src pinned to ${hashes.length} inline-script hashes)`,
+  `inject-csp: enforced strict CSP (script-src pinned to ${hashes.length} inline-script hashes)`,
 );
