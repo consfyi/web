@@ -20,10 +20,13 @@ import { readFileSync, writeFileSync } from "node:fs";
 const OUT = "build/client";
 const html = readFileSync(`${OUT}/index.html`, "utf8");
 
-// Every inline <script> (no src= attribute). External /assets bundles carry a
-// src and are covered by 'self'.
+// Every inline <script> (no src attribute). External /assets bundles carry a
+// src and are covered by 'self'. The lookahead requires whitespace before
+// `src=`, so a data-src (or any other *-src) attribute isn't mistaken for a
+// real src and wrongly skipped — under the enforced CSP a skipped inline
+// script has no hash and would be blocked.
 const hashes = [];
-const re = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+const re = /<script(?![^>]*\ssrc=)[^>]*>([\s\S]*?)<\/script>/gi;
 for (let m; (m = re.exec(html)); ) {
   const digest = createHash("sha256").update(m[1], "utf8").digest("base64");
   hashes.push(`'sha256-${digest}'`);
@@ -61,10 +64,11 @@ if (!cspLine.test(headers)) {
   throw new Error("inject-csp: no Content-Security-Policy line found in _headers");
 }
 // Replace the committed safe-tier Content-Security-Policy with the full strict
-// enforced policy (indentation preserved via $1).
+// enforced policy. A function replacement inserts the policy literally, so any
+// `$` in it can't be read as a String.replace token ($&, $1, $`, …).
 writeFileSync(
   headersPath,
-  headers.replace(cspLine, `$1Content-Security-Policy: ${csp}`),
+  headers.replace(cspLine, (_line, indent) => `${indent}Content-Security-Policy: ${csp}`),
 );
 console.log(
   `inject-csp: enforced strict CSP (script-src pinned to ${hashes.length} inline-script hashes)`,
