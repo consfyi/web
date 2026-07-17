@@ -7,14 +7,13 @@
 // URL matches neither 'self' nor any hash, so it stays blocked — the XSS
 // backstop for the anchor sinks safeExternalUrl already guards.
 //
-// ROLLOUT: the full strict policy ships as Content-Security-Policy-REPORT-ONLY,
-// so it only reports violations and cannot break the app. The committed
-// public/_headers keeps a small ENFORCED Content-Security-Policy (frame-ancestors
-// etc.) so clickjacking protection is live now. Once report-only has run clean
-// against real traffic (incl. the OAuth login + authed actions), promote the
-// strict policy to the enforced header. This rewrites only the built artifact
-// (build/client/_headers); if the step is skipped the deploy still serves the
-// valid enforced safe tier from public/_headers.
+// This rewrites the enforced Content-Security-Policy in the built artifact
+// (build/client/_headers) with the full strict policy. The committed
+// public/_headers keeps a small safe tier (frame-ancestors etc.), so if this
+// step is ever skipped the deploy still serves a valid CSP, never a broken one.
+// Validated report-only against real traffic (a public-route sweep + an authed
+// Bluesky login) before enforcing; the only external script was Cloudflare's
+// Web Analytics beacon, allowlisted in script-src below.
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -39,7 +38,10 @@ const csp = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "frame-src 'none'",
-  `script-src 'self' ${hashes.join(" ")}`,
+  // static.cloudflareinsights.com = the Cloudflare Web Analytics beacon that
+  // Pages auto-injects (Cloudflare's documented CSP value). Its data POST to
+  // cloudflareinsights.com is covered by connect-src https: below.
+  `script-src 'self' https://static.cloudflareinsights.com ${hashes.join(" ")}`,
   // Mantine/emotion apply inline style attributes; vanilla-extract emits static CSS.
   "style-src 'self' 'unsafe-inline'",
   // bsky avatars, flag data URIs, maplibre tiles (canvas/blob).
@@ -58,13 +60,12 @@ const cspLine = /^(\s*)Content-Security-Policy:.*$/m;
 if (!cspLine.test(headers)) {
   throw new Error("inject-csp: no Content-Security-Policy line found in _headers");
 }
-// Leave the committed enforced safe-tier CSP in place; add the full strict
-// policy as report-only right below it (same indentation). Report-only can't
-// block anything, so this is safe to ship to production untested routes.
+// Replace the committed safe-tier Content-Security-Policy with the full strict
+// enforced policy (indentation preserved via $1).
 writeFileSync(
   headersPath,
-  headers.replace(cspLine, `$&\n$1Content-Security-Policy-Report-Only: ${csp}`),
+  headers.replace(cspLine, `$1Content-Security-Policy: ${csp}`),
 );
 console.log(
-  `inject-csp: added report-only strict CSP (script-src pinned to ${hashes.length} inline-script hashes)`,
+  `inject-csp: enforced strict CSP (script-src pinned to ${hashes.length} inline-script hashes)`,
 );

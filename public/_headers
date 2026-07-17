@@ -1,17 +1,16 @@
 # Cloudflare Pages security headers. https://developers.cloudflare.com/pages/configuration/headers/
 #
-# The Content-Security-Policy below is the safe, behaviour-neutral tier: it does
+# The Content-Security-Policy below is a safe, behaviour-neutral tier: it does
 # not govern how scripts/styles/images/connections load, so it cannot break the
 # app, and it delivers clickjacking + base-uri/object hardening on its own.
 #
-# At build time scripts/inject-csp.mjs (run via the `postbuild` npm hook) ADDS a
-# second header to the built build/client/_headers:
-# Content-Security-Policy-Report-Only carrying the full policy — a script-src
-# pinned to the sha256 of each inline bootstrap script (the XSS backstop) plus
-# scoped resource directives. Report-only only reports violations, so it cannot
-# break the app; once it runs clean against real traffic (incl. the OAuth login),
-# promote it to the enforced header below. If the build step is skipped, only
-# this enforced safe tier ships — still valid, never a broken CSP.
+# At build time scripts/inject-csp.mjs (run via the `postbuild` npm hook)
+# REPLACES the Content-Security-Policy line in the built build/client/_headers
+# with the full enforced policy — a script-src pinned to the sha256 of each
+# inline bootstrap script (the XSS backstop) plus scoped resource directives.
+# It was validated report-only against real traffic (public sweep + an authed
+# login) before enforcing. If the build step is ever skipped, only this safe
+# tier ships — still valid, never a broken CSP.
 
 /*
   X-Frame-Options: DENY
