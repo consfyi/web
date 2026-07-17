@@ -35,6 +35,7 @@ import LikeButton from "~/components/LikeButton";
 import SimpleErrorBoundary from "~/components/SimpleErrorBoundary";
 import { LABELER_DID } from "~/config";
 import { Profile } from "~/endpoints";
+import { safeExternalUrl } from "~/url";
 import {
   type Event,
   useFollowedEventAttendeesDLE,
@@ -363,7 +364,7 @@ function KeyDatesSection({ event }: { event: Event }) {
                     <>
                       {" "}
                       <Tooltip label={<Trans>Source post</Trans>}>
-                        <Anchor href={k.source} target="_blank">
+                        <Anchor href={safeExternalUrl(k.source)} target="_blank">
                           <IconBrandBluesky
                             size={13}
                             stroke={1.5}
@@ -395,7 +396,7 @@ function KeyDatesSection({ event }: { event: Event }) {
       <Text size="xs" c="dimmed" mt={6}>
         <Trans>
           Dates are pulled from the convention’s Bluesky. Always confirm on the{" "}
-          <Anchor href={event.url} target="_blank">
+          <Anchor href={safeExternalUrl(event.url)} target="_blank">
             official site
           </Anchor>
           .
@@ -495,7 +496,7 @@ export function Body({ event }: { event: Event }) {
             </Box>
             <Text size="sm" mb={5}>
               <Anchor
-                href={event.url}
+                href={safeExternalUrl(event.url)}
                 target="_blank"
                 style={{ wordBreak: "break-all" }}
               >
